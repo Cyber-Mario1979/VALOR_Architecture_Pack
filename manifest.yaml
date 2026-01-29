@@ -2,22 +2,22 @@ manifest_version: v1.0.1
 pack:
   name: Valor_Architecture_Pack
   pack_version: v1.0.1
-  created_at_utc: '2026-01-29T09:52:34Z'
+  created_at_utc: '2026-01-29T10:46:22Z'
   hash_algorithm: sha256
   root: .
 files:
 - path: .gitattributes
-  sha256: 1a1dbe176bc233b499d35a57db7513f2941c99ab9759f177830c9149be99005b
-  bytes: 66
+  sha256: 832117dcd33ef078935a6ab5c7199746989793d63b587eef12fd62cf1618ec54
+  bytes: 249
 - path: .github/workflows/ci.yml
-  sha256: f457eb7134bd8ef365aa3daa4ad3a6f3364a94b511d46f1a4e7539503ab5c648
-  bytes: 585
+  sha256: 6242ba2b6c062a266c3f066e19c3e1f7605bd955bf4bbe94334812a66b104296
+  bytes: 553
 - path: LICENSE
-  sha256: 17de84ce8b605a18699d04d6d9371da2aacc0e2af58f2128e87f75e6d190f901
-  bytes: 11524
+  sha256: 50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a
+  bytes: 11324
 - path: README.md
-  sha256: fdb388cd3567d642769654d98f7834f5c5f5a357330ab708c257aacdca07ea54
-  bytes: 10136
+  sha256: 713c18823cf6faed3748d9134fcf0f4379ab9a04fb3d7b0edf91cae636bb1c77
+  bytes: 10002
 - path: Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Canvas_Rendering_Record_Layout_v1.0.1A.md
   sha256: b42f1bf3635ae71683f3ae5dbee1e67a6cd72fd4e50b9c5a2d808329f3e1b608
   bytes: 2206
@@ -139,8 +139,8 @@ files:
   sha256: d53e11532270411d9e5f5ab14171d9bb77d3324b852c8074203a75680dcbcf7f
   bytes: 12420
 - path: requirements.txt
-  sha256: 95f302c30c0563c2aabecb9bebd8f1b9b9ef23c301f46e2ae863d3ff27acf635
-  bytes: 30
+  sha256: db3fe842e7fb70a2e6794a6cdda388df0238b35924f9adea2d194ccaefde76ac
+  bytes: 28
 - path: schemas/contracts/contract_request.schema.json
   sha256: 4c87ff27aad5a37165b201a9bcb4703da02a32327ba86c71ba23942403432cf0
   bytes: 730
