@@ -2,13 +2,34 @@ manifest_version: v1.0.1
 pack:
   name: Valor_Architecture_Pack
   pack_version: v1.0.1
-  created_at_utc: '2025-12-26T10:25:10Z'
+  created_at_utc: '2026-01-29T09:52:34Z'
   hash_algorithm: sha256
   root: .
 files:
+- path: .gitattributes
+  sha256: 1a1dbe176bc233b499d35a57db7513f2941c99ab9759f177830c9149be99005b
+  bytes: 66
+- path: .github/workflows/ci.yml
+  sha256: f457eb7134bd8ef365aa3daa4ad3a6f3364a94b511d46f1a4e7539503ab5c648
+  bytes: 585
+- path: LICENSE
+  sha256: 17de84ce8b605a18699d04d6d9371da2aacc0e2af58f2128e87f75e6d190f901
+  bytes: 11524
 - path: README.md
-  sha256: e6d921e4ffa2f3d6e7488506e3ac5d72bf0bbb1eba52fffab395f4fdb4e10a30
-  bytes: 1517
+  sha256: fdb388cd3567d642769654d98f7834f5c5f5a357330ab708c257aacdca07ea54
+  bytes: 10136
+- path: Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Canvas_Rendering_Record_Layout_v1.0.1A.md
+  sha256: b42f1bf3635ae71683f3ae5dbee1e67a6cd72fd4e50b9c5a2d808329f3e1b608
+  bytes: 2206
+- path: Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Document_Generation_Compliance_v1.0.1A.md
+  sha256: 48b193621de0c1eb6f2daeedc6d8acbcd5cbaef7dd06d1825f4ee0300b912c2d
+  bytes: 1481
+- path: Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Planning_Invariants_UX_Contract_v1.0.1A.md
+  sha256: 4cceb583e7aaeca13add9938932319f81efd5736f071e7de17357469d6ce7cbb
+  bytes: 2098
+- path: Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Reporting_Export_Projection_Contract_v1.0.1A.md
+  sha256: b6b5d136547d23ea83a404b18a1c41a04965a812bd743807e48f20c0428ed38a
+  bytes: 1808
 - path: action_blocks/BUILD_REPORT.yaml
   sha256: a452f392902509e5c3cb8ad177c86fb02d923aae32503ca15b3eecf135f9e5de
   bytes: 404
@@ -21,6 +42,9 @@ files:
 - path: action_blocks/WP_UPDATE_TASK_FIELDS.yaml
   sha256: 6089abb3f720a472931010aafc7913d815046f8343cecd73e0776786199c3cc4
   bytes: 821
+- path: architecture_blueprint.png
+  sha256: 884744f59fea5b79192708dab4c728b16df942e055bd3b5e2169b05a8996b278
+  bytes: 2499423
 - path: contracts/VALOR-contract-orch-doc.yaml
   sha256: f5318d68c146caed8eef75554265ba819397abfa7ec2442d724822c311186cf9
   bytes: 2314
@@ -114,6 +138,9 @@ files:
 - path: libraries/task_pool/TP-PE-HIGH_v1.0.1.yaml
   sha256: d53e11532270411d9e5f5ab14171d9bb77d3324b852c8074203a75680dcbcf7f
   bytes: 12420
+- path: requirements.txt
+  sha256: 95f302c30c0563c2aabecb9bebd8f1b9b9ef23c301f46e2ae863d3ff27acf635
+  bytes: 30
 - path: schemas/contracts/contract_request.schema.json
   sha256: 4c87ff27aad5a37165b201a9bcb4703da02a32327ba86c71ba23942403432cf0
   bytes: 730
@@ -220,11 +247,14 @@ files:
   sha256: ae9f7bb0bb022ee5d1ed19d5442fd289e142c850b2d8297e1c732dec904927d1
   bytes: 1394
 - path: scripts/pack_validation/generate_manifest.py
-  sha256: 48ef11fdc5a99ac4dc1d5ad8740a1e598cb4bc85f597d49a5bc1921d7ce12494
-  bytes: 1969
+  sha256: e014b8459ab9179e71dc0fd7ef1aae16c44392bc6e10a0e9873692ba01ef100b
+  bytes: 3007
 - path: scripts/pack_validation/verify_manifest.py
   sha256: 8dedf90836b4a47807d85be237d09aa50df36554ae16145ffb1979fdce811227
   bytes: 3210
+- path: smoke_test.py
+  sha256: a320a5f89144e866401ed39841fcaf43f1b5bea35158226832ff5a2931750b71
+  bytes: 11356
 - path: templates/T10_VSR_Template_V1_0_1.md
   sha256: 64a41a552c4aef5a2e64ce17ba7a4690116d4c42f7ed0b5a0c3349028c1afff0
   bytes: 3284
@@ -282,6 +312,3 @@ files:
 - path: validation/validate_render_inputs.py
   sha256: 274abe27bb7cef716a822b89dbe181bd8be735eb2c4a2d71c08187f5e65d49d8
   bytes: 2564
-- path: smoke_test.py
-  sha256: a320a5f89144e866401ed39841fcaf43f1b5bea35158226832ff5a2931750b71
-  bytes: 11356

@@ -8,7 +8,7 @@ What it does:
 - Writes `manifest.yaml` in a deterministic order.
 
 Usage:
-  python generate_manifest.py
+  python scripts/pack_validation/generate_manifest.py
 
 Notes:
 - Run this script from the pack root (the folder containing the pack files).
@@ -27,30 +27,73 @@ except ImportError:
     sys.exit(2)
 
 
+# Exclude folders that are machine-specific / not part of the pack.
+# IMPORTANT: We do NOT exclude ".github" because workflows live there.
+EXCLUDE_DIRS = {
+    ".git",
+    ".venv",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    ".idea",
+    ".vscode",
+}
+
+# Exclude common junk / generated files (optional, safe)
+EXCLUDE_FILE_SUFFIXES = {".pyc", ".pyo", ".pyd"}
+
+
 def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def should_exclude(rel_path: str) -> bool:
+    """
+    rel_path is POSIX style (forward slashes), relative to pack root.
+    """
+    parts = rel_path.split("/")
+    if parts and parts[0] in EXCLUDE_DIRS:
+        return True
+    if any(part in EXCLUDE_DIRS for part in parts):
+        return True
+    if any(rel_path.endswith(suf) for suf in EXCLUDE_FILE_SUFFIXES):
+        return True
+    return False
+
+
 def main() -> int:
     root = Path(".").resolve()
-    created_at = datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    created_at = (
+        datetime.now(timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z")
+    )
 
     entries = []
     for p in sorted(root.rglob("*")):
         if not p.is_file():
             continue
+
         rel = p.relative_to(root).as_posix()
 
-        # The manifest is the root of truth; we do not hash it inside itself.
+        # Do not hash the manifest inside itself.
         if rel == "manifest.yaml":
             continue
 
+        # Skip machine-specific / generated stuff (critical for CI determinism).
+        if should_exclude(rel):
+            continue
+
         data = p.read_bytes()
-        entries.append({
-            "path": rel,
-            "sha256": sha256_bytes(data),
-            "bytes": len(data),
-        })
+        entries.append(
+            {
+                "path": rel,
+                "sha256": sha256_bytes(data),
+                "bytes": len(data),
+            }
+        )
 
     manifest = {
         "manifest_version": "v1.0.1",
@@ -65,7 +108,10 @@ def main() -> int:
     }
 
     manifest_path = root / "manifest.yaml"
-    manifest_path.write_text(yaml.safe_dump(manifest, sort_keys=False, allow_unicode=True), encoding="utf-8")
+    manifest_path.write_text(
+        yaml.safe_dump(manifest, sort_keys=False, allow_unicode=True),
+        encoding="utf-8",
+    )
 
     print("manifest.yaml regenerated.")
     return 0
