@@ -2,7 +2,7 @@ manifest_version: v1.0.1
 pack:
   name: Valor_Architecture_Pack
   pack_version: v1.0.1
-  created_at_utc: '2026-01-30T22:20:10Z'
+  created_at_utc: '2026-01-30T22:32:40Z'
   hash_algorithm: sha256
   root: .
 files:
@@ -28,8 +28,8 @@ files:
   sha256: fa0c48019b6048e07baf3c5bda7995a2de539224484f213988c9a03efaa03ca3
   bytes: 7088
 - path: Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Document_Generation_Compliance_v1.0.1A.md
-  sha256: 48b193621de0c1eb6f2daeedc6d8acbcd5cbaef7dd06d1825f4ee0300b912c2d
-  bytes: 1481
+  sha256: a11c4c7d3deeb34ce5a4033df0234deaa1969c9a1871dfe0b0d8b091951f0844
+  bytes: 1487
 - path: Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Planning_Invariants_UX_Contract_v1.0.1A.md
   sha256: e8d13c72368718bee5ca3decb561f55d8ccdddb875835acca67411a9626d321f
   bytes: 5848
