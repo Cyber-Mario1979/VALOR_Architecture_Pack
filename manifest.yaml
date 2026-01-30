@@ -2,7 +2,7 @@ manifest_version: v1.0.1
 pack:
   name: Valor_Architecture_Pack
   pack_version: v1.0.1
-  created_at_utc: '2026-01-29T23:26:18Z'
+  created_at_utc: '2026-01-30T01:09:50Z'
   hash_algorithm: sha256
   root: .
 files:
@@ -12,9 +12,12 @@ files:
 - path: .github/workflows/ci.yml
   sha256: 6242ba2b6c062a266c3f066e19c3e1f7605bd955bf4bbe94334812a66b104296
   bytes: 553
+- path: .gitignore
+  sha256: 241169935f6a3cad1e8ff0a5359367a14aa5a5daf5e83753f216a2f973cfb3ab
+  bytes: 216
 - path: CONTRIBUTING.md
-  sha256: a620d1c520ef83bfc4405b4d8785d10dbff1c30c68050bb31e84f52129b84310
-  bytes: 825
+  sha256: 726317235df38fe321ed6bea0b1d0e6c0eb98294f964086cdc87a04a4e96f60c
+  bytes: 786
 - path: LICENSE
   sha256: 50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a
   bytes: 11324
