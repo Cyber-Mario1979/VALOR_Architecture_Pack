@@ -232,43 +232,6 @@ Outcome summary:
 - Clarify audit log ownership and storage.
 - Defer detailed governance/security/registry schema validation to Phase 11.
 
-
-\
-### Phase 11 — Schemas, Validation, Test Vectors
-
-Status: scoped review completed on 2026-06-10
-
-Reviewed:
-
-- `schemas/contracts/`
-- `schemas/documents/`
-- `schemas/objects/`
-- `validation/`
-- `test_vectors/`
-- `scripts/pack_validation/`
-- `smoke_test.py`
-
-Decision entries:
-
-- DEC-0109 through DEC-0121
-
-Outcome summary:
-
-- Keep validation scaffold as candidate quality gate.
-- Keep manifest integrity validation baseline.
-- Keep render-input validator but classify it correctly.
-- Reconcile contract envelope schemas with A11 and contract examples.
-- Expand WP/task schemas to match A04_2.
-- Replace permissive/stub schemas with enforceable schemas.
-- Fix dotted required-field schema pattern.
-- Add architecture-to-contract/action/schema validation.
-- Add governance, audit, security, and registry schemas/tests.
-- Treat current test vectors as illustrative, not full coverage.
-- Add negative and invariant test vectors.
-- Add end-to-end core workflow test coverage.
-- Defer implementing schema/test fixes during Phase 11 review.
-
-
 ## 4. Current Known Risks / Items to Watch
 
 - AI role boundary needs explicit top-level coverage.
@@ -315,29 +278,24 @@ Outcome summary:
 - Contract registry metadata artifact is missing or must be formally defined as A11 plus manifest.
 - Audit log ownership/storage must be clarified.
 - Phase 10 decisions must be merged from `_review_control/PHASE10_DECISIONS_PENDING.md` into `_review_control/DECISION_LOG.md` when GitHub allows the update.
-- Contract envelope schemas must be reconciled with A11 and contract examples.
-- WP/task schemas must be expanded to match A04_2.
-- Permissive/stub schemas must be replaced with enforceable schemas.
-- Dotted required-field pattern must be split from JSON Schema nested requirements.
-- Architecture-to-contract/action/schema validation is missing.
-- Governance/audit/security/registry schemas and tests are missing.
-- Current test vectors are illustrative and require negative/E2E coverage.
 - Delivery plan does not exist yet and must be produced after review.
 
 ## 5. Current Block
 
 Current review block:
 
-Phase 12 — Addendums and UX/Product Surface
+Phase 11 — Schemas, Validation, Test Vectors
 
 Files:
 
-- `Valor_Arch_Addendums_v1.0.1A/`
-- any UI/UX related specs found during review
+- `schemas/`
+- `validation/`
+- `test_vectors/`
+- `scripts/pack_validation/`
 
 ## 6. Next Session Objective
 
-Review Phase 12 only.
+Review Phase 11 only.
 
 Classify findings into:
 
@@ -349,23 +307,19 @@ Classify findings into:
 
 Update:
 
-- `DECISION_LOG.md`, or use local apply pack if GitHub 409 persists;
+- `DECISION_LOG.md` or pending decision file if the GitHub 409 persists;
 - `REVIEW_STATE.md`;
 - `SESSION_HANDOFF.md`.
 
 ## 7. Done Definition for Current Block
 
-Phase 12 review is done when:
+Phase 11 review is done when:
 
-- addendum consistency with architecture is checked;
-- legacy Canvas wording is checked;
-- UX/product surface coverage is checked;
-- proposed vs committed labels are checked;
-- review/confirm surfaces are checked;
-- advisory chat surfaces are checked;
-- export/download state visibility is checked;
-- document/report/export artifact terminology is checked;
-- decisions are logged;
+- schemas are checked against architecture;
+- validation tools are checked for usability;
+- test vectors are checked for core workflow coverage;
+- carried risks around permissive schemas, dotted required fields, contract/action catalog validation, governance/audit/security registry schemas, and artifact-specific traceability are traced where applicable;
+- decisions are logged or preserved in a pending decision file if the main decision log cannot be updated;
 - next block is selected.
 
 ## 8. Current Next Action

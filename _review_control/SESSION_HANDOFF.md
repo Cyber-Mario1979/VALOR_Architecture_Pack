@@ -1,3 +1,4 @@
+\
 # VALOR Architecture Pack Session Handoff
 
 Status: ACTIVE
@@ -20,10 +21,11 @@ Completed review blocks:
 - Phase 8 — Document Factory and DCF/URS Flow
 - Phase 9 — Reporting and Export
 - Phase 10 — Governance, Security, Contract Registry
+- Phase 11 — Schemas, Validation, Test Vectors
 
 Current next review block:
 
-Phase 11 — Schemas, Validation, Test Vectors
+Phase 12 — Addendums and UX/Product Surface
 
 No implementation work is allowed during architecture review.
 
@@ -33,53 +35,54 @@ Architecture/specification files must not be modified unless the user explicitly
 
 Completed scoped review of:
 
-- `docs/architecture/A09_Governance_Branching_Arch_v1_0_1.md`
-- `docs/architecture/A10_Security_Compliance_Arch_v1_0_1.md`
-- `docs/architecture/A11_ContractRegistry_Arch_v1_0_1.md`
-- manifest contract entries
-
-Logged/preserved decisions:
-
-- DEC-0097 — Keep governance gates, confirmations, and audit trail baseline
-- DEC-0098 — Keep human/external approval boundary
-- DEC-0099 — Keep Security & Compliance safe-output model
-- DEC-0100 — Keep Contract Registry versioning and envelope baseline
-- DEC-0101 — Clarify Security & Compliance integration mechanism
-- DEC-0102 — Clarify status and freeze terminology
-- DEC-0103 — Reconcile canonical contract registry with actual contract files
-- DEC-0104 — Add a concrete contract registry metadata artifact
-- DEC-0105 — Add registry validation for action-catalog completeness
-- DEC-0106 — Strengthen excerpt authorization and redaction enforcement
-- DEC-0107 — Clarify audit log ownership and storage
-- DEC-0108 — Defer detailed governance/security/registry schema validation to Phase 11
-
-Important note:
-
-- Direct writes to `_review_control/DECISION_LOG.md` repeatedly returned GitHub 409 SHA mismatch errors during Phase 10.
-- Phase 10 decisions are preserved in `_review_control/PHASE10_DECISIONS_PENDING.md` and should be merged into `_review_control/DECISION_LOG.md` when the connector accepts the update.
-
-## Next Required Work
-
-Review Phase 11 only:
-
-- `schemas/`
+- `schemas/contracts/`
+- `schemas/documents/`
+- `schemas/objects/`
 - `validation/`
 - `test_vectors/`
 - `scripts/pack_validation/`
+- `smoke_test.py`
 
-Phase 11 review focus:
+Logged/preserved decisions:
 
-- schema alignment with architecture
-- validation tool usability
-- test-vector coverage for core workflows
-- permissive schemas and empty required/properties patterns
-- dotted required-field schema issue
-- contract/action catalog validation
-- governance/audit/security/registry schema coverage
-- artifact-specific traceability schema coverage
-- pending Phase 10 decision-log merge if possible
+- DEC-0109 — Keep validation scaffold as candidate quality gate
+- DEC-0110 — Keep manifest integrity validation baseline
+- DEC-0111 — Keep render-input validator but classify it correctly
+- DEC-0112 — Reconcile contract envelope schemas with A11 and contract examples
+- DEC-0113 — Expand WP/task schemas to match A04_2
+- DEC-0114 — Replace permissive/stub schemas with enforceable schemas
+- DEC-0115 — Fix dotted required-field schema pattern
+- DEC-0116 — Add architecture-to-contract/action/schema validation
+- DEC-0117 — Add governance, audit, security, and registry schemas/tests
+- DEC-0118 — Treat current test vectors as illustrative, not full coverage
+- DEC-0119 — Add negative and invariant test vectors
+- DEC-0120 — Add end-to-end core workflow test coverage
+- DEC-0121 — Defer implementing schema/test fixes during Phase 11 review
 
-Do not resolve Phase 12 UI/product-surface items or Phase 13 final freeze decisions during Phase 11 unless Phase 11 directly contradicts them.
+Important note:
+
+- If GitHub decision-log updates still fail, apply the local `apply_phase11_review.py` pack from the assistant output.
+
+## Next Required Work
+
+Review Phase 12 only:
+
+- `Valor_Arch_Addendums_v1.0.1A/`
+- any UI/UX related specs found during review
+
+Phase 12 review focus:
+
+- addendum consistency with architecture
+- legacy Canvas wording
+- UX/product surface coverage
+- proposed vs committed labels in product surfaces
+- review/confirm surfaces
+- advisory chat surfaces
+- export/download state visibility
+- document/report/export artifact terminology
+- UI readiness before freeze
+
+Do not resolve Phase 13 final freeze decisions during Phase 12 unless Phase 12 directly contradicts them.
 
 ## Required Output Next Session
 
@@ -93,8 +96,9 @@ Do not resolve Phase 12 UI/product-surface items or Phase 13 final freeze decisi
 
 After review, update:
 
-- `_review_control/DECISION_LOG.md`, or a pending decision file if the GitHub 409 persists
+- `_review_control/DECISION_LOG.md`, or use local apply pack if GitHub 409 persists
 - `_review_control/REVIEW_STATE.md`
 - `_review_control/SESSION_HANDOFF.md`
 
 Stop after the scoped review is complete.
+
