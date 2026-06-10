@@ -124,6 +124,39 @@ Outcome summary:
 - Standardize selector/context and stamp naming.
 - Defer detailed WP schema/test mapping to Phase 11.
 
+### Phase 5 — Task Pool, Preset, Profile, Calendar
+
+Status: scoped review completed on 2026-06-10
+
+Reviewed:
+
+- `docs/architecture/A05_TaskPool_Arch_v1_0_1.md`
+- `docs/architecture/A06_PresetSystem_Arch_v1_0_1.md`
+- `docs/architecture/A08_ProfileLibrary_Arch_v1_0_1.md`
+- `docs/architecture/A07_CalendarLogic_Arch_v1_0_1.md`
+- `libraries/task_pool/TP-PE-HIGH_v1.0.1.yaml`
+- `libraries/preset_library/PS-PE-HIGH_v1.0.1.yaml`
+- `libraries/profile_library/PROF-PE-HIGH_v1.0.1.yaml`
+- `libraries/calendar/CAL-WORKWEEK_v1.0.1.yaml`
+
+Decision log entries:
+
+- DEC-0034 through DEC-0044
+
+Outcome summary:
+
+- Keep the governed-library architecture spine for Task Pool, Preset, Profile, and Calendar.
+- Keep seed library files as useful candidate/reference data, not freeze-clean data.
+- Clarify governed library owner hierarchy.
+- Decide whether TP/PROF/CAL contract files must be added or formally deferred.
+- Reconcile Preset architecture with seed preset schema.
+- Remove or reclassify calendar-rule duplication from Profile data.
+- Normalize task taxonomy between Task Pool and Profile entries.
+- Add missing FAT execution chain or mark it out of scope.
+- Clarify standards bundle nullability in presets.
+- Integrate user-driven no-profile baseline with Profile/Planning behavior.
+- Defer governed-library schema validation to Phase 11.
+
 ## 4. Current Known Risks / Items to Watch
 
 - AI role boundary needs explicit top-level coverage.
@@ -141,28 +174,29 @@ Outcome summary:
 - WP must not over-own external execution evidence.
 - WP schema references must be standardized.
 - User-driven no-profile baseline fields must be represented in WP truth or explicitly referenced.
+- TP/PROF/CAL contracts are referenced by architecture but not present as contract files.
+- Preset architecture and seed preset schema must be reconciled.
+- Profile data must not duplicate Calendar authority.
+- Task/Profile taxonomy must be normalized or explicitly mapped.
+- FAT execution chain gap must be resolved or formally excluded.
+- Standards bundle nullability in presets must be clarified.
 - Delivery plan does not exist yet and must be produced after review.
 
 ## 5. Current Block
 
 Current review block:
 
-Phase 5 — Task Pool, Preset, Profile, Calendar
+Phase 6 — Planning
 
 Files:
 
-- `docs/architecture/A05_TaskPool_Arch_v1_0_1.md`
-- `docs/architecture/A06_PresetSystem_Arch_v1_0_1.md`
-- `docs/architecture/A08_ProfileLibrary_Arch_v1_0_1.md`
-- `docs/architecture/A07_CalendarLogic_Arch_v1_0_1.md`
-- `libraries/task_pool/`
-- `libraries/preset_library/`
-- `libraries/profile_library/`
-- `libraries/calendar/`
+- `docs/architecture/A04_4_Planning_Arch_v1_0_1.md`
+- `contracts/VALOR-contract-orch-plan.yaml`
+- `action_blocks/WP_APPLY_PLAN_PROPOSAL.yaml`
 
 ## 6. Next Session Objective
 
-Review Phase 5 only.
+Review Phase 6 only.
 
 Classify findings into:
 
@@ -180,14 +214,14 @@ Update:
 
 ## 7. Done Definition for Current Block
 
-Phase 5 review is done when:
+Phase 6 review is done when:
 
-- task pool selection and atomic task rules are checked;
-- preset selector flow and binding behavior are checked;
-- profile duration and lead-time rules are checked;
-- calendar scheduling rules are checked;
-- standards bundle binding from preset/context is checked;
-- carried risks around owner hierarchy, selector/context naming, and user-driven baseline are traced where applicable;
+- advisory planning boundary is checked;
+- proposed versus committed schedule behavior is checked;
+- dependency handling is checked;
+- profile/calendar stamp behavior is checked;
+- apply boundary is checked against WP truth and WP_APPLY_PLAN_PROPOSAL;
+- carried risks around staged-set planning, schedule-apply naming, profile/calendar taxonomy, and user-driven baseline are traced where applicable;
 - decisions are logged;
 - next block is selected.
 
