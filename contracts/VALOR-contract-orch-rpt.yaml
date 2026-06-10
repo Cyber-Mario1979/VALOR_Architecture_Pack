@@ -2,8 +2,9 @@ contract_id: VALOR-contract-orch-rpt
 current_version: v1.0.1
 supported_versions:
   - v1.0.1
-owner_subsystem: Reporting
+owner_subsystem: RPT
 called_by: Orchestration
+registry_category: PUBLIC_USER_CALLABLE
 compatibility_policy:
   semver: true
   orchestration_rules:
@@ -16,15 +17,23 @@ envelopes:
 
 outputs:
   report_result_schema: schemas/contracts/report_result.schema.json
+  export_result_schema: schemas/contracts/export_result.schema.json
+
+projection_policy:
+  mutates_wp_truth: false
+  mutates_task_truth: false
+  required_behavior: "RPT reads authoritative snapshots and generates report/export artifacts only."
 
 actions:
-  - action_type: BUILD_REPORT
+  - action_type: RPT_GENERATE_REPORT
+    public_command_aliases: [BUILD_REPORT, build_report, generate_report, create_report]
     description: >
-      Generate a deterministic WP & Tasks report from one or more committed WP snapshots.
-      The report is a presentation artifact; it must not mutate WP state.
+      Generate a deterministic report artifact from one or more committed WP snapshots.
+      The report is a projection artifact; it must not mutate WP state.
     allowed_modes: [M1, M2]
-    side_effect_class: READ_ONLY
+    side_effect_class: GENERATES_ARTIFACT
     idempotent: true
+    confirmation_required: false
     required_payload_fields:
       - report_type
       - wp_snapshots
@@ -32,26 +41,90 @@ actions:
       - title
       - include_sections
       - output_format
+      - stamps
+    result_schema_ref: schemas/contracts/report_result.schema.json
+    action_block_ref: action_blocks/BUILD_REPORT.yaml
+    status: ACTIVE_PRE_FREEZE
     payload_schema_notes:
       report_type:
-        allowed_values: [WP_TASKS_REPORT]
-      wp_snapshots:
-        type: array
-        items: object (WP snapshot projection sufficient for reporting)
-      include_sections:
-        type: array
-        allowed_values:
-          - Overview
-          - Objectives
-          - Traceability
-          - Tasks
-          - Risks
-          - Evidence
-          - Status
-          - NextSteps
-          - Completeness
+        allowed_values: [WP_TASKS_REPORT, RPT_STATUS_SUMMARY, RPT_READINESS_CHECK, RPT_TRACEABILITY_STAMPS, RPT_SCHEDULE_OVERVIEW]
       output_format:
         allowed_values: [MARKDOWN]
+
+  - action_type: RPT_VALIDATE_STAMPS
+    public_command_aliases: [validate_report_stamps, validate_export_stamps]
+    description: Validate traceability stamp completeness before report/export generation.
+    allowed_modes: [M1, M2]
+    side_effect_class: VALIDATE_ONLY
+    idempotent: true
+    confirmation_required: false
+    required_payload_fields:
+      - stamps
+    optional_payload_fields:
+      - artifact_type
+      - strict
+    result_schema_ref: schemas/contracts/report_result.schema.json
+    status: ACTIVE_PRE_FREEZE
+
+  - action_type: RPT_LIST_ARTIFACTS
+    public_command_aliases: [list_report_artifacts, list_exports]
+    description: List generated RPT artifacts by WP and artifact type.
+    allowed_modes: [M1, M2]
+    side_effect_class: READ_ONLY
+    idempotent: true
+    confirmation_required: false
+    required_payload_fields: []
+    optional_payload_fields:
+      - filters
+    result_schema_ref: schemas/contracts/report_result.schema.json
+    status: FREEZE_BLOCKED_PENDING_ARTIFACT_REGISTRY_SCHEMA
+
+  - action_type: RPT_GET_ARTIFACT
+    public_command_aliases: [get_report_artifact, get_export]
+    description: Read a generated report/export artifact by artifact_id.
+    allowed_modes: [M1, M2]
+    side_effect_class: READ_ONLY
+    idempotent: true
+    confirmation_required: false
+    required_payload_fields:
+      - artifact_id
+    optional_payload_fields:
+      - return_content
+    result_schema_ref: schemas/contracts/report_result.schema.json
+    status: FREEZE_BLOCKED_PENDING_ARTIFACT_REGISTRY_SCHEMA
+
+  - action_type: RPT_GENERATE_EXPORT
+    public_command_aliases: [export_wp, generate_export, download_export]
+    description: Generate a schema-locked export artifact from WP truth and traceability stamps.
+    allowed_modes: [M2]
+    side_effect_class: GENERATES_ARTIFACT
+    idempotent: true
+    confirmation_required: true
+    required_payload_fields:
+      - export_type
+      - wp_snapshot
+      - export_schema_version
+      - stamps
+    optional_payload_fields:
+      - include_fields
+      - output_format
+    result_schema_ref: schemas/contracts/export_result.schema.json
+    status: FREEZE_BLOCKED_PENDING_EXPORT_ACTION_SCHEMA_HEADER
+
+  - action_type: RPT_VALIDATE_SCHEMA
+    public_command_aliases: [validate_export_schema]
+    description: Validate an export request or export artifact against the declared schema/header rule.
+    allowed_modes: [M1, M2]
+    side_effect_class: VALIDATE_ONLY
+    idempotent: true
+    confirmation_required: false
+    required_payload_fields:
+      - schema_version
+    optional_payload_fields:
+      - export_request
+      - export_artifact
+    result_schema_ref: schemas/contracts/export_result.schema.json
+    status: FREEZE_BLOCKED_PENDING_EXPORT_REQUEST_SCHEMA
 
 error_taxonomy:
   standard_codes:
@@ -60,9 +133,26 @@ error_taxonomy:
         - MISSING_REQUIRED_FIELD
         - PAYLOAD_SCHEMA_MISMATCH
         - UNKNOWN_REPORT_TYPE
+    - code: INVARIANT_VIOLATION
+      subcodes:
+        - MISSING_TRACEABILITY_STAMPS
+        - ATTEMPTED_TRUTH_MUTATION
     - code: NOT_FOUND
       subcodes:
         - WP_SNAPSHOT_MISSING
+        - ARTIFACT_NOT_FOUND
+    - code: CONFLICT
+      subcodes:
+        - SCHEMA_VERSION_UNSUPPORTED
+    - code: UNSUPPORTED_OPERATION
+      subcodes:
+        - FORMAT_NOT_SUPPORTED
     - code: INTERNAL_ERROR
       subcodes:
         - REPORT_RENDER_FAILED
+        - EXPORT_RENDER_FAILED
+
+freeze_status:
+  report_generation: ACTIVE_PRE_FREEZE
+  export_generation: FREEZE_BLOCKED_PENDING_EXPORT_CLEANUP
+  artifact_registry_read: FREEZE_BLOCKED_PENDING_ARTIFACT_REGISTRY_SCHEMA
