@@ -17,7 +17,7 @@ Turn `VALOR_Architecture_Pack` from candidate specification authority into a fro
 
 ## Strict Freeze Coverage Rule
 
-No minimum, placeholder, or governance-only solution is acceptable for freeze.
+No minimum, placeholder, partial, or governance-only solution is acceptable for freeze.
 
 For each blocker:
 
@@ -107,12 +107,48 @@ The plan identifies:
 - items pulled back into pre-freeze work;
 - expected order of edits.
 
+## Completed Pre-Freeze Modification Work
+
+### Blocker 1 — Action and Contract Catalog Alignment
+
+Status: **PARTIALLY CLOSED — FREEZE STILL BLOCKED BY DOWNSTREAM RPT/K&S/SCHEMA ITEMS**
+
+Control record:
+
+- `_review_control/BLOCKER1_ACTION_CONTRACT_CATALOG_ALIGNMENT.md`
+
+Approved classification:
+
+- Public/user-callable: WP, PLAN, DOC, RPT, and K&S for direct standards/citation/advisory requests.
+- Internal service/resolver: PS.
+- Non-callable governed support authorities: TP, PROF, CAL.
+- Policy-first cross-cutting control: SEC.
+
+Key files modified:
+
+- `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`
+- `docs/architecture/A11_ContractRegistry_Arch_v1_0_1.md`
+- `docs/architecture/A04_1_Orchestration_Arch_v1_0_1.md`
+- `contracts/VALOR-contract-orch-rpt.yaml`
+- `action_blocks/BUILD_REPORT.yaml`
+- `action_blocks/WP_UPDATE_TASK_FIELDS.yaml`
+- `action_blocks/WP_BIND_PRESET_CONTEXT.yaml`
+- `action_blocks/WP_APPLY_PLAN_PROPOSAL.yaml`
+
+Important outcome:
+
+- `RPT_GENERATE_REPORT` is now the canonical RPT report action.
+- `BUILD_REPORT` is retained as a public command alias/action-block label.
+- `VALIDATE_ONLY` is added as a valid side-effect class.
+- RPT export/list/get actions are cataloged but marked freeze-blocked until export/action/schema/artifact/header cleanup is complete.
+- K&S action mapping is cataloged, but full governed K&S content/schema/test coverage remains a separate freeze blocker.
+
 ## Must-Resolve-Before-Freeze Themes
 
 These remain pre-freeze work because they affect architecture clarity, contracts, validation, product behavior, source-of-truth, traceability, schemas, or UI minimum behavior:
 
 - Authority, status, and terminology.
-- Contract registry and action catalog.
+- Contract registry and action catalog validation.
 - WP, Planning, and governed libraries.
 - K&S and standards bundle readiness.
 - DOC, DCF, and URS source chain.
@@ -144,7 +180,7 @@ The following may no longer be broadly deferred:
 - Excerpt/redaction/refusal rules and tests.
 - Missing standards bundle blocked/incomplete behavior.
 - Export action/header/schema path if export remains declared.
-- TP/PROF/CAL/SEC contract classification in the registry.
+- Contract registry semantic validation.
 - Stub/permissive schemas.
 - Artifact registry/read behavior for declared artifacts.
 - UI minimum behavior.
@@ -159,22 +195,21 @@ Current controlled state:
 - Pre-Freeze Modification Batch Plan prepared.
 - Strict freeze coverage rule applied.
 - Corrected full K&S freeze rule applied.
-- Awaiting explicit user approval before executing any pre-freeze modification step.
+- Blocker 1 category and primary catalog alignment executed under user approval.
+- Freeze remains blocked by unresolved downstream RPT/export, K&S, schema, validation, and other pre-freeze blockers.
 
 ## Next Session Objective
 
-If the user approves execution of the pre-freeze modification batch:
+Continue pre-freeze blocker cleanup only after explicit user approval of the next scoped step.
 
-1. Start with Step 0 — Control hygiene from `_review_control/PRE_FREEZE_MODIFICATION_BATCH_PLAN.md`.
-2. Work only on the approved batch step.
-3. Update review-control files after the step.
-4. Stop at the scoped boundary.
+Recommended next scoped blocker:
+
+- RPT/export action/header/schema/artifact registry alignment, or K&S full governed standards bundle readiness, depending on user priority.
 
 ## Explicit Non-Scope Until Approved
 
 Do not:
 
-- edit architecture/specification files;
 - start implementation;
 - create a delivery plan;
 - audit old/current ASBP implementation;
@@ -182,4 +217,4 @@ Do not:
 
 ## Current Next Action
 
-Await user approval to execute Step 0 of the Pre-Freeze Modification Batch Plan.
+Await user approval/challenge for the next pre-freeze blocker scope.
