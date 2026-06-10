@@ -1,0 +1,47 @@
+# Action Spec: RPT_GENERATE_STATUS_REPORT
+action_type: RPT_GENERATE_STATUS_REPORT
+public_command_aliases:
+  - BUILD_REPORT
+  - build_report
+  - generate_status_report
+  - create_status_report
+contract: VALOR-contract-orch-rpt
+version: v1.0.1
+purpose: Generate a narrative Work Package Status Report artifact from one or more committed WP snapshots.
+allowed_modes: [M1, M2]
+side_effect_class: GENERATES_ARTIFACT
+idempotent: true
+confirmation_required: false
+
+required_payload_fields:
+  - artifact_type
+  - target_scope
+  - wp_ids
+  - source_snapshot_refs
+  - stamps
+  - validation_mode
+
+optional_payload_fields:
+  - title
+  - include_sections
+  - output_format
+  - options
+
+target_scope:
+  supported: [SINGLE_WP, SELECTED_WP_SET]
+  excluded_from_freeze_scope: [ALL_WPS]
+
+result_schema_ref: schemas/contracts/report_result.schema.json
+request_schema_ref: schemas/contracts/report_request.schema.json
+
+template_ref:
+  template_id: TPL-RPT-WP-STATUS-REPORT-v1.0.1
+  template_path: templates/reports/WP_STATUS_REPORT_v1.0.1.md
+
+projection_policy:
+  mutates_wp_truth: false
+  mutates_task_truth: false
+
+notes:
+  - "Narrative report output intent is PDF-style report; report-source is acceptable as a controlled intermediate representation."
+  - "For SELECTED_WP_SET, include consolidated summary and per-WP sections."
