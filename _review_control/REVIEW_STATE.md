@@ -8,27 +8,20 @@ Last updated: 2026-06-10
 
 Review `VALOR_Architecture_Pack` across sessions and turn it into a frozen or freeze-ready product specification authority before any new implementation repository is created.
 
-## 2. Greater Goal
+## 2. Core Rules
 
-Frozen architecture/specification pack → delivery plan → old repo/code assessment → asset buckets → new governance system → clean implementation repo → product implementation.
+- No implementation work during this review.
+- No clean implementation repo until architecture review and delivery plan are accepted.
+- Do not rely on chat history; this `_review_control` folder is the review memory.
+- Do not modify architecture/specification files unless the user explicitly approves edits.
 
-## 3. Current Rule
-
-No implementation work during this review.
-
-No new clean implementation repo until the architecture pack and delivery plan are accepted.
-
-No reliance on chat history. Repository review-control files are the memory.
-
-Do not modify architecture/specification files unless the user explicitly approves edits.
-
-## 4. Completed Review Work
+## 3. Completed Review Work
 
 ### Phase 0 — Control Setup
 
 Status: in progress
 
-Created control structure:
+Control files exist:
 
 - `_review_control/REVIEW_CHARTER.md`
 - `_review_control/REVIEW_PLAN.md`
@@ -38,7 +31,7 @@ Created control structure:
 
 ### Phase 1 — Intake and Map
 
-Status: initial intake completed in chat before control files were created
+Status: initial intake completed before control files were created
 
 Reviewed:
 
@@ -49,9 +42,8 @@ Reviewed:
 Outcome:
 
 - pack is accepted as candidate architecture pack;
-- not frozen yet;
-- review must continue block-by-block;
-- current structure is suitable for specification review because it includes architecture docs, contracts, action blocks, templates, libraries, schemas, validation tools, test vectors, and manifest discipline.
+- pack is not frozen yet;
+- review continues block by block.
 
 ### Phase 2 — SoS and Invariants
 
@@ -62,21 +54,19 @@ Reviewed:
 - `docs/architecture/A01_SoS_Context_Capability_Arch_v1_0_1.md`
 - `docs/architecture/A02_Principles_Invariants_Arch_v1_0_1.md`
 
-Outcome summary:
-
-- Keep the SoS product boundary and human-owned approval boundary.
-- Keep the subsystem capability map and authority ownership baseline.
-- Keep the global invariant spine as the hard-stop baseline.
-- Modify before freeze to expand AI-role boundaries at principle level.
-- Missing principle-level DCF → URS → downstream document source-chain authority.
-- Missing principle-level UI/product workflow state discipline.
-- Conflict/confusion: traceability stamp minimums need artifact-type clarity, especially for controlled documents.
-- Conflict/confusion: document front-matter `status: released` may be confused with pack-level freeze status.
-- Defer detailed invariant-to-schema/validation/test-vector enforcement mapping to Phase 11.
-
-Decision log entries added:
+Decision log entries:
 
 - DEC-0005 through DEC-0013
+
+Outcome summary:
+
+- Keep SoS boundary, capability map, and invariant spine.
+- Modify before freeze for AI-role boundary.
+- Missing DCF to URS to downstream document source-chain principle.
+- Missing UI/product workflow state principle.
+- Clarify artifact-specific traceability stamps.
+- Clarify document status versus pack freeze status.
+- Defer detailed invariant-to-schema/test mapping.
 
 ### Phase 3 — Authority and Orchestration
 
@@ -87,65 +77,92 @@ Reviewed:
 - `docs/architecture/A03_Subsystems_Authority_Arch_v1_0_1.md`
 - `docs/architecture/A04_1_Orchestration_Arch_v1_0_1.md`
 
-Outcome summary:
-
-- Keep A03 as the authority baseline for subsystem ownership, allowed operations, anti-coupling, and canonical call graph.
-- Keep A04_1 as the orchestration baseline for intent classification, workflow selection, contract routing, governance gates, traceability context, deterministic decision policy, safe failure, and proof-based success claims.
-- Conflict/confusion: governed asset owner hierarchy needs clarification for Profile Library, Calendar Logic, and Contract Registry.
-- Conflict/confusion: Document metadata registry ownership must have one primary owner and a separate reference-holder rule.
-- Conflict/confusion: Security & Compliance integration mechanism needs clarification because SEC is listed as a subsystem but no SEC contract appears in the A04_1 contract registry.
-- Modify before freeze: replace GATE-Plan “policy choice” wording with an explicit deterministic rule.
-- Missing: A04_1 lacks an explicit document-generation/drafting/review/issue gate placeholder.
-- Modify before freeze: align A04_1 stamping gate with artifact-specific traceability rules.
-- Defer detailed AI advisory-chat and UI/product-surface resolution to later review phases.
-
-Decision log entries added:
+Decision log entries:
 
 - DEC-0014 through DEC-0022
 
-## 5. Current Decisions Summary
+Outcome summary:
 
-1. `VALOR_Architecture_Pack` will be used as the candidate Architecture Pack.
-2. It is not yet a frozen final spec.
-3. The repo itself stores review memory under `_review_control`.
-4. ChatGPT Project setup is optional and should be minimal.
-5. No Project Sources or zip packs are required.
-6. Each new session starts from `_review_control/SESSION_HANDOFF.md` and `_review_control/REVIEW_STATE.md`.
-7. Old ASBP implementation work remains stopped during this review.
-8. No code implementation starts until the architecture review and delivery plan are complete.
-9. A01/A02 are directionally strong and retained as baseline, but they require targeted freeze modifications around AI role, DCF/document source chain, UI/product surface, traceability stamp scope, and metadata status clarity.
-10. A03/A04_1 are directionally strong and retained as baseline, but require targeted freeze clarification around asset-owner hierarchy, SEC integration, document metadata ownership, staged-plan policy, document-generation gate, and artifact-specific traceability.
+- Keep A03 authority baseline.
+- Keep A04_1 orchestration and safe-failure baseline.
+- Clarify Profile Library, Calendar Logic, and Contract Registry ownership.
+- Clarify Document metadata ownership.
+- Clarify Security and Compliance integration mechanism.
+- Replace staged-plan policy-choice wording with explicit rule.
+- Add document-generation gate placeholder if later review confirms gap.
+- Align stamping gate with artifact-specific traceability.
+- Defer detailed AI and UI surface resolution.
 
-## 6. Current Known Risks / Items to Watch
+### Phase 4 — Work Package Spine
 
-- README uses strong wording such as implementation-ready; this must be verified before freeze.
-- AI role needs explicit top-level expansion for advisory chat, DCF extraction, document drafting, standards-aware review, and candidate-only acceptance.
-- DCF to URS to downstream document flow must be checked and made explicit if missing.
-- UI/product screen coverage must be checked; pack may be backend/contract-heavy.
-- Traceability stamps must be reconciled by artifact type: report, export, controlled document, and possibly advisory output.
-- Front-matter status values such as `released` must be distinguished from pack-level freeze status.
-- Profile Library, Calendar Logic, and Contract Registry ownership must be clarified.
-- Security & Compliance must be clarified as contract-integrated subsystem or internal policy enforcement.
-- Document metadata ownership must be clarified between Document Factory and Work Package reference storage.
-- Planning on staged tasks must be deterministic, not left as a policy choice.
-- Delivery plan does not exist yet and must be produced after review.
+Status: scoped review completed on 2026-06-10
 
-## 7. Current Block
-
-Current review block:
-
-Phase 4 — Work Package Spine
-
-Files:
+Reviewed:
 
 - `docs/architecture/A04_2_WorkPackage_Arch_v1_0_1.md`
 - `contracts/VALOR-contract-orch-wp.yaml`
 - `contracts/VALOR-contract-orch-wp-user-driven-baseline.yaml`
-- relevant action blocks for WP operations
+- `action_blocks/WP_UPDATE_TASK_FIELDS.yaml`
+- `action_blocks/WP_BIND_PRESET_CONTEXT.yaml`
+- `action_blocks/WP_APPLY_PLAN_PROPOSAL.yaml`
 
-## 8. Next Session Objective
+Decision log entries:
 
-Review Phase 4 only.
+- DEC-0023 through DEC-0033
+
+Outcome summary:
+
+- Keep A04_2 as WP truth, lifecycle, ID, dependency, mutability, and error-semantics backbone.
+- Keep WP mutation boundary and confirmation discipline.
+- Keep user-driven no-profile baseline as controlled fallback.
+- Reconcile WP architecture, contract, and action-block catalogs.
+- Standardize schedule apply action naming.
+- Clarify staged preview IDs versus committed task IDs.
+- Clarify WP relationship to external execution evidence.
+- Standardize WP schema references.
+- Add or cross-reference user-driven baseline fields in WP architecture.
+- Standardize selector/context and stamp naming.
+- Defer detailed WP schema/test mapping to Phase 11.
+
+## 4. Current Known Risks / Items to Watch
+
+- AI role boundary needs explicit top-level coverage.
+- DCF to URS to downstream document flow must be explicit.
+- UI/product screen coverage must be checked.
+- Traceability stamps must be reconciled by artifact type.
+- Document front-matter status must be distinguished from pack freeze status.
+- Profile Library, Calendar Logic, and Contract Registry ownership must be clarified.
+- Security and Compliance integration must be clarified.
+- Document metadata ownership must be clarified.
+- Planning on staged tasks must be deterministic.
+- WP action catalog must be reconciled across architecture, contract, and action blocks.
+- Schedule apply action naming must be standardized.
+- Staged task preview IDs must not be confused with committed task IDs.
+- WP must not over-own external execution evidence.
+- WP schema references must be standardized.
+- User-driven no-profile baseline fields must be represented in WP truth or explicitly referenced.
+- Delivery plan does not exist yet and must be produced after review.
+
+## 5. Current Block
+
+Current review block:
+
+Phase 5 — Task Pool, Preset, Profile, Calendar
+
+Files:
+
+- `docs/architecture/A05_TaskPool_Arch_v1_0_1.md`
+- `docs/architecture/A06_PresetSystem_Arch_v1_0_1.md`
+- `docs/architecture/A08_ProfileLibrary_Arch_v1_0_1.md`
+- `docs/architecture/A07_CalendarLogic_Arch_v1_0_1.md`
+- `libraries/task_pool/`
+- `libraries/preset_library/`
+- `libraries/profile_library/`
+- `libraries/calendar/`
+
+## 6. Next Session Objective
+
+Review Phase 5 only.
 
 Classify findings into:
 
@@ -161,19 +178,19 @@ Update:
 - `REVIEW_STATE.md`
 - `SESSION_HANDOFF.md`
 
-## 9. Done Definition for Current Block
+## 7. Done Definition for Current Block
 
-Phase 4 review is done when:
+Phase 5 review is done when:
 
-- WP truth model is checked against A01/A02/A03/A04_1;
-- staged vs committed task behavior is checked;
-- selector/context binding implications are checked;
-- task dependency integrity and ID lifecycle rules are checked;
-- WP contracts are checked against the authority and orchestration boundaries;
-- relevant WP action blocks are identified and checked or explicitly carried forward;
+- task pool selection and atomic task rules are checked;
+- preset selector flow and binding behavior are checked;
+- profile duration and lead-time rules are checked;
+- calendar scheduling rules are checked;
+- standards bundle binding from preset/context is checked;
+- carried risks around owner hierarchy, selector/context naming, and user-driven baseline are traced where applicable;
 - decisions are logged;
 - next block is selected.
 
-## 10. Current Next Action
+## 8. Current Next Action
 
-Start next chat/session with the starter prompt in `SESSION_HANDOFF.md`.
+Start next chat/session from `SESSION_HANDOFF.md`.
