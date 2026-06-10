@@ -33,16 +33,15 @@ Control files exist:
 
 Status: initial intake completed before control files were created
 
-Outcome:
+Outcome summary:
 
-- pack is accepted as candidate architecture pack;
-- pack is not frozen yet;
-- review continues block by block.
+- Pack is accepted as candidate architecture pack.
+- Pack is not frozen yet.
+- Review continues block by block.
 
 ### Phase 2 — SoS and Invariants
 
 Status: scoped review completed on 2026-06-10
-
 Decision log entries: DEC-0005 through DEC-0013
 
 Outcome summary:
@@ -58,7 +57,6 @@ Outcome summary:
 ### Phase 3 — Authority and Orchestration
 
 Status: scoped review completed on 2026-06-10
-
 Decision log entries: DEC-0014 through DEC-0022
 
 Outcome summary:
@@ -76,7 +74,6 @@ Outcome summary:
 ### Phase 4 — Work Package Spine
 
 Status: scoped review completed on 2026-06-10
-
 Decision log entries: DEC-0023 through DEC-0033
 
 Outcome summary:
@@ -96,12 +93,11 @@ Outcome summary:
 ### Phase 5 — Task Pool, Preset, Profile, Calendar
 
 Status: scoped review completed on 2026-06-10
-
 Decision log entries: DEC-0034 through DEC-0044
 
 Outcome summary:
 
-- Keep the governed-library architecture spine for Task Pool, Preset, Profile, and Calendar.
+- Keep governed-library architecture spine for Task Pool, Preset, Profile, and Calendar.
 - Keep seed library files as useful candidate/reference data, not freeze-clean data.
 - Clarify governed library owner hierarchy.
 - Decide whether TP/PROF/CAL contract files must be added or formally deferred.
@@ -116,7 +112,6 @@ Outcome summary:
 ### Phase 6 — Planning
 
 Status: scoped review completed on 2026-06-10
-
 Decision log entries: DEC-0045 through DEC-0055
 
 Outcome summary:
@@ -136,7 +131,6 @@ Outcome summary:
 ### Phase 7 — Knowledge and Standards
 
 Status: scoped review completed on 2026-06-10
-
 Decision log entries: DEC-0056 through DEC-0066
 
 Outcome summary:
@@ -156,7 +150,6 @@ Outcome summary:
 ### Phase 8 — Document Factory and DCF/URS Flow
 
 Status: scoped review completed on 2026-06-10
-
 Decision log entries: DEC-0067 through DEC-0081
 
 Outcome summary:
@@ -180,7 +173,6 @@ Outcome summary:
 ### Phase 9 — Reporting and Export
 
 Status: scoped review completed on 2026-06-10
-
 Decision log entries: DEC-0082 through DEC-0096
 
 Outcome summary:
@@ -204,18 +196,7 @@ Outcome summary:
 ### Phase 10 — Governance, Security, Contract Registry
 
 Status: scoped review completed on 2026-06-10
-
-Reviewed:
-
-- `docs/architecture/A09_Governance_Branching_Arch_v1_0_1.md`
-- `docs/architecture/A10_Security_Compliance_Arch_v1_0_1.md`
-- `docs/architecture/A11_ContractRegistry_Arch_v1_0_1.md`
-- manifest contract entries
-
-Decision entries:
-
-- DEC-0097 through DEC-0108 are preserved in `_review_control/PHASE10_DECISIONS_PENDING.md`.
-- Direct updates to `_review_control/DECISION_LOG.md` returned repeated GitHub 409 SHA mismatch errors during the Phase 10 session; merge pending.
+Decision log entries: DEC-0097 through DEC-0108
 
 Outcome summary:
 
@@ -232,25 +213,10 @@ Outcome summary:
 - Clarify audit log ownership and storage.
 - Defer detailed governance/security/registry schema validation to Phase 11.
 
-
-\
 ### Phase 11 — Schemas, Validation, Test Vectors
 
 Status: scoped review completed on 2026-06-10
-
-Reviewed:
-
-- `schemas/contracts/`
-- `schemas/documents/`
-- `schemas/objects/`
-- `validation/`
-- `test_vectors/`
-- `scripts/pack_validation/`
-- `smoke_test.py`
-
-Decision entries:
-
-- DEC-0109 through DEC-0121
+Decision log entries: DEC-0109 through DEC-0121
 
 Outcome summary:
 
@@ -268,6 +234,38 @@ Outcome summary:
 - Add end-to-end core workflow test coverage.
 - Defer implementing schema/test fixes during Phase 11 review.
 
+### Phase 12 — Addendums and UX/Product Surface
+
+Status: scoped review completed on 2026-06-10
+
+Reviewed:
+
+- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Canvas_Rendering_Record_Layout_v1.0.1A.md`
+- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Document_Generation_Compliance_v1.0.1A.md`
+- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Planning_Invariants_UX_Contract_v1.0.1A.md`
+- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Reporting_Export_Projection_Contract_v1.0.1A.md`
+- README UI/addendum references
+
+Decision entries:
+
+- DEC-0122 through DEC-0135 are preserved in `_review_control/PHASE12_DECISIONS_PENDING.md`.
+
+Outcome summary:
+
+- Keep addendum layer as candidate UX/output constraint layer.
+- Keep planning proposal/apply UX invariants.
+- Keep token-clean and projection-only output rules.
+- Replace Canvas terminology with product-neutral surface terminology.
+- Reclassify UI surfaces as projections, not truth owners.
+- Align addendum command names with contracts and action blocks.
+- Add dependencies and cross-references to addendums.
+- Standardize timestamp display versus metadata policy.
+- Add a product surface specification before freeze.
+- Add confirmation and review surface requirements.
+- Add advisory chat/help/follow-up surface contract.
+- Add export/download and artifact-state surface requirements.
+- Add DCF, URS source, K&S citation, and redaction surfaces.
+- Defer detailed wireframes but not minimum surface requirements.
 
 ## 4. Current Known Risks / Items to Watch
 
@@ -314,7 +312,6 @@ Outcome summary:
 - Contract registry must be reconciled with actual files and pending/missing contracts.
 - Contract registry metadata artifact is missing or must be formally defined as A11 plus manifest.
 - Audit log ownership/storage must be clarified.
-- Phase 10 decisions must be merged from `_review_control/PHASE10_DECISIONS_PENDING.md` into `_review_control/DECISION_LOG.md` when GitHub allows the update.
 - Contract envelope schemas must be reconciled with A11 and contract examples.
 - WP/task schemas must be expanded to match A04_2.
 - Permissive/stub schemas must be replaced with enforceable schemas.
@@ -322,51 +319,54 @@ Outcome summary:
 - Architecture-to-contract/action/schema validation is missing.
 - Governance/audit/security/registry schemas and tests are missing.
 - Current test vectors are illustrative and require negative/E2E coverage.
+- Addendum Canvas terminology must be replaced with product-neutral surface terminology.
+- UI/product surfaces must be defined as projections, not truth owners.
+- Addendum command names must be aligned with canonical contracts/actions.
+- Product surface specification is missing and needed before freeze.
+- Confirmation/review, advisory/help, export/download, DCF/URS/K&S/redaction surfaces must be specified at minimum level.
 - Delivery plan does not exist yet and must be produced after review.
 
 ## 5. Current Block
 
 Current review block:
 
-Phase 12 — Addendums and UX/Product Surface
+Phase 13 — Final Freeze Review
 
-Files:
+Purpose:
 
-- `Valor_Arch_Addendums_v1.0.1A/`
-- any UI/UX related specs found during review
+- consolidate decisions;
+- identify final modifications;
+- decide freeze/no-freeze;
+- prepare delivery-plan handoff.
 
 ## 6. Next Session Objective
 
-Review Phase 12 only.
+Review Phase 13 only.
 
-Classify findings into:
+Classify final outcome into:
 
-- Keep;
-- Modify;
-- Missing;
-- Conflict;
-- Defer.
+- freeze-ready items;
+- required modification batch before freeze;
+- formally deferred items;
+- no-freeze blockers;
+- delivery-plan handoff notes.
 
 Update:
 
-- `DECISION_LOG.md`, or use local apply pack if GitHub 409 persists;
+- `DECISION_LOG.md` or pending decision file if needed;
 - `REVIEW_STATE.md`;
 - `SESSION_HANDOFF.md`.
 
 ## 7. Done Definition for Current Block
 
-Phase 12 review is done when:
+Phase 13 review is done when:
 
-- addendum consistency with architecture is checked;
-- legacy Canvas wording is checked;
-- UX/product surface coverage is checked;
-- proposed vs committed labels are checked;
-- review/confirm surfaces are checked;
-- advisory chat surfaces are checked;
-- export/download state visibility is checked;
-- document/report/export artifact terminology is checked;
-- decisions are logged;
-- next block is selected.
+- all prior decisions are consolidated;
+- freeze/no-freeze recommendation is made;
+- required pre-freeze modification batch is identified;
+- deferred items are explicitly named with reasons;
+- delivery-plan handoff readiness is assessed;
+- final review-control files are updated.
 
 ## 8. Current Next Action
 
