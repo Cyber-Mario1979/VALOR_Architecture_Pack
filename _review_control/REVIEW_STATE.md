@@ -111,7 +111,7 @@ The plan identifies:
 
 ### Blocker 1 — Action and Contract Catalog Alignment
 
-Status: **PARTIALLY CLOSED — FREEZE STILL BLOCKED BY DOWNSTREAM RPT/K&S/SCHEMA ITEMS**
+Status: **CLOSED FOR CATEGORY AND PRIMARY CATALOG ALIGNMENT — FREEZE STILL BLOCKED BY OTHER PRE-FREEZE WORK**
 
 Control record:
 
@@ -124,24 +124,46 @@ Approved classification:
 - Non-callable governed support authorities: TP, PROF, CAL.
 - Policy-first cross-cutting control: SEC.
 
-Key files modified:
+Important outcome:
 
-- `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`
-- `docs/architecture/A11_ContractRegistry_Arch_v1_0_1.md`
-- `docs/architecture/A04_1_Orchestration_Arch_v1_0_1.md`
-- `contracts/VALOR-contract-orch-rpt.yaml`
-- `action_blocks/BUILD_REPORT.yaml`
-- `action_blocks/WP_UPDATE_TASK_FIELDS.yaml`
-- `action_blocks/WP_BIND_PRESET_CONTEXT.yaml`
-- `action_blocks/WP_APPLY_PLAN_PROPOSAL.yaml`
+- `contracts/CONTRACT_REGISTRY_v1.0.1.yaml` was created as the canonical pre-freeze contract/action catalog.
+- `VALIDATE_ONLY` is added as a valid side-effect class.
+- K&S action mapping is cataloged, but full governed K&S content/schema/test coverage remains a separate freeze blocker.
+
+### Blocker 2 — RPT / Export / Artifact Registry Alignment
+
+Status: **CLOSED FOR DECLARED RPT SCOPE — FREEZE STILL BLOCKED BY OTHER PRE-FREEZE WORK**
+
+Control record:
+
+- `_review_control/BLOCKER2_RPT_EXPORT_ARTIFACT_ALIGNMENT.md`
+
+Approved declared RPT scope:
+
+- `WORK_PACKAGE_STATUS_REPORT` — narrative PDF-style report.
+- `WORK_PACKAGE_WORKBOOK_EXPORT` — technical Excel `.xlsx` workbook export.
+- `WORK_PACKAGE_GANTT_CHART` — separate Excel-based Gantt artifact with full-cell timeline coloring.
+
+Supported target scopes:
+
+- `SINGLE_WP`
+- `SELECTED_WP_SET`
+
+Excluded from freeze scope:
+
+- `ALL_WPS`
 
 Important outcome:
 
-- `RPT_GENERATE_REPORT` is now the canonical RPT report action.
-- `BUILD_REPORT` is retained as a public command alias/action-block label.
-- `VALIDATE_ONLY` is added as a valid side-effect class.
-- RPT export/list/get actions are cataloged but marked freeze-blocked until export/action/schema/artifact/header cleanup is complete.
-- K&S action mapping is cataloged, but full governed K&S content/schema/test coverage remains a separate freeze blocker.
+- A04.6 now separates narrative report, workbook export, and Gantt artifact.
+- CSV is no longer the v1.0.1 freeze baseline.
+- `BUILD_REPORT` is retained only as an alias mapped to `RPT_GENERATE_STATUS_REPORT`.
+- RPT contract and registry now expose the declared report/workbook/Gantt/list/get action family as active pre-freeze scope.
+- Report, workbook export, Gantt, and shared artifact metadata schemas/templates/specs have been added or updated.
+
+Known note:
+
+- `RPT_VALIDATE_STAMPS` is active in `contracts/VALOR-contract-orch-rpt.yaml` and `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`. A separate `action_blocks/RPT_VALIDATE_STAMPS.yaml` file was attempted twice but blocked by the connector safety gate and was not forced with a misleading workaround.
 
 ## Must-Resolve-Before-Freeze Themes
 
@@ -152,7 +174,6 @@ These remain pre-freeze work because they affect architecture clarity, contracts
 - WP, Planning, and governed libraries.
 - K&S and standards bundle readiness.
 - DOC, DCF, and URS source chain.
-- RPT and export.
 - Product surface minimum specification.
 - Schemas, validation, and test vectors.
 
@@ -179,10 +200,8 @@ The following may no longer be broadly deferred:
 - Anchors/citation model and schema enforcement.
 - Excerpt/redaction/refusal rules and tests.
 - Missing standards bundle blocked/incomplete behavior.
-- Export action/header/schema path if export remains declared.
 - Contract registry semantic validation.
-- Stub/permissive schemas.
-- Artifact registry/read behavior for declared artifacts.
+- Stub/permissive schemas outside completed scoped blockers.
 - UI minimum behavior.
 - Negative and E2E test coverage.
 - Governance/audit/security/registry schemas/tests.
@@ -196,7 +215,8 @@ Current controlled state:
 - Strict freeze coverage rule applied.
 - Corrected full K&S freeze rule applied.
 - Blocker 1 category and primary catalog alignment executed under user approval.
-- Freeze remains blocked by unresolved downstream RPT/export, K&S, schema, validation, and other pre-freeze blockers.
+- Blocker 2 RPT/export/artifact alignment executed under user approval.
+- Freeze remains blocked by unresolved K&S, validation, DOC/DCF/URS, WP/Planning/library, product-surface, test-vector, governance/security/registry, manifest, and final freeze-readiness work.
 
 ## Next Session Objective
 
@@ -204,7 +224,7 @@ Continue pre-freeze blocker cleanup only after explicit user approval of the nex
 
 Recommended next scoped blocker:
 
-- RPT/export action/header/schema/artifact registry alignment, or K&S full governed standards bundle readiness, depending on user priority.
+- Full governed K&S standards bundle readiness, or WP/Planning/governed-library cleanup, depending on user priority.
 
 ## Explicit Non-Scope Until Approved
 
