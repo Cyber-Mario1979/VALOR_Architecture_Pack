@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "valor://schemas/objects/gantt_chart_schema.json",
+  "title": "VALOR Gantt Chart Sheet Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "template_id",
+    "template_version",
+    "format",
+    "visual_rule",
+    "sheets"
+  ],
+  "properties": {
+    "template_id": {"type": "string", "const": "TPL-RPT-WP-GANTT-CHART-v1.0.1"},
+    "template_version": {"type": "string", "const": "v1.0.1"},
+    "format": {"type": "string", "const": "XLSX"},
+    "visual_rule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["timeline_coloring", "character_bars_inside_cells"],
+      "properties": {
+        "timeline_coloring": {"type": "string", "const": "FULL_CELL_FILL"},
+        "character_bars_inside_cells": {"type": "boolean", "const": false},
+        "selected_wp_set_grouping": {"type": "string", "const": "GROUP_BY_WP"}
+      }
+    },
+    "sheets": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sheet_name", "required", "columns_or_fields"],
+        "properties": {
+          "sheet_name": {"type": "string", "enum": ["Gantt", "Task Data", "Metadata"]},
+          "required": {"type": "boolean", "const": true},
+          "columns_or_fields": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "timeline_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed_granularity", "must_cover_plotted_tasks"],
+      "properties": {
+        "allowed_granularity": {"type": "array", "items": {"type": "string", "enum": ["DAY", "WEEK", "MONTH"]}},
+        "must_cover_plotted_tasks": {"type": "boolean", "const": true}
+      }
+    }
+  }
+}
