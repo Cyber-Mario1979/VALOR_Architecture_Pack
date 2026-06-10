@@ -3,49 +3,69 @@
 Status: ACTIVE
 Review branch: review-spec-freeze-control
 
-## Starter Prompt for Next Chat
+## Current State Summary
 
-Paste this at the start of the next chat:
+The review-control system is active.
 
-```text
-Continue VALOR Architecture Pack freeze review.
+The architecture pack is accepted as candidate specification authority, not frozen authority.
 
-Repository:
-Cyber-Mario1979/VALOR_Architecture_Pack
+Completed review blocks:
 
-Review branch:
-review-spec-freeze-control
+- Phase 2 — SoS and Invariants
+- Phase 3 — Authority and Orchestration
 
-Use the GitHub connector.
+Current next review block:
 
-First read:
-1. _review_control/REVIEW_CHARTER.md
-2. _review_control/REVIEW_PLAN.md
-3. _review_control/REVIEW_STATE.md
-4. _review_control/DECISION_LOG.md
-5. _review_control/SESSION_HANDOFF.md
+Phase 4 — Work Package Spine
 
-Do not rely on chat memory.
-Do not review implementation code.
-Do not write implementation code.
-Do not create delivery plan yet.
-Do not create a clean implementation repo yet.
-Do not modify architecture/spec files unless I explicitly say GO for edits.
+No implementation work is allowed during architecture review.
 
-Current review block:
-Phase 3 — Authority and Orchestration
+Architecture/specification files must not be modified unless the user explicitly approves edits.
 
-Review only:
-- docs/architecture/A03_Subsystems_Authority_Arch_v1_0_1.md
-- docs/architecture/A04_1_Orchestration_Arch_v1_0_1.md
+## Last Completed Work
 
-Carry forward from Phase 2:
-- preserve human-owned approval and final-signature boundary;
-- verify orchestration enforces proposal-vs-commitment and staging/commit gates;
-- watch AI role boundaries, DCF/document source-chain authority, UI/product state visibility, traceability stamp scope, and released-vs-frozen status language;
-- do not resolve later-phase items prematurely unless A03/A04_1 directly contradict them.
+Completed scoped review of:
 
-Output required:
+- `docs/architecture/A03_Subsystems_Authority_Arch_v1_0_1.md`
+- `docs/architecture/A04_1_Orchestration_Arch_v1_0_1.md`
+
+Logged decisions:
+
+- DEC-0014 — Keep A03 subsystem authority baseline
+- DEC-0015 — Keep A04_1 orchestration boundary and safe-failure spine
+- DEC-0016 — Clarify governed asset owner hierarchy
+- DEC-0017 — Resolve Document metadata registry ownership
+- DEC-0018 — Resolve Security & Compliance integration mechanism
+- DEC-0019 — Replace GATE-Plan policy-choice wording with explicit rule
+- DEC-0020 — Add orchestration document-generation gate placeholder
+- DEC-0021 — Align A04_1 stamping gate with artifact-specific traceability
+- DEC-0022 — Defer detailed AI and UI surface resolution
+
+## Next Required Work
+
+Review Phase 4 only:
+
+- `docs/architecture/A04_2_WorkPackage_Arch_v1_0_1.md`
+- `contracts/VALOR-contract-orch-wp.yaml`
+- `contracts/VALOR-contract-orch-wp-user-driven-baseline.yaml`
+- relevant action blocks for WP operations
+
+Phase 4 review focus:
+
+- WP System as single source of truth for WP/task data
+- staging before commit
+- proposal-versus-commitment behavior
+- ID non-reuse
+- dependency-cycle rejection
+- Orchestration as policy/routing layer, not WP truth owner
+- selector/context binding
+- provenance stamps
+- staged-set planning ambiguity from A04_1
+
+Do not resolve later-phase document, reporting, AI, or UI items during Phase 4 unless Phase 4 directly contradicts them.
+
+## Required Output Next Session
+
 - Keep decisions
 - Modify decisions
 - Missing items
@@ -55,47 +75,9 @@ Output required:
 - Next block recommendation
 
 After review, update:
-- _review_control/DECISION_LOG.md
-- _review_control/REVIEW_STATE.md
-- _review_control/SESSION_HANDOFF.md
+
+- `_review_control/DECISION_LOG.md`
+- `_review_control/REVIEW_STATE.md`
+- `_review_control/SESSION_HANDOFF.md`
 
 Stop after the scoped review is complete.
-```
-
-## Current State Summary
-
-The review-control system is active.
-
-The architecture pack is accepted as candidate specification authority, not frozen authority.
-
-Phase 2 — SoS and Invariants has been reviewed.
-
-The current next review block is Phase 3 — Authority and Orchestration.
-
-No implementation work is allowed.
-
-## Last Completed Work
-
-Completed scoped review of:
-
-- `docs/architecture/A01_SoS_Context_Capability_Arch_v1_0_1.md`
-- `docs/architecture/A02_Principles_Invariants_Arch_v1_0_1.md`
-
-Logged decisions:
-
-- DEC-0005 — Keep SoS product boundary and human-owned approvals
-- DEC-0006 — Keep subsystem capability map and authority ownership baseline
-- DEC-0007 — Keep global invariant spine as hard-stop baseline
-- DEC-0008 — Expand AI role coverage before freeze
-- DEC-0009 — Add DCF-to-URS-to-downstream document flow authority
-- DEC-0010 — Add UI/product workflow surface principle
-- DEC-0011 — Clarify traceability stamp scope by artifact type
-- DEC-0012 — Clarify document metadata status versus review freeze status
-- DEC-0013 — Defer detailed invariant enforcement mapping
-
-## Next Required Work
-
-Review Phase 3:
-
-- `docs/architecture/A03_Subsystems_Authority_Arch_v1_0_1.md`
-- `docs/architecture/A04_1_Orchestration_Arch_v1_0_1.md`
