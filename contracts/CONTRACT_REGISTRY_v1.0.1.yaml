@@ -1,0 +1,44 @@
+registry_id: VALOR-contract-registry
+registry_version: v1.0.1
+status: pre_freeze_controlled
+owner: Orchestration
+
+categories:
+  public_user_callable: [WP, PLAN, DOC, RPT, KS]
+  internal_service_resolver: [PS]
+  non_callable_governed_support_authorities: [TP, PROF, CAL]
+  policy_first_cross_cutting_control: [SEC]
+
+contracts:
+  - contract_id: VALOR-contract-orch-wp
+    category: PUBLIC_USER_CALLABLE
+    owner_subsystem: WP
+    file: contracts/VALOR-contract-orch-wp.yaml
+  - contract_id: VALOR-contract-orch-plan
+    category: PUBLIC_USER_CALLABLE
+    owner_subsystem: PLAN
+    file: contracts/VALOR-contract-orch-plan.yaml
+  - contract_id: VALOR-contract-orch-doc
+    category: PUBLIC_USER_CALLABLE
+    owner_subsystem: DOC
+    file: contracts/VALOR-contract-orch-doc.yaml
+  - contract_id: VALOR-contract-orch-rpt
+    category: PUBLIC_USER_CALLABLE
+    owner_subsystem: RPT
+    file: contracts/VALOR-contract-orch-rpt.yaml
+  - contract_id: VALOR-contract-orch-ks
+    category: PUBLIC_USER_CALLABLE_WHEN_DIRECT_KS_REQUEST
+    owner_subsystem: KS
+    file: contracts/VALOR-contract-orch-ks.yaml
+  - contract_id: VALOR-contract-orch-ps
+    category: INTERNAL_SERVICE_RESOLVER
+    owner_subsystem: PS
+    file: contracts/VALOR-contract-orch-ps.yaml
+
+support_authorities:
+  - TP
+  - PROF
+  - CAL
+
+control_plane:
+  - SEC
