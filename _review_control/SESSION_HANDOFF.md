@@ -16,10 +16,11 @@ Completed review blocks:
 - Phase 4 — Work Package Spine
 - Phase 5 — Task Pool, Preset, Profile, Calendar
 - Phase 6 — Planning
+- Phase 7 — Knowledge and Standards
 
 Current next review block:
 
-Phase 7 — Knowledge and Standards
+Phase 8 — Document Factory and DCF/URS Flow
 
 No implementation work is allowed during architecture review.
 
@@ -29,45 +30,48 @@ Architecture/specification files must not be modified unless the user explicitly
 
 Completed scoped review of:
 
-- `docs/architecture/A04_4_Planning_Arch_v1_0_1.md`
-- `contracts/VALOR-contract-orch-plan.yaml`
-- `action_blocks/WP_APPLY_PLAN_PROPOSAL.yaml`
+- `docs/architecture/A12_Knowledge_Standards_Arch_v1_0_1.md`
+- `contracts/VALOR-contract-orch-ks.yaml`
+- K&S contract schemas surfaced in manifest/search
 
 Logged decisions:
 
-- DEC-0045 — Keep advisory planning authority boundary
-- DEC-0046 — Keep deterministic planning input and output spine
-- DEC-0047 — Keep plan contract as candidate, but not freeze-clean
-- DEC-0048 — Standardize Planning action catalog and naming
-- DEC-0049 — Standardize apply boundary action
-- DEC-0050 — Close staged-set planning ambiguity
-- DEC-0051 — Reconcile duration units with Profile unit policy
-- DEC-0052 — Standardize calendar reference and policy source
-- DEC-0053 — Integrate user-driven no-profile baseline into Planning
-- DEC-0054 — Align planning provenance stamps across architecture, contract, and examples
-- DEC-0055 — Defer planning schema validation to Phase 11
+- DEC-0056 — Keep K&S read-only authority model
+- DEC-0057 — Keep anchored citation and excerpt-policy model
+- DEC-0058 — Keep K&S contract as candidate, but not freeze-clean
+- DEC-0059 — Add real K&S governed data or formally defer it
+- DEC-0060 — Clarify standards bundle nullability policy
+- DEC-0061 — Reconcile A12 K&S action catalog with K&S contract
+- DEC-0062 — Replace permissive K&S schemas with enforceable schemas
+- DEC-0063 — Add explicit standards-aware advisory AI boundary
+- DEC-0064 — Strengthen excerpt authorization and request semantics
+- DEC-0065 — Align K&S provenance with artifact-specific traceability
+- DEC-0066 — Defer full K&S schema and bundle validation to Phase 11
 
 ## Next Required Work
 
-Review Phase 7 only:
+Review Phase 8 only:
 
-- `docs/architecture/A12_Knowledge_Standards_Arch_v1_0_1.md`
-- `contracts/VALOR-contract-orch-ks.yaml`
-- relevant standards schemas and bundles
+- `docs/architecture/A04_5_DocumentFactory_Arch_v1_0_1.md`
+- `contracts/VALOR-contract-orch-doc.yaml`
+- document schemas
+- templates
+- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Document_Generation_Compliance_v1.0.1A.md`
 
-Phase 7 review focus:
+Phase 8 review focus:
 
-- standards authority
-- citation and anchor model
-- standards-aware advice boundary
-- standards bundle sufficiency for document generation
-- standards bundle sufficiency for advisory AI
-- standards bundle nullability from Phase 5
-- traceability stamps for standards usage
-- AI role boundary from Phase 2
-- DCF/document source-chain carry-forward where applicable
+- document lifecycle
+- DCF intake coverage
+- AI extraction and drafting role
+- URS source-of-truth behavior
+- downstream RTM/DQ/IQ/OQ/PQ/VSR generation dependency on accepted URS
+- human review and provenance
+- K&S bundle and citation requirements
+- document metadata ownership
+- document-generation gate carry-forward
+- standards-aware drafting boundary
 
-Do not resolve later-phase document, reporting, UI, governance, or full schema-validation items during Phase 7 unless Phase 7 directly contradicts them.
+Do not resolve later-phase reporting, UI, governance, or full schema-validation items during Phase 8 unless Phase 8 directly contradicts them.
 
 ## Required Output Next Session
 
