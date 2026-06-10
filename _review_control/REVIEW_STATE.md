@@ -15,19 +15,47 @@ Turn `VALOR_Architecture_Pack` from candidate specification authority into a fro
 - Do not rely on chat history; this `_review_control` folder is the review memory.
 - Do not modify architecture/specification files unless the user explicitly approves execution of a scoped pre-freeze modification step.
 
-## Deferral Rule
+## Strict Freeze Coverage Rule
 
-Do **not** use broad “deferred items” logic.
+No minimum, placeholder, or governance-only solution is acceptable for freeze.
 
-No item may be deferred merely because it is not a blocker now.
+For each blocker:
+
+1. define the declared product scope;
+2. require full coverage for that declared scope;
+3. if full coverage is not possible, reduce the declared scope or keep freeze blocked.
+
+Do not defer items merely because they are not blockers now.
 
 If an item affects architecture clarity, freeze readiness, implementation contracts, validation, product behavior, source-of-truth, traceability, schemas, or UI minimum behavior, it must be resolved before freeze.
 
-Only **Can’t do now** items may move to later delivery planning.
+Only Can’t do now items may move to later delivery planning.
 
-A **Can’t do now** item is one that requires implementation work, external systems, detailed visual design, old/current code audit, clean repository creation, or post-freeze integration work.
+A Can’t do now item is one that requires implementation work, external systems, detailed visual design, old/current code audit, clean repository creation, or post-freeze integration work.
 
-Everything else stays inside the pre-freeze modification batch.
+## Corrected K&S Freeze Rule
+
+K&S must be freeze-ready as a full internal governed standards set for the declared VALOR CQV scope, with controlled external references to original standards.
+
+Required K&S direction:
+
+- internal written governed standards in VALOR/company wording;
+- controlled reference to original external standards;
+- source identity, version, date, and authority;
+- anchors/citation model;
+- source-to-internal requirement mapping;
+- excerpt/redaction/refusal rules;
+- schema enforcement;
+- test vectors;
+- missing standards bundle = blocked/incomplete state, not normal operation.
+
+Not acceptable for regulated CQV freeze operation:
+
+- minimum governed K&S;
+- metadata-only K&S;
+- no-bundle/no-standards mode;
+- placeholder standards;
+- governance-only standards language.
 
 ## Completed Review Work
 
@@ -110,12 +138,15 @@ Only these may move to later delivery planning:
 
 The following may no longer be broadly deferred:
 
-- Minimal K&S metadata/anchors or explicit no-bundle/no-standards mode.
-- Export action/header/schema path or explicit removal of export as a freeze-ready capability.
+- Full internal governed K&S for the declared VALOR CQV scope.
+- Source identity, version, date, authority, and source-to-internal requirement mapping.
+- Anchors/citation model and schema enforcement.
+- Excerpt/redaction/refusal rules and tests.
+- Missing standards bundle blocked/incomplete behavior.
+- Export action/header/schema path if export remains declared.
 - TP/PROF/CAL/SEC contract classification in the registry.
 - Stub/permissive schemas.
-- Artifact registry/read behavior.
-- Standards bundle nullability.
+- Artifact registry/read behavior for declared artifacts.
 - UI minimum behavior.
 - Negative and E2E test coverage.
 - Governance/audit/security/registry schemas/tests.
@@ -126,7 +157,8 @@ Current controlled state:
 
 - Architecture review complete.
 - Pre-Freeze Modification Batch Plan prepared.
-- Deferral logic tightened.
+- Strict freeze coverage rule applied.
+- Corrected full K&S freeze rule applied.
 - Awaiting explicit user approval before executing any pre-freeze modification step.
 
 ## Next Session Objective
