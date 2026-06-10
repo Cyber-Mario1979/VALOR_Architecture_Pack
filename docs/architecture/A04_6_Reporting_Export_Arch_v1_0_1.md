@@ -12,281 +12,400 @@ dependencies:
   - VALOR-block-A02-principles-invariants
   - VALOR-block-A03-subsystems-authority
   - VALOR-block-A04-2-work-package-architecture
-summary: "Block A04.6 — Reporting & Export System Architecture: projection layer that generates audit-grade reports/exports from WP truth, enforces traceability stamps, and provides schema-locked outputs without mutating authoritative data."
+summary: "Block A04.6 — Reporting & Export System Architecture: projection layer that generates narrative status reports, technical workbook exports, and separate Gantt artifacts from WP truth without mutating authoritative data."
 acceptance_criteria:
   - Defines Reporting/Export as projection-only with no mutation authority.
-  - Defines output artifact types (report, CSV export) and required schema/stamps.
-  - Defines traceability stamping rules (preset/profile/task_pool/calendar versions and more).
-  - Defines metrics computation policy and calendar-aligned date arithmetic consistency.
-  - Defines contract actions, response envelopes, and error semantics.
-  - Defines reproducibility/determinism requirements for exports and reports.
+  - Separates narrative report, workbook export, and Gantt chart artifact types.
+  - Defines supported target scopes: SINGLE_WP and SELECTED_WP_SET; ALL_WPS is outside freeze scope.
+  - Defines traceability stamping, artifact metadata, list/get behavior, and schema/template references.
+  - Defines contract actions, response envelopes, confirmation rules, and error semantics.
+  - Defines reproducibility/determinism requirements for all declared RPT artifacts.
 ---
 
 # Reporting & Export System Architecture
 
 Terminology: See **A15_Global_Glossary_Arch_v1_0_1.md** for definitions.
 
-
 ## 1. Purpose and Authority
-Reporting & Export (RPT) is Valor’s **projection and publishing layer** for:
-- structured exports (CSV/JSON) for downstream tooling,
-- human-readable reports (status, readiness, traceability, metrics),
-- audit-grade traceability stamps attached to each artifact.
+
+Reporting & Export (RPT) is Valor’s **projection and publishing layer** for three distinct artifact families:
+
+1. **Narrative status reports** — human-readable report artifacts intended for PDF-style output.
+2. **Workbook exports** — structured Excel `.xlsx` technical workbooks for task/status/statistics review.
+3. **Gantt chart artifacts** — separate Excel-based visual schedule artifacts with full-cell timeline coloring.
 
 RPT is authoritative for:
-- report/export artifact content and formatting,
-- computed metrics derived from WP truth (with declared rules),
-- stamping and provenance for outputs.
+
+- report/export/Gantt artifact content and formatting;
+- computed metrics derived from WP truth with declared rules;
+- artifact metadata, stamps, and provenance for generated outputs;
+- artifact registry/list/get behavior for declared RPT artifacts.
 
 RPT is not authoritative for:
-- WP/task truth (it reads; cannot mutate),
-- schedule truth (planning proposals are inputs, not truth),
-- standards/templates (unless a report explicitly embeds references by ID/version).
+
+- WP/task truth;
+- schedule truth;
+- Planning proposal truth;
+- standards/templates beyond referencing governed IDs/versions.
+
+RPT must never correct, overwrite, infer, or silently mutate WP/task truth. All RPT outputs are projection-only.
 
 Invariant alignment:
+
 - Projection-only (A02 INV-09)
 - Mandatory stamps for regulated outputs (A02 INV-07)
+- Proposed-vs-committed separation
 
 ---
 
-## 2. Inputs and Output Types
+## 2. Declared Freeze Scope
 
-### 2.1 Canonical Inputs
-RPT consumes:
-- WP snapshot (WP_GET) including tasks, dependencies, statuses, dates
-- session traceability context (stamps)
-- optional: plan_id (if a plan proposal is being reported as “proposed”)
-- export schema version (for CSV/JSON)
+### 2.1 Supported Target Scopes
 
-### 2.2 Output Types
-1) **Report Artifact**
-   - human-readable (Markdown/PDF)
-   - focuses on governance and readiness
+Declared freeze scope supports:
 
-2) **Export Artifact**
-   - schema-locked (CSV baseline)
-   - designed for integration with spreadsheets/PM tooling
+- `SINGLE_WP` — one selected work package.
+- `SELECTED_WP_SET` — explicitly selected work packages.
 
-3) **Traceability Ledger Extract** (optional)
-   - list of action IDs, stamps, and versions used across a WP lifecycle
+Out of freeze scope:
 
----
+- `ALL_WPS`
 
-## 3. Traceability Stamping (Hard Requirement)
+`ALL_WPS` must not be treated as normal freeze-ready behavior. If requested, Orchestration must ask the user to select a bounded WP set or refuse in strict mode.
 
-### 3.1 Minimum Required Stamp Set
-Every report/export must include:
-- preset_id/version
-- profile_id/version
-- task_pool_id/version
-- calendar_logic_version
+### 2.2 Declared Artifact Types
 
-If any is missing:
-- refuse generation with INVARIANT_VIOLATION / MISSING_TRACEABILITY_STAMPS
+| Artifact Type | Product Label | Canonical Generation Action | Output Intent |
+| --- | --- | --- | --- |
+| `WORK_PACKAGE_STATUS_REPORT` | Work Package Status Report | `RPT_GENERATE_STATUS_REPORT` | PDF-style narrative report |
+| `WORK_PACKAGE_WORKBOOK_EXPORT` | Work Package Workbook Export | `RPT_GENERATE_WORKBOOK_EXPORT` | Excel `.xlsx` workbook |
+| `WORK_PACKAGE_GANTT_CHART` | Work Package Gantt Chart | `RPT_GENERATE_GANTT_CHART` | Excel-based Gantt artifact |
 
-### 3.2 Recommended Additional Stamps
-When available, RPT should also stamp:
-- standards_bundle_id/version (if docs/standards referenced)
-- template_id/version (if report based on a template)
-- planning_logic_version (if reporting plan proposals)
-- contract_id/version(s) used in generating the artifact
-- architecture_pack_id/version
-
-### 3.3 Stamp Placement
-Stamps must appear in:
-- the report header (document control)
-- the export header row or metadata section (for CSV, first N rows as metadata block, or a separate .json sidecar if allowed)
-- the artifact metadata record (RPT artifact registry)
+CSV is not the v1.0.1 freeze baseline for RPT/export.
 
 ---
 
-## 4. Output Schemas (Implementation-Ready)
+## 3. Canonical Inputs
 
-### 4.1 CSV Export (Baseline)
-CSV columns must be stable per schema_version.
+RPT consumes only controlled projections of authoritative data:
 
-Recommended baseline columns:
-- wp_id
-- task_id
-- task_name
-- phase
-- task_type
-- owner_role
-- status
-- predecessor_ids (comma-separated)
-- dependency_type (FS)
-- lag_days
-- planned_duration_days
-- proposed_start_date
-- proposed_end_date
-- committed_start_date
-- committed_end_date
-- actual_start_date
-- actual_end_date
-- notes
+- WP snapshot(s) from WP contract read behavior;
+- task rows, statuses, owners, dates, dependencies, and metadata contained in the snapshot(s);
+- optional Planning proposal references when proposed schedule data is displayed;
+- session traceability context and stamps;
+- template/spec IDs and versions;
+- target scope and selected `wp_ids`.
 
-Export header metadata (either as separate file or leading commented rows):
-- export_schema_version
-- generated_at_utc
-- stamp set (preset/profile/task_pool/calendar + others)
+All artifact requests must include:
 
-### 4.2 Report Types
-RPT supports named report types with deterministic layouts:
-- RPT_STATUS_SUMMARY
-- RPT_READINESS_CHECK
-- RPT_TRACEABILITY_STAMPS
-- RPT_SCHEDULE_OVERVIEW (proposed vs committed)
-- RPT_CRITICAL_PATH (optional if planning provides)
-
-Each report type has a stable section list to avoid drift.
+- `artifact_type`;
+- `target_scope` (`SINGLE_WP` or `SELECTED_WP_SET`);
+- `wp_ids`;
+- `source_snapshot_refs` or `source_snapshot_hash`;
+- `generated_at_utc`;
+- `stamps`;
+- `validation_mode` set to `STRICT` for freeze baseline.
 
 ---
 
-## 5. Metrics Computation Policy
+## 4. Shared Artifact Metadata
 
-### 5.1 Metrics Are Derived, Not Assumed
-RPT computes metrics strictly from WP truth and declared rules:
-- percent_complete (tasks DONE / total committed tasks)
-- open_tasks_by_phase
-- overdue_tasks (committed_end_date < today and status != DONE)
-- cycle_time estimates (if actual dates exist)
-- schedule variance (committed vs actual; proposed vs committed)
+Every generated RPT artifact must include an artifact metadata record containing:
 
-### 5.2 Calendar Consistency
-If RPT computes working-day deltas:
-- it must use the same calendar_logic_version declared in stamps.
-- if calendar logic is missing or unsupported, it must either:
-  - refuse (strict mode), or
-  - compute in calendar days and label explicitly (policy choice)
+- `artifact_id`;
+- `artifact_type`;
+- `artifact_label`;
+- `target_scope`;
+- `wp_ids`;
+- `source_snapshot_hash`;
+- `template_id`;
+- `template_version`;
+- `contract_id`;
+- `contract_version`;
+- `action_type`;
+- `generated_at_utc`;
+- `projection_only` = true;
+- `mutates_wp_truth` = false;
+- `stamps`;
+- `validation_result`;
+- `content_ref`.
 
-Default for CQV: refuse if calendar version missing for working-day metrics.
+Artifact metadata is required for list/get behavior even if the generated content is stored or rendered by a later implementation.
 
 ---
 
-## 6. Reporting & Export Contract (Implementation-Ready)
+## 5. Work Package Status Report
+
+### 5.1 Purpose
+
+`WORK_PACKAGE_STATUS_REPORT` is a narrative report for human review. It is intended to become a PDF-style controlled artifact.
+
+It is not a workbook export.
+
+### 5.2 Template
+
+Template ID:
+
+- `TPL-RPT-WP-STATUS-REPORT-v1.0.1`
+
+Template source:
+
+- `templates/reports/WP_STATUS_REPORT_v1.0.1.md`
+
+Required sections:
+
+1. Cover Page
+2. Executive Summary
+3. Work Package Overview
+4. Task Status Summary
+5. Schedule Summary
+6. Risks / Issues / Exceptions
+7. Traceability and Governance
+8. Recommendations / Next Actions
+9. Appendix
+
+### 5.3 Selected WP Set Behavior
+
+For `SELECTED_WP_SET`, the report must include:
+
+- one consolidated executive summary;
+- one cross-WP summary table;
+- individual WP sections or subsections;
+- consolidated risks/issues/next actions;
+- per-WP source snapshot references or hashes.
+
+---
+
+## 6. Work Package Workbook Export
+
+### 6.1 Purpose
+
+`WORK_PACKAGE_WORKBOOK_EXPORT` is a technical structured workbook for review, filtering, analysis, and downstream planning support.
+
+It is not a narrative report.
+
+### 6.2 Output Format
+
+The declared freeze baseline is Excel `.xlsx`.
+
+Workbook template/spec ID:
+
+- `TPL-RPT-WP-WORKBOOK-EXPORT-v1.0.1`
+
+Workbook template/spec source:
+
+- `templates/export/WP_WORKBOOK_EXPORT_v1.0.1.yaml`
+
+### 6.3 Required Workbook Sheets
+
+The canonical workbook export contains exactly these required sheets in this order:
+
+1. `Cover`
+2. `WP Summary`
+3. `Task Table`
+4. `Statistics`
+5. `Metadata`
+
+The Gantt chart is not a tab in the workbook export freeze baseline. It is a separate artifact.
+
+### 6.4 Selected WP Set Behavior
+
+For `SELECTED_WP_SET`, task-level and metric-level sheets must include `wp_id` and `wp_title` so the source WP remains explicit.
+
+---
+
+## 7. Work Package Gantt Chart Artifact
+
+### 7.1 Purpose
+
+`WORK_PACKAGE_GANTT_CHART` is a separate visual schedule artifact derived from WP task schedule data.
+
+It is not part of the core workbook export.
+
+### 7.2 Output Format
+
+The declared freeze baseline is an Excel-based Gantt artifact.
+
+Gantt template/spec ID:
+
+- `TPL-RPT-WP-GANTT-CHART-v1.0.1`
+
+Gantt template/spec source:
+
+- `templates/export/WP_GANTT_CHART_v1.0.1.yaml`
+
+### 7.3 Required Sheets
+
+The Gantt artifact contains:
+
+1. `Gantt`
+2. `Task Data`
+3. `Metadata`
+
+### 7.4 Visual Rule
+
+The Gantt timeline must use full-cell coloring across the timeline area.
+
+Character or symbol bars inside cells are not the baseline visual rule.
+
+For `SELECTED_WP_SET`, the Gantt must group rows by WP. If the selected WP set cannot be rendered readably in strict mode, generation must refuse with a validation error rather than produce a misleading chart.
+
+---
+
+## 8. Traceability Stamping
+
+### 8.1 Required Stamp Set
+
+Every declared RPT artifact must include, where applicable:
+
+- architecture_pack_id/version;
+- contract_id/version;
+- template_id/version;
+- preset_id/version if preset-driven;
+- profile_id/version if profile-based planning or metrics are used;
+- task_pool_id/version if task pool data is represented;
+- calendar_id/version or calendar_logic_version if date/schedule metrics are used;
+- standards_bundle_id/version if standards are referenced;
+- planning_logic_version or plan_proposal_id/version if proposed schedule data is displayed.
+
+If a required stamp is missing for the requested artifact, strict mode must refuse generation with `INVARIANT_VIOLATION / MISSING_TRACEABILITY_STAMPS`.
+
+### 8.2 Proposed-vs-Committed Separation
+
+Reports, workbook exports, and Gantt artifacts must label proposed schedule data separately from committed WP date truth.
+
+RPT must never present proposed data as committed truth.
+
+---
+
+## 9. Contract Actions
 
 RPT is invoked via `VALOR-contract-orch-rpt`.
 
-### 6.1 Actions
-READ:
-- RPT_LIST_ARTIFACTS (filters by wp_id/type)
-- RPT_GET_ARTIFACT (artifact_id)
+### 9.1 Generate Actions
 
-GENERATE:
-- RPT_GENERATE_REPORT
-- RPT_GENERATE_EXPORT
+- `RPT_GENERATE_STATUS_REPORT`
+- `RPT_GENERATE_WORKBOOK_EXPORT`
+- `RPT_GENERATE_GANTT_CHART`
 
-VALIDATE:
-- RPT_VALIDATE_STAMPS (pre-check)
-- RPT_VALIDATE_SCHEMA (pre-check export schema)
+### 9.2 Validate Actions
 
-### 6.2 Canonical Request Envelope (Generate Export)
-```json
-{
-  "contract": "VALOR-contract-orch-rpt",
-  "contract_version": "v1.0.1",
-  "action_id": "ACT-000420",
-  "action_type": "RPT_GENERATE_EXPORT",
-  "mode": "M2",
-  "target": {"wp_id": "WP-0007"},
-  "payload": {
-    "export_type": "CSV",
-    "export_schema_version": "v1.0.1",
-    "include_fields": ["baseline"],
-    "stamps": {
-      "preset_id": "PRESET-PE-HIGH",
-      "preset_version": "v1.0.1",
-      "profile_id": "PROF-PE-HIGH",
-      "profile_version": "v1.0.1",
-      "task_pool_id": "TP-CORE",
-      "task_pool_version": "v1.0.1",
-      "calendar_logic_version": "v1.0.1"
-    }
-  },
-  "options": {"return_content": true},
-  "context": {"timestamp_utc": "2025-12-22T00:00:00Z"}
-}
-```
+- `RPT_VALIDATE_REPORT_INPUTS`
+- `RPT_VALIDATE_WORKBOOK_EXPORT`
+- `RPT_VALIDATE_GANTT_INPUTS`
+- `RPT_VALIDATE_STAMPS`
 
-### 6.3 Canonical Response Envelope
-<!-- NOTE: Example is illustrative, not complete. Refer to schema for full structure. -->
-```json
-{
-  "contract": "VALOR-contract-orch-rpt",
-  "contract_version": "v1.0.1",
-  "action_id": "ACT-000420",
-  "ok": true,
-  "result": {
-    "artifact_id": "RPT-EXP-0002",
-    "artifact_type": "EXPORT",
-    "format": "CSV",
-    "schema_version": "v1.0.1",
-    "generated_at_utc": "2025-12-22T00:00:00Z",
-    "stamps": {"calendar_logic_version": "v1.0.1"},
-    "content": "wp_id,task_id,...\nWP-0007,T-0001,...\n"
-  },
-  "error": null
-}
-```
+### 9.3 Artifact Registry Actions
+
+- `RPT_LIST_ARTIFACTS`
+- `RPT_GET_ARTIFACT`
+
+### 9.4 Confirmation Rules
+
+- Read/list/get/validate actions do not require user confirmation.
+- Report generation does not mutate truth and does not require truth-change confirmation.
+- Workbook export generation is a generated artifact and requires explicit generation confirmation.
+- Gantt chart generation is a generated artifact and requires explicit generation confirmation.
+- No RPT action may mutate WP/task truth.
 
 ---
 
-## 7. Error Semantics (Reporting/Export)
+## 10. Artifact Registry / Read Behavior
+
+RPT must define list/get behavior for every declared artifact type.
+
+`RPT_LIST_ARTIFACTS` returns artifact metadata records filtered by:
+
+- `artifact_type`;
+- `wp_id` / `wp_ids`;
+- `target_scope`;
+- generation date range;
+- action_type.
+
+`RPT_GET_ARTIFACT` returns:
+
+- artifact metadata;
+- validation result;
+- content reference;
+- optional content if requested and available.
+
+List/get behavior must not require artifact regeneration.
+
+---
+
+## 11. Metrics Computation Policy
+
+RPT computes metrics strictly from WP snapshots and declared rules:
+
+- total tasks;
+- tasks by status;
+- overdue tasks;
+- missing owner/date counts;
+- earliest start;
+- latest finish;
+- elapsed/remaining/lateness values where computable;
+- proposed-vs-committed schedule variance where both are present.
+
+If calendar-aware working-day calculations are used, the output must record the calendar version. If the calendar is missing in strict mode, RPT must refuse calendar-based metrics rather than silently compute using an unknown basis.
+
+---
+
+## 12. Error Semantics
 
 Standard codes:
-- VALIDATION_ERROR: invalid schema request, missing required fields
-- INVARIANT_VIOLATION: missing stamps, attempt to mutate truth
-- MODE_VIOLATION: wrong mode (policy)
-- NOT_FOUND: wp/artifact not found
-- CONFLICT: schema version unsupported, ambiguous version_ref
-- UNSUPPORTED_OPERATION: format not supported
-- INTERNAL_ERROR: unexpected
+
+- VALIDATION_ERROR
+- INVARIANT_VIOLATION
+- MODE_VIOLATION
+- NOT_FOUND
+- CONFLICT
+- UNSUPPORTED_OPERATION
+- INTERNAL_ERROR
 
 RPT-specific subcodes:
+
 - MISSING_TRACEABILITY_STAMPS
-- SCHEMA_VERSION_UNSUPPORTED
+- TARGET_SCOPE_UNSUPPORTED
+- WP_SNAPSHOT_MISSING
+- SOURCE_SNAPSHOT_HASH_MISSING
+- ARTIFACT_NOT_FOUND
+- REPORT_TEMPLATE_MISSING
+- WORKBOOK_TEMPLATE_MISSING
+- GANTT_TEMPLATE_MISSING
+- REQUIRED_SHEET_MISSING
+- REQUIRED_COLUMN_MISSING
+- GANTT_DATES_MISSING
+- GANTT_FINISH_BEFORE_START
+- GANTT_SELECTED_SET_UNREADABLE
 - FORMAT_NOT_SUPPORTED
-- CALENDAR_LOGIC_MISSING
-- METRIC_RULE_UNDEFINED
-
-Example error:
-```json
-{
-  "code": "INVARIANT_VIOLATION",
-  "subcode": "MISSING_TRACEABILITY_STAMPS",
-  "message": "Export blocked: missing task_pool_id/version.",
-  "field": "task_pool_id",
-  "entity": "traceability",
-  "remediation": "Select a preset/task pool and retry export."
-}
-```
+- ATTEMPTED_TRUTH_MUTATION
 
 ---
 
-## 8. Determinism and Reproducibility
+## 13. Determinism and Reproducibility
+
 Given the same:
-- WP snapshot,
-- stamps,
-- schema_version,
-- report type,
-RPT must produce the same output content.
 
-If any input changes:
-- a new artifact_id must be generated.
+- artifact type;
+- target scope;
+- selected WP snapshot hash(es);
+- template/spec version;
+- stamps;
+- options;
 
-RPT must record:
-- wp_snapshot_hash,
-- schema_version,
-- stamps,
-- generation timestamp and action_id.
+RPT must produce the same artifact structure and metadata.
+
+If any controlled input changes, the artifact metadata must identify a new source snapshot hash and, where applicable, a new artifact identity.
 
 ---
 
-## 9. Integration Points
-- Orchestration gates export generation using stamps and global invariants.
-- WP System provides authoritative snapshots.
-- Planning may provide plan proposals for “schedule overview” reports; outputs must clearly label PROPOSED vs COMMITTED.
-- Document Factory outputs (doc metadata) may be referenced by RPT for traceability reports.
+## 14. Integration Points
+
+- Orchestration gates RPT artifact generation using target scope, stamps, and confirmation rules.
+- WP provides authoritative snapshots.
+- Planning may provide plan proposals, but RPT must label proposed data separately.
+- K&S may be referenced by ID/version if standards appear in reports.
+- Product surface must present report, workbook export, and Gantt as distinct artifact choices.
 
 ---
 
@@ -295,4 +414,5 @@ RPT must record:
 ## CHANGELOG
 | Date       | Changes     | Type / Version |
 | ---------- | ----------- | -------------- |
+| 2026-06-10 | Pre-freeze RPT/export blocker: separated narrative report, workbook export, and Gantt chart artifact scope; removed CSV as freeze baseline; added target-scope and artifact registry behavior | Arch_v1.0.1-control |
 | 2025-12-23 | First Issue | Arch_v1.0.1    |
