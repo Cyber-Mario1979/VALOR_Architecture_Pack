@@ -157,6 +157,34 @@ Outcome summary:
 - Integrate user-driven no-profile baseline with Profile/Planning behavior.
 - Defer governed-library schema validation to Phase 11.
 
+### Phase 6 — Planning
+
+Status: scoped review completed on 2026-06-10
+
+Reviewed:
+
+- `docs/architecture/A04_4_Planning_Arch_v1_0_1.md`
+- `contracts/VALOR-contract-orch-plan.yaml`
+- `action_blocks/WP_APPLY_PLAN_PROPOSAL.yaml`
+
+Decision log entries:
+
+- DEC-0045 through DEC-0055
+
+Outcome summary:
+
+- Keep Planning as advisory and proposal-only.
+- Keep deterministic planning input/output spine.
+- Keep plan contract as useful candidate, not freeze-clean.
+- Standardize Planning action catalog and naming.
+- Standardize schedule apply boundary action.
+- Close staged-set planning ambiguity.
+- Reconcile duration units with Profile unit policy.
+- Standardize calendar reference and policy source.
+- Integrate user-driven no-profile baseline into Planning.
+- Align planning provenance stamps across architecture, contract, and examples.
+- Defer planning schema validation to Phase 11.
+
 ## 4. Current Known Risks / Items to Watch
 
 - AI role boundary needs explicit top-level coverage.
@@ -173,30 +201,33 @@ Outcome summary:
 - Staged task preview IDs must not be confused with committed task IDs.
 - WP must not over-own external execution evidence.
 - WP schema references must be standardized.
-- User-driven no-profile baseline fields must be represented in WP truth or explicitly referenced.
+- User-driven no-profile baseline fields must be represented in WP truth and Planning.
 - TP/PROF/CAL contracts are referenced by architecture but not present as contract files.
 - Preset architecture and seed preset schema must be reconciled.
 - Profile data must not duplicate Calendar authority.
 - Task/Profile taxonomy must be normalized or explicitly mapped.
 - FAT execution chain gap must be resolved or formally excluded.
 - Standards bundle nullability in presets must be clarified.
+- Planning action catalog must be standardized.
+- Planning duration-unit handling must support Profile unit policy.
+- Planning provenance stamp set must be aligned with artifact-specific traceability rules.
 - Delivery plan does not exist yet and must be produced after review.
 
 ## 5. Current Block
 
 Current review block:
 
-Phase 6 — Planning
+Phase 7 — Knowledge and Standards
 
 Files:
 
-- `docs/architecture/A04_4_Planning_Arch_v1_0_1.md`
-- `contracts/VALOR-contract-orch-plan.yaml`
-- `action_blocks/WP_APPLY_PLAN_PROPOSAL.yaml`
+- `docs/architecture/A12_Knowledge_Standards_Arch_v1_0_1.md`
+- `contracts/VALOR-contract-orch-ks.yaml`
+- relevant standards schemas and bundles
 
 ## 6. Next Session Objective
 
-Review Phase 6 only.
+Review Phase 7 only.
 
 Classify findings into:
 
@@ -214,14 +245,13 @@ Update:
 
 ## 7. Done Definition for Current Block
 
-Phase 6 review is done when:
+Phase 7 review is done when:
 
-- advisory planning boundary is checked;
-- proposed versus committed schedule behavior is checked;
-- dependency handling is checked;
-- profile/calendar stamp behavior is checked;
-- apply boundary is checked against WP truth and WP_APPLY_PLAN_PROPOSAL;
-- carried risks around staged-set planning, schedule-apply naming, profile/calendar taxonomy, and user-driven baseline are traced where applicable;
+- standards authority is checked;
+- citation and anchor model is checked;
+- standards-aware advice boundary is checked;
+- standards bundle sufficiency for document generation and advisory AI is checked;
+- carried risks around AI role, standards bundle nullability, traceability, and document-generation source chain are traced where applicable;
 - decisions are logged;
 - next block is selected.
 
