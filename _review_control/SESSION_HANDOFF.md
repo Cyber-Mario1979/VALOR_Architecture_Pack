@@ -1,4 +1,3 @@
-\
 # VALOR Architecture Pack Session Handoff
 
 Status: ACTIVE
@@ -22,10 +21,11 @@ Completed review blocks:
 - Phase 9 — Reporting and Export
 - Phase 10 — Governance, Security, Contract Registry
 - Phase 11 — Schemas, Validation, Test Vectors
+- Phase 12 — Addendums and UX/Product Surface
 
 Current next review block:
 
-Phase 12 — Addendums and UX/Product Surface
+Phase 13 — Final Freeze Review
 
 No implementation work is allowed during architecture review.
 
@@ -35,70 +35,67 @@ Architecture/specification files must not be modified unless the user explicitly
 
 Completed scoped review of:
 
-- `schemas/contracts/`
-- `schemas/documents/`
-- `schemas/objects/`
-- `validation/`
-- `test_vectors/`
-- `scripts/pack_validation/`
-- `smoke_test.py`
+- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Canvas_Rendering_Record_Layout_v1.0.1A.md`
+- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Document_Generation_Compliance_v1.0.1A.md`
+- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Planning_Invariants_UX_Contract_v1.0.1A.md`
+- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Reporting_Export_Projection_Contract_v1.0.1A.md`
+- README UI/addendum references
 
 Logged/preserved decisions:
 
-- DEC-0109 — Keep validation scaffold as candidate quality gate
-- DEC-0110 — Keep manifest integrity validation baseline
-- DEC-0111 — Keep render-input validator but classify it correctly
-- DEC-0112 — Reconcile contract envelope schemas with A11 and contract examples
-- DEC-0113 — Expand WP/task schemas to match A04_2
-- DEC-0114 — Replace permissive/stub schemas with enforceable schemas
-- DEC-0115 — Fix dotted required-field schema pattern
-- DEC-0116 — Add architecture-to-contract/action/schema validation
-- DEC-0117 — Add governance, audit, security, and registry schemas/tests
-- DEC-0118 — Treat current test vectors as illustrative, not full coverage
-- DEC-0119 — Add negative and invariant test vectors
-- DEC-0120 — Add end-to-end core workflow test coverage
-- DEC-0121 — Defer implementing schema/test fixes during Phase 11 review
+- DEC-0122 — Keep addendum layer as candidate UX/output constraint layer
+- DEC-0123 — Keep planning proposal/apply UX invariants
+- DEC-0124 — Keep token-clean and projection-only output rules
+- DEC-0125 — Replace Canvas terminology with product-neutral surface terminology
+- DEC-0126 — Reclassify UI surfaces as projections, not truth owners
+- DEC-0127 — Align addendum command names with contracts and action blocks
+- DEC-0128 — Add dependencies and cross-references to addendums
+- DEC-0129 — Standardize timestamp display versus metadata policy
+- DEC-0130 — Add a product surface specification before freeze
+- DEC-0131 — Add confirmation and review surface requirements
+- DEC-0132 — Add advisory chat/help/follow-up surface contract
+- DEC-0133 — Add export/download and artifact-state surface requirements
+- DEC-0134 — Add DCF, URS source, K&S citation, and redaction surfaces
+- DEC-0135 — Defer detailed wireframes but not minimum surface requirements
 
 Important note:
 
-- If GitHub decision-log updates still fail, apply the local `apply_phase11_review.py` pack from the assistant output.
+- Phase 12 decisions are preserved in `_review_control/PHASE12_DECISIONS_PENDING.md` for merge into `_review_control/DECISION_LOG.md` or Phase 13 consolidation.
 
 ## Next Required Work
 
-Review Phase 12 only:
+Review Phase 13 only:
 
-- `Valor_Arch_Addendums_v1.0.1A/`
-- any UI/UX related specs found during review
+- consolidate decisions
+- identify final modifications
+- decide freeze/no-freeze
+- prepare delivery-plan handoff
 
-Phase 12 review focus:
+Phase 13 review focus:
 
-- addendum consistency with architecture
-- legacy Canvas wording
-- UX/product surface coverage
-- proposed vs committed labels in product surfaces
-- review/confirm surfaces
-- advisory chat surfaces
-- export/download state visibility
-- document/report/export artifact terminology
-- UI readiness before freeze
+- freeze-ready items
+- required modification batch before freeze
+- formally deferred items
+- no-freeze blockers
+- delivery-plan handoff notes
+- control-file cleanup and final review recommendation
 
-Do not resolve Phase 13 final freeze decisions during Phase 12 unless Phase 12 directly contradicts them.
+Do not begin implementation or create a delivery plan during Phase 13 unless the user explicitly approves a post-review transition.
 
 ## Required Output Next Session
 
-- Keep decisions
-- Modify decisions
-- Missing items
-- Conflict/confusing items
-- Deferred items
-- Open questions
-- Next block recommendation
+- final freeze/no-freeze recommendation
+- freeze-ready items
+- required pre-freeze modification batch
+- formally deferred items
+- open blockers
+- delivery-plan handoff readiness
+- next controlled action
 
 After review, update:
 
-- `_review_control/DECISION_LOG.md`, or use local apply pack if GitHub 409 persists
+- `_review_control/DECISION_LOG.md`, or pending decision file if needed
 - `_review_control/REVIEW_STATE.md`
 - `_review_control/SESSION_HANDOFF.md`
 
 Stop after the scoped review is complete.
-
