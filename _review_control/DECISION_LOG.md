@@ -149,3 +149,93 @@ Decision: Do not resolve detailed invariant-to-schema/validation/test-vector enf
 Reason: A02 provides a useful implementation checklist, but verifying actual enforcement belongs to the contract, schema, validation, and test-vector review phases.
 Impact: No implementation code is reviewed or written now; enforcement coverage remains a later review obligation.
 Follow-up: In Phase 11, map each global invariant to schemas, validation scripts, and test vectors.
+
+## DEC-0014 — Keep A03 subsystem authority baseline
+
+Date: 2026-06-10
+Reviewed file/block: Phase 3 — A03 Subsystems Authority
+Category: Keep
+Decision: Keep A03 as the authority baseline for subsystem ownership, allowed operation classes, anti-coupling rules, and canonical call graph.
+Reason: A03 reinforces A01/A02 by identifying subsystem responsibilities, authoritative owners, operation classes, non-ownership constraints, and contract-based integration.
+Impact: Later subsystem, contract, action-block, schema, and validation reviews must preserve this authority map unless a logged freeze modification changes it.
+Follow-up: Resolve the specific authority-matrix ambiguities logged in DEC-0016 and DEC-0017 before final freeze.
+
+## DEC-0015 — Keep A04_1 orchestration boundary and safe-failure spine
+
+Date: 2026-06-10
+Reviewed file/block: Phase 3 — A04_1 Orchestration
+Category: Keep
+Decision: Keep A04_1 as the orchestration baseline for intent classification, workflow selection, governance gating, contract routing/version negotiation, traceability context propagation, deterministic decision policy, standard errors, and never-claim-success-without-proof behavior.
+Reason: A04_1 clearly states that Orchestration is a controller/policy layer, not a data-truth store, and requires missing inputs to be requested, conflicts to be surfaced, truth-mutating transitions to require confirmation, and failed calls not to be represented as success.
+Impact: Implementation must keep Orchestration thin, contract-driven, and proof-based, rather than allowing it to become an implicit data owner.
+Follow-up: Verify A04_2 and contracts preserve the same boundary.
+
+## DEC-0016 — Clarify governed asset owner hierarchy
+
+Date: 2026-06-10
+Reviewed file/block: Phase 3 — A03 Authority Matrix
+Category: Conflict
+Decision: Clarify whether Profile Library, Calendar Logic, and Contract Registry are standalone subsystems, governed asset libraries under existing subsystems, or registry assets owned by another block.
+Reason: A03 canonical subsystem list does not include Profile Library or Calendar Logic as subsystems, but the authority table names Profile Library and Calendar Logic Asset as owners. A03 also lists Contracts as a governed asset type but does not provide a corresponding ownership row, while A04_1 says Orchestration maintains a contract registry.
+Impact: Authority ownership is directionally usable but not freeze-clean; later implementers could disagree on where profile, calendar, and contract registry truth lives.
+Follow-up: Resolve during Phase 5 for Profile/Calendar and Phase 10 for Contract Registry, or add an A03 clarification in the approved modification batch.
+
+## DEC-0017 — Resolve Document metadata registry ownership
+
+Date: 2026-06-10
+Reviewed file/block: Phase 3 — A03 Authority Matrix
+Category: Conflict
+Decision: Replace ambiguous ownership wording for Document metadata registry with one primary authoritative owner and one reference-holder rule.
+Reason: A03 currently says Document metadata registry is owned by “Document Factory (or WP if attached),” which weakens the single-source-of-truth discipline used elsewhere in A03.
+Impact: Document metadata could become duplicated or inconsistently mutated between DOC and WP unless authority is clarified.
+Follow-up: Reconcile during Phase 8 Document Factory review. Preferred freeze direction: DOC owns generated document metadata/provenance; WP stores references/links/status projections unless the later document block defines otherwise.
+
+## DEC-0018 — Resolve Security & Compliance integration mechanism
+
+Date: 2026-06-10
+Reviewed file/block: Phase 3 — A03/A04_1 SEC integration
+Category: Conflict
+Decision: Clarify whether Security & Compliance is invoked through a formal orchestration contract or enforced as internal orchestration policy without a separate contract.
+Reason: A03 includes Security & Compliance as a subsystem and states that subsystems integrate via contracts. Its call graph includes Orchestration → SEC, but A04_1 contract registry does not list a SEC contract.
+Impact: Security enforcement remains conceptually present but integration is not freeze-clean.
+Follow-up: Resolve during Phase 10 Security/Compliance and Contract Registry review, or add an explicit “no separate SEC contract” policy if SEC is internal policy enforcement.
+
+## DEC-0019 — Replace “policy choice” in GATE-Plan with explicit rule
+
+Date: 2026-06-10
+Reviewed file/block: Phase 3 — A04_1 Governance Gates
+Category: Modify
+Decision: A04_1 should replace the GATE-Plan entry condition phrase “committed tasks exist OR user requests advisory planning on staged set (policy choice)” with an explicit, deterministic rule.
+Reason: Governance gates are supposed to be enforceable. Leaving staged-set planning as a policy choice creates ambiguity around whether planning may operate on uncommitted staged tasks and how such output must be labeled.
+Impact: Planning behavior could vary between implementations unless the permitted inputs and labels are fixed.
+Follow-up: Resolve during Phase 6 Planning review or in an approved A04_1 modification.
+
+## DEC-0020 — Add orchestration document-generation gate placeholder
+
+Date: 2026-06-10
+Reviewed file/block: Phase 3 — A04_1 Governance Gates
+Category: Missing
+Decision: A04_1 is missing an explicit orchestration gate for document generation/drafting/review/issue, even as a high-level placeholder.
+Reason: A04_1 routes document generation to Document Factory and includes documents in traceability context, but its canonical gate list covers Stage, Commit, Plan, Apply, and Export only. Controlled document generation is a major product flow and should not appear as an ungated side-route.
+Impact: The DCF/URS/document chain remains under-specified at orchestration level until Phase 8, and product/UI flows could omit necessary review/confirmation states.
+Follow-up: Review A04_5 and the document-generation addendum in Phase 8; then add or cross-reference a document gate if confirmed missing.
+
+## DEC-0021 — Align A04_1 stamping gate with artifact-specific traceability
+
+Date: 2026-06-10
+Reviewed file/block: Phase 3 — A04_1 Traceability Context Propagation
+Category: Modify
+Decision: A04_1 stamping-gate requirements should be aligned with artifact-specific traceability rules before freeze.
+Reason: A04_1 session context tracks architecture pack, standards bundle, contract versions, active document/export IDs, and staged artifacts, but its stamping gate only validates preset/profile/task pool/calendar. This repeats the Phase 2 traceability ambiguity and is too narrow for controlled documents.
+Impact: Orchestration might allow document/export generation with incomplete provenance unless the minimum stamp set is split by artifact type.
+Follow-up: Reconcile with DEC-0011 during Phase 8 Document Factory and Phase 9 Reporting/Export review.
+
+## DEC-0022 — Defer detailed AI and UI surface resolution
+
+Date: 2026-06-10
+Reviewed file/block: Phase 3 — A03/A04_1 AI and UI coverage
+Category: Defer
+Decision: Do not resolve detailed AI advisory-chat behavior or UI/product surface requirements during Phase 3.
+Reason: A04_1 supports deterministic intent handling, proposal/commitment labeling, confirmations, and safe failure, but the detailed AI roles and UI surfaces are better reviewed in Knowledge/Standards, Document Factory, Reporting/Export, and UX/Product Surface phases.
+Impact: DEC-0008 and DEC-0010 remain open carried risks, not blockers for completing Phase 3.
+Follow-up: Carry AI-role detail to Phases 7 and 8; carry UI/product-surface detail to Phase 12.
