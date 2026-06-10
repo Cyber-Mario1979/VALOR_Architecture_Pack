@@ -33,12 +33,6 @@ Control files exist:
 
 Status: initial intake completed before control files were created
 
-Reviewed:
-
-- `README.md`
-- `manifest.yaml`
-- `docs/architecture/A00_Specs_Architecture_Pack_Arch_v1_0_1.md`
-
 Outcome:
 
 - pack is accepted as candidate architecture pack;
@@ -187,19 +181,7 @@ Outcome summary:
 
 Status: scoped review completed on 2026-06-10
 
-Reviewed:
-
-- `docs/architecture/A04_6_Reporting_Export_Arch_v1_0_1.md`
-- `contracts/VALOR-contract-orch-rpt.yaml`
-- `action_blocks/BUILD_REPORT.yaml`
-- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Reporting_Export_Projection_Contract_v1.0.1A.md`
-- `schemas/contracts/report_result.schema.json`
-- `schemas/contracts/export_result.schema.json`
-- `schemas/objects/csv_export_schema.json`
-
-Decision log entries:
-
-- DEC-0082 through DEC-0096
+Decision log entries: DEC-0082 through DEC-0096
 
 Outcome summary:
 
@@ -219,6 +201,37 @@ Outcome summary:
 - Add K&S and document metadata references to reporting inputs/outputs.
 - Defer full RPT schema/export validation to Phase 11.
 
+### Phase 10 — Governance, Security, Contract Registry
+
+Status: scoped review completed on 2026-06-10
+
+Reviewed:
+
+- `docs/architecture/A09_Governance_Branching_Arch_v1_0_1.md`
+- `docs/architecture/A10_Security_Compliance_Arch_v1_0_1.md`
+- `docs/architecture/A11_ContractRegistry_Arch_v1_0_1.md`
+- manifest contract entries
+
+Decision entries:
+
+- DEC-0097 through DEC-0108 are preserved in `_review_control/PHASE10_DECISIONS_PENDING.md`.
+- Direct updates to `_review_control/DECISION_LOG.md` returned repeated GitHub 409 SHA mismatch errors during the Phase 10 session; merge pending.
+
+Outcome summary:
+
+- Keep governance gates, confirmations, and audit trail baseline.
+- Keep human/external approval boundary.
+- Keep Security & Compliance safe-output model.
+- Keep Contract Registry versioning and envelope baseline.
+- Clarify Security & Compliance integration mechanism as policy-first, with optional SEC contract only if separated.
+- Clarify status/freeze terminology across released, candidate, frozen, final, and closed states.
+- Reconcile canonical contract registry with actual contract files.
+- Add concrete contract registry metadata artifact or formal registry approach.
+- Add registry validation for action-catalog completeness.
+- Strengthen excerpt authorization and redaction enforcement.
+- Clarify audit log ownership and storage.
+- Defer detailed governance/security/registry schema validation to Phase 11.
+
 ## 4. Current Known Risks / Items to Watch
 
 - AI role boundary needs explicit top-level coverage.
@@ -227,7 +240,7 @@ Outcome summary:
 - Traceability stamps must be reconciled by artifact type.
 - Document front-matter status must be distinguished from pack freeze status.
 - Profile Library, Calendar Logic, and Contract Registry ownership must be clarified.
-- Security and Compliance integration must be clarified.
+- Security and Compliance integration must be clarified consistently across A03/A04/A10/A11.
 - Document metadata ownership must be clarified.
 - Planning on staged tasks must be deterministic.
 - WP action catalog must be reconciled across architecture, contract, and action blocks.
@@ -261,23 +274,28 @@ Outcome summary:
 - Report/export schemas must be aligned with A04_6 and addendum requirements.
 - Strict export template/header source must be defined.
 - RPT artifact registry/read model must be added or formally deferred.
+- Contract registry must be reconciled with actual files and pending/missing contracts.
+- Contract registry metadata artifact is missing or must be formally defined as A11 plus manifest.
+- Audit log ownership/storage must be clarified.
+- Phase 10 decisions must be merged from `_review_control/PHASE10_DECISIONS_PENDING.md` into `_review_control/DECISION_LOG.md` when GitHub allows the update.
 - Delivery plan does not exist yet and must be produced after review.
 
 ## 5. Current Block
 
 Current review block:
 
-Phase 10 — Governance, Security, Contract Registry
+Phase 11 — Schemas, Validation, Test Vectors
 
 Files:
 
-- `docs/architecture/A09_Governance_Branching_Arch_v1_0_1.md`
-- `docs/architecture/A10_Security_Compliance_Arch_v1_0_1.md`
-- `docs/architecture/A11_ContractRegistry_Arch_v1_0_1.md`
+- `schemas/`
+- `validation/`
+- `test_vectors/`
+- `scripts/pack_validation/`
 
 ## 6. Next Session Objective
 
-Review Phase 10 only.
+Review Phase 11 only.
 
 Classify findings into:
 
@@ -289,19 +307,19 @@ Classify findings into:
 
 Update:
 
-- `DECISION_LOG.md`
-- `REVIEW_STATE.md`
-- `SESSION_HANDOFF.md`
+- `DECISION_LOG.md` or pending decision file if the GitHub 409 persists;
+- `REVIEW_STATE.md`;
+- `SESSION_HANDOFF.md`.
 
 ## 7. Done Definition for Current Block
 
-Phase 10 review is done when:
+Phase 11 review is done when:
 
-- execution governance is checked;
-- security and compliance boundaries are checked;
-- contract versioning and compatibility rules are checked;
-- carried risks around SEC integration, Contract Registry ownership, front-matter status, excerpt authorization, artifact status/freeze terminology, and contract catalog completeness are traced where applicable;
-- decisions are logged;
+- schemas are checked against architecture;
+- validation tools are checked for usability;
+- test vectors are checked for core workflow coverage;
+- carried risks around permissive schemas, dotted required fields, contract/action catalog validation, governance/audit/security registry schemas, and artifact-specific traceability are traced where applicable;
+- decisions are logged or preserved in a pending decision file if the main decision log cannot be updated;
 - next block is selected.
 
 ## 8. Current Next Action
