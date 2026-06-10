@@ -185,6 +185,34 @@ Outcome summary:
 - Align planning provenance stamps across architecture, contract, and examples.
 - Defer planning schema validation to Phase 11.
 
+### Phase 7 — Knowledge and Standards
+
+Status: scoped review completed on 2026-06-10
+
+Reviewed:
+
+- `docs/architecture/A12_Knowledge_Standards_Arch_v1_0_1.md`
+- `contracts/VALOR-contract-orch-ks.yaml`
+- K&S contract schemas surfaced in manifest/search
+
+Decision log entries:
+
+- DEC-0056 through DEC-0066
+
+Outcome summary:
+
+- Keep K&S read-only authority model.
+- Keep anchored citation and excerpt-policy model.
+- Keep K&S contract as candidate, not freeze-clean.
+- Add real K&S governed data or formally defer it.
+- Clarify standards bundle nullability policy.
+- Reconcile A12 K&S action catalog with K&S contract.
+- Replace permissive K&S schemas with enforceable schemas.
+- Add explicit standards-aware advisory AI boundary.
+- Strengthen excerpt authorization and request semantics.
+- Align K&S provenance with artifact-specific traceability.
+- Defer full K&S schema and bundle validation to Phase 11.
+
 ## 4. Current Known Risks / Items to Watch
 
 - AI role boundary needs explicit top-level coverage.
@@ -211,23 +239,30 @@ Outcome summary:
 - Planning action catalog must be standardized.
 - Planning duration-unit handling must support Profile unit policy.
 - Planning provenance stamp set must be aligned with artifact-specific traceability rules.
+- K&S governed data files for real standards/bundles/templates/anchors are missing or not discoverable.
+- K&S schemas are permissive stubs and must be made enforceable.
+- K&S contract action catalog must be reconciled with A12.
+- Standards-aware advisory AI boundary must be made explicit.
+- Excerpt authorization/request semantics must be explicit.
 - Delivery plan does not exist yet and must be produced after review.
 
 ## 5. Current Block
 
 Current review block:
 
-Phase 7 — Knowledge and Standards
+Phase 8 — Document Factory and DCF/URS Flow
 
 Files:
 
-- `docs/architecture/A12_Knowledge_Standards_Arch_v1_0_1.md`
-- `contracts/VALOR-contract-orch-ks.yaml`
-- relevant standards schemas and bundles
+- `docs/architecture/A04_5_DocumentFactory_Arch_v1_0_1.md`
+- `contracts/VALOR-contract-orch-doc.yaml`
+- document schemas
+- templates
+- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Document_Generation_Compliance_v1.0.1A.md`
 
 ## 6. Next Session Objective
 
-Review Phase 7 only.
+Review Phase 8 only.
 
 Classify findings into:
 
@@ -245,13 +280,15 @@ Update:
 
 ## 7. Done Definition for Current Block
 
-Phase 7 review is done when:
+Phase 8 review is done when:
 
-- standards authority is checked;
-- citation and anchor model is checked;
-- standards-aware advice boundary is checked;
-- standards bundle sufficiency for document generation and advisory AI is checked;
-- carried risks around AI role, standards bundle nullability, traceability, and document-generation source chain are traced where applicable;
+- document lifecycle is checked;
+- DCF intake coverage is checked;
+- AI extraction and drafting role is checked;
+- URS source-of-truth behavior is checked;
+- downstream RTM/DQ/IQ/OQ/PQ/VSR generation dependency on accepted URS is checked;
+- human review and provenance are checked;
+- carried risks around K&S bundles, standards-aware drafting, traceability, document metadata ownership, and document-generation gate are traced where applicable;
 - decisions are logged;
 - next block is selected.
 
