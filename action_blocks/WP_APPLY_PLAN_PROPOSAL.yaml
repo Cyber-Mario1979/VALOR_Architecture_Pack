@@ -3,6 +3,7 @@ action_type: WP_APPLY_PLAN_PROPOSAL
 allowed_modes: [M2]
 side_effect_class: MUTATES_TRUTH
 idempotency: NON_IDEMPOTENT
+confirmation_required: true
 
 required_payload_fields:
   - plan_proposal_id
@@ -15,7 +16,7 @@ target_fields:
   required: [wp_id]
   optional: []
 
-result_schema_ref: schemas/wp.json
+result_schema_ref: schemas/objects/work_package_schema.json
 
 notes:
   purpose: "Commit dates into WP/task truth based on Planning output; enforces Proposal vs Commitment boundary."
