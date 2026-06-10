@@ -213,6 +213,43 @@ Outcome summary:
 - Align K&S provenance with artifact-specific traceability.
 - Defer full K&S schema and bundle validation to Phase 11.
 
+### Phase 8 — Document Factory and DCF/URS Flow
+
+Status: scoped review completed on 2026-06-10
+
+Reviewed:
+
+- `docs/architecture/A04_5_DocumentFactory_Arch_v1_0_1.md`
+- `contracts/VALOR-contract-orch-doc.yaml`
+- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Document_Generation_Compliance_v1.0.1A.md`
+- `schemas/documents/index.json`
+- representative URS and RTM templates
+- representative URS render-input schema
+- `schemas/objects/document_metadata_schema.json`
+- DOC result schemas surfaced in manifest/search
+
+Decision log entries:
+
+- DEC-0067 through DEC-0081
+
+Outcome summary:
+
+- Keep Document Factory authority and lifecycle baseline.
+- Keep human review and finalization boundary.
+- Keep token-clean final-output rule, but replace Canvas terminology.
+- Add DCF intake and extraction model.
+- Add accepted URS source-of-truth dependency for downstream documents.
+- Reconcile DOC architecture action catalog with DOC contract.
+- Add orchestration-level document-generation gate.
+- Resolve timestamp policy conflict.
+- Fix document render-input schema required-field semantics.
+- Replace permissive DOC result schemas with enforceable schemas.
+- Align document metadata schema with A04_5 provenance model.
+- Align template IDs and naming with DOC/K&S architecture.
+- Resolve K&S bundle/citation dependency for document generation.
+- Add explicit AI extraction/drafting boundary for documents.
+- Defer detailed document schema/template validation to Phase 11.
+
 ## 4. Current Known Risks / Items to Watch
 
 - AI role boundary needs explicit top-level coverage.
@@ -244,25 +281,30 @@ Outcome summary:
 - K&S contract action catalog must be reconciled with A12.
 - Standards-aware advisory AI boundary must be made explicit.
 - Excerpt authorization/request semantics must be explicit.
+- DCF intake/extraction model is missing.
+- Accepted URS as source gate for RTM/DQ/IQ/OQ/PQ/VSR must be specified.
+- DOC contract must be aligned with A04_5 lifecycle.
+- Document-generation gate must be added to orchestration.
+- Document timestamp policy must be standardized.
+- Document schemas/templates must be validated and made enforceable.
 - Delivery plan does not exist yet and must be produced after review.
 
 ## 5. Current Block
 
 Current review block:
 
-Phase 8 — Document Factory and DCF/URS Flow
+Phase 9 — Reporting and Export
 
 Files:
 
-- `docs/architecture/A04_5_DocumentFactory_Arch_v1_0_1.md`
-- `contracts/VALOR-contract-orch-doc.yaml`
-- document schemas
-- templates
-- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Document_Generation_Compliance_v1.0.1A.md`
+- `docs/architecture/A04_6_Reporting_Export_Arch_v1_0_1.md`
+- `contracts/VALOR-contract-orch-rpt.yaml`
+- `action_blocks/BUILD_REPORT.yaml`
+- reporting/export addendum
 
 ## 6. Next Session Objective
 
-Review Phase 8 only.
+Review Phase 9 only.
 
 Classify findings into:
 
@@ -280,15 +322,13 @@ Update:
 
 ## 7. Done Definition for Current Block
 
-Phase 8 review is done when:
+Phase 9 review is done when:
 
-- document lifecycle is checked;
-- DCF intake coverage is checked;
-- AI extraction and drafting role is checked;
-- URS source-of-truth behavior is checked;
-- downstream RTM/DQ/IQ/OQ/PQ/VSR generation dependency on accepted URS is checked;
-- human review and provenance are checked;
-- carried risks around K&S bundles, standards-aware drafting, traceability, document metadata ownership, and document-generation gate are traced where applicable;
+- export outputs are checked;
+- stamps are checked;
+- report projections are checked;
+- artifact rules are checked;
+- carried risks around artifact-specific traceability, K&S provenance, document metadata references, planning proposal vs committed truth, and UI/export readiness are traced where applicable;
 - decisions are logged;
 - next block is selected.
 
