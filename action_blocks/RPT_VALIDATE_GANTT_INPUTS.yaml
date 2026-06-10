@@ -1,0 +1,43 @@
+# Action Spec: RPT_VALIDATE_GANTT_INPUTS
+action_type: RPT_VALIDATE_GANTT_INPUTS
+public_command_aliases:
+  - validate_gantt_inputs
+  - validate_gantt_chart
+contract: VALOR-contract-orch-rpt
+version: v1.0.1
+purpose: Validate Gantt source dates, target scope, WP grouping, timeline coverage, and layout constraints.
+allowed_modes: [M1, M2]
+side_effect_class: VALIDATE_ONLY
+idempotent: true
+confirmation_required: false
+
+required_payload_fields:
+  - artifact_type
+  - target_scope
+  - wp_ids
+  - source_snapshot_refs
+  - gantt_template_id
+  - timeline
+  - validation_mode
+
+optional_payload_fields:
+  - gantt_artifact
+  - gantt_options
+
+target_scope:
+  supported: [SINGLE_WP, SELECTED_WP_SET]
+  excluded_from_freeze_scope: [ALL_WPS]
+
+result_schema_ref: schemas/contracts/gantt_chart_result.schema.json
+request_schema_ref: schemas/contracts/gantt_chart_request.schema.json
+
+validation_checks:
+  - artifact_type must equal WORK_PACKAGE_GANTT_CHART
+  - plotted tasks must have start_date and finish_date
+  - finish_date must not be before start_date
+  - selected WP set must be grouped by WP
+  - timeline range must cover plotted tasks
+  - timeline granularity must be deterministic
+  - full-cell coloring rule must be declared
+  - projection_only must be true
+  - mutates_wp_truth must be false
