@@ -34,9 +34,9 @@ Missing standards bundle is a blocked/incomplete state, not normal operation.
 
 Do not use minimum, metadata-only, no-bundle/no-standards, placeholder, or governance-only standards language as acceptable regulated CQV operation.
 
-## Blocker 1 Completed Work
+## Completed Pre-Freeze Work
 
-Blocker 1 — Action and Contract Catalog Alignment has been executed under user approval.
+### Blocker 1 — Action and Contract Catalog Alignment
 
 Control record:
 
@@ -62,40 +62,81 @@ User-approved classification:
 4. Policy-first cross-cutting control:
    - SEC
 
-Files modified:
-
-- `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`
-- `docs/architecture/A11_ContractRegistry_Arch_v1_0_1.md`
-- `docs/architecture/A04_1_Orchestration_Arch_v1_0_1.md`
-- `contracts/VALOR-contract-orch-rpt.yaml`
-- `action_blocks/BUILD_REPORT.yaml`
-- `action_blocks/WP_UPDATE_TASK_FIELDS.yaml`
-- `action_blocks/WP_BIND_PRESET_CONTEXT.yaml`
-- `action_blocks/WP_APPLY_PLAN_PROPOSAL.yaml`
-- `_review_control/BLOCKER1_ACTION_CONTRACT_CATALOG_ALIGNMENT.md`
-- `_review_control/REVIEW_STATE.md`
-- `_review_control/SESSION_HANDOFF.md`
-
 Key outcomes:
 
 - Created `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`.
-- A11 now points to the registry artifact and uses public/internal/support/policy categories.
-- A04.1 routing now uses the registry artifact as the canonical action/contract catalog.
-- `VALIDATE_ONLY` is now an accepted side-effect class.
-- `RPT_GENERATE_REPORT` is canonical; `BUILD_REPORT` is retained as an alias/action-block label.
-- WP action blocks now reference `schemas/objects/work_package_schema.json` and include explicit confirmation requirements.
-- RPT export/list/get actions are cataloged but remain freeze-blocked, not falsely declared complete.
-- K&S action mapping is cataloged, but full governed K&S coverage remains a separate freeze blocker.
+- A11 points to the registry artifact and uses public/internal/support/policy categories.
+- A04.1 routing uses the registry artifact as the canonical action/contract catalog.
+- `VALIDATE_ONLY` is an accepted side-effect class.
+
+### Blocker 2 — RPT / Export / Artifact Registry Alignment
+
+Control record:
+
+- `_review_control/BLOCKER2_RPT_EXPORT_ARTIFACT_ALIGNMENT.md`
+
+User-approved declared scope:
+
+1. `WORK_PACKAGE_STATUS_REPORT`
+   - Narrative PDF-style report.
+   - Canonical action: `RPT_GENERATE_STATUS_REPORT`.
+
+2. `WORK_PACKAGE_WORKBOOK_EXPORT`
+   - Technical Excel `.xlsx` workbook export.
+   - Canonical action: `RPT_GENERATE_WORKBOOK_EXPORT`.
+   - CSV is not the v1.0.1 freeze baseline.
+
+3. `WORK_PACKAGE_GANTT_CHART`
+   - Separate Excel-based Gantt artifact.
+   - Canonical action: `RPT_GENERATE_GANTT_CHART`.
+   - Gantt is not a workbook export tab.
+   - Timeline uses full-cell coloring, not character bars inside cells.
+
+Supported target scopes:
+
+- `SINGLE_WP`
+- `SELECTED_WP_SET`
+
+Excluded from freeze scope:
+
+- `ALL_WPS`
+
+Files modified/created for Blocker 2 include:
+
+- `docs/architecture/A04_6_Reporting_Export_Arch_v1_0_1.md`
+- `contracts/VALOR-contract-orch-rpt.yaml`
+- `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`
+- RPT action blocks for status report, workbook export, Gantt, list/get, and validations except stamp validation block file
+- RPT request/result schemas for status report, workbook export, and Gantt
+- `schemas/objects/rpt_artifact_metadata_schema.json`
+- `schemas/objects/workbook_export_schema.json`
+- `schemas/objects/gantt_chart_schema.json`
+- `templates/reports/WP_STATUS_REPORT_v1.0.1.md`
+- `templates/export/WP_WORKBOOK_EXPORT_v1.0.1.yaml`
+- `templates/export/WP_GANTT_CHART_v1.0.1.yaml`
+
+Key outcomes:
+
+- A04.6 now separates narrative report, workbook export, and Gantt artifact.
+- CSV is marked out of v1.0.1 freeze scope.
+- `BUILD_REPORT` is retained only as an alias mapped to `RPT_GENERATE_STATUS_REPORT`.
+- RPT contract and registry expose the declared report/workbook/Gantt/list/get action family as active pre-freeze scope.
+- Artifact metadata/list/get behavior is defined for declared RPT artifacts.
+
+Known note:
+
+- `RPT_VALIDATE_STAMPS` is active in `contracts/VALOR-contract-orch-rpt.yaml` and `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`.
+- A separate `action_blocks/RPT_VALIDATE_STAMPS.yaml` file was attempted twice but blocked by the connector safety gate and was not forced with a misleading workaround.
 
 ## Remaining Freeze Blockers
 
-- RPT export/action/header/schema/artifact registry alignment.
 - Full governed K&S standards bundle/content/schema/test coverage.
 - Contract/schema validation enforcement, including contract registry schema and semantic catalog validator.
 - DOC/DCF/URS source-chain cleanup.
 - WP/Planning/governed library cleanup.
 - Product surface minimum behavior cleanup.
 - Negative and E2E test vector coverage.
+- Governance/audit/security/registry schemas/tests.
 - Manifest regeneration and final freeze-readiness check after all content edits.
 
 ## Next Required Work
@@ -104,8 +145,9 @@ Await explicit user approval/challenge for the next scoped pre-freeze blocker.
 
 Recommended next scoped blocker options:
 
-1. RPT/export action/header/schema/artifact registry alignment.
-2. K&S full governed standards bundle readiness.
+1. Full governed K&S standards bundle readiness.
+2. WP/Planning/governed-library cleanup.
+3. DOC/DCF/URS source-chain cleanup.
 
 ## Required Output Next Session
 
