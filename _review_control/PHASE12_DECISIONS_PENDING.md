@@ -1,10 +1,10 @@
-# Phase 12 Decisions Pending Decision Log Merge
+# Phase 12 Decisions Consolidated in Control Memory
 
-Status: PENDING_MERGE_TO_DECISION_LOG
+Status: CONSOLIDATED_IN_CONTROL_MEMORY
 Review branch: review-spec-freeze-control
 Date: 2026-06-10
 
-Reason: The main decision log is now large and has repeatedly failed direct GitHub updates in recent sessions. This file preserves the Phase 12 decisions in repo memory until they can be merged into `_review_control/DECISION_LOG.md` or consolidated during Phase 13 final freeze review.
+Reason: Phase 12 decisions are preserved here and are now consolidated into active control memory through `_review_control/PRE_FREEZE_MODIFICATION_BATCH_PLAN.md`, `_review_control/REVIEW_STATE.md`, and `_review_control/SESSION_HANDOFF.md`. They do not remain an unresolved pending decision gap. They may still be merged into `_review_control/DECISION_LOG.md` during a later control-file cleanup if desired.
 
 ## DEC-0122 — Keep addendum layer as candidate UX/output constraint layer
 
@@ -94,7 +94,7 @@ Category: Missing
 Decision: Add a product surface specification or addendum before final freeze.
 Reason: The current addendums define selected output fragments, but there is no full product surface model for Work Package view, task staging, planning, document review, report/export, validation errors, confirmations, advisory chat, and artifact/download states.
 Impact: UI/product behavior remains under-specified for implementation and testing.
-Follow-up: Create a minimal product surface spec before final freeze, while deferring detailed wireframes.
+Follow-up: Create a product surface spec before freeze, while deferring detailed wireframes.
 
 ## DEC-0131 — Add confirmation and review surface requirements
 
@@ -134,7 +134,7 @@ Category: Missing
 Decision: Add product surface requirements for DCF intake, accepted URS source-chain, K&S citations, restricted excerpts, and redaction choices.
 Reason: Earlier phases identified DCF intake, accepted URS gating, K&S bundle/citation gaps, excerpt authorization, and redaction enforcement as missing or incomplete, but current addendums do not define their UI/product behavior.
 Impact: Critical regulated workflow decisions may be invisible or inconsistent in the product surface.
-Follow-up: Include these surfaces in the minimal product surface specification.
+Follow-up: Include these surfaces in the product surface specification.
 
 ## DEC-0135 — Defer detailed wireframes but not minimum surface requirements
 
