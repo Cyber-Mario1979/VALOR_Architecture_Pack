@@ -15,10 +15,11 @@ Completed review blocks:
 - Phase 3 — Authority and Orchestration
 - Phase 4 — Work Package Spine
 - Phase 5 — Task Pool, Preset, Profile, Calendar
+- Phase 6 — Planning
 
 Current next review block:
 
-Phase 6 — Planning
+Phase 7 — Knowledge and Standards
 
 No implementation work is allowed during architecture review.
 
@@ -28,50 +29,45 @@ Architecture/specification files must not be modified unless the user explicitly
 
 Completed scoped review of:
 
-- `docs/architecture/A05_TaskPool_Arch_v1_0_1.md`
-- `docs/architecture/A06_PresetSystem_Arch_v1_0_1.md`
-- `docs/architecture/A08_ProfileLibrary_Arch_v1_0_1.md`
-- `docs/architecture/A07_CalendarLogic_Arch_v1_0_1.md`
-- `libraries/task_pool/TP-PE-HIGH_v1.0.1.yaml`
-- `libraries/preset_library/PS-PE-HIGH_v1.0.1.yaml`
-- `libraries/profile_library/PROF-PE-HIGH_v1.0.1.yaml`
-- `libraries/calendar/CAL-WORKWEEK_v1.0.1.yaml`
-
-Logged decisions:
-
-- DEC-0034 — Keep governed library architecture spine
-- DEC-0035 — Keep seed library files as useful candidate data, not freeze-clean data
-- DEC-0036 — Clarify governed library owner hierarchy
-- DEC-0037 — Add or formally defer TP/PROF/CAL contract files
-- DEC-0038 — Reconcile Preset architecture with seed preset schema
-- DEC-0039 — Remove calendar-rule duplication from Profile data
-- DEC-0040 — Normalize task taxonomy between Task Pool and Profile entries
-- DEC-0041 — Add missing FAT execution chain or mark it out of scope
-- DEC-0042 — Clarify standards bundle nullability in presets
-- DEC-0043 — Integrate user-driven no-profile baseline with Profile architecture
-- DEC-0044 — Defer governed library schema validation to Phase 11
-
-## Next Required Work
-
-Review Phase 6 only:
-
 - `docs/architecture/A04_4_Planning_Arch_v1_0_1.md`
 - `contracts/VALOR-contract-orch-plan.yaml`
 - `action_blocks/WP_APPLY_PLAN_PROPOSAL.yaml`
 
-Phase 6 review focus:
+Logged decisions:
 
-- advisory planning boundary
-- proposed versus committed schedule behavior
-- dependency handling
-- profile/calendar stamp behavior
-- apply boundary against WP truth and WP_APPLY_PLAN_PROPOSAL
-- staged-set planning ambiguity from A04_1
-- schedule-apply naming from Phase 4
-- profile/calendar taxonomy from Phase 5
-- user-driven no-profile baseline interaction
+- DEC-0045 — Keep advisory planning authority boundary
+- DEC-0046 — Keep deterministic planning input and output spine
+- DEC-0047 — Keep plan contract as candidate, but not freeze-clean
+- DEC-0048 — Standardize Planning action catalog and naming
+- DEC-0049 — Standardize apply boundary action
+- DEC-0050 — Close staged-set planning ambiguity
+- DEC-0051 — Reconcile duration units with Profile unit policy
+- DEC-0052 — Standardize calendar reference and policy source
+- DEC-0053 — Integrate user-driven no-profile baseline into Planning
+- DEC-0054 — Align planning provenance stamps across architecture, contract, and examples
+- DEC-0055 — Defer planning schema validation to Phase 11
 
-Do not resolve later-phase document, reporting, AI, or UI items during Phase 6 unless Phase 6 directly contradicts them.
+## Next Required Work
+
+Review Phase 7 only:
+
+- `docs/architecture/A12_Knowledge_Standards_Arch_v1_0_1.md`
+- `contracts/VALOR-contract-orch-ks.yaml`
+- relevant standards schemas and bundles
+
+Phase 7 review focus:
+
+- standards authority
+- citation and anchor model
+- standards-aware advice boundary
+- standards bundle sufficiency for document generation
+- standards bundle sufficiency for advisory AI
+- standards bundle nullability from Phase 5
+- traceability stamps for standards usage
+- AI role boundary from Phase 2
+- DCF/document source-chain carry-forward where applicable
+
+Do not resolve later-phase document, reporting, UI, governance, or full schema-validation items during Phase 7 unless Phase 7 directly contradicts them.
 
 ## Required Output Next Session
 
