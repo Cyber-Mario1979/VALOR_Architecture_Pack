@@ -200,7 +200,7 @@ Reason: A03 includes Security & Compliance as a subsystem and states that subsys
 Impact: Security enforcement remains conceptually present but integration is not freeze-clean.
 Follow-up: Resolve during Phase 10 Security/Compliance and Contract Registry review, or add an explicit “no separate SEC contract” policy if SEC is internal policy enforcement.
 
-## DEC-0019 — Replace “policy choice” in GATE-Plan with explicit rule
+## DEC-0019 — Replace GATE-Plan policy-choice wording with explicit rule
 
 Date: 2026-06-10
 Reviewed file/block: Phase 3 — A04_1 Governance Gates
@@ -239,3 +239,113 @@ Decision: Do not resolve detailed AI advisory-chat behavior or UI/product surfac
 Reason: A04_1 supports deterministic intent handling, proposal/commitment labeling, confirmations, and safe failure, but the detailed AI roles and UI surfaces are better reviewed in Knowledge/Standards, Document Factory, Reporting/Export, and UX/Product Surface phases.
 Impact: DEC-0008 and DEC-0010 remain open carried risks, not blockers for completing Phase 3.
 Follow-up: Carry AI-role detail to Phases 7 and 8; carry UI/product-surface detail to Phase 12.
+
+## DEC-0023 — Keep WP truth, lifecycle, ID, and dependency backbone
+
+Date: 2026-06-10
+Reviewed file/block: Phase 4 — A04_2 Work Package Spine
+Category: Keep
+Decision: Keep A04_2 as the baseline for WP/task truth, lifecycle transitions, deterministic ID allocation, non-reuse/tombstoning, dependency integrity, mutability rules, and WP error semantics.
+Reason: A04_2 cleanly makes WP the single source of truth for WP objects, Task objects, committed dates, lifecycle transitions, deterministic ID issuance, and dependency validity.
+Impact: Later planning, document, reporting, schema, and validation reviews must derive from WP truth and must not create shadow truth.
+Follow-up: Verify schema and test-vector coverage in Phase 11.
+
+## DEC-0024 — Keep WP contract mutation boundary and confirmation discipline
+
+Date: 2026-06-10
+Reviewed file/block: Phase 4 — WP contracts and action blocks
+Category: Keep
+Decision: Keep the WP contract direction that WP mutations are M2-only, truth-mutating actions require confirmation, stage actions are stage-only, and Orchestration is the caller.
+Reason: The main WP contract sets allowed modes, side-effect classes, confirmation requirements, and target/payload fields for core WP actions. The reviewed action blocks preserve M2-only mutation semantics.
+Impact: Implementation must keep all WP truth mutations behind explicit contract calls and confirmations.
+Follow-up: Reconcile catalog/schema naming issues before freeze.
+
+## DEC-0025 — Keep user-driven no-profile baseline as controlled fallback
+
+Date: 2026-06-10
+Reviewed file/block: Phase 4 — `VALOR-contract-orch-wp-user-driven-baseline.yaml`
+Category: Keep
+Decision: Keep the user-driven no-profile baseline concept as a controlled fallback when governed profile data is missing.
+Reason: The baseline contract explicitly forbids guessing, requires USER_INPUT as the duration source, requires planning-basis setup, duration overrides, and explicit confirmation before export.
+Impact: This supports controlled planning/export when a profile is unavailable, without allowing fabricated durations.
+Follow-up: Integrate its data fields into A04_2 or cross-reference them explicitly; see DEC-0031.
+
+## DEC-0026 — Reconcile WP architecture, contract, and action-block catalogs
+
+Date: 2026-06-10
+Reviewed file/block: Phase 4 — A04_2, WP contracts, WP action blocks
+Category: Conflict
+Decision: Reconcile the WP action catalog before freeze.
+Reason: A04_2 lists WP_GET, WP_LIST, TASK_GET, TASK_LIST, WP_STAGE_TASKS, WP_VALIDATE_STAGE, WP_COMMIT_STAGED_TASKS, WP_UPDATE_TASK_FIELDS, WP_UPDATE_DEPENDENCIES, WP_CLOSE, and WP_VALIDATE. The main WP contract includes WP_GET, WP_CREATE, WP_STAGE_TASKS, WP_COMMIT_STAGED_TASKS, WP_UPDATE_TASK_FIELDS, WP_APPLY_PLAN_PROPOSAL, and WP_BIND_PRESET_CONTEXT. The manifest lists only three WP action-block files: WP_APPLY_PLAN_PROPOSAL, WP_BIND_PRESET_CONTEXT, and WP_UPDATE_TASK_FIELDS.
+Impact: Different implementers could build different WP APIs unless the architecture, contract, and action-block inventories are aligned.
+Follow-up: Decide whether missing actions are contract-only, future actions, or must receive action-block files before freeze.
+
+## DEC-0027 — Standardize the schedule-apply action
+
+Date: 2026-06-10
+Reviewed file/block: Phase 4 — A04_2, WP contract, WP_APPLY_PLAN_PROPOSAL action block
+Category: Conflict
+Decision: Standardize whether applying a planning proposal is performed through WP_UPDATE_TASK_FIELDS or the dedicated WP_APPLY_PLAN_PROPOSAL action.
+Reason: A04_2 says applying schedule dates uses WP_UPDATE_TASK_FIELDS, while the main WP contract and action block define WP_APPLY_PLAN_PROPOSAL as the schedule-apply action.
+Impact: The proposal-vs-commitment boundary remains directionally strong, but the implementation entry point is ambiguous.
+Follow-up: Resolve in Phase 6 Planning review or approved modification batch.
+
+## DEC-0028 — Remove provisional task-ID ambiguity from staged tasks
+
+Date: 2026-06-10
+Reviewed file/block: Phase 4 — A04_2 staged task semantics
+Category: Modify
+Decision: A04_2 should remove or clarify the phrase allowing provisional IDs for TASK_STAGED.
+Reason: A04_2 also states that staged task preview has no committed IDs, and A02 requires no task IDs until WP_COMMIT_STAGED_TASKS succeeds. Provisional identifiers may be useful for previews, but they must not be confused with authoritative task_id values.
+Impact: Without clarification, staging could accidentally allocate or expose IDs that look authoritative before commit.
+Follow-up: Define any preview identifier as `preview_task_ref` or equivalent, not `task_id`, unless a later approved policy explicitly changes the invariant.
+
+## DEC-0029 — Clarify WP relationship to physical execution evidence
+
+Date: 2026-06-10
+Reviewed file/block: Phase 4 — A04_2 task date fields and A01 boundary carry-forward
+Category: Conflict
+Decision: Clarify that WP may store status/date summaries, user-entered actual dates, or references to execution evidence, but does not own physical execution evidence truth.
+Reason: A04_2 includes optional actual_start_date and actual_end_date as execution evidence fields, while the SoS boundary states physical execution data is outside Valor and only referenced or human-owned.
+Impact: The WP model could overreach into execution evidence ownership unless the boundary is clarified.
+Follow-up: Reconcile with later Document Factory, Reporting, and compliance/security review if evidence references are needed.
+
+## DEC-0030 — Standardize WP schema references
+
+Date: 2026-06-10
+Reviewed file/block: Phase 4 — WP contract and WP action blocks
+Category: Conflict
+Decision: Standardize result schema references for WP actions.
+Reason: The main WP contract uses `schemas/objects/work_package_schema.json`, while the reviewed WP action blocks use `schemas/wp.json`. Repository search found `schemas/wp.json` only as a reference inside action blocks, not as an indexed schema file.
+Impact: Validation and implementation can drift if action blocks point to a different or missing schema path.
+Follow-up: Resolve during Phase 11 schema review or approved action-block cleanup.
+
+## DEC-0031 — Integrate user-driven baseline fields into WP architecture
+
+Date: 2026-06-10
+Reviewed file/block: Phase 4 — A04_2 and user-driven baseline contract
+Category: Missing
+Decision: A04_2 is missing explicit WP fields or references for planning_basis, planning_label, duration override source, duration override value, and confirmation record used by the user-driven baseline contract.
+Reason: The user-driven baseline contract introduces planning basis, user-input duration overrides, and append-only confirmation behavior, but A04_2 does not define where these are stored in WP truth.
+Impact: The fallback policy is useful but partially orphaned unless WP truth formally owns or references the required fields.
+Follow-up: Add WP data-model fields or a cross-reference once edits are approved.
+
+## DEC-0032 — Standardize selector/context and stamp naming
+
+Date: 2026-06-10
+Reviewed file/block: Phase 4 — A04_2, WP contract, WP_BIND_PRESET_CONTEXT action block
+Category: Modify
+Decision: Standardize the selector/context payload shape and naming across A04_2, the main WP contract, and WP_BIND_PRESET_CONTEXT.
+Reason: A04_2 uses `preset_ref`, `profile_ref`, `standards_bundle_ref`, and `calendar_logic_ref`; the main WP contract uses `task_set_ref` and `preset_context`; the action block uses `preset`, `profile`, `calendar`, and `bundle` objects. These represent the same traceability concepts but with inconsistent naming.
+Impact: Traceability stamping and selector binding could become brittle across UI, contracts, and schemas.
+Follow-up: Reconcile during Phase 5 Preset/Profile/Calendar review or approved modification batch.
+
+## DEC-0033 — Defer detailed schema and validation enforcement mapping
+
+Date: 2026-06-10
+Reviewed file/block: Phase 4 — WP schemas/validation carry-forward
+Category: Defer
+Decision: Do not resolve detailed WP schema, validation-script, and test-vector enforcement during Phase 4.
+Reason: Phase 4 identified schema-reference and catalog-alignment issues, but full schema/test coverage belongs to Phase 11.
+Impact: Phase 4 is complete without implementation or schema edits, but DEC-0026 and DEC-0030 must be carried into Phase 11.
+Follow-up: In Phase 11, map WP invariants to object schemas, contract schemas, validation scripts, and test vectors.
