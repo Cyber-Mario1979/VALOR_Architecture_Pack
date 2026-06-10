@@ -7,38 +7,20 @@ Review branch: review-spec-freeze-control
 
 The architecture review has completed through Phase 13.
 
-Final recommendation: **NO-FREEZE YET**.
+Final recommendation: NO-FREEZE YET.
 
-The pack is accepted as candidate specification authority, but not frozen authority.
+The Pre-Freeze Modification Batch Plan has been prepared.
 
-A controlled Pre-Freeze Modification Batch Plan has been prepared.
-
-Plan file:
+The deferral rule has been tightened in:
 
 - `_review_control/PRE_FREEZE_MODIFICATION_BATCH_PLAN.md`
+- `_review_control/REVIEW_STATE.md`
 
-Final review file:
+## Current Control Rule
 
-- `_review_control/PHASE13_FINAL_FREEZE_REVIEW.md`
+Items that affect architecture clarity, freeze readiness, contracts, validation, product behavior, source-of-truth, traceability, schemas, or minimum UI behavior stay in pre-freeze work.
 
-## Current Rules
-
-- Do not start implementation.
-- Do not create a delivery plan.
-- Do not create a clean implementation repository.
-- Do not edit architecture/specification files unless the user explicitly approves the pre-freeze modification batch.
-
-## Last Completed Work
-
-Prepared the Pre-Freeze Modification Batch Plan.
-
-The plan identifies:
-
-- exact files to edit;
-- exact decisions to implement;
-- acceptance criteria for freeze readiness;
-- formally deferred items;
-- expected order of edits.
+Only items that require execution-stage work or external integration move to later delivery planning.
 
 ## Next Required Work
 
@@ -48,7 +30,7 @@ If approved, start with Step 0 — Control hygiene from `_review_control/PRE_FRE
 
 ## Required Output Next Session
 
-When the user approves a batch step:
+When a batch step is approved:
 
 - confirm the exact step;
 - work only within the approved step;
