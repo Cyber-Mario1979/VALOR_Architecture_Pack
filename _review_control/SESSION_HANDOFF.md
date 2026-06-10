@@ -5,69 +5,52 @@ Review branch: review-spec-freeze-control
 
 ## Current State Summary
 
-The review-control system is active.
-
 The architecture review has completed through Phase 13.
 
-The architecture pack is accepted as candidate specification authority, but the final freeze review recommendation is:
+Final recommendation: **NO-FREEZE YET**.
 
-**NO-FREEZE YET**
+The pack is accepted as candidate specification authority, but not frozen authority.
 
-The final review record is stored at:
+A controlled Pre-Freeze Modification Batch Plan has been prepared.
+
+Plan file:
+
+- `_review_control/PRE_FREEZE_MODIFICATION_BATCH_PLAN.md`
+
+Final review file:
 
 - `_review_control/PHASE13_FINAL_FREEZE_REVIEW.md`
 
-No implementation work is allowed yet.
+## Current Rules
 
-No clean implementation repository should be created yet.
-
-No delivery plan should be created until the user approves the next controlled transition.
+- Do not start implementation.
+- Do not create a delivery plan.
+- Do not create a clean implementation repository.
+- Do not edit architecture/specification files unless the user explicitly approves the pre-freeze modification batch.
 
 ## Last Completed Work
 
-Completed Phase 13 — Final Freeze Review.
+Prepared the Pre-Freeze Modification Batch Plan.
 
-Final review concluded:
-
-- Architecture spine is strong and retained as candidate specification authority.
-- The pack is not ready to freeze as product specification authority.
-- A controlled pre-freeze modification batch is required before freeze.
-- Delivery-plan handoff is not ready until that batch is accepted and the pack is frozen or explicitly marked freeze-ready.
-
-## Main No-Freeze Blocker Themes
-
-- Action and contract catalog alignment.
-- Schema enforceability.
-- DCF to URS to downstream document source chain.
-- K&S and standards bundle readiness.
-- Traceability, stamps, and artifact provenance.
-- Product surface minimum specification.
-- Governance, status, and audit ownership.
-- Test-vector coverage.
-
-## Next Required Work
-
-Next controlled action, if approved by the user:
-
-**Prepare a Pre-Freeze Modification Batch Plan**.
-
-This remains specification work, not implementation.
-
-The plan should identify:
+The plan identifies:
 
 - exact files to edit;
 - exact decisions to implement;
 - acceptance criteria for freeze readiness;
-- which items are formally deferred;
+- formally deferred items;
 - expected order of edits.
+
+## Next Required Work
+
+Await explicit user approval for the pre-freeze modification batch.
+
+If approved, start with Step 0 — Control hygiene from `_review_control/PRE_FREEZE_MODIFICATION_BATCH_PLAN.md`.
 
 ## Required Output Next Session
 
-If the user approves continuing:
+When the user approves a batch step:
 
-- prepare the Pre-Freeze Modification Batch Plan;
-- do not edit architecture/specification files unless explicitly approved;
-- do not begin implementation;
-- update review-control files after the plan is prepared.
-
-Stop after the scoped planning task is complete.
+- confirm the exact step;
+- work only within the approved step;
+- update review-control files after the step;
+- stop at the scoped boundary.
