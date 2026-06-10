@@ -84,14 +84,17 @@ contracts:
     category: PUBLIC_USER_CALLABLE
     owner: RPT
     file: contracts/VALOR-contract-orch-rpt.yaml
-    status: PARTIALLY_ACTIVE_FREEZE_BLOCKED
+    status: ACTIVE_PRE_FREEZE
     actions:
-      - {type: RPT_GENERATE_REPORT, aliases: [BUILD_REPORT, build_report, generate_report], side_effect: GENERATES_ARTIFACT, confirm: false, schema: schemas/contracts/report_result.schema.json, block: action_blocks/BUILD_REPORT.yaml, status: ACTIVE_PRE_FREEZE}
-      - {type: RPT_VALIDATE_STAMPS, aliases: [validate_report_stamps], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/report_result.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: RPT_LIST_ARTIFACTS, aliases: [list_report_artifacts], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/report_result.schema.json, block: null, status: FREEZE_BLOCKED_PENDING_ARTIFACT_REGISTRY_SCHEMA}
-      - {type: RPT_GET_ARTIFACT, aliases: [get_report_artifact], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/report_result.schema.json, block: null, status: FREEZE_BLOCKED_PENDING_ARTIFACT_REGISTRY_SCHEMA}
-      - {type: RPT_GENERATE_EXPORT, aliases: [export_wp, generate_export], side_effect: GENERATES_ARTIFACT, confirm: true, schema: schemas/contracts/export_result.schema.json, block: null, status: FREEZE_BLOCKED_PENDING_EXPORT_ACTION_SCHEMA_HEADER}
-      - {type: RPT_VALIDATE_SCHEMA, aliases: [validate_export_schema], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/export_result.schema.json, block: null, status: FREEZE_BLOCKED_PENDING_EXPORT_REQUEST_SCHEMA}
+      - {type: RPT_GENERATE_STATUS_REPORT, aliases: [BUILD_REPORT, build_report, generate_status_report], side_effect: GENERATES_ARTIFACT, confirm: false, schema: schemas/contracts/report_result.schema.json, block: action_blocks/RPT_GENERATE_STATUS_REPORT.yaml, status: ACTIVE_PRE_FREEZE}
+      - {type: RPT_VALIDATE_REPORT_INPUTS, aliases: [validate_report_inputs], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/report_result.schema.json, block: action_blocks/RPT_VALIDATE_REPORT_INPUTS.yaml, status: ACTIVE_PRE_FREEZE}
+      - {type: RPT_GENERATE_WORKBOOK_EXPORT, aliases: [export_workbook, generate_workbook_export], side_effect: GENERATES_ARTIFACT, confirm: true, schema: schemas/contracts/workbook_export_result.schema.json, block: action_blocks/RPT_GENERATE_WORKBOOK_EXPORT.yaml, status: ACTIVE_PRE_FREEZE}
+      - {type: RPT_VALIDATE_WORKBOOK_EXPORT, aliases: [validate_workbook_export], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/workbook_export_result.schema.json, block: action_blocks/RPT_VALIDATE_WORKBOOK_EXPORT.yaml, status: ACTIVE_PRE_FREEZE}
+      - {type: RPT_GENERATE_GANTT_CHART, aliases: [generate_gantt, generate_gantt_chart], side_effect: GENERATES_ARTIFACT, confirm: true, schema: schemas/contracts/gantt_chart_result.schema.json, block: action_blocks/RPT_GENERATE_GANTT_CHART.yaml, status: ACTIVE_PRE_FREEZE}
+      - {type: RPT_VALIDATE_GANTT_INPUTS, aliases: [validate_gantt_inputs], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/gantt_chart_result.schema.json, block: action_blocks/RPT_VALIDATE_GANTT_INPUTS.yaml, status: ACTIVE_PRE_FREEZE}
+      - {type: RPT_VALIDATE_STAMPS, aliases: [validate_report_stamps, validate_artifact_stamps], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: null, status: ACTIVE_PRE_FREEZE}
+      - {type: RPT_LIST_ARTIFACTS, aliases: [list_report_artifacts, list_rpt_artifacts], side_effect: READ_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: action_blocks/RPT_LIST_ARTIFACTS.yaml, status: ACTIVE_PRE_FREEZE}
+      - {type: RPT_GET_ARTIFACT, aliases: [get_report_artifact, get_rpt_artifact], side_effect: READ_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: action_blocks/RPT_GET_ARTIFACT.yaml, status: ACTIVE_PRE_FREEZE}
 
   - contract_id: VALOR-contract-orch-ks
     category: PUBLIC_USER_CALLABLE_WHEN_DIRECT_KS_REQUEST
@@ -129,8 +132,8 @@ cross_cutting_controls:
   - {control_id: SEC, category: POLICY_FIRST_CROSS_CUTTING_CONTROL, status: ACTIVE_POLICY_FIRST_PRE_FREEZE, callable_contract_required: false}
 
 freeze_blockers_retained:
-  - RPT export/list/get claims remain blocked until export schema, action block, artifact metadata, and header/template source are aligned.
   - K&S action mapping is cataloged, but full governed K&S content/schema/test coverage remains a separate blocker.
+  - Contract registry semantic validation remains a later schema/validation blocker.
 
 validation_requirements:
   - A11, this registry, contract files, action_blocks, and schemas must agree before freeze.
