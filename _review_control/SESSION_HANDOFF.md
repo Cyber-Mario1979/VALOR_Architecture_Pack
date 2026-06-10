@@ -7,95 +7,67 @@ Review branch: review-spec-freeze-control
 
 The review-control system is active.
 
-The architecture pack is accepted as candidate specification authority, not frozen authority.
+The architecture review has completed through Phase 13.
 
-Completed review blocks:
+The architecture pack is accepted as candidate specification authority, but the final freeze review recommendation is:
 
-- Phase 2 — SoS and Invariants
-- Phase 3 — Authority and Orchestration
-- Phase 4 — Work Package Spine
-- Phase 5 — Task Pool, Preset, Profile, Calendar
-- Phase 6 — Planning
-- Phase 7 — Knowledge and Standards
-- Phase 8 — Document Factory and DCF/URS Flow
-- Phase 9 — Reporting and Export
-- Phase 10 — Governance, Security, Contract Registry
-- Phase 11 — Schemas, Validation, Test Vectors
-- Phase 12 — Addendums and UX/Product Surface
+**NO-FREEZE YET**
 
-Current next review block:
+The final review record is stored at:
 
-Phase 13 — Final Freeze Review
+- `_review_control/PHASE13_FINAL_FREEZE_REVIEW.md`
 
-No implementation work is allowed during architecture review.
+No implementation work is allowed yet.
 
-Architecture/specification files must not be modified unless the user explicitly approves edits.
+No clean implementation repository should be created yet.
+
+No delivery plan should be created until the user approves the next controlled transition.
 
 ## Last Completed Work
 
-Completed scoped review of:
+Completed Phase 13 — Final Freeze Review.
 
-- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Canvas_Rendering_Record_Layout_v1.0.1A.md`
-- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Document_Generation_Compliance_v1.0.1A.md`
-- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Planning_Invariants_UX_Contract_v1.0.1A.md`
-- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Reporting_Export_Projection_Contract_v1.0.1A.md`
-- README UI/addendum references
+Final review concluded:
 
-Logged/preserved decisions:
+- Architecture spine is strong and retained as candidate specification authority.
+- The pack is not ready to freeze as product specification authority.
+- A controlled pre-freeze modification batch is required before freeze.
+- Delivery-plan handoff is not ready until that batch is accepted and the pack is frozen or explicitly marked freeze-ready.
 
-- DEC-0122 — Keep addendum layer as candidate UX/output constraint layer
-- DEC-0123 — Keep planning proposal/apply UX invariants
-- DEC-0124 — Keep token-clean and projection-only output rules
-- DEC-0125 — Replace Canvas terminology with product-neutral surface terminology
-- DEC-0126 — Reclassify UI surfaces as projections, not truth owners
-- DEC-0127 — Align addendum command names with contracts and action blocks
-- DEC-0128 — Add dependencies and cross-references to addendums
-- DEC-0129 — Standardize timestamp display versus metadata policy
-- DEC-0130 — Add a product surface specification before freeze
-- DEC-0131 — Add confirmation and review surface requirements
-- DEC-0132 — Add advisory chat/help/follow-up surface contract
-- DEC-0133 — Add export/download and artifact-state surface requirements
-- DEC-0134 — Add DCF, URS source, K&S citation, and redaction surfaces
-- DEC-0135 — Defer detailed wireframes but not minimum surface requirements
+## Main No-Freeze Blocker Themes
 
-Important note:
-
-- Phase 12 decisions are preserved in `_review_control/PHASE12_DECISIONS_PENDING.md` for merge into `_review_control/DECISION_LOG.md` or Phase 13 consolidation.
+- Action and contract catalog alignment.
+- Schema enforceability.
+- DCF to URS to downstream document source chain.
+- K&S and standards bundle readiness.
+- Traceability, stamps, and artifact provenance.
+- Product surface minimum specification.
+- Governance, status, and audit ownership.
+- Test-vector coverage.
 
 ## Next Required Work
 
-Review Phase 13 only:
+Next controlled action, if approved by the user:
 
-- consolidate decisions
-- identify final modifications
-- decide freeze/no-freeze
-- prepare delivery-plan handoff
+**Prepare a Pre-Freeze Modification Batch Plan**.
 
-Phase 13 review focus:
+This remains specification work, not implementation.
 
-- freeze-ready items
-- required modification batch before freeze
-- formally deferred items
-- no-freeze blockers
-- delivery-plan handoff notes
-- control-file cleanup and final review recommendation
+The plan should identify:
 
-Do not begin implementation or create a delivery plan during Phase 13 unless the user explicitly approves a post-review transition.
+- exact files to edit;
+- exact decisions to implement;
+- acceptance criteria for freeze readiness;
+- which items are formally deferred;
+- expected order of edits.
 
 ## Required Output Next Session
 
-- final freeze/no-freeze recommendation
-- freeze-ready items
-- required pre-freeze modification batch
-- formally deferred items
-- open blockers
-- delivery-plan handoff readiness
-- next controlled action
+If the user approves continuing:
 
-After review, update:
+- prepare the Pre-Freeze Modification Batch Plan;
+- do not edit architecture/specification files unless explicitly approved;
+- do not begin implementation;
+- update review-control files after the plan is prepared.
 
-- `_review_control/DECISION_LOG.md`, or pending decision file if needed
-- `_review_control/REVIEW_STATE.md`
-- `_review_control/SESSION_HANDOFF.md`
-
-Stop after the scoped review is complete.
+Stop after the scoped planning task is complete.
