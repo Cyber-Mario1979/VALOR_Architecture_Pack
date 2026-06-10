@@ -1,0 +1,126 @@
+template_id: TPL-RPT-WP-WORKBOOK-EXPORT-v1.0.1
+template_version: v1.0.1
+artifact_type: WORK_PACKAGE_WORKBOOK_EXPORT
+output_format: XLSX
+target_scope_supported:
+  - SINGLE_WP
+  - SELECTED_WP_SET
+excluded_from_freeze_scope:
+  - ALL_WPS
+projection_only: true
+mutates_wp_truth: false
+
+sheets:
+  - sheet_name: Cover
+    required: true
+    fields:
+      - export_title
+      - artifact_id
+      - target_scope
+      - wp_ids
+      - wp_titles
+      - generated_at_utc
+      - source_snapshot_hash
+      - template_id
+      - template_version
+      - projection_only_statement
+      - validation_status
+      - stamps_summary
+
+  - sheet_name: WP Summary
+    required: true
+    columns:
+      - wp_id
+      - wp_title
+      - wp_status
+      - area
+      - wp_type
+      - scope
+      - objective
+      - total_tasks
+      - planned_tasks
+      - in_progress_tasks
+      - completed_tasks
+      - overdue_tasks
+      - earliest_start
+      - latest_finish
+      - schedule_basis
+      - validation_status
+
+  - sheet_name: Task Table
+    required: true
+    columns:
+      - wp_id
+      - wp_title
+      - task_id
+      - task_description
+      - task_status
+      - task_owner
+      - phase
+      - task_type
+      - start_date
+      - finish_date
+      - planned_duration_days
+      - elapsed_days
+      - remaining_days
+      - lateness_days
+      - percent_time_elapsed
+      - predecessor_ids
+      - dependency_type
+      - lag_days
+      - notes
+
+  - sheet_name: Statistics
+    required: true
+    metrics:
+      - total_wps
+      - total_tasks
+      - planned_tasks
+      - in_progress_tasks
+      - completed_tasks
+      - open_tasks
+      - overdue_tasks
+      - average_percent_elapsed
+      - earliest_start
+      - latest_finish
+      - status_distribution
+      - owner_distribution
+      - phase_distribution
+
+  - sheet_name: Metadata
+    required: true
+    fields:
+      - artifact_id
+      - artifact_type
+      - target_scope
+      - wp_ids
+      - source_snapshot_hash
+      - template_id
+      - template_version
+      - contract_id
+      - contract_version
+      - action_type
+      - generated_at_utc
+      - projection_only
+      - mutates_wp_truth
+      - validation_status
+      - validation_errors
+      - stamps
+      - content_ref
+
+selected_wp_set_rules:
+  task_rows_require_wp_id: true
+  task_rows_require_wp_title: true
+
+validation_rules:
+  - required_sheets_must_exist
+  - required_columns_or_fields_must_exist
+  - metadata_sheet_must_include_artifact_metadata
+  - projection_only_must_be_true
+  - mutates_wp_truth_must_be_false
+  - selected_wp_set_task_rows_must_include_wp_identity
+
+notes:
+  - "This template/spec is canonical for v1.0.1 workbook export behavior."
+  - "The uploaded workbook reference is not canonical."
+  - "Gantt is generated as a separate artifact, not as a workbook export sheet."
