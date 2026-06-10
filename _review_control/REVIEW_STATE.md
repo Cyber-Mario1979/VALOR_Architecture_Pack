@@ -49,14 +49,7 @@ Outcome:
 
 Status: scoped review completed on 2026-06-10
 
-Reviewed:
-
-- `docs/architecture/A01_SoS_Context_Capability_Arch_v1_0_1.md`
-- `docs/architecture/A02_Principles_Invariants_Arch_v1_0_1.md`
-
-Decision log entries:
-
-- DEC-0005 through DEC-0013
+Decision log entries: DEC-0005 through DEC-0013
 
 Outcome summary:
 
@@ -72,14 +65,7 @@ Outcome summary:
 
 Status: scoped review completed on 2026-06-10
 
-Reviewed:
-
-- `docs/architecture/A03_Subsystems_Authority_Arch_v1_0_1.md`
-- `docs/architecture/A04_1_Orchestration_Arch_v1_0_1.md`
-
-Decision log entries:
-
-- DEC-0014 through DEC-0022
+Decision log entries: DEC-0014 through DEC-0022
 
 Outcome summary:
 
@@ -97,18 +83,7 @@ Outcome summary:
 
 Status: scoped review completed on 2026-06-10
 
-Reviewed:
-
-- `docs/architecture/A04_2_WorkPackage_Arch_v1_0_1.md`
-- `contracts/VALOR-contract-orch-wp.yaml`
-- `contracts/VALOR-contract-orch-wp-user-driven-baseline.yaml`
-- `action_blocks/WP_UPDATE_TASK_FIELDS.yaml`
-- `action_blocks/WP_BIND_PRESET_CONTEXT.yaml`
-- `action_blocks/WP_APPLY_PLAN_PROPOSAL.yaml`
-
-Decision log entries:
-
-- DEC-0023 through DEC-0033
+Decision log entries: DEC-0023 through DEC-0033
 
 Outcome summary:
 
@@ -128,20 +103,7 @@ Outcome summary:
 
 Status: scoped review completed on 2026-06-10
 
-Reviewed:
-
-- `docs/architecture/A05_TaskPool_Arch_v1_0_1.md`
-- `docs/architecture/A06_PresetSystem_Arch_v1_0_1.md`
-- `docs/architecture/A08_ProfileLibrary_Arch_v1_0_1.md`
-- `docs/architecture/A07_CalendarLogic_Arch_v1_0_1.md`
-- `libraries/task_pool/TP-PE-HIGH_v1.0.1.yaml`
-- `libraries/preset_library/PS-PE-HIGH_v1.0.1.yaml`
-- `libraries/profile_library/PROF-PE-HIGH_v1.0.1.yaml`
-- `libraries/calendar/CAL-WORKWEEK_v1.0.1.yaml`
-
-Decision log entries:
-
-- DEC-0034 through DEC-0044
+Decision log entries: DEC-0034 through DEC-0044
 
 Outcome summary:
 
@@ -161,15 +123,7 @@ Outcome summary:
 
 Status: scoped review completed on 2026-06-10
 
-Reviewed:
-
-- `docs/architecture/A04_4_Planning_Arch_v1_0_1.md`
-- `contracts/VALOR-contract-orch-plan.yaml`
-- `action_blocks/WP_APPLY_PLAN_PROPOSAL.yaml`
-
-Decision log entries:
-
-- DEC-0045 through DEC-0055
+Decision log entries: DEC-0045 through DEC-0055
 
 Outcome summary:
 
@@ -189,15 +143,7 @@ Outcome summary:
 
 Status: scoped review completed on 2026-06-10
 
-Reviewed:
-
-- `docs/architecture/A12_Knowledge_Standards_Arch_v1_0_1.md`
-- `contracts/VALOR-contract-orch-ks.yaml`
-- K&S contract schemas surfaced in manifest/search
-
-Decision log entries:
-
-- DEC-0056 through DEC-0066
+Decision log entries: DEC-0056 through DEC-0066
 
 Outcome summary:
 
@@ -217,20 +163,7 @@ Outcome summary:
 
 Status: scoped review completed on 2026-06-10
 
-Reviewed:
-
-- `docs/architecture/A04_5_DocumentFactory_Arch_v1_0_1.md`
-- `contracts/VALOR-contract-orch-doc.yaml`
-- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Document_Generation_Compliance_v1.0.1A.md`
-- `schemas/documents/index.json`
-- representative URS and RTM templates
-- representative URS render-input schema
-- `schemas/objects/document_metadata_schema.json`
-- DOC result schemas surfaced in manifest/search
-
-Decision log entries:
-
-- DEC-0067 through DEC-0081
+Decision log entries: DEC-0067 through DEC-0081
 
 Outcome summary:
 
@@ -249,6 +182,42 @@ Outcome summary:
 - Resolve K&S bundle/citation dependency for document generation.
 - Add explicit AI extraction/drafting boundary for documents.
 - Defer detailed document schema/template validation to Phase 11.
+
+### Phase 9 — Reporting and Export
+
+Status: scoped review completed on 2026-06-10
+
+Reviewed:
+
+- `docs/architecture/A04_6_Reporting_Export_Arch_v1_0_1.md`
+- `contracts/VALOR-contract-orch-rpt.yaml`
+- `action_blocks/BUILD_REPORT.yaml`
+- `Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Reporting_Export_Projection_Contract_v1.0.1A.md`
+- `schemas/contracts/report_result.schema.json`
+- `schemas/contracts/export_result.schema.json`
+- `schemas/objects/csv_export_schema.json`
+
+Decision log entries:
+
+- DEC-0082 through DEC-0096
+
+Outcome summary:
+
+- Keep Reporting & Export projection-only authority.
+- Keep deterministic report/export reproducibility baseline.
+- Keep BUILD_REPORT as candidate report action.
+- Keep strict projection-only export/report addendum rules, but remove Canvas terminology.
+- Reconcile RPT architecture action catalog with RPT contract/action block.
+- Add explicit export contract/action path.
+- Align report/export stamp policy with artifact-specific traceability.
+- Enforce proposed-vs-committed truth in reports.
+- Reconcile CSV export schema with A04_6 baseline columns.
+- Replace permissive export result schema with enforceable schema.
+- Align report result schema with A04_6 and addendum report requirements.
+- Clarify strict export file-only policy and template compliance source.
+- Add RPT artifact registry/read model or defer it.
+- Add K&S and document metadata references to reporting inputs/outputs.
+- Defer full RPT schema/export validation to Phase 11.
 
 ## 4. Current Known Risks / Items to Watch
 
@@ -287,24 +256,28 @@ Outcome summary:
 - Document-generation gate must be added to orchestration.
 - Document timestamp policy must be standardized.
 - Document schemas/templates must be validated and made enforceable.
+- RPT contract/action catalog must be reconciled with A04_6.
+- Export contract/action path must be added or formally deferred.
+- Report/export schemas must be aligned with A04_6 and addendum requirements.
+- Strict export template/header source must be defined.
+- RPT artifact registry/read model must be added or formally deferred.
 - Delivery plan does not exist yet and must be produced after review.
 
 ## 5. Current Block
 
 Current review block:
 
-Phase 9 — Reporting and Export
+Phase 10 — Governance, Security, Contract Registry
 
 Files:
 
-- `docs/architecture/A04_6_Reporting_Export_Arch_v1_0_1.md`
-- `contracts/VALOR-contract-orch-rpt.yaml`
-- `action_blocks/BUILD_REPORT.yaml`
-- reporting/export addendum
+- `docs/architecture/A09_Governance_Branching_Arch_v1_0_1.md`
+- `docs/architecture/A10_Security_Compliance_Arch_v1_0_1.md`
+- `docs/architecture/A11_ContractRegistry_Arch_v1_0_1.md`
 
 ## 6. Next Session Objective
 
-Review Phase 9 only.
+Review Phase 10 only.
 
 Classify findings into:
 
@@ -322,13 +295,12 @@ Update:
 
 ## 7. Done Definition for Current Block
 
-Phase 9 review is done when:
+Phase 10 review is done when:
 
-- export outputs are checked;
-- stamps are checked;
-- report projections are checked;
-- artifact rules are checked;
-- carried risks around artifact-specific traceability, K&S provenance, document metadata references, planning proposal vs committed truth, and UI/export readiness are traced where applicable;
+- execution governance is checked;
+- security and compliance boundaries are checked;
+- contract versioning and compatibility rules are checked;
+- carried risks around SEC integration, Contract Registry ownership, front-matter status, excerpt authorization, artifact status/freeze terminology, and contract catalog completeness are traced where applicable;
 - decisions are logged;
 - next block is selected.
 
