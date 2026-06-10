@@ -143,24 +143,55 @@ If user says No → remain PROPOSED; do not mutate WP truth.
 
 ## 5. Contract Registry and Routing
 
-### 5.1 Contract Registry
-Orchestration maintains a registry of known contracts and supported major versions:
-- VALOR-contract-orch-wp
-- VALOR-contract-orch-plan
-- VALOR-contract-orch-ks
-- VALOR-contract-orch-doc
-- VALOR-contract-orch-rpt
+### 5.1 Canonical Registry Artifact
+Orchestration routes through the pack-level contract registry:
+
+- `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`
+
+The registry is the canonical pre-freeze catalog for:
+- contract IDs and versions,
+- registry category,
+- owner subsystem/control/authority,
+- canonical action_type names,
+- public command aliases and internal aliases,
+- schema references,
+- side-effect class,
+- confirmation rule,
+- active/deferred/freeze-blocked status.
+
+### 5.2 Declared Callable Scope
+Public/user-callable contract categories in the declared v1.0.1 scope:
+- `VALOR-contract-orch-wp`
+- `VALOR-contract-orch-wp-user-driven-baseline` as a WP-owned policy extension
+- `VALOR-contract-orch-plan`
+- `VALOR-contract-orch-doc`
+- `VALOR-contract-orch-rpt`
+- `VALOR-contract-orch-ks` when the user directly requests standards, citation, source, bundle, template, or standards-aware advisory behavior
+
+Internal service/resolver contract:
+- `VALOR-contract-orch-ps` as an internal preset resolver and binding authority, not an independent public/user-callable subsystem unless later promoted.
+
+Non-callable governed support authorities:
+- TP — Task Pool Library
+- PROF — Profile Library
+- CAL — Calendar Logic
+
+Policy-first cross-cutting control:
+- SEC — enforced through Orchestration, subsystem validators, governance gates, and output redaction/refusal policy; no callable SEC contract is required unless SEC is later separated into a callable subsystem.
 
 Routing rule:
-- Orchestration may invoke a contract only if it supports the MAJOR version required by the target subsystem.
+- Orchestration may invoke a contract only if it is registered, active for the declared scope, and supports the required MAJOR version.
 - If not supported → CONFLICT / UNSUPPORTED_MAJOR_VERSION.
+- If an action is marked freeze-blocked in the registry, it cannot be represented as freeze-ready product behavior.
 
-### 5.2 Canonical Action Envelope (Orchestration Output)
+### 5.3 Canonical Action Envelope (Orchestration Output)
 All calls must use the SoS envelope (A01). Orchestration is responsible for:
 - selecting contract + version,
-- selecting action_type,
+- selecting canonical action_type,
+- mapping any public command alias to exactly one canonical action_type,
 - populating payload from validated user inputs and session context,
-- setting options (dry_run, return_full_wp).
+- setting options (dry_run, return_full_wp),
+- enforcing confirmation rules from side-effect class and registry entry.
 
 Example:
 ```json
@@ -181,13 +212,14 @@ Example:
 }
 ```
 
-### 5.3 Action Routing Rules (Implementation Guidance)
+### 5.4 Action Routing Rules (Implementation Guidance)
 - WP object creation/update → WP System.
-- Task suggestion and metadata enrichment → Task Pool + Preset + Profile (read), then stage via WP.
+- Task suggestion and metadata enrichment → TP/PS/PROF/CAL governed support data resolved through PS where applicable, then staged/committed via WP.
 - Planning → Planning subsystem (advisory), then apply via WP.
-- Templates/standards → K&S (read).
-- Document generation → Doc Factory, with WP truth + template references.
+- Templates/standards/citations → K&S when directly requested or when needed by DOC/RPT regulated output flows.
+- Document generation → Doc Factory, with WP truth + template/standards references.
 - Export/report → Reporting, with WP truth + stamp set.
+- Security/compliance → policy-first enforcement through Orchestration/subsystem validators, not a separate callable SEC contract in this declared scope.
 
 ---
 
@@ -203,11 +235,11 @@ Orchestration must propagate and/or store:
 ### 6.2 Stamping Gate Enforcement
 Before generating documents or exports, orchestration must validate that:
 - preset_id/version is known (if preset-driven),
-- profile_id/version is known,
+- profile_id/version is known where profile-based planning/output is used,
 - task_pool_id/version is known,
-- calendar_logic_version is known.
+- calendar_logic_version is known where schedule/export/report metrics require it.
 
-If any missing → block export and return INVARIANT_VIOLATION / MISSING_TRACEABILITY_STAMPS.
+If any required stamp is missing → block regulated output and return INVARIANT_VIOLATION / MISSING_TRACEABILITY_STAMPS.
 
 ---
 
@@ -247,4 +279,5 @@ Transitions are gated by confirmations and invariant checks.
 ## CHANGELOG
 | Date       | Changes     | Type / Version |
 | ---------- | ----------- | -------------- |
+| 2026-06-10 | Pre-freeze Blocker 1 contract registry routing categories and canonical registry artifact alignment | Arch_v1.0.1-control |
 | 2025-12-23 | First Issue | Arch_v1.0.1    |
