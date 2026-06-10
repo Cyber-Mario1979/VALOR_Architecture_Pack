@@ -3,6 +3,7 @@ action_type: WP_BIND_PRESET_CONTEXT
 allowed_modes: [M2]
 side_effect_class: MUTATES_TRUTH
 idempotency: IDEMPOTENT
+confirmation_required: true
 
 required_payload_fields:
   - preset_context
@@ -13,7 +14,7 @@ target_fields:
   required: [wp_id]
   optional: []
 
-result_schema_ref: schemas/wp.json
+result_schema_ref: schemas/objects/work_package_schema.json
 
 notes:
   purpose: "Bind/stamp WP with preset/profile/calendar/bundle references used for traceability and regulated outputs."
