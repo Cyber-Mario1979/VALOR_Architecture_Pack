@@ -1,54 +1,25 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "CSV Export Row",
+  "$id": "valor://schemas/objects/csv_export_schema.json",
+  "title": "Legacy CSV Export Row Schema — Not Freeze Baseline",
+  "description": "This schema is retained only as legacy/reference material. The v1.0.1 freeze baseline structured export is WORK_PACKAGE_WORKBOOK_EXPORT using schemas/objects/workbook_export_schema.json. CSV is not a declared freeze-ready export artifact.",
   "type": "object",
-  "properties": {
-    "wp_id": {
-      "type": "string"
-    },
-    "wp_title": {
-      "type": "string"
-    },
-    "task_id": {
-      "type": "string"
-    },
-    "task_description": {
-      "type": "string"
-    },
-    "owner": {
-      "type": "string"
-    },
-    "status": {
-      "type": "string"
-    },
-    "start_date": {
-      "type": "string",
-      "format": "date"
-    },
-    "finish_date": {
-      "type": "string",
-      "format": "date"
-    },
-    "planned_duration_days": {
-      "type": "number"
-    },
-    "elapsed_days": {
-      "type": "number"
-    },
-    "remaining_days": {
-      "type": "number"
-    },
-    "lateness_days": {
-      "type": "number"
-    },
-    "time_elapsed_percent": {
-      "type": "number"
-    }
-  },
-  "required": [
-    "wp_id",
-    "task_id"
-  ],
   "additionalProperties": true,
-  "$id": "valor://schemas/objects/csv_export_schema.json"
+  "properties": {
+    "wp_id": {"type": "string"},
+    "wp_title": {"type": "string"},
+    "task_id": {"type": "string"},
+    "task_description": {"type": "string"},
+    "owner": {"type": "string"},
+    "status": {"type": "string"},
+    "start_date": {"type": "string", "format": "date"},
+    "finish_date": {"type": "string", "format": "date"},
+    "planned_duration_days": {"type": "number"},
+    "elapsed_days": {"type": "number"},
+    "remaining_days": {"type": "number"},
+    "lateness_days": {"type": "number"},
+    "time_elapsed_percent": {"type": "number"}
+  },
+  "required": ["wp_id", "task_id"],
+  "x_valor_freeze_scope": "OUT_OF_SCOPE_FOR_V1_0_1_FREEZE_BASELINE"
 }
