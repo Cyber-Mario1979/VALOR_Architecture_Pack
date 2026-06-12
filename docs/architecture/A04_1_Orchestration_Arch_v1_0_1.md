@@ -4,8 +4,8 @@ block type: Arch
 version: v1.0.1
 owner: Nexus
 editor: Senior Architect
-status: released
-date: 2025-12-23
+status: pre_freeze_controlled
+date: 2026-06-12
 dependencies:
   - VALOR-block-A00-specs-architecture-pack
   - VALOR-block-A01-sos-context-capability
@@ -18,6 +18,7 @@ acceptance_criteria:
   - Defines orchestration I/O contracts at the envelope level (contract registry, action routing rules).
   - Defines governance gates (stage, commit, plan, apply, export) as enforceable steps.
   - Defines traceability context management and mandatory stamp propagation behavior.
+  - Defines product-surface state labels and safe user-facing behavior boundaries.
   - Defines error taxonomy handling and safe failure behavior (no silent commit, no guessing).
 ---
 
@@ -110,7 +111,7 @@ Orchestration enforces the following gates as mandatory steps:
 1) **GATE-Stage**
 - Purpose: assemble candidate tasks and metadata without allocating IDs.
 - Entry condition: WP exists (or WP_CREATE requested).
-- Output: staged task set (PROPOSED).
+- Output: staged task set (STAGED / not committed).
 
 2) **GATE-Commit**
 - Purpose: allocate task IDs and write WP truth.
@@ -130,14 +131,39 @@ Orchestration enforces the following gates as mandatory steps:
 5) **GATE-Export**
 - Purpose: generate report/export artifacts.
 - Entry condition: required traceability stamps available.
-- Output: exported artifact with stamps.
+- Output: generated artifact with stamps.
 
 ### 4.2 Mandatory Confirmations
 Before any COMMIT or APPLY action, orchestration must ask:
 - “Confirm commit staged tasks to WP### (Yes/No).”
 - “Confirm apply schedule proposal to WP### (Yes/No).”
 
-If user says No → remain PROPOSED; do not mutate WP truth.
+If user says No → remain STAGED/PROPOSED as applicable; do not mutate WP truth.
+
+### 4.3 Product Surface Minimum Behavior
+The product surface is the user-visible contract behavior, not a pixel-level UI or wireframe. It must use these canonical state labels consistently:
+
+| State | Product-surface meaning |
+| --- | --- |
+| `STAGED` | Prepared for user review but not committed to WP/task truth. |
+| `PROPOSED` | Advisory output or recommendation; not authoritative truth. |
+| `COMMITTED` | Written to authoritative WP/task truth after required confirmation. |
+| `DRAFT` | Generated DOC artifact that is not finalized. |
+| `FINAL` | Finalized DOC artifact with required source-chain controls, stamps, and checksum where applicable. |
+| `INCOMPLETE` | Output is explicitly incomplete because required source, stamp, citation, template, or validation data is missing. |
+| `BLOCKED` | Operation refused/stopped because a hard gate is not satisfied. |
+| `PRODUCT_TESTING_ONLY` | Output or governed asset may support product testing only and must not be represented as regulated-ready CQV/GMP output. |
+
+Product-surface rules:
+
+- Public/user-callable behavior is limited to registered public contracts and their active actions.
+- Internal resolver behavior must not be presented as independent user-callable product surface.
+- Non-callable governed support authorities must not be exposed as public actions.
+- Contract/audit/provenance metadata timestamps use UTC, such as `timestamp_utc` or `generated_at_utc`.
+- Optional local display time may be shown only when explicitly labeled as display/local time; Africa/Cairo must not replace canonical UTC metadata.
+- Any output using TESTING_ONLY / PRODUCT_TESTING_ONLY K&S assets must visibly carry the required testing-only stamp.
+- If source data, stamps, standards bundle, template metadata, or approved scope are missing, Orchestration must return `BLOCKED` or `INCOMPLETE` behavior and remediation guidance.
+- Orchestration must not claim success for any WP mutation, document generation, finalization, report, workbook, or Gantt artifact unless the relevant contract action succeeded.
 
 ---
 
@@ -264,11 +290,11 @@ If a contract call fails or is not executed:
 States (conceptual):
 - S0: Idle (no active WP)
 - S1: WP Selected/Created
-- S2: Tasks Staged (PROPOSED)
+- S2: Tasks Staged (STAGED / not committed)
 - S3: Tasks Committed (COMMITTED)
 - S4: Plan Proposed (PROPOSED schedule)
 - S5: Plan Applied (COMMITTED dates)
-- S6: Export Generated (artifact issued)
+- S6: Artifact Generated (report/document/export artifact issued)
 
 Transitions are gated by confirmations and invariant checks.
 
@@ -279,5 +305,6 @@ Transitions are gated by confirmations and invariant checks.
 ## CHANGELOG
 | Date       | Changes     | Type / Version |
 | ---------- | ----------- | -------------- |
+| 2026-06-12 | Blocker 7A product-surface state labels, timestamp display rule, and user-facing behavior boundaries added | Pre-freeze controlled update |
 | 2026-06-10 | Pre-freeze Blocker 1 contract registry routing categories and canonical registry artifact alignment | Arch_v1.0.1-control |
 | 2025-12-23 | First Issue | Arch_v1.0.1    |
