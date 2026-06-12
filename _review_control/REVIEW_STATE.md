@@ -92,11 +92,15 @@ Important outcome:
 
 ### Blocker 3A — K&S Testing-Only Metadata Gate
 
-Status: **COMPLETED WITH CONNECTOR-LIMITED FILE EXCEPTIONS — REGULATED USE STILL BLOCKED**
+Status: **COMPLETED — REGULATED USE STILL BLOCKED UNTIL USER/SITE SOURCE METADATA ACCEPTANCE**
 
 Control record:
 
 - `_review_control/BLOCKER3A_KS_TESTING_ONLY_METADATA_GATE.md`
+
+Scope-control note:
+
+- `_review_control/SCOPE_CONTROL_KS_NORMALIZATION_ACCEPTANCE.md`
 
 Important outcome:
 
@@ -104,19 +108,19 @@ Important outcome:
 - Product testing, dry runs, internal trials, behavior validation, and E2E workflow testing are allowed when testing metadata is current and the required testing-only stamp is applied.
 - Real regulated CQV/GMP output remains blocked while K&S assets are testing-only or source metadata is unaccepted.
 - External references use testing placeholders, not invented source editions/dates/locators.
-- Updated K&S external references, bundles, mapping, schemas, A12, K&S contract, registry, and testing-only vectors.
+- Updated K&S external references, bundles, mapping, schemas, A12, K&S contract, registry, testing-only vectors, and connector-limited K&S normalization files.
 
-Connector-limited normalization update:
+Scope-error acceptance note:
 
-- Connector updated successfully: `libraries/knowledge_standards/README.md`, `TPL-URS`, `TPL-RTM`, `TPL-DQ`, `TPL-IQ`, and `TPL-OQ`.
-- Connector blocked: `TPL-PQ`.
-- USER_APPLY_REQUIRED normalization package was applied locally; `STD-CQV-BASE`, `TPL-PQ`, `TPL-VSR`, and review-control notes are normalized in the working tree pending commit.
-- When GitHub connector limitations prevent safe full-file edits, the assistant must use a user-apply package fallback rather than shrinking governed specification content into illustrative summaries.
+- During transition to WP / Planning / Governed Library Cleanup, K&S normalization edits were started before WP/Planning review began.
+- The user accepted those K&S edits because the content was consistent with the approved Blocker 3A testing-only metadata gate.
+- The accepted K&S edits are treated as completion/normalization of Blocker 3A only, not as WP/Planning scope.
+- No K&S asset was promoted to `ACTIVE` for regulated use.
+- No external source edition/date/clause/locator metadata was invented.
 
 ## Must-Resolve-Before-Freeze Themes
 
 - K&S user/site source metadata acceptance for real regulated CQV/GMP use.
-- Commit of applied K&S connector-limited normalization for `STD-CQV-BASE`, `TPL-PQ`, and `TPL-VSR`.
 - Authority, status, and terminology.
 - Contract registry semantic validation.
 - WP, Planning, and governed libraries.
@@ -149,7 +153,8 @@ Current controlled state:
 - Blocker 1 executed under user approval.
 - Blocker 2 executed under user approval.
 - Blocker 3 executed under user approval.
-- Blocker 3A testing-only K&S metadata correction executed under user approval.
+- Blocker 3A testing-only K&S metadata correction and accepted normalization completed under user approval.
+- Scope-control note recorded for accepted K&S normalization after scope error.
 - Freeze remains blocked by unresolved WP/Planning/library, DOC/DCF/URS, product-surface, non-K&S schema/validation/test-vector, governance/security/registry, manifest, final freeze-readiness work, and K&S source metadata acceptance gate.
 
 ## Next Session Objective
