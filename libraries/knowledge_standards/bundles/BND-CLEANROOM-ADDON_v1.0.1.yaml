@@ -1,0 +1,30 @@
+bundle_id: BND-CLEANROOM-ADDON
+version: v1.0.1
+name: VALOR Cleanroom and HVAC Add-on Bundle
+owner: K&S
+effective_date: 2026-06-12
+source_checked_date: 2026-06-12
+review_cycle_months: 36
+next_review_due: 2029-06-12
+expiry_date: 2029-06-12
+status: PRE_FREEZE_USER_REVIEW_REQUIRED
+review_required: true
+expired_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+trigger_condition: classified_area_or_cleanroom_or_HVAC_or_ISO8_or_GradeD_scope_present
+included_internal_requirements:
+  - STD-CQV-BASE:v1.0.1:CQV-REQ-012
+  - STD-CQV-BASE:v1.0.1:CQV-REQ-016
+included_external_references:
+  - EXT-ISO14644
+  - EXT-EUGMP-ANNEX15
+  - EXT-LOCAL-EDA-SITE-GMP
+required_anchor_refs:
+  - EXT-ISO14644-AIR-CLEANLINESS-CLASSIFICATION
+  - EXT-ISO14644-CLEANROOM-TESTING
+  - EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION
+  - EXT-LOCAL-EDA-SITE-GMP-LOCAL-REQUIREMENTS
+blocked_state_rules:
+  trigger_true_bundle_missing: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  bundle_expired_or_unreviewed: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  source_unverified: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  no_cleanroom_fallback: PROHIBITED
