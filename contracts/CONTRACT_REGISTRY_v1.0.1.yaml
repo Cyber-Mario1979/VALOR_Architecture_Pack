@@ -4,6 +4,7 @@ status: pre_freeze_controlled
 owner: Orchestration
 review_branch: review-spec-freeze-control
 created_date: 2026-06-10
+last_updated: 2026-06-12
 purpose: Canonical pre-freeze contract and action catalog for declared VALOR product scope.
 
 freeze_rule:
@@ -11,27 +12,12 @@ freeze_rule:
   rule: Every declared action must map to category, owner, contract, canonical action_type, schemas, side-effect class, confirmation rule, and active/deferred status. If any claimed action cannot be fully mapped, reduce declared scope or keep freeze blocked.
 
 scope_categories:
-  public_user_callable:
-    - WP
-    - PLAN
-    - DOC
-    - RPT
-    - KS_DIRECT_STANDARDS_CITATION_ADVISORY
-  internal_service_resolver:
-    - PS
-  non_callable_governed_support_authority:
-    - TP
-    - PROF
-    - CAL
-  policy_first_cross_cutting_control:
-    - SEC
+  public_user_callable: [WP, PLAN, DOC, RPT, KS_DIRECT_STANDARDS_CITATION_ADVISORY]
+  internal_service_resolver: [PS]
+  non_callable_governed_support_authority: [TP, PROF, CAL]
+  policy_first_cross_cutting_control: [SEC]
 
-side_effect_classes:
-  - READ_ONLY
-  - VALIDATE_ONLY
-  - STAGE_ONLY
-  - MUTATES_TRUTH
-  - GENERATES_ARTIFACT
+side_effect_classes: [READ_ONLY, VALIDATE_ONLY, STAGE_ONLY, MUTATES_TRUTH, GENERATES_ARTIFACT]
 
 schema_defaults:
   request_schema: schemas/contracts/contract_request.schema.json
@@ -51,7 +37,6 @@ contracts:
       - {type: WP_UPDATE_TASK_FIELDS, aliases: [update_task, mark_task], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: action_blocks/WP_UPDATE_TASK_FIELDS.yaml, status: ACTIVE_PRE_FREEZE}
       - {type: WP_APPLY_PLAN_PROPOSAL, aliases: [apply_plan, commit_schedule], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: action_blocks/WP_APPLY_PLAN_PROPOSAL.yaml, status: ACTIVE_PRE_FREEZE}
       - {type: WP_BIND_PRESET_CONTEXT, aliases: [load_preset_context, bind_preset_context], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: action_blocks/WP_BIND_PRESET_CONTEXT.yaml, status: ACTIVE_PRE_FREEZE}
-
   - contract_id: VALOR-contract-orch-wp-user-driven-baseline
     category: PUBLIC_USER_CALLABLE_POLICY_EXTENSION
     owner: WP
@@ -61,7 +46,6 @@ contracts:
       - {type: WP_SET_PLANNING_BASIS, aliases: [set_planning_basis], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: null, status: ACTIVE_PRE_FREEZE}
       - {type: WP_SET_TASK_DURATION_OVERRIDES, aliases: [set_task_durations], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: null, status: ACTIVE_PRE_FREEZE}
       - {type: WP_RECORD_CONFIRMATION, aliases: [record_confirmation], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-
   - contract_id: VALOR-contract-orch-plan
     category: PUBLIC_USER_CALLABLE
     owner: PLAN
@@ -70,7 +54,6 @@ contracts:
     actions:
       - {type: PLAN_GENERATE_PROPOSAL, aliases: [schedule_tasks, generate_plan, plan_wp], side_effect: GENERATES_ARTIFACT, confirm: false, schema: schemas/contracts/plan_proposal.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
       - {type: PLAN_VALIDATE_PROPOSAL, aliases: [validate_plan], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/plan_validation_result.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-
   - contract_id: VALOR-contract-orch-doc
     category: PUBLIC_USER_CALLABLE
     owner: DOC
@@ -79,7 +62,6 @@ contracts:
     actions:
       - {type: DOC_GENERATE_DRAFT, aliases: [draft_document, generate_draft], side_effect: GENERATES_ARTIFACT, confirm: false, schema: schemas/contracts/doc_draft_result.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
       - {type: DOC_FINALIZE_ARTIFACT, aliases: [finalize_document], side_effect: GENERATES_ARTIFACT, confirm: true, schema: schemas/contracts/doc_artifact_result.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-
   - contract_id: VALOR-contract-orch-rpt
     category: PUBLIC_USER_CALLABLE
     owner: RPT
@@ -95,12 +77,12 @@ contracts:
       - {type: RPT_VALIDATE_STAMPS, aliases: [validate_report_stamps, validate_artifact_stamps], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: null, status: ACTIVE_PRE_FREEZE}
       - {type: RPT_LIST_ARTIFACTS, aliases: [list_report_artifacts, list_rpt_artifacts], side_effect: READ_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: action_blocks/RPT_LIST_ARTIFACTS.yaml, status: ACTIVE_PRE_FREEZE}
       - {type: RPT_GET_ARTIFACT, aliases: [get_report_artifact, get_rpt_artifact], side_effect: READ_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: action_blocks/RPT_GET_ARTIFACT.yaml, status: ACTIVE_PRE_FREEZE}
-
   - contract_id: VALOR-contract-orch-ks
     category: PUBLIC_USER_CALLABLE_WHEN_DIRECT_KS_REQUEST
     owner: KS
     file: contracts/VALOR-contract-orch-ks.yaml
-    status: ACTIVE_PRE_FREEZE_WITH_KS_CONTENT_BLOCKER
+    status: ACTIVE_PRE_FREEZE_WITH_USER_REVIEW_GATE
+    governed_library_root: libraries/knowledge_standards
     actions:
       - {type: KS_LIST_STANDARDS, aliases: [list_standards], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_standards_list.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
       - {type: KS_READ_STANDARD, aliases: [read_standard], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_standard.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
@@ -110,8 +92,10 @@ contracts:
       - {type: KS_READ_BUNDLE, aliases: [read_bundle], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_bundle.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
       - {type: KS_LIST_ANCHORS, aliases: [list_anchors], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_anchors_list.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
       - {type: KS_RESOLVE_CITATION, aliases: [resolve_citation, cite_standard], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_citation_resolved.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: KS_VALIDATE_BUNDLE_INTEGRITY, aliases: [validate_standards_bundle], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: ACTIVE_PRE_FREEZE_WITH_KS_CONTENT_BLOCKER}
-
+      - {type: KS_VALIDATE_CITATION_SET, aliases: [validate_citation_set], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
+      - {type: KS_VALIDATE_TEMPLATE_REQUIREMENTS, aliases: [validate_template_requirements], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
+      - {type: KS_VALIDATE_SOURCE_MAPPING, aliases: [validate_source_mapping], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
+      - {type: KS_VALIDATE_BUNDLE_INTEGRITY, aliases: [validate_standards_bundle], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: ACTIVE_PRE_FREEZE_WITH_USER_REVIEW_GATE}
   - contract_id: VALOR-contract-orch-ps
     category: INTERNAL_SERVICE_RESOLVER
     owner: PS
@@ -132,10 +116,10 @@ cross_cutting_controls:
   - {control_id: SEC, category: POLICY_FIRST_CROSS_CUTTING_CONTROL, status: ACTIVE_POLICY_FIRST_PRE_FREEZE, callable_contract_required: false}
 
 freeze_blockers_retained:
-  - K&S action mapping is cataloged, but full governed K&S content/schema/test coverage remains a separate blocker.
+  - K&S governed content pack exists, but source edition/date/locator acceptance remains gated where source input did not provide concrete values.
   - Contract registry semantic validation remains a later schema/validation blocker.
 
 validation_requirements:
   - A11, this registry, contract files, action_blocks, and schemas must agree before freeze.
   - Any public command alias must map to exactly one canonical action_type.
-  - Any FREEZE_BLOCKED action cannot be represented as freeze-ready behavior.
+  - Any PRE_FREEZE_USER_REVIEW_REQUIRED asset cannot be represented as fully approved regulated CQV standards basis.
