@@ -25,11 +25,7 @@ For each blocker:
 2. require full coverage for that declared scope;
 3. if full coverage is not possible, reduce the declared scope or keep freeze blocked.
 
-Do not defer items merely because they are not blockers now.
-
 If an item affects architecture clarity, freeze readiness, implementation contracts, validation, product behavior, source-of-truth, traceability, schemas, or UI minimum behavior, it must be resolved before freeze.
-
-Only Can’t do now items may move to later delivery planning.
 
 ## Corrected K&S Freeze Rule
 
@@ -59,25 +55,7 @@ Not acceptable for regulated CQV freeze operation:
 
 The block-by-block architecture review is complete through Phase 13.
 
-Final freeze review record:
-
-- `_review_control/PHASE13_FINAL_FREEZE_REVIEW.md`
-
-Final recommendation:
-
-- **NO-FREEZE YET**
-
-Reason:
-
-- The architecture spine is strong and retained as candidate specification authority.
-- The pack is not ready to freeze as product specification authority.
-- A controlled pre-freeze modification batch is required before freeze.
-
-## Prepared Pre-Freeze Modification Batch Plan
-
-Prepared file:
-
-- `_review_control/PRE_FREEZE_MODIFICATION_BATCH_PLAN.md`
+Final recommendation: **NO-FREEZE YET**
 
 ## Completed Pre-Freeze Modification Work
 
@@ -89,12 +67,6 @@ Control record:
 
 - `_review_control/BLOCKER1_ACTION_CONTRACT_CATALOG_ALIGNMENT.md`
 
-Important outcome:
-
-- `contracts/CONTRACT_REGISTRY_v1.0.1.yaml` was created as the canonical pre-freeze contract/action catalog.
-- `VALIDATE_ONLY` is added as a valid side-effect class.
-- K&S action mapping was cataloged, while content coverage remained a later blocker at that time.
-
 ### Blocker 2 — RPT / Export / Artifact Registry Alignment
 
 Status: **CLOSED FOR DECLARED RPT SCOPE — FREEZE STILL BLOCKED BY OTHER PRE-FREEZE WORK**
@@ -102,13 +74,6 @@ Status: **CLOSED FOR DECLARED RPT SCOPE — FREEZE STILL BLOCKED BY OTHER PRE-FR
 Control record:
 
 - `_review_control/BLOCKER2_RPT_EXPORT_ARTIFACT_ALIGNMENT.md`
-
-Important outcome:
-
-- A04.6 now separates narrative report, workbook export, and Gantt artifact.
-- CSV is no longer the v1.0.1 freeze baseline.
-- `BUILD_REPORT` is retained only as an alias mapped to `RPT_GENERATE_STATUS_REPORT`.
-- RPT contract and registry now expose the declared report/workbook/Gantt/list/get action family as active pre-freeze scope.
 
 ### Blocker 3 — K&S Governed Standards Bundle
 
@@ -120,24 +85,39 @@ Control record:
 
 Important outcome:
 
-- Created governed K&S library root under `libraries/knowledge_standards/`.
-- Created architecture-aligned bundles: `BND-CQV-BASE_v1.0.1`, `BND-CSV-ADDON_v1.0.1`, and `BND-CLEANROOM-ADDON_v1.0.1`.
-- Created internal governed standard `STD-CQV-BASE_v1.0.1` with operative VALOR/company-worded requirements.
-- Created controlled external references register and source-to-internal requirement mapping.
-- Created URS, RTM, DQ, IQ, OQ, PQ, and VSR template governance records.
-- Tightened K&S schemas and added external-reference/mapping schemas.
-- Added K&S positive and negative test vectors.
-- Updated A12, K&S contract, and contract registry to align with the governed content pack.
+- Created governed K&S content pack under `libraries/knowledge_standards/`.
+- Created architecture-aligned bundles, internal standard, external references, mapping, template governance records, schemas, and K&S test vectors.
+- Updated A12, K&S contract, and contract registry.
+- Exact external source editions, document dates, and locators were not invented.
 
-Known gate:
+### Blocker 3A — K&S Testing-Only Metadata Gate
 
-- The attached source files were not available through uploaded-file search during the session, so exact source editions, document dates, and clause locators were not invented.
-- Affected source records remain `PRE_FREEZE_USER_REVIEW_REQUIRED` and dependent regulated CQV output must remain blocked/incomplete until user/site source metadata acceptance.
+Status: **COMPLETED WITH CONNECTOR-LIMITED FILE EXCEPTIONS — REGULATED USE STILL BLOCKED**
+
+Control record:
+
+- `_review_control/BLOCKER3A_KS_TESTING_ONLY_METADATA_GATE.md`
+
+Important outcome:
+
+- Added `TESTING_ONLY` / `PRODUCT_TESTING_ONLY` operating state.
+- Product testing, dry runs, internal trials, behavior validation, and E2E workflow testing are allowed when testing metadata is current and the required testing-only stamp is applied.
+- Real regulated CQV/GMP output remains blocked while K&S assets are testing-only or source metadata is unaccepted.
+- External references use testing placeholders, not invented source editions/dates/locators.
+- Updated K&S external references, bundles, mapping, schemas, A12, K&S contract, registry, and testing-only vectors.
+
+Known connector-limited exceptions:
+
+- `libraries/knowledge_standards/README.md`
+- `libraries/knowledge_standards/standards/STD-CQV-BASE_v1.0.1.yaml`
+- `libraries/knowledge_standards/templates/*.yaml`
+
+These file rewrites were repeatedly blocked by the connector safety gate and were not forced with misleading workarounds. Their testing-only behavior is currently enforced through the updated bundles, external references, mapping file, A12, contract, registry, schemas, and test vectors.
 
 ## Must-Resolve-Before-Freeze Themes
 
-These remain pre-freeze work because they affect architecture clarity, contracts, validation, product behavior, source-of-truth, traceability, schemas, or UI minimum behavior:
-
+- K&S user/site source metadata acceptance for real regulated CQV/GMP use.
+- Normalization of connector-limited K&S files when targeted edits are available.
 - Authority, status, and terminology.
 - Contract registry semantic validation.
 - WP, Planning, and governed libraries.
@@ -145,7 +125,7 @@ These remain pre-freeze work because they affect architecture clarity, contracts
 - Product surface minimum specification.
 - Negative and E2E test vector coverage outside the K&S scoped vectors.
 - Governance/audit/security/registry schemas/tests.
-- K&S user/site source metadata acceptance for records marked `PRE_FREEZE_USER_REVIEW_REQUIRED`.
+- Manifest regeneration and final freeze-readiness check after all content edits.
 
 ## Can’t Do Now Items
 
@@ -167,20 +147,15 @@ Current controlled state:
 
 - Architecture review complete.
 - Pre-Freeze Modification Batch Plan prepared.
-- Strict freeze coverage rule applied.
-- Corrected full K&S freeze rule applied.
-- Blocker 1 category and primary catalog alignment executed under user approval.
-- Blocker 2 RPT/export/artifact alignment executed under user approval.
-- Blocker 3 K&S governed standards content pack executed under user approval.
+- Blocker 1 executed under user approval.
+- Blocker 2 executed under user approval.
+- Blocker 3 executed under user approval.
+- Blocker 3A testing-only K&S metadata correction executed under user approval.
 - Freeze remains blocked by unresolved WP/Planning/library, DOC/DCF/URS, product-surface, non-K&S schema/validation/test-vector, governance/security/registry, manifest, final freeze-readiness work, and K&S source metadata acceptance gate.
 
 ## Next Session Objective
 
 Continue pre-freeze blocker cleanup only after explicit user approval of the next scoped step.
-
-Recommended next scoped blocker:
-
-- WP/Planning/governed-library cleanup, DOC/DCF/URS source-chain cleanup, or K&S user/site source metadata acceptance gate, depending on user priority.
 
 ## Explicit Non-Scope Until Approved
 
