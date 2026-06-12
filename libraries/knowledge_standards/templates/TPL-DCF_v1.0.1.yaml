@@ -1,0 +1,141 @@
+template_id: TPL-DCF
+version: v1.0.1
+name: VALOR DCF Template Governance Record
+doc_type: DCF
+owner: K&S
+effective_date: 2026-06-12
+source_checked_date: 2026-06-12
+review_cycle_months: 36
+next_review_due: 2029-06-12
+expiry_date: 2029-06-12
+status: TESTING_ONLY
+usage_classification: PRODUCT_TESTING_ONLY
+testing_use_allowed: true
+regulated_output_allowed: false
+real_life_use_allowed: false
+testing_only_stamp_required: true
+approval_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+user_site_acceptance_required: true
+source_metadata_acceptance_status: NOT_ACCEPTED_FOR_REGULATED_USE
+testing_expired_behavior: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
+regulated_expired_behavior: BLOCK_REAL_LIFE_REGULATED_CQV_GMP_OUTPUT
+required_output_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
+source_owner: User-provided VALOR DCF template candidates
+source_status: USER_PROVIDED_SOURCE_CANDIDATE
+review_status: PRODUCT_TESTING_METADATA_REVIEWED
+source_candidate_package:
+  package_name: VALOR_DCF_Templates_MD_source_candidates
+  package_created_utc: '2026-06-12T20:28:53Z'
+  package_status: SOURCE_CANDIDATE_ONLY_NO_REPO_EDIT
+content_import_policy:
+  markdown_content_imported_into_repo: false
+  docx_content_imported_into_repo: false
+  record_contains_metadata_only: true
+template_family:
+  family_id: DCF
+  family_type: DOMAIN_VARIANT_TEMPLATE_FAMILY
+  variant_count: 4
+  variant_model: ONE_GOVERNED_TEMPLATE_FAMILY_WITH_DOMAIN_VARIANTS
+variants:
+  - variant_id: DCF-CLEANROOM
+    domain: CLEANROOM
+    source_file_name: VALOR_DCF_Cleanroom_v1.docx
+    markdown_file_name: VALOR_DCF_Cleanroom_v1.md
+    source_checksum_sha256: 2ff9d26c50639f01e9c7e870868728ca148edc3fb4624723b3fd36339e81c5c9
+    markdown_checksum_sha256: 389feae2adb7956189b73cb19c5f2b1b2f77cb08519271b9a7420a25f1581236
+    source_size_bytes: 41358
+    markdown_size_bytes: 9585
+    markdown_lines: 97
+    source_status: USER_PROVIDED_SOURCE_CANDIDATE
+    usage_classification: PRODUCT_TESTING_ONLY
+    regulated_output_allowed: false
+  - variant_id: DCF-COMPUTERIZED-SYSTEMS
+    domain: COMPUTERIZED_SYSTEMS
+    source_file_name: VALOR_DCF_Computerized_Systems_v1.docx
+    markdown_file_name: VALOR_DCF_Computerized_Systems_v1.md
+    source_checksum_sha256: d909988f4a6bce2b6db520102970b384087f8163e5454530e813c48bd5cee0ef
+    markdown_checksum_sha256: c450d7f37a7fba7023c4cf675088ec1b3c991e935926b1ff9e966d978ad7616b
+    source_size_bytes: 41778
+    markdown_size_bytes: 10330
+    markdown_lines: 105
+    source_status: USER_PROVIDED_SOURCE_CANDIDATE
+    usage_classification: PRODUCT_TESTING_ONLY
+    regulated_output_allowed: false
+  - variant_id: DCF-PROCESS-EQUIPMENT
+    domain: PROCESS_EQUIPMENT
+    source_file_name: VALOR_DCF_Process_Equipment_v1.docx
+    markdown_file_name: VALOR_DCF_Process_Equipment_v1.md
+    source_checksum_sha256: bd468e609452f3fa9bdba07f87e1ddbc0086abc8cc4b058abeba3d8c5913d32c
+    markdown_checksum_sha256: f4edd163e1652afb34d5cfd4aac7861e11f9a9d107bc742232241849c68bbda2
+    source_size_bytes: 30876
+    markdown_size_bytes: 16218
+    markdown_lines: 165
+    source_status: USER_PROVIDED_SOURCE_CANDIDATE
+    usage_classification: PRODUCT_TESTING_ONLY
+    regulated_output_allowed: false
+  - variant_id: DCF-UTILITIES
+    domain: UTILITIES
+    source_file_name: VALOR_DCF_Utilities_v1.docx
+    markdown_file_name: VALOR_DCF_Utilities_v1.md
+    source_checksum_sha256: 4a716860ab4503f2c1d639bfecaffc22db5893f160337a8d8bff86ba5560c967
+    markdown_checksum_sha256: 43e345a011cd31ae15c2c5fc93dfa5e324772f3d5456e221e64215378f142a51
+    source_size_bytes: 42939
+    markdown_size_bytes: 14107
+    markdown_lines: 144
+    source_status: USER_PROVIDED_SOURCE_CANDIDATE
+    usage_classification: PRODUCT_TESTING_ONLY
+    regulated_output_allowed: false
+required_inputs:
+  common:
+    - domain
+    - system_or_area_profile
+    - intended_use
+    - GMP_relevance
+    - user_needs
+    - critical_requirements
+    - interfaces
+    - constraints
+    - assumptions
+    - acceptance_expectations
+    - source_input_completion_status
+  domain_specific:
+    CLEANROOM: [room_classification, environmental_conditions, pressure_cascade, airflow_filtration, monitoring_expectations]
+    COMPUTERIZED_SYSTEMS: [system_scope, controlled_parameters, alarm_event_expectations, data_integrity_controls, backup_restore_expectations]
+    PROCESS_EQUIPMENT: [equipment_scope, process_CQAs, process_CPPs, utilities_environment, cleaning_safety_automation_expectations]
+    UTILITIES: [utility_scope, points_of_use, capacity_redundancy, utility_CQAs, utility_CPPs, monitoring_safety_maintenance_expectations]
+required_stamps:
+  - testing_only_stamp
+  - bundle_id
+  - bundle_version
+  - internal_standard_id
+  - internal_standard_version
+  - template_id
+  - template_version
+  - variant_id
+  - source_file_name
+  - source_checksum_sha256
+  - markdown_file_name
+  - markdown_checksum_sha256
+  - lifecycle_status
+  - usage_classification
+  - regulated_output_allowed
+ks_dependencies:
+  base_bundle: BND-CQV-BASE_v1.0.1
+  internal_standard: STD-CQV-BASE_v1.0.1
+  external_source_metadata: NOT_ACCEPTED_FOR_REGULATED_USE
+activation_policy:
+  dcf_template_governance_record_created: true
+  dcf_added_to_base_bundle_for_product_testing: true
+  dcf_artifact_generation_active: false
+  dcf_artifact_finalization_active: false
+  generation_activation_requires_separate_DOC_behavior_approval: true
+  schema_and_test_vector_activation_deferred: true
+regulated_use_gate:
+  regulated_output_allowed: false
+  real_life_use_allowed: false
+  user_site_acceptance_required: true
+  source_metadata_acceptance_status: NOT_ACCEPTED_FOR_REGULATED_USE
+  regulated_use_behavior: BLOCK_OR_MARK_INCOMPLETE_UNTIL_SOURCE_METADATA_ACCEPTANCE
+missing_or_expired_behavior: BLOCK_DOC_GENERATION_OR_MARK_INCOMPLETE
+testing_metadata_expired_behavior: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
+no_external_source_claim_rule: Do not infer or invent external source editions, dates, clauses, anchors, or locators from this template governance record.
