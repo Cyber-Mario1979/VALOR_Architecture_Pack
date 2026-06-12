@@ -7,9 +7,18 @@ source_checked_date: 2026-06-12
 review_cycle_months: 36
 next_review_due: 2029-06-12
 expiry_date: 2029-06-12
-status: PRE_FREEZE_USER_REVIEW_REQUIRED
-review_required: true
-expired_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+status: TESTING_ONLY
+usage_classification: PRODUCT_TESTING_ONLY
+testing_use_allowed: true
+regulated_output_allowed: false
+testing_only_stamp_required: true
+real_life_use_allowed: false
+approval_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+user_site_acceptance_required: true
+source_metadata_acceptance_status: NOT_ACCEPTED_FOR_REGULATED_USE
+testing_expired_behavior: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
+regulated_expired_behavior: BLOCK_REAL_LIFE_REGULATED_CQV_GMP_OUTPUT
+required_output_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
 trigger_condition: computerized_or_automated_or_data_integrity_scope_present
 included_internal_requirements:
   - STD-CQV-BASE:v1.0.1:CQV-REQ-011
@@ -26,7 +35,9 @@ required_anchor_refs:
   - EXT-EUGMP-ANNEX11-DATA-RECORDS
   - EXT-21CFR11-ELECTRONIC-RECORDS
 blocked_state_rules:
+  testing_metadata_expired: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
+  regulated_use_requested: BLOCK_REAL_LIFE_REGULATED_CQV_GMP_OUTPUT
   trigger_true_bundle_missing: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
   bundle_expired_or_unreviewed: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
-  source_unverified: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  source_unverified_for_regulated_use: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
   no_csv_fallback: PROHIBITED
