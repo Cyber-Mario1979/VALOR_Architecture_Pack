@@ -1,8 +1,22 @@
 calendar_id: CAL-WORKWEEK
 calendar_version: v1.0.1
+canonical_calendar_id: CAL-WORKWEEK
+canonical_calendar_version: v1
+package_asset_version: v1.0.1
+canonical_source_path: libraries/calendar/CAL-WORKWEEK_v1.yaml
+canonical_source_sha256: 4789d604a5fb8e72587934a8d0e89db1ce4e7a298ddc62ac5c52be5dfda3c386
 revision_date: '2025-12-26'
-name: Standard Workweek (Sun–Thu) — Weekend (Fri–Sat)
-timezone: Africa/Cairo
+status: PRE_FREEZE_CONTROLLED
+usage_classification: PRODUCT_TESTING_OR_PRE_FREEZE_SPECIFICATION
+effective_date: 2026-06-12
+source_checked_date: 2026-06-12
+review_cycle_months: 36
+next_review_due: 2029-06-12
+expiry_date: 2029-06-12
+review_required: true
+expired_behavior: BLOCK_PLANNING_AND_REPORTING_DATE_COMPUTATION_UNTIL_REVIEWED
+name: Standard Workweek (Sun-Thu) - Weekend (Fri-Sat)
+timezone: UTC+02:00
 weekend_rule:
   weekend_days:
   - FRI
@@ -19,3 +33,4 @@ arithmetic_policy:
   start_date_rule: IF_NON_WORKING_START_NEXT_WORKING
   end_date_rule: END_INCLUSIVE
   diff_policy: COUNT_WORKING_DAYS_BETWEEN
+wrapper_rule: This v1.0.1 architecture-pack asset is a governed wrapper around canonical CAL-WORKWEEK v1. Do not treat Africa/Cairo as canonical for this baseline unless accepted in a later controlled patch.
