@@ -22,6 +22,7 @@ acceptance_criteria:
   - Defines planning inputs/outputs with governed version stamps.
   - Defines scheduling model using dependency graph, profile units, and calendar logic.
   - Defines proposal vs commitment boundary.
+  - Defines product-surface behavior for proposal, preview, and apply-confirmation boundaries.
   - Defines resource assignment as advisory only.
   - Records contract/action registry alignment as later dependency.
 ---
@@ -219,10 +220,19 @@ To make dates authoritative:
 1. Planning returns a `PROPOSED` schedule.
 2. Orchestration presents proposal to the user.
 3. User confirms apply.
-4. Orchestration calls WP authority to write committed_start_date and committed_end_date.
+4. Orchestration calls WP authority through `WP_APPLY_PLAN_PROPOSAL` to write committed_start_date and committed_end_date.
 5. WP stores committed dates and provenance stamps.
 
 If the apply call fails, Orchestration must not claim success.
+
+### 12.1 Product Surface Behavior
+
+- `PLAN_GENERATE_PROPOSAL` always returns a `PROPOSED` schedule.
+- Preview behavior is represented by `PLAN_GENERATE_PROPOSAL` with `options.dry_run=true`; no separate `PLAN_PREVIEW` action is active.
+- Proposed dates must not be displayed as committed dates.
+- A user request to plan and apply in one step must stop before the apply mutation and require explicit confirmation.
+- `WP_APPLY_PLAN_PROPOSAL` is the required path for committed dates.
+- Contract/audit/provenance timestamps remain UTC. Optional local display time may be shown only when explicitly labeled as display/local time.
 
 ## 13. Resource Assignment
 
@@ -281,3 +291,4 @@ This blocker aligns the architecture and governed library content only. It does 
 | ---------- | ------- | -------------- |
 | 2025-12-23 | First Issue | Arch_v1.0.1 |
 | 2026-06-12 | WP/Planning/Governed Library cleanup: clarified profile-required baseline, stamped no-profile exception, canonical CAL-WORKWEEK wrapper use, mixed-unit handling, FAT chain scheduling, and proposal-only boundary | Pre-freeze controlled update |
+| 2026-06-12 | Blocker 7A product-surface wording: explicit PROPOSED/preview/apply-confirmation behavior and timestamp display boundary | Pre-freeze controlled update |
