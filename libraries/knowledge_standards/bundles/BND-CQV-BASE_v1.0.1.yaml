@@ -1,0 +1,47 @@
+bundle_id: BND-CQV-BASE
+version: v1.0.1
+name: VALOR CQV Base Bundle
+owner: K&S
+effective_date: 2026-06-12
+source_checked_date: 2026-06-12
+review_cycle_months: 36
+next_review_due: 2029-06-12
+expiry_date: 2029-06-12
+status: PRE_FREEZE_USER_REVIEW_REQUIRED
+review_required: true
+expired_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+applicability:
+  scope: VALOR CQV v1.0.1 base scope
+included_internal_standards:
+  - standard_id: STD-CQV-BASE
+    version: v1.0.1
+    required: true
+included_external_references:
+  - EXT-ISPE-BG5
+  - EXT-EUGMP-ANNEX15
+  - EXT-ASTM-E2500
+  - EXT-ICH-Q9
+  - EXT-ICH-Q10
+  - EXT-LOCAL-EDA-SITE-GMP
+included_templates:
+  - TPL-URS_v1.0.1
+  - TPL-RTM_v1.0.1
+  - TPL-DQ_v1.0.1
+  - TPL-IQ_v1.0.1
+  - TPL-OQ_v1.0.1
+  - TPL-PQ_v1.0.1
+  - TPL-VSR_v1.0.1
+conditional_addon_triggers:
+  - TRG-CSV-ADDON requires BND-CSV-ADDON_v1.0.1 when computerized, automated, electronic-record, or data-integrity scope is present.
+  - TRG-CLEANROOM-ADDON requires BND-CLEANROOM-ADDON_v1.0.1 when classified-area, cleanroom, HVAC, ISO 8, or Grade D scope is present.
+default_citation_set:
+  - STD-CQV-BASE:v1.0.1:CQV-REQ-001
+  - STD-CQV-BASE:v1.0.1:CQV-REQ-002
+  - STD-CQV-BASE:v1.0.1:CQV-REQ-003
+  - STD-CQV-BASE:v1.0.1:CQV-REQ-004
+  - STD-CQV-BASE:v1.0.1:CQV-REQ-016
+blocked_state_rules:
+  missing_or_expired_required_asset: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  unreviewed_required_asset: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  unmapped_requirement: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  no_standards_mode: PROHIBITED
