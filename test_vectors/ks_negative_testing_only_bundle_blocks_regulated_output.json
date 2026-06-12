@@ -1,0 +1,16 @@
+{
+  "test_id": "KS-3A-NEG-001",
+  "name": "testing-only bundle blocks regulated output",
+  "action_type": "KS_VALIDATE_BUNDLE_INTEGRITY",
+  "requested_use": "REGULATED_CQV_OUTPUT",
+  "input": {"bundle_id": "BND-CQV-BASE", "version": "v1.0.1"},
+  "expected": {
+    "ok": false,
+    "status": "TESTING_ONLY",
+    "usage_classification": "PRODUCT_TESTING_ONLY",
+    "testing_use_allowed": true,
+    "regulated_output_allowed": false,
+    "error": {"code": "VALIDATION_ERROR", "subcode": "TESTING_ONLY_REGULATED_OUTPUT_BLOCKED"},
+    "blocked_behavior": "BLOCK_OR_MARK_INCOMPLETE"
+  }
+}
