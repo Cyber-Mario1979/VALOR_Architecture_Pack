@@ -13,6 +13,18 @@ envelopes:
   request_schema: schemas/contracts/contract_request.schema.json
   response_schema: schemas/contracts/contract_response.schema.json
 
+service_scope:
+  callable_category: INTERNAL_SERVICE_RESOLVER
+  public_user_callable: false
+  note: PS is invoked by Orchestration as an internal preset resolver and binding authority. It is not an independent public/user-callable subsystem in v1.0.1.
+
+regulated_use_policy:
+  ks_testing_only_binding_allowed: true
+  regulated_output_allowed_from_testing_only_ks: false
+  required_testing_only_statuses: [TESTING_ONLY, PRODUCT_TESTING_ONLY]
+  required_output_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
+  rule: Preset bindings to TESTING_ONLY / PRODUCT_TESTING_ONLY K&S assets may support product testing only and must not be treated as approval for real regulated CQV/GMP output.
+
 error_taxonomy:
   standard_codes:
     - VALIDATION_ERROR
@@ -26,6 +38,8 @@ error_taxonomy:
     - BINDING_INCOMPATIBLE
     - RULESET_NONDETERMINISTIC
     - RULE_CONTRADICTION
+    - TESTING_ONLY_BINDING_NOT_REGULATED_APPROVED
+    - REQUIRED_BINDING_STAMP_MISSING
 
 actions:
 - action_type: PS_LIST_PRESETS
@@ -85,19 +99,32 @@ actions:
 
 - action_type: PS_VALIDATE_BINDINGS
   allowed_modes: [M1, M2]
-  side_effect_class: READ_ONLY
+  side_effect_class: VALIDATE_ONLY
   idempotent: true
   required_payload_fields:
     - preset_id
     - preset_version
-  optional_payload_fields: []
+  optional_payload_fields:
+    - expected_task_pool_ref
+    - expected_profile_ref
+    - expected_calendar_logic_ref
+    - expected_standards_bundle_ref
+    - require_testing_only_stamp
   target_fields:
     required: []
     optional: []
   result_schema_ref: schemas/contracts/plan_validation_result.schema.json
+  validation_rules:
+    - Confirm preset binding refs resolve to governed TP/PROF/CAL/K&S assets.
+    - Confirm TESTING_ONLY / PRODUCT_TESTING_ONLY K&S bindings remain blocked for real regulated CQV/GMP output.
+    - Confirm required binding stamps are present before downstream WP/PLAN/RPT/DOC use.
   errors:
     - code: VALIDATION_ERROR
       subcode: PAYLOAD_SCHEMA_MISMATCH
+    - code: VALIDATION_ERROR
+      subcode: REQUIRED_BINDING_STAMP_MISSING
+    - code: VALIDATION_ERROR
+      subcode: TESTING_ONLY_BINDING_NOT_REGULATED_APPROVED
 
 examples:
 - name: ps_resolve_preset_request
@@ -111,10 +138,12 @@ examples:
     target: {}
     payload:
       context:
-        system_type: Process
+        equipment_domain: ProcessEquipment
         complexity: High
-        tags: ["ProcessEquipment", "HighComplexity"]
-        scope: project
+        scope: Project
+        optional_matching_hints:
+          system_type: Process
+          tags: [ProcessEquipment, HighComplexity]
     options:
       require_exact_match: true
     context:
