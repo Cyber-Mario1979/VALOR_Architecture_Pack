@@ -203,9 +203,9 @@ Example:
   "mode": "M2",
   "target": {"wp_id": "WP-0007"},
   "payload": {
-    "preset_id": "PRESET-PE-HIGH",
+    "preset_id": "PS-PE-HIGH",
     "preset_version": "v1.0.1",
-    "selection_context": {"equipment_type": "Process Equipment", "complexity": "High"}
+    "selection_context": {"equipment_domain": "ProcessEquipment", "complexity": "High", "scope": "Project"}
   },
   "options": {"dry_run": false},
   "context": {"timestamp_utc": "2025-12-22T00:00:00Z"}
