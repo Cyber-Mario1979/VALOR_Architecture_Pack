@@ -1,0 +1,222 @@
+standard_id: STD-CQV-BASE
+version: v1.0.1
+title: VALOR Internal Governed CQV Base Standard
+owner: K&S
+effective_date: 2026-06-12
+source_checked_date: 2026-06-12
+review_cycle_months: 36
+next_review_due: 2029-06-12
+expiry_date: 2029-06-12
+status: PRE_FREEZE_USER_REVIEW_REQUIRED
+review_required: true
+expired_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+access_classification: INTERNAL
+excerpt_policy: INTERNAL_ONLY
+source_register: libraries/knowledge_standards/references/external_references_v1.0.1.yaml
+mapping_file: libraries/knowledge_standards/mapping/source_to_internal_requirements_v1.0.1.yaml
+operative_rule: Internal VALOR requirements are the operative governed CQV requirements. External standards are controlled source authorities only.
+
+citation_behavior:
+  default: cite_internal_requirement_with_source_anchor_metadata
+  external_text_reproduction: prohibited
+  missing_anchor_behavior: BLOCK_OR_REFUSE
+  unmapped_requirement_behavior: BLOCK_OR_REFUSE
+
+excerpt_redaction_behavior:
+  internal_requirement_excerpt: allowed_for_internal_governed_context
+  external_standard_excerpt: prohibited_unless_explicitly_approved_public_excerpt_source_exists
+  restricted_excerpt_request: refuse_with_EXCERPT_BLOCKED
+
+requirements:
+  - requirement_id: CQV-REQ-001
+    title: CQV lifecycle governance
+    internal_requirement_statement: VALOR regulated CQV work shall follow a documented lifecycle covering intended use, scope, risk basis, deliverables, acceptance strategy, execution evidence, review, approval, and closure.
+    rationale: Lifecycle control makes CQV evidence reviewable from need through closure.
+    applies_to: [WP, RPT, URS, RTM, DQ, IQ, OQ, PQ, VSR]
+    source_refs: [EXT-ISPE-BG5, EXT-EUGMP-ANNEX15, EXT-ASTM-E2500, EXT-ICH-Q10]
+    source_anchor_refs: [EXT-ISPE-BG5-CQV-LIFECYCLE, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-ICH-Q10-PQS-LIFECYCLE]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-001
+    citation_behavior: cite_requirement_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_OUTPUT_IF_LIFECYCLE_SCOPE_OR_REQUIRED_DELIVERABLE_STATUS_IS_MISSING
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - requirement_id: CQV-REQ-002
+    title: URS governance
+    internal_requirement_statement: A URS shall define intended use, GMP relevance, user needs, critical requirements, interfaces, constraints, assumptions, acceptance expectations, and traceability anchors before downstream deliverables rely on it.
+    rationale: Downstream qualification cannot be justified from absent or unaccepted user requirements.
+    applies_to: [URS, RTM, DQ, IQ, OQ, PQ, VSR, DOC]
+    source_refs: [EXT-ISPE-BG5, EXT-EUGMP-ANNEX15, EXT-ASTM-E2500, EXT-LOCAL-EDA-SITE-GMP]
+    source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-LOCAL-EDA-SITE-GMP-LOCAL-REQUIREMENTS]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-002
+    citation_behavior: cite_URS_requirement_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_DOWNSTREAM_DOC_GENERATION_IF_ACCEPTED_URS_SOURCE_IS_MISSING
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - requirement_id: CQV-REQ-003
+    title: Risk assessment and criticality
+    internal_requirement_statement: CQV scope, test depth, acceptance focus, and review priority shall be based on documented product, patient, process, GMP, data integrity, and operational risk.
+    rationale: Risk-based CQV prevents unjustified under-testing or over-testing.
+    applies_to: [URS, RTM, DQ, IQ, OQ, PQ, VSR]
+    source_refs: [EXT-ICH-Q9, EXT-ASTM-E2500, EXT-EUGMP-ANNEX15, EXT-ISPE-BG5]
+    source_anchor_refs: [EXT-ICH-Q9-QUALITY-RISK-MANAGEMENT, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-EUGMP-ANNEX15-RISK-APPROACH, EXT-ISPE-BG5-CQV-LIFECYCLE]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-003
+    citation_behavior: cite_risk_basis_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_OUTPUT_IF_RISK_BASIS_IS_MISSING_FOR_GMP_RELEVANT_SCOPE
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - requirement_id: CQV-REQ-004
+    title: RTM and traceability
+    internal_requirement_statement: Each accepted GMP-relevant or risk-relevant URS requirement shall trace to design verification, qualification evidence, deviations where applicable, and VSR disposition.
+    rationale: Traceability demonstrates that requirements were verified and supports release decisions.
+    applies_to: [RTM, DQ, IQ, OQ, PQ, VSR, RPT]
+    source_refs: [EXT-ISPE-BG5, EXT-EUGMP-ANNEX15, EXT-ASTM-E2500, EXT-LOCAL-EDA-SITE-GMP]
+    source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-LOCAL-EDA-SITE-GMP-APPROVALS]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-004
+    citation_behavior: cite_traceability_requirement_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_VSR_OR_FINAL_STATUS_IF_OPEN_TRACEABILITY_GAPS_EXIST_WITHOUT_ACCEPTED_JUSTIFICATION
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - requirement_id: CQV-REQ-005
+    title: DQ governance
+    internal_requirement_statement: DQ shall verify that proposed design, configuration, materials, utilities, automation interfaces, GMP functions, and acceptance strategy are suitable to meet accepted URS and risk requirements.
+    rationale: DQ prevents execution against an unsuitable design baseline.
+    applies_to: [DQ, URS, RTM, IQ, OQ, PQ, VSR]
+    source_refs: [EXT-ISPE-BG5, EXT-EUGMP-ANNEX15, EXT-ASTM-E2500]
+    source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-ASTM-E2500-SCIENCE-RISK-BASED]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-005
+    citation_behavior: cite_DQ_requirement_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_IQ_OQ_PQ_GENERATION_IF_DQ_SCOPE_IS_REQUIRED_BUT_UNACCEPTED
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - requirement_id: CQV-REQ-006
+    title: IQ governance
+    internal_requirement_statement: IQ shall verify installed equipment, system, facility, utility, documentation, calibration, instrumentation, software/configuration where applicable, and installation prerequisites against accepted design and site requirements.
+    rationale: IQ confirms the installed baseline before functional verification is relied upon.
+    applies_to: [IQ, RTM, OQ, PQ, VSR]
+    source_refs: [EXT-ISPE-BG5, EXT-EUGMP-ANNEX15, EXT-LOCAL-EDA-SITE-GMP]
+    source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-LOCAL-EDA-SITE-GMP-LOCAL-REQUIREMENTS]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-006
+    citation_behavior: cite_IQ_requirement_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_OQ_OR_PQ_DEPENDENT_OUTPUT_IF_IQ_PREREQUISITES_ARE_NOT_ACCEPTED
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - requirement_id: CQV-REQ-007
+    title: OQ governance
+    internal_requirement_statement: OQ shall verify GMP-relevant functions, controls, alarms, interlocks, operating ranges, failure responses, data outputs, and critical operating parameters under defined conditions.
+    rationale: OQ demonstrates functional control before performance use is accepted.
+    applies_to: [OQ, RTM, PQ, VSR]
+    source_refs: [EXT-ISPE-BG5, EXT-EUGMP-ANNEX15, EXT-ASTM-E2500, EXT-ICH-Q9]
+    source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-ICH-Q9-QUALITY-RISK-MANAGEMENT]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-007
+    citation_behavior: cite_OQ_requirement_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_PQ_OR_VSR_IF_CRITICAL_OQ_FUNCTIONS_ARE_UNVERIFIED_WITHOUT_ACCEPTED_JUSTIFICATION
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - requirement_id: CQV-REQ-008
+    title: PQ governance
+    internal_requirement_statement: PQ shall verify that the qualified system, equipment, facility, or process performs as intended under defined routine or representative operating conditions.
+    rationale: PQ links qualification evidence to intended GMP use.
+    applies_to: [PQ, RTM, VSR]
+    source_refs: [EXT-ISPE-BG5, EXT-EUGMP-ANNEX15, EXT-ICH-Q9, EXT-LOCAL-EDA-SITE-GMP]
+    source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-ICH-Q9-RISK-REVIEW, EXT-LOCAL-EDA-SITE-GMP-LOCAL-REQUIREMENTS]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-008
+    citation_behavior: cite_PQ_requirement_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_FINAL_CQV_COMPLETION_IF_PQ_IS_REQUIRED_BUT_NOT_ACCEPTED
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - requirement_id: CQV-REQ-009
+    title: VSR governance
+    internal_requirement_statement: VSR shall summarize scope, executed deliverables, deviations, unresolved items, traceability status, acceptance conclusions, limitations, and final readiness decision.
+    rationale: VSR is the governed conclusion of CQV evidence.
+    applies_to: [VSR, RTM, RPT, WP]
+    source_refs: [EXT-ISPE-BG5, EXT-EUGMP-ANNEX15, EXT-ICH-Q10, EXT-LOCAL-EDA-SITE-GMP]
+    source_anchor_refs: [EXT-ISPE-BG5-VSR, EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ICH-Q10-PQS-LIFECYCLE, EXT-LOCAL-EDA-SITE-GMP-APPROVALS]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-009
+    citation_behavior: cite_VSR_requirement_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_VSR_FINALIZATION_IF_REQUIRED_EVIDENCE_OR_APPROVAL_STATUS_IS_MISSING
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - requirement_id: CQV-REQ-010
+    title: FAT and SAT handling
+    internal_requirement_statement: FAT and SAT evidence may support CQV only when scope, acceptance criteria, execution conditions, deviations, data integrity, and transferability to site GMP use are documented and accepted.
+    rationale: Supplier or pre-site evidence can support CQV only when controlled.
+    applies_to: [WP, DQ, IQ, OQ, PQ, RTM, VSR]
+    source_refs: [EXT-ISPE-BG5, EXT-ASTM-E2500, EXT-EUGMP-ANNEX15]
+    source_anchor_refs: [EXT-ISPE-BG5-CQV-LIFECYCLE, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-010
+    citation_behavior: cite_FAT_SAT_basis_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_REUSE_OF_SUPPLIER_TEST_EVIDENCE_IF_TRANSFERABILITY_OR_DEVIATION_STATUS_IS_UNACCEPTED
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - requirement_id: CQV-REQ-011
+    title: Computerized systems trigger
+    internal_requirement_statement: If scope includes computerized control, automated GMP functions, electronic records/signatures, data integrity impact, recipes, audit trails, alarms, reports, or configurable software, BND-CSV-ADDON shall be triggered.
+    rationale: Computerized and data integrity scope requires additional controls beyond base CQV.
+    applies_to: [WP, URS, RTM, DQ, IQ, OQ, PQ, VSR, RPT, CSV_ADDON]
+    source_refs: [EXT-ISPE-GAMP5, EXT-EUGMP-ANNEX11, EXT-21CFR11, EXT-ICH-Q9]
+    source_anchor_refs: [EXT-ISPE-GAMP5-CSV-LIFECYCLE, EXT-EUGMP-ANNEX11-COMPUTERISED-SYSTEMS, EXT-21CFR11-ELECTRONIC-RECORDS, EXT-ICH-Q9-QUALITY-RISK-MANAGEMENT]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-011
+    citation_behavior: cite_CSV_trigger_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_REGULATED_OUTPUT_IF_CSV_TRIGGER_IS_TRUE_AND_BND_CSV_ADDON_IS_MISSING_EXPIRED_OR_UNACCEPTED
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - requirement_id: CQV-REQ-012
+    title: Cleanroom and HVAC trigger
+    internal_requirement_statement: If scope includes classified areas, HVAC serving classified GMP spaces, cleanroom classification, ISO 8, Grade D, environmental control, pressure cascade, airflow, filtration, temperature, humidity, or monitoring interfaces, BND-CLEANROOM-ADDON shall be triggered.
+    rationale: Classified-area and HVAC qualification require dedicated cleanroom evidence controls.
+    applies_to: [WP, URS, RTM, DQ, IQ, OQ, PQ, VSR, RPT, CLEANROOM_ADDON]
+    source_refs: [EXT-ISO14644, EXT-EUGMP-ANNEX15, EXT-LOCAL-EDA-SITE-GMP]
+    source_anchor_refs: [EXT-ISO14644-AIR-CLEANLINESS-CLASSIFICATION, EXT-ISO14644-CLEANROOM-TESTING, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-LOCAL-EDA-SITE-GMP-LOCAL-REQUIREMENTS]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-012
+    citation_behavior: cite_cleanroom_trigger_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_REGULATED_OUTPUT_IF_CLEANROOM_TRIGGER_IS_TRUE_AND_BND_CLEANROOM_ADDON_IS_MISSING_EXPIRED_OR_UNACCEPTED
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - requirement_id: CQV-REQ-013
+    title: Documentation control
+    internal_requirement_statement: CQV documents, reports, exports, and evidence summaries shall carry controlled identifiers, version/date/status metadata, source bundle references, template references, and clear draft/final/accepted state.
+    rationale: Documentation control prevents uncontrolled outputs from being treated as approved records.
+    applies_to: [DOC, RPT, WP, URS, RTM, DQ, IQ, OQ, PQ, VSR]
+    source_refs: [EXT-EUGMP-ANNEX15, EXT-ICH-Q10, EXT-LOCAL-EDA-SITE-GMP]
+    source_anchor_refs: [EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ICH-Q10-PQS-LIFECYCLE, EXT-LOCAL-EDA-SITE-GMP-APPROVALS]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-013
+    citation_behavior: cite_document_control_requirement_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_FINAL_OR_APPROVED_LABEL_IF_DOCUMENT_CONTROL_METADATA_IS_MISSING
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - requirement_id: CQV-REQ-014
+    title: Approval and review expectations
+    internal_requirement_statement: Regulated CQV outputs shall distinguish generated, reviewed, accepted, approved, closed, and final states. Formal approval may be represented only when applicable human/site approval evidence is present.
+    rationale: Generated content must not be confused with formal GMP approval.
+    applies_to: [WP, DOC, RPT, URS, RTM, DQ, IQ, OQ, PQ, VSR]
+    source_refs: [EXT-EUGMP-ANNEX15, EXT-ICH-Q10, EXT-LOCAL-EDA-SITE-GMP]
+    source_anchor_refs: [EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ICH-Q10-PQS-LIFECYCLE, EXT-LOCAL-EDA-SITE-GMP-APPROVALS]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-014
+    citation_behavior: cite_approval_expectation_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_APPROVED_FINAL_STATUS_IF_APPROVAL_EVIDENCE_IS_MISSING
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - requirement_id: CQV-REQ-015
+    title: Reporting and reference expectations
+    internal_requirement_statement: Reports, exports, Gantt artifacts, and CQV documents that reference standards shall cite active internal requirement IDs, bundle ID/version, template ID/version, and controlled source anchor metadata without reproducing restricted external text.
+    rationale: Outputs must be traceable without exposing uncontrolled copyrighted source text.
+    applies_to: [RPT, WP, DOC, EXPORT, GANTT, VSR]
+    source_refs: [EXT-EUGMP-ANNEX15, EXT-ISPE-BG5, EXT-ICH-Q10]
+    source_anchor_refs: [EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ISPE-BG5-CQV-LIFECYCLE, EXT-ICH-Q10-KNOWLEDGE-MANAGEMENT]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-015
+    citation_behavior: cite_internal_standard_requirement_bundle_template_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_OR_REDACT_OUTPUT_IF_STANDARD_REFERENCE_OR_EXCERPT_POLICY_CANNOT_BE_RESOLVED
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - requirement_id: CQV-REQ-016
+    title: Missing or expired standards blocked state
+    internal_requirement_statement: If a required bundle, internal standard, external reference, anchor, source-to-internal mapping, template record, or lifecycle field is missing, expired, superseded, invalid, unreviewed, or unapproved, dependent regulated CQV output shall be blocked or marked incomplete. Silent fallback and no-standards mode are prohibited.
+    rationale: Standards governance is a prerequisite for regulated CQV output.
+    applies_to: [K&S, WP, DOC, RPT, URS, RTM, DQ, IQ, OQ, PQ, VSR]
+    source_refs: [EXT-EUGMP-ANNEX15, EXT-ICH-Q10, EXT-LOCAL-EDA-SITE-GMP]
+    source_anchor_refs: [EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ICH-Q10-KNOWLEDGE-MANAGEMENT, EXT-LOCAL-EDA-SITE-GMP-APPROVALS]
+    source_to_internal_mapping_ref: MAP-CQV-REQ-016
+    citation_behavior: cite_blocked_state_requirement_and_source_anchor_metadata
+    excerpt_redaction_behavior: external_source_excerpts_prohibited
+    failure_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
