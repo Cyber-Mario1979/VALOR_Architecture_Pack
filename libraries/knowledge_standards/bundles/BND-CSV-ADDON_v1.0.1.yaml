@@ -1,0 +1,32 @@
+bundle_id: BND-CSV-ADDON
+version: v1.0.1
+name: VALOR CSV Add-on Bundle
+owner: K&S
+effective_date: 2026-06-12
+source_checked_date: 2026-06-12
+review_cycle_months: 36
+next_review_due: 2029-06-12
+expiry_date: 2029-06-12
+status: PRE_FREEZE_USER_REVIEW_REQUIRED
+review_required: true
+expired_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+trigger_condition: computerized_or_automated_or_data_integrity_scope_present
+included_internal_requirements:
+  - STD-CQV-BASE:v1.0.1:CQV-REQ-011
+  - STD-CQV-BASE:v1.0.1:CQV-REQ-016
+included_external_references:
+  - EXT-ISPE-GAMP5
+  - EXT-EUGMP-ANNEX11
+  - EXT-21CFR11
+  - EXT-ICH-Q9
+required_anchor_refs:
+  - EXT-ISPE-GAMP5-CSV-LIFECYCLE
+  - EXT-ISPE-GAMP5-RISK-BASED-APPROACH
+  - EXT-EUGMP-ANNEX11-COMPUTERISED-SYSTEMS
+  - EXT-EUGMP-ANNEX11-DATA-RECORDS
+  - EXT-21CFR11-ELECTRONIC-RECORDS
+blocked_state_rules:
+  trigger_true_bundle_missing: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  bundle_expired_or_unreviewed: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  source_unverified: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  no_csv_fallback: PROHIBITED
