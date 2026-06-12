@@ -1,0 +1,13 @@
+{
+  "test_id": "KS-3A-NEG-002",
+  "name": "testing-only expired blocks product testing",
+  "action_type": "KS_VALIDATE_BUNDLE_INTEGRITY",
+  "requested_use": "PRODUCT_TESTING",
+  "input": {"bundle_id": "BND-CQV-BASE", "version": "v1.0.1", "simulated_status": "EXPIRED"},
+  "expected": {
+    "ok": false,
+    "status": "EXPIRED",
+    "error": {"code": "VALIDATION_ERROR", "subcode": "TESTING_METADATA_EXPIRED"},
+    "blocked_behavior": "BLOCK_PRODUCT_TESTING_UNTIL_RENEWED"
+  }
+}
