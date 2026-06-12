@@ -110,7 +110,7 @@ contracts:
       - {type: PS_LIST_PRESETS, aliases: [], internal_aliases: [list_presets_for_resolver], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ps_presets_list.schema.json, block: null, status: ACTIVE_INTERNAL_PRE_FREEZE}
       - {type: PS_READ_PRESET, aliases: [], internal_aliases: [read_preset_for_resolver], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/preset.schema.json, block: null, status: ACTIVE_INTERNAL_PRE_FREEZE}
       - {type: PS_RESOLVE_PRESET, aliases: [], internal_aliases: [resolve_preset], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ps_resolve_result.schema.json, block: null, status: ACTIVE_INTERNAL_PRE_FREEZE}
-      - {type: PS_VALIDATE_BINDINGS, aliases: [], internal_aliases: [validate_preset_bindings], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/plan_validation_result.schema.json, block: null, status: ACTIVE_INTERNAL_PRE_FREEZE}
+      - {type: PS_VALIDATE_BINDINGS, aliases: [], internal_aliases: [validate_preset_bindings], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/plan_validation_result.schema.json, block: null, status: ACTIVE_INTERNAL_PRE_FREEZE}
 
 non_callable_support_authorities:
   - {authority_id: TP, owner: Task_Pool_Library, status: ACTIVE_NON_CALLABLE_PRE_FREEZE, consumed_by: [WP, PS]}
