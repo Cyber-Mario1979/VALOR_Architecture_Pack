@@ -160,13 +160,34 @@ Important outcome:
 - Did not add public callable TP / PROF / CAL actions.
 - Did not promote K&S beyond TESTING_ONLY / PRODUCT_TESTING_ONLY.
 
+### Blocker 6A — DOC / DCF / URS Source-Chain Alignment
+
+Status: **COMPLETED FOR SCOPED ARCHITECTURE AND CONTRACT ALIGNMENT — FREEZE STILL BLOCKED BY OTHER PRE-FREEZE WORK**
+
+Control record:
+
+- `_review_control/BLOCKER6A_DOC_DCF_URS_SOURCE_CHAIN_ALIGNMENT.md`
+
+Important outcome:
+
+- Declared DCF as a DOC source-capture / input-collection document type or concept.
+- Allowed DCF reference through `dcf_ref` or `source_input_set`.
+- Kept DCF artifact generation/finalization inactive until `TPL-DCF_v1.0.1.yaml` and approved source metadata exist.
+- Did not create `TPL-DCF_v1.0.1.yaml` and did not add DCF to `BND-CQV-BASE_v1.0.1`.
+- Defined URS generation as consuming WP truth, DCF/source input set, governed `template_ref`, governed `bundle_ref` / `citation_set`, and provenance stamps.
+- Added no-invention rule for intended use, GMP relevance, user needs, critical requirements, interfaces, constraints, assumptions, and acceptance expectations.
+- Aligned active DOC actions to `DOC_GENERATE_DRAFT` and `DOC_FINALIZE_ARTIFACT` only.
+- Deferred `DOC_VALIDATE`, `DOC_MARK_REVIEW_READY`, `DOC_REGENERATE`, `DOC_GET`, and `DOC_LIST` unless later approved.
+- Strengthened `DOC_FINALIZE_ARTIFACT` source-chain, template, bundle, citation, provenance, testing-only stamp, and source-input completion checks.
+- Added narrow glossary definitions for DOC, DCF, URS, Source Capture, Source Input Set, Template Governance Record, Template Source Metadata, and Testing-Only Document Output.
+- Preserved K&S as TESTING_ONLY / PRODUCT_TESTING_ONLY only and did not promote K&S to regulated-active use.
 
 ## Must-Resolve-Before-Freeze Themes
 
 - K&S user/site source metadata acceptance for real regulated CQV/GMP use.
 - Authority, status, and terminology.
 - Remaining contract/schema validation enforcement beyond completed WP / PLAN / TP / PS / PROF / CAL semantic alignment.
-- DOC, DCF, and URS source chain.
+- Real template source metadata intake and acceptance before regulated use, including any future DCF template governance record and bundle membership decision.
 - Product surface minimum specification.
 - Negative and E2E test vector coverage outside the K&S scoped vectors.
 - Governance/audit/security/registry schemas/tests.
@@ -198,7 +219,9 @@ Current controlled state:
 - Blocker 3A testing-only K&S metadata correction and accepted normalization completed under user approval.
 - Scope-control note recorded for accepted K&S normalization after scope error.
 - Blocker 4 WP / Planning / Governed Library Cleanup executed under user approval.
-- Freeze remains blocked by unresolved DOC/DCF/URS, product-surface, contract/action registry validation, non-K&S schema/validation/test-vector, governance/security/registry, manifest, final freeze-readiness work, and K&S source metadata acceptance gate.
+- Blocker 5 Contract/action registry semantic validation for WP / PLAN / TP / PS / PROF / CAL executed under user approval.
+- Blocker 6A DOC / DCF / URS source-chain architecture and contract alignment executed under user approval.
+- Freeze remains blocked by unresolved product-surface, broader contract/schema validation enforcement, non-K&S schema/validation/test-vector, governance/security/registry, manifest, final freeze-readiness work, real template source metadata intake/acceptance, and K&S source metadata acceptance gate.
 
 ## Next Session Objective
 
