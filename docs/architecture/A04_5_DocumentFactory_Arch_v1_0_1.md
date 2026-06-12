@@ -20,6 +20,7 @@ acceptance_criteria:
   - Defines generation pipeline with source-chain validation and governance hooks.
   - Defines active and deferred contract actions for document generation.
   - Enforces provenance stamping, anchored citations, and determinism requirements.
+  - Defines product-surface behavior for DRAFT, FINAL, INCOMPLETE, BLOCKED, and PRODUCT_TESTING_ONLY document outputs.
   - Defines error taxonomy and safe failure behavior suitable for CQV audit expectations.
 ---
 
@@ -62,17 +63,17 @@ DOC must not mutate WP truth, template truth, K&S truth, or DCF/source-capture t
 ### 2.1 DOC Owns
 
 - Generated document artifacts and their lifecycle state.
-- Document content outputs (Markdown/DOCX/PDF if supported by approved renderer policy).
+- Document content outputs where supported by approved renderer policy.
 - Document metadata records, including doc_id, versions, stamps, citations, checksums, and source-chain provenance.
 - Validation rules specific to document completeness, template requirements, source-input completeness, and finalization readiness.
 
 ### 2.2 DOC Does Not Own
 
-- WP/task truth (any change required must be requested via WP contract by Orchestration).
+- WP/task truth.
 - Standards/template truth (read-only consumption from K&S).
 - DCF/source-capture truth (read-only consumption as source input).
 - Export/report truth (RPT subsystem).
-- Approvals and signatures (may provide signature blocks but cannot sign).
+- Approvals and signatures.
 
 ---
 
@@ -88,7 +89,7 @@ Required fields:
 - doc_type (enum): DCF | VMP | URS | RA | RTM | DQ | IQ | OQ | PQ | VSR | REPORT
 - doc_version (string; semver or incrementing)
 - wp_id (string)
-- state (enum): DRAFT | REVIEW_READY | FINAL | INCOMPLETE
+- state (enum): DRAFT | REVIEW_READY | FINAL | INCOMPLETE | BLOCKED
 - created_at_utc, updated_at_utc
 - template_ref: {template_id, template_version}
 - bundle_ref: {bundle_id, bundle_version} (if applicable)
@@ -98,22 +99,25 @@ Required fields:
 - content (string or binary reference)
 - checksum (string) (for FINAL, mandatory)
 
-### 3.2 DCF Source-Capture Concept
+### 3.2 DCF Source-Capture Concept and Governance Record
 
-DCF is declared in v1.0.1 as a source-capture / input-collection document type or concept for DOC source-chain purposes.
+DCF is a source-capture / input-collection document type or concept for DOC source-chain purposes.
 
 DCF may be referenced by DOC through:
 
 - `dcf_ref`; or
 - `source_input_set` entries.
 
-DCF is upstream of URS generation when it captures intended use, GMP relevance, user needs, critical requirements, interfaces, constraints, assumptions, acceptance expectations, or other user/site source data.
+`TPL-DCF_v1.0.1.yaml` exists as a governed PRODUCT_TESTING_ONLY DCF source-capture template family metadata record with four domain variants:
 
-`TPL-DCF_v1.0.1.yaml` now exists as a governed PRODUCT_TESTING_ONLY DCF source-capture template family record with four domain variants: Cleanroom, Computerized Systems, Process Equipment, and Utilities.
+- Cleanroom;
+- Computerized Systems;
+- Process Equipment;
+- Utilities.
 
-DCF artifact generation and DCF artifact finalization are not active in Blocker 6B. If `doc_type: DCF` is requested for generation or finalization, DOC must block or mark the request as deferred/incomplete unless DOC behavior is separately activated through an approved scoped change.
+DCF artifact generation and DCF artifact finalization are not active in Blocker 7A. If `doc_type: DCF` is requested for generation or finalization, DOC must return `BLOCKED` or `INCOMPLETE` behavior unless DCF generation/finalization is separately activated by an approved scoped change.
 
-`TPL-DCF_v1.0.1` membership in `BND-CQV-BASE_v1.0.1` is for PRODUCT_TESTING_ONLY source-capture governance. It does not approve real regulated CQV/GMP use.
+`TPL-DCF_v1.0.1` membership in `BND-CQV-BASE_v1.0.1` is PRODUCT_TESTING_ONLY source-capture governance. It does not approve real regulated CQV/GMP use.
 
 ### 3.3 SourceInputSet
 
@@ -186,18 +190,20 @@ URS is a generated controlled DOC output. For URS generation:
 - DOC consumes governed `bundle_ref` and `citation_set` from K&S.
 - DOC consumes provenance stamps for WP, preset/task pool/profile/calendar where relevant, template, bundle, internal standard, contract, and K&S status.
 
-URS generation must not infer or invent intended use, GMP relevance, user needs, critical requirements, interfaces, constraints, assumptions, or acceptance expectations. Missing required source data must produce block/mark-incomplete behavior.
+URS generation must not infer or invent intended use, GMP relevance, user needs, critical requirements, interfaces, constraints, assumptions, or acceptance expectations. Missing required source data must produce BLOCKED or INCOMPLETE behavior.
 
 ---
 
-## 5. Document Lifecycle (Governance-Aligned)
+## 5. Document Lifecycle and Product Surface
 
 ### 5.1 States
 
 - DRAFT: generated content intended for iterative editing.
 - REVIEW_READY: content passes completeness checks and is ready for formal review.
 - FINAL: content is finalized with checksum; further edits require new version.
-- INCOMPLETE: content is blocked or explicitly marked incomplete because required source-chain, stamp, template, bundle, citation, or testing-only data is missing.
+- INCOMPLETE: content is explicitly incomplete because required source-chain, stamp, template, bundle, citation, or testing-only data is missing.
+- BLOCKED: generation or finalization is refused because a hard gate is not satisfied.
+- PRODUCT_TESTING_ONLY: generated output or governed template/standards basis may support product testing only and must not be represented as regulated-ready CQV/GMP output.
 
 ### 5.2 Active Lifecycle Actions
 
@@ -208,7 +214,7 @@ Only these DOC actions are active for the current declared scope:
 
 ### 5.3 Deferred Lifecycle Actions
 
-The following actions are not active in Blocker 6A and must not be treated as freeze-ready unless later approved:
+The following actions are not active in Blocker 7A and must not be treated as freeze-ready unless later approved:
 
 - `DOC_VALIDATE`
 - `DOC_MARK_REVIEW_READY`
@@ -220,6 +226,7 @@ Hard rule:
 
 - FINAL documents are immutable; new changes require a new doc_version.
 - Finalization must refuse or mark incomplete if the draft lacks required source-chain provenance, template_ref, bundle_ref, citation_set, provenance_stamps, required testing-only stamp, source-input completion status, or checksum/final artifact metadata.
+- Contract/audit/provenance metadata timestamps use UTC. Optional local display time may be shown only if explicitly labeled as display/local time.
 
 ---
 
@@ -464,6 +471,6 @@ Example error:
 ## CHANGELOG
 | Date       | Changes     | Type / Version |
 | ---------- | ----------- | -------------- |
-| 2026-06-12 | Blocker 6B DCF template governance record acknowledged for PRODUCT_TESTING_ONLY source-capture metadata; DCF artifact generation/finalization remains inactive | Pre-freeze controlled update |
+| 2026-06-12 | Blocker 7A DOC product-surface wording: DRAFT/FINAL/INCOMPLETE/BLOCKED/PRODUCT_TESTING_ONLY states aligned; TPL-DCF recognized as product-testing metadata while DCF artifact generation/finalization remains inactive | Pre-freeze controlled update |
 | 2026-06-12 | Blocker 6A DOC/DCF/URS source-chain alignment: DCF source-capture concept declared, URS source chain defined, active/deferred DOC actions aligned, K&S TESTING_ONLY regulated-use block preserved | Pre-freeze controlled update |
 | 2025-12-23 | First Issue | Arch_v1.0.1    |
