@@ -118,12 +118,31 @@ Scope-error acceptance note:
 - No K&S asset was promoted to `ACTIVE` for regulated use.
 - No external source edition/date/clause/locator metadata was invented.
 
+### Blocker 4 — WP / Planning / Governed Library Cleanup
+
+Status: **COMPLETED FOR SCOPED ARCHITECTURE AND GOVERNED-LIBRARY ALIGNMENT — CONTRACT/REGISTRY VALIDATION REMAINS**
+
+Control record:
+
+- `_review_control/BLOCKER4_WP_PLANNING_GOVERNED_LIBRARY_CLEANUP.md`
+
+Important outcome:
+
+- Aligned WP truth/provenance rules, Planning proposal-only behavior, governed Task Pool, Preset, Calendar, and Profile boundaries.
+- Added local governed-library lifecycle/status/review/expiry metadata to TP, PS, PROF, and CAL.
+- Aligned `CAL-WORKWEEK_v1.0.1.yaml` as an architecture-pack wrapper around canonical `CAL-WORKWEEK v1` with UTC+02:00, Sun-Thu working week, and Fri-Sat weekend.
+- Kept `PS-PE-HIGH` as canonical preset ID and normalized primary applicability fields.
+- Bound `PS-PE-HIGH` to `BND-CQV-BASE v1.0.1` as TESTING_ONLY / PRODUCT_TESTING_ONLY only.
+- Converted `PROF-PE-HIGH` from `keys` to canonical `entries` map while preserving existing profile values and adding approved FAT duration entries.
+- Kept `task_type` aligned to WP/TP enum and moved non-enum duration meaning to `profile_task_semantic`.
+- Added the high-complexity process-equipment FAT prep/execution/report/acceptance chain without adding ERP/procurement integration, resource loading, evidence ingestion, or delivery planning.
+- No contract files were edited; contract/action registry semantic validation remains a later dependency.
+
 ## Must-Resolve-Before-Freeze Themes
 
 - K&S user/site source metadata acceptance for real regulated CQV/GMP use.
 - Authority, status, and terminology.
-- Contract registry semantic validation.
-- WP, Planning, and governed libraries.
+- Contract/action registry semantic validation for WP/PLAN/TP/PS/PROF/CAL naming and action catalogs.
 - DOC, DCF, and URS source chain.
 - Product surface minimum specification.
 - Negative and E2E test vector coverage outside the K&S scoped vectors.
@@ -155,7 +174,8 @@ Current controlled state:
 - Blocker 3 executed under user approval.
 - Blocker 3A testing-only K&S metadata correction and accepted normalization completed under user approval.
 - Scope-control note recorded for accepted K&S normalization after scope error.
-- Freeze remains blocked by unresolved WP/Planning/library, DOC/DCF/URS, product-surface, non-K&S schema/validation/test-vector, governance/security/registry, manifest, final freeze-readiness work, and K&S source metadata acceptance gate.
+- Blocker 4 WP / Planning / Governed Library Cleanup executed under user approval.
+- Freeze remains blocked by unresolved DOC/DCF/URS, product-surface, contract/action registry validation, non-K&S schema/validation/test-vector, governance/security/registry, manifest, final freeze-readiness work, and K&S source metadata acceptance gate.
 
 ## Next Session Objective
 
