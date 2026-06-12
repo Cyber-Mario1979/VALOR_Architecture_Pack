@@ -1,0 +1,11 @@
+{
+  "test_id": "KS-NEG-001",
+  "name": "missing bundle blocked",
+  "action_type": "KS_VALIDATE_BUNDLE_INTEGRITY",
+  "input": {"bundle_id": "BND-NOT-FOUND", "version": "v1.0.1"},
+  "expected": {
+    "ok": false,
+    "error": {"code": "NOT_FOUND", "subcode": "BUNDLE_INTEGRITY_FAILED"},
+    "blocked_behavior": "BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT"
+  }
+}
