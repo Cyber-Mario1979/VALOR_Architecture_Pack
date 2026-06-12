@@ -1,9 +1,12 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "valor://schemas/contracts/ks_bundles_list.schema.json",
-  "title": "Knowledge Store Bundles List",
+  "title": "KS Bundles List",
   "type": "object",
-  "required": [],
-  "properties": {},
-  "additionalProperties": true
+  "additionalProperties": false,
+  "required": ["status", "bundles"],
+  "properties": {
+    "status": {"type": "string", "enum": ["ACTIVE", "DUE_FOR_REVIEW", "EXPIRED", "SUPERSEDED", "BLOCKED", "PRE_FREEZE_USER_REVIEW_REQUIRED"]},
+    "bundles": {"type": "array", "items": {"type": "object", "required": ["bundle_id", "version", "status", "expiry_date"], "additionalProperties": true}}
+  }
 }
