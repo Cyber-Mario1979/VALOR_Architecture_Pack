@@ -109,9 +109,11 @@ DCF may be referenced by DOC through:
 
 DCF is upstream of URS generation when it captures intended use, GMP relevance, user needs, critical requirements, interfaces, constraints, assumptions, acceptance expectations, or other user/site source data.
 
-DCF artifact generation and DCF artifact finalization are not active in Blocker 6A. If `doc_type: DCF` is requested for generation or finalization before `TPL-DCF_v1.0.1.yaml` and approved source metadata exist, DOC must block or mark the request as deferred/incomplete.
+`TPL-DCF_v1.0.1.yaml` now exists as a governed PRODUCT_TESTING_ONLY DCF source-capture template family record with four domain variants: Cleanroom, Computerized Systems, Process Equipment, and Utilities.
 
-No `TPL-DCF_v1.0.1.yaml` is created by this architecture statement, and DCF is not added to `BND-CQV-BASE_v1.0.1` by this architecture statement.
+DCF artifact generation and DCF artifact finalization are not active in Blocker 6B. If `doc_type: DCF` is requested for generation or finalization, DOC must block or mark the request as deferred/incomplete unless DOC behavior is separately activated through an approved scoped change.
+
+`TPL-DCF_v1.0.1` membership in `BND-CQV-BASE_v1.0.1` is for PRODUCT_TESTING_ONLY source-capture governance. It does not approve real regulated CQV/GMP use.
 
 ### 3.3 SourceInputSet
 
@@ -462,5 +464,6 @@ Example error:
 ## CHANGELOG
 | Date       | Changes     | Type / Version |
 | ---------- | ----------- | -------------- |
+| 2026-06-12 | Blocker 6B DCF template governance record acknowledged for PRODUCT_TESTING_ONLY source-capture metadata; DCF artifact generation/finalization remains inactive | Pre-freeze controlled update |
 | 2026-06-12 | Blocker 6A DOC/DCF/URS source-chain alignment: DCF source-capture concept declared, URS source chain defined, active/deferred DOC actions aligned, K&S TESTING_ONLY regulated-use block preserved | Pre-freeze controlled update |
 | 2025-12-23 | First Issue | Arch_v1.0.1    |

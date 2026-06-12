@@ -34,6 +34,7 @@ included_external_references:
   - EXT-ICH-Q10
   - EXT-LOCAL-EDA-SITE-GMP
 included_templates:
+  - TPL-DCF_v1.0.1
   - TPL-URS_v1.0.1
   - TPL-RTM_v1.0.1
   - TPL-DQ_v1.0.1
@@ -41,6 +42,10 @@ included_templates:
   - TPL-OQ_v1.0.1
   - TPL-PQ_v1.0.1
   - TPL-VSR_v1.0.1
+template_membership_notes:
+  - TPL-DCF_v1.0.1 is included as PRODUCT_TESTING_ONLY source-capture template family governance metadata.
+  - DCF artifact generation/finalization remains inactive unless DOC behavior is separately activated.
+  - Inclusion does not approve real regulated CQV/GMP use.
 conditional_addon_triggers:
   - TRG-CSV-ADDON requires BND-CSV-ADDON_v1.0.1 when computerized, automated, electronic-record, or data-integrity scope is present.
   - TRG-CLEANROOM-ADDON requires BND-CLEANROOM-ADDON_v1.0.1 when classified-area, cleanroom, HVAC, ISO 8, or Grade D scope is present.

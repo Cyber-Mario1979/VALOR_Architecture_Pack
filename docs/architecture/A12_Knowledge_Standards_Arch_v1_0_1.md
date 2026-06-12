@@ -19,9 +19,11 @@ K&S is not authoritative for WP/task truth, generated DOC/RPT content, human/sit
 
 ## 2. Declared v1.0.1 K&S Scope
 
-The declared K&S scope is `BND-CQV-BASE_v1.0.1`, `BND-CSV-ADDON_v1.0.1`, `BND-CLEANROOM-ADDON_v1.0.1`, `STD-CQV-BASE_v1.0.1`, and URS/RTM/DQ/IQ/OQ/PQ/VSR template governance records.
+The declared K&S scope is `BND-CQV-BASE_v1.0.1`, `BND-CSV-ADDON_v1.0.1`, `BND-CLEANROOM-ADDON_v1.0.1`, `STD-CQV-BASE_v1.0.1`, URS/RTM/DQ/IQ/OQ/PQ/VSR template governance records, and the `TPL-DCF_v1.0.1` PRODUCT_TESTING_ONLY DCF source-capture template family governance record.
 
 The CQV Base Bundle covers WP/RPT standards citation needs, URS, RTM, DQ, IQ, OQ, PQ, VSR, risk-based CQV lifecycle expectations, traceability, documentation and approval expectations, CSV add-on trigger behavior, and cleanroom/HVAC add-on trigger behavior.
+
+`TPL-DCF_v1.0.1` is a governed DCF source-capture template family record for product testing only. It records metadata for four user-provided DCF source-candidate variants: Cleanroom, Computerized Systems, Process Equipment, and Utilities. It does not import DOCX or Markdown template content into the repository, does not activate DCF artifact generation/finalization, and does not approve real regulated CQV/GMP use.
 
 ## 3. TESTING_ONLY Operating State
 
@@ -93,6 +95,7 @@ Where exact external standard edition, document date, or locator has not been us
 
 | Date | Changes | Type / Version |
 | ---- | ------- | -------------- |
+| 2026-06-12 | Blocker 6B DCF template governance record added for PRODUCT_TESTING_ONLY source-capture metadata | Pre-freeze controlled update |
 | 2025-12-23 | First Issue | Arch_v1.0.1 |
 | 2026-06-12 | Blocker 3 governed standards bundle aligned | Pre-freeze controlled update |
 | 2026-06-12 | Blocker 3A TESTING_ONLY operating state added; regulated use remains blocked | Pre-freeze controlled update |

@@ -160,10 +160,32 @@ Key decisions:
 - `DOC_FINALIZE_ARTIFACT` now checks source-chain provenance, template_ref, bundle_ref, citation_set, provenance_stamps, testing-only stamp, and source-input completion status.
 - K&S remains TESTING_ONLY / PRODUCT_TESTING_ONLY only.
 
+### Blocker 6B — DCF Template Governance Product Testing
+
+Control record:
+
+- `_review_control/BLOCKER6B_DCF_TEMPLATE_GOVERNANCE_PRODUCT_TESTING.md`
+
+Status:
+
+- Completed for PRODUCT_TESTING_ONLY DCF template governance metadata.
+- Freeze remains blocked by other pre-freeze work.
+
+Key decisions:
+
+- `TPL-DCF_v1.0.1.yaml` exists as one DCF template family governance record with four variants.
+- Variants are `DCF-CLEANROOM`, `DCF-COMPUTERIZED-SYSTEMS`, `DCF-PROCESS-EQUIPMENT`, and `DCF-UTILITIES`.
+- DCF was added to `BND-CQV-BASE_v1.0.1` as PRODUCT_TESTING_ONLY source-capture template family membership.
+- No Markdown or DOCX template content was imported.
+- No render schemas or test vectors were added.
+- DCF artifact generation/finalization remains inactive unless separately approved.
+- K&S remains TESTING_ONLY / PRODUCT_TESTING_ONLY only.
+- Real regulated CQV/GMP output remains blocked until source metadata acceptance.
+
 ## Remaining Freeze Blockers
 
 - K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
-- Real template source metadata intake and acceptance before regulated use, including any future DCF template governance record and bundle membership decision.
+- Real template source metadata acceptance before regulated use; DCF is governed for PRODUCT_TESTING_ONLY only.
 - Broader contract/schema validation enforcement and non-K&S validation/test-vector cleanup.
 - Product surface minimum behavior cleanup.
 - Negative and E2E test vector coverage outside scoped K&S vectors.

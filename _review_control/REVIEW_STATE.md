@@ -182,12 +182,33 @@ Important outcome:
 - Added narrow glossary definitions for DOC, DCF, URS, Source Capture, Source Input Set, Template Governance Record, Template Source Metadata, and Testing-Only Document Output.
 - Preserved K&S as TESTING_ONLY / PRODUCT_TESTING_ONLY only and did not promote K&S to regulated-active use.
 
+### Blocker 6B — DCF Template Governance Product Testing
+
+Status: **COMPLETED FOR PRODUCT_TESTING_ONLY DCF TEMPLATE GOVERNANCE RECORD — FREEZE STILL BLOCKED BY OTHER PRE-FREEZE WORK**
+
+Control record:
+
+- `_review_control/BLOCKER6B_DCF_TEMPLATE_GOVERNANCE_PRODUCT_TESTING.md`
+
+Important outcome:
+
+- Created `TPL-DCF_v1.0.1.yaml` as one governed DCF template family record with four variants: Cleanroom, Computerized Systems, Process Equipment, and Utilities.
+- Recorded user-approved PRODUCT_TESTING_ONLY source-candidate metadata only.
+- Added `TPL-DCF_v1.0.1` to `BND-CQV-BASE_v1.0.1` as PRODUCT_TESTING_ONLY source-capture template family membership.
+- Updated A12 to include DCF in declared K&S template governance scope.
+- Updated A04.5 to recognize `TPL-DCF_v1.0.1` while keeping DCF artifact generation/finalization inactive unless DOC behavior is separately activated.
+- Did not import Markdown or DOCX template content.
+- Did not create render schemas or test vectors.
+- Did not regenerate manifest.
+- Did not promote K&S beyond TESTING_ONLY / PRODUCT_TESTING_ONLY.
+- Did not invent external source editions, dates, clauses, anchors, or locators.
+
 ## Must-Resolve-Before-Freeze Themes
 
 - K&S user/site source metadata acceptance for real regulated CQV/GMP use.
 - Authority, status, and terminology.
 - Remaining contract/schema validation enforcement beyond completed WP / PLAN / TP / PS / PROF / CAL semantic alignment.
-- Real template source metadata intake and acceptance before regulated use, including any future DCF template governance record and bundle membership decision.
+- Real template source metadata acceptance before regulated use; DCF is now governed for PRODUCT_TESTING_ONLY only.
 - Product surface minimum specification.
 - Negative and E2E test vector coverage outside the K&S scoped vectors.
 - Governance/audit/security/registry schemas/tests.
