@@ -3,8 +3,8 @@ current_version: v1.0.1
 supported_versions: [v1.0.1]
 owner_subsystem: K&S
 called_by: Orchestration
-status: ACTIVE_PRE_FREEZE_WITH_USER_REVIEW_GATE
-purpose: Governed read-only standards, templates, bundles, anchors, citations, source mappings, and bundle validation for declared VALOR CQV v1.0.1 scope.
+status: TESTING_ONLY_PRE_FREEZE_WITH_REGULATED_USE_BLOCK
+purpose: Governed read-only standards, templates, bundles, anchors, citations, source mappings, and bundle validation for declared VALOR CQV v1.0.1 product testing only until source metadata acceptance is completed.
 
 envelopes:
   request_schema: schemas/contracts/contract_request.schema.json
@@ -18,13 +18,31 @@ library_assets:
   internal_standard: libraries/knowledge_standards/standards/STD-CQV-BASE_v1.0.1.yaml
   source_mapping: libraries/knowledge_standards/mapping/source_to_internal_requirements_v1.0.1.yaml
 
+testing_only_policy:
+  status: TESTING_ONLY
+  usage_classification: PRODUCT_TESTING_ONLY
+  testing_use_allowed: true
+  regulated_output_allowed: false
+  real_life_use_allowed: false
+  testing_only_stamp_required: true
+  required_output_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
+  testing_expired_behavior: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
+  regulated_use_request_behavior: BLOCK_OR_MARK_INCOMPLETE
+
 lifecycle_policy:
-  allowed_statuses: [ACTIVE, DUE_FOR_REVIEW, EXPIRED, SUPERSEDED, BLOCKED, PRE_FREEZE_USER_REVIEW_REQUIRED]
+  allowed_statuses: [TESTING_ONLY, PRE_FREEZE_USER_REVIEW_REQUIRED, ACTIVE, DUE_FOR_REVIEW, EXPIRED, SUPERSEDED, BLOCKED]
   default_review_cycle_months: 36
+  testing_metadata_expired_behavior: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
   expired_bundle_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
   missing_bundle_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
   unreviewed_bundle_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
   no_standards_mode: PROHIBITED
+
+source_metadata_policy:
+  exact_external_edition_date_locator_required_for_regulated_use: true
+  testing_placeholders_allowed_for_product_testing: true
+  testing_placeholders_approved_for_regulated_use: false
+  user_site_acceptance_required: true
 
 excerpt_policy:
   external_text_reproduction: prohibited
@@ -33,7 +51,7 @@ excerpt_policy:
 
 error_taxonomy:
   standard_codes: [MODE_VIOLATION, VALIDATION_ERROR, INVARIANT_VIOLATION, NOT_FOUND, CONFLICT, UNSUPPORTED_OPERATION, INTERNAL_ERROR]
-  ks_subcodes: [ASSET_VERSION_NOT_FOUND, ANCHOR_NOT_FOUND, EXCERPT_BLOCKED, BUNDLE_INTEGRITY_FAILED, TEMPLATE_REQUIREMENT_MISSING, SOURCE_REVIEW_REQUIRED, INTERNAL_REQUIREMENT_UNMAPPED, BUNDLE_EXPIRED]
+  ks_subcodes: [ASSET_VERSION_NOT_FOUND, ANCHOR_NOT_FOUND, EXCERPT_BLOCKED, BUNDLE_INTEGRITY_FAILED, TEMPLATE_REQUIREMENT_MISSING, SOURCE_REVIEW_REQUIRED, INTERNAL_REQUIREMENT_UNMAPPED, BUNDLE_EXPIRED, TESTING_ONLY_REGULATED_OUTPUT_BLOCKED, TESTING_METADATA_EXPIRED]
 
 actions:
   - {action_type: KS_LIST_STANDARDS, allowed_modes: [M1, M2], side_effect_class: READ_ONLY, idempotent: true, required_payload_fields: [], optional_payload_fields: [filters], result_schema_ref: schemas/contracts/ks_standards_list.schema.json}
@@ -47,4 +65,4 @@ actions:
   - {action_type: KS_VALIDATE_CITATION_SET, allowed_modes: [M2], side_effect_class: VALIDATE_ONLY, idempotent: true, required_payload_fields: [anchored_refs], optional_payload_fields: [], result_schema_ref: schemas/contracts/ks_bundle_validation.schema.json}
   - {action_type: KS_VALIDATE_TEMPLATE_REQUIREMENTS, allowed_modes: [M2], side_effect_class: VALIDATE_ONLY, idempotent: true, required_payload_fields: [template_id, version, provided_inputs], optional_payload_fields: [], result_schema_ref: schemas/contracts/ks_bundle_validation.schema.json}
   - {action_type: KS_VALIDATE_SOURCE_MAPPING, allowed_modes: [M2], side_effect_class: VALIDATE_ONLY, idempotent: true, required_payload_fields: [requirement_id], optional_payload_fields: [bundle_id, version], result_schema_ref: schemas/contracts/ks_bundle_validation.schema.json}
-  - {action_type: KS_VALIDATE_BUNDLE_INTEGRITY, allowed_modes: [M2], side_effect_class: VALIDATE_ONLY, idempotent: true, required_payload_fields: [bundle_id, version], optional_payload_fields: [scope_flags], result_schema_ref: schemas/contracts/ks_bundle_validation.schema.json}
+  - {action_type: KS_VALIDATE_BUNDLE_INTEGRITY, allowed_modes: [M2], side_effect_class: VALIDATE_ONLY, idempotent: true, required_payload_fields: [bundle_id, version], optional_payload_fields: [scope_flags, requested_use], result_schema_ref: schemas/contracts/ks_bundle_validation.schema.json}
