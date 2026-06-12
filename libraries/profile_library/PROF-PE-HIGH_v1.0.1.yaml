@@ -1,14 +1,26 @@
 profile_id: PROF-PE-HIGH
 version: v1.0.1
 revision_date: '2025-12-26'
-name: Process Equipment — High
-description: Governed duration and lead-time defaults for Process Equipment (High
-  complexity), aligned to CQV lifecycle and vendor realities.
+status: PRE_FREEZE_CONTROLLED
+usage_classification: PRODUCT_TESTING_OR_PRE_FREEZE_SPECIFICATION
+effective_date: 2026-06-12
+source_checked_date: 2026-06-12
+review_cycle_months: 36
+next_review_due: 2029-06-12
+expiry_date: 2029-06-12
+review_required: true
+expired_behavior: BLOCK_PROFILE_DURATION_RESOLUTION_UNTIL_REVIEWED
+name: Process Equipment - High
+description: Governed duration and lead-time defaults for Process Equipment (High complexity), aligned to CQV lifecycle and vendor realities.
 applicability:
   equipment_domain: ProcessEquipment
   complexity: High
   scope: Project
   vendor_model: Intercontinental
+calendar_compatibility_ref:
+  calendar_id: CAL-WORKWEEK
+  calendar_version: v1.0.1
+  canonical_calendar_version: v1
 unit_policy:
   internal_work: WORKING_DAYS
   vendor_lead_times:
@@ -16,271 +28,233 @@ unit_policy:
   - CALENDAR_WEEKS
   - CALENDAR_MONTHS
   no_implicit_conversion: true
-  note: WORKING_DAYS for internal work; CALENDAR_MONTHS/CALENDAR_DAYS for vendor lead-time
-    blocks (no implicit conversion).
-calendar_policy:
-  working_days:
-  - Sun
-  - Mon
-  - Tue
-  - Wed
-  - Thu
-  weekend:
-  - Fri
-  - Sat
-  fs_successor_rule: finish_plus_1_calendar_day_then_defer
-keys:
-- profile_key: VMP_CYCLE_DUR
-  description: VMP cycle duration (authoring+review+approval as a package).
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: VMP
-      task_type: CYCLE
-    value: 20
-    unit: WORKING_DAYS
-- profile_key: URS_AUTHORING_DUR
-  description: URS drafting/authoring duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: URS
-      task_type: AUTHORING
-    value: 10
-    unit: WORKING_DAYS
-- profile_key: URS_REVIEW_DUR
-  description: URS review duration (multi-function review cycle).
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: URS
-      task_type: REVIEW
-    value: 7
-    unit: WORKING_DAYS
-- profile_key: URS_APPROVAL_DUR
-  description: URS approval/signature cycle duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: URS
-      task_type: APPROVAL
-    value: 5
-    unit: WORKING_DAYS
-- profile_key: QUOTATION_WAIT_DUR
-  description: Vendor quotation wait time after URS issuance/hand-off.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: URS
-      task_type: VENDOR_WAIT
-    value: 14
-    unit: WORKING_DAYS
-- profile_key: RTM_DRAFT_DUR
-  description: RTM drafting duration (initial build).
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: RTM
-      task_type: AUTHORING
-    value: 5
-    unit: WORKING_DAYS
-- profile_key: RTM_VENDOR_COORDINATION_BLOCK_DUR
-  description: RTM coordination block duration (vendor & multi-party alignment).
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: RTM
-      task_type: VENDOR_COORDINATION_BLOCK
-    value: 30
-    unit: WORKING_DAYS
-- profile_key: RTM_FINALIZE_DUR
-  description: RTM finalization duration (closure, final edits, sign-off prep).
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: RTM
-      task_type: FINALIZE
-    value: 5
-    unit: WORKING_DAYS
-- profile_key: RTM_CYCLE_DUR
-  description: RTM total cycle duration (draft + coordination block + finalize).
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: RTM
-      task_type: CYCLE
-    value: 40
-    unit: WORKING_DAYS
-- profile_key: DQ_CYCLE_DUR
-  description: DQ cycle duration (protocol-like authoring/review/closure as a package).
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: DQ
-      task_type: CYCLE
-    value: 15
-    unit: WORKING_DAYS
-- profile_key: MANUFACTURING_LEADTIME_BLISTERLINE
-  description: Manufacturing lead time for a blister line / high complexity process
-    equipment.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: PROCUREMENT
-      task_type: MANUFACTURING_LEADTIME
-    value: 7
-    unit: CALENDAR_MONTHS
-- profile_key: FAT_SCHEDULING_DUR
-  description: FAT scheduling/coordination duration after manufacturing completion
-    (dates, agenda, attendees).
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: FAT
-      task_type: SCHEDULING
-    value: 14
-    unit: CALENDAR_DAYS
-- profile_key: LOGISTICS_DELIVERY_DUR
-  description: Logistics/delivery duration after FAT complete to site delivery.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: LOGISTICS
-      task_type: DELIVERY
-    value: 21
-    unit: CALENDAR_DAYS
-- profile_key: IQ_PROTOCOL_DUR
-  description: IQ protocol drafting duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: IQ
-      task_type: PROTOCOL_AUTHORING
-    value: 7
-    unit: WORKING_DAYS
-- profile_key: IQ_EXECUTION_DUR
-  description: IQ execution duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: IQ
-      task_type: EXECUTION
-    value: 7
-    unit: WORKING_DAYS
-- profile_key: IQ_REPORT_DUR
-  description: IQ report writing/review closure duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: IQ
-      task_type: REPORT
-    value: 3
-    unit: WORKING_DAYS
-- profile_key: OQ_PROTOCOL_DUR
-  description: OQ protocol drafting duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: OQ
-      task_type: PROTOCOL_AUTHORING
-    value: 8
-    unit: WORKING_DAYS
-- profile_key: OQ_APPROVAL_DUR
-  description: OQ protocol approval cycle duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: OQ
-      task_type: APPROVAL
-    value: 5
-    unit: WORKING_DAYS
-- profile_key: OQ_EXECUTION_DUR
-  description: OQ execution duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: OQ
-      task_type: EXECUTION
-    value: 8
-    unit: WORKING_DAYS
-- profile_key: OQ_REPORT_DUR
-  description: OQ report writing/review closure duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: OQ
-      task_type: REPORT
-    value: 3
-    unit: WORKING_DAYS
-- profile_key: PQ_PROTOCOL_DUR
-  description: PQ protocol drafting duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: PQ
-      task_type: PROTOCOL_AUTHORING
-    value: 7
-    unit: WORKING_DAYS
-- profile_key: PQ_APPROVAL_DUR
-  description: PQ protocol approval cycle duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: PQ
-      task_type: APPROVAL
-    value: 5
-    unit: WORKING_DAYS
-- profile_key: PQ_EXECUTION_DUR
-  description: PQ execution duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: PQ
-      task_type: EXECUTION
-    value: 7
-    unit: WORKING_DAYS
-- profile_key: PQ_REPORT_DUR
-  description: PQ report writing/review closure duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: PQ
-      task_type: REPORT
-    value: 3
-    unit: WORKING_DAYS
-- profile_key: VSR_DRAFT_DUR
-  description: VSR draft duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: VSR
-      task_type: AUTHORING
-    value: 5
-    unit: WORKING_DAYS
-- profile_key: VSR_REVIEW_DUR
-  description: VSR review duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: VSR
-      task_type: REVIEW
-    value: 3
-    unit: WORKING_DAYS
-- profile_key: VSR_APPROVAL_DUR
-  description: VSR approval duration.
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: VSR
-      task_type: APPROVAL
-    value: 2
-    unit: WORKING_DAYS
-- profile_key: VSR_CYCLE_DUR
-  description: VSR total cycle duration (draft+review+approval).
-  selection_priority: 0
-  value_table:
-  - context_selector:
-      phase: VSR
-      task_type: CYCLE
-    value: 10
-    unit: WORKING_DAYS
+  note: WORKING_DAYS for internal work; CALENDAR_MONTHS/CALENDAR_DAYS for vendor lead-time blocks. No implicit conversion is allowed unless a conversion rule is explicitly approved and stamped.
+selector_policy:
+  task_type_enum: [AUTHORING, REVIEW, APPROVAL, EXECUTION, REPORTING, VENDOR_WAIT, PROCUREMENT_WAIT, LEAD_TIME]
+  semantic_field: profile_task_semantic
+  rule: task_type must stay aligned to the WP/TP enum. Non-enum duration meaning is carried by profile_task_semantic.
+entries:
+  VMP_CYCLE_DUR:
+    description: VMP cycle duration (authoring+review+approval as a package).
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: VMP, task_type: AUTHORING, profile_task_semantic: CYCLE}
+      value: 20
+      unit: WORKING_DAYS
+  URS_AUTHORING_DUR:
+    description: URS drafting/authoring duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: URS, task_type: AUTHORING, profile_task_semantic: AUTHORING}
+      value: 10
+      unit: WORKING_DAYS
+  URS_REVIEW_DUR:
+    description: URS review duration (multi-function review cycle).
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: URS, task_type: REVIEW, profile_task_semantic: REVIEW}
+      value: 7
+      unit: WORKING_DAYS
+  URS_APPROVAL_DUR:
+    description: URS approval/signature cycle duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: URS, task_type: APPROVAL, profile_task_semantic: APPROVAL}
+      value: 5
+      unit: WORKING_DAYS
+  QUOTATION_WAIT_DUR:
+    description: Vendor quotation wait time after URS issuance/hand-off.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: URS, task_type: VENDOR_WAIT, profile_task_semantic: QUOTATION_WAIT}
+      value: 14
+      unit: WORKING_DAYS
+  RTM_DRAFT_DUR:
+    description: RTM drafting duration (initial build).
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: RTM, task_type: AUTHORING, profile_task_semantic: DRAFT}
+      value: 5
+      unit: WORKING_DAYS
+  RTM_VENDOR_COORDINATION_BLOCK_DUR:
+    description: RTM coordination block duration (vendor & multi-party alignment).
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: RTM, task_type: VENDOR_WAIT, profile_task_semantic: VENDOR_COORDINATION_BLOCK}
+      value: 30
+      unit: WORKING_DAYS
+  RTM_FINALIZE_DUR:
+    description: RTM finalization duration (closure, final edits, sign-off prep).
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: RTM, task_type: AUTHORING, profile_task_semantic: FINALIZE}
+      value: 5
+      unit: WORKING_DAYS
+  RTM_CYCLE_DUR:
+    description: RTM total cycle duration (draft + coordination block + finalize).
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: RTM, task_type: AUTHORING, profile_task_semantic: CYCLE}
+      value: 40
+      unit: WORKING_DAYS
+  DQ_CYCLE_DUR:
+    description: DQ cycle duration (protocol-like authoring/review/closure as a package).
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: DQ, task_type: AUTHORING, profile_task_semantic: CYCLE}
+      value: 15
+      unit: WORKING_DAYS
+  MANUFACTURING_LEADTIME_BLISTERLINE:
+    description: Manufacturing lead time for a blister line / high complexity process equipment.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: PROCUREMENT, task_type: LEAD_TIME, profile_task_semantic: MANUFACTURING_LEADTIME}
+      value: 7
+      unit: CALENDAR_MONTHS
+  FAT_SCHEDULING_DUR:
+    description: FAT scheduling/coordination duration after manufacturing completion (dates, agenda, attendees).
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: FAT, task_type: VENDOR_WAIT, profile_task_semantic: SCHEDULING}
+      value: 14
+      unit: CALENDAR_DAYS
+  FAT_PREP_DUR:
+    description: FAT preparation duration for protocol/package readiness, agenda finalization, and internal readiness before execution.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: FAT, task_type: AUTHORING, profile_task_semantic: PREP}
+      value: 5
+      unit: WORKING_DAYS
+  FAT_EXECUTION_DUR:
+    description: FAT execution duration for high-complexity process equipment.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: FAT, task_type: EXECUTION, profile_task_semantic: EXECUTION}
+      value: 5
+      unit: WORKING_DAYS
+  FAT_REPORT_DUR:
+    description: FAT report and punch-list summary duration after FAT execution.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: FAT, task_type: REPORTING, profile_task_semantic: REPORT}
+      value: 5
+      unit: WORKING_DAYS
+  FAT_ACCEPTANCE_DUR:
+    description: FAT acceptance and release-to-ship decision duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: FAT, task_type: APPROVAL, profile_task_semantic: ACCEPTANCE}
+      value: 3
+      unit: WORKING_DAYS
+  LOGISTICS_DELIVERY_DUR:
+    description: Logistics/delivery duration after FAT acceptance to site delivery.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: LOGISTICS, task_type: LEAD_TIME, profile_task_semantic: DELIVERY}
+      value: 21
+      unit: CALENDAR_DAYS
+  IQ_PROTOCOL_DUR:
+    description: IQ protocol drafting duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: IQ, task_type: AUTHORING, profile_task_semantic: PROTOCOL_AUTHORING}
+      value: 7
+      unit: WORKING_DAYS
+  IQ_EXECUTION_DUR:
+    description: IQ execution duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: IQ, task_type: EXECUTION, profile_task_semantic: EXECUTION}
+      value: 7
+      unit: WORKING_DAYS
+  IQ_REPORT_DUR:
+    description: IQ report writing/review closure duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: IQ, task_type: REPORTING, profile_task_semantic: REPORT}
+      value: 3
+      unit: WORKING_DAYS
+  OQ_PROTOCOL_DUR:
+    description: OQ protocol drafting duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: OQ, task_type: AUTHORING, profile_task_semantic: PROTOCOL_AUTHORING}
+      value: 8
+      unit: WORKING_DAYS
+  OQ_APPROVAL_DUR:
+    description: OQ protocol approval cycle duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: OQ, task_type: APPROVAL, profile_task_semantic: APPROVAL}
+      value: 5
+      unit: WORKING_DAYS
+  OQ_EXECUTION_DUR:
+    description: OQ execution duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: OQ, task_type: EXECUTION, profile_task_semantic: EXECUTION}
+      value: 8
+      unit: WORKING_DAYS
+  OQ_REPORT_DUR:
+    description: OQ report writing/review closure duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: OQ, task_type: REPORTING, profile_task_semantic: REPORT}
+      value: 3
+      unit: WORKING_DAYS
+  PQ_PROTOCOL_DUR:
+    description: PQ protocol drafting duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: PQ, task_type: AUTHORING, profile_task_semantic: PROTOCOL_AUTHORING}
+      value: 7
+      unit: WORKING_DAYS
+  PQ_APPROVAL_DUR:
+    description: PQ protocol approval cycle duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: PQ, task_type: APPROVAL, profile_task_semantic: APPROVAL}
+      value: 5
+      unit: WORKING_DAYS
+  PQ_EXECUTION_DUR:
+    description: PQ execution duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: PQ, task_type: EXECUTION, profile_task_semantic: EXECUTION}
+      value: 7
+      unit: WORKING_DAYS
+  PQ_REPORT_DUR:
+    description: PQ report writing/review closure duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: PQ, task_type: REPORTING, profile_task_semantic: REPORT}
+      value: 3
+      unit: WORKING_DAYS
+  VSR_DRAFT_DUR:
+    description: VSR draft duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: VSR, task_type: AUTHORING, profile_task_semantic: DRAFT}
+      value: 5
+      unit: WORKING_DAYS
+  VSR_REVIEW_DUR:
+    description: VSR review duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: VSR, task_type: REVIEW, profile_task_semantic: REVIEW}
+      value: 3
+      unit: WORKING_DAYS
+  VSR_APPROVAL_DUR:
+    description: VSR approval duration.
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: VSR, task_type: APPROVAL, profile_task_semantic: APPROVAL}
+      value: 2
+      unit: WORKING_DAYS
+  VSR_CYCLE_DUR:
+    description: VSR total cycle duration (draft+review+approval).
+    selection_priority: 0
+    value_table:
+    - context_selector: {phase: VSR, task_type: AUTHORING, profile_task_semantic: CYCLE}
+      value: 10
+      unit: WORKING_DAYS
