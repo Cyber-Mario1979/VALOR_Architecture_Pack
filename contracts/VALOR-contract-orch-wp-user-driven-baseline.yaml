@@ -15,9 +15,33 @@ envelopes:
 
 policy_lock:
   applies_when_profile_missing: true
+  normal_planning_basis: PROFILE_BASED
+  no_profile_planning_basis: USER_DRIVEN_NO_PROFILE
+  no_profile_is_normal_operation: false
   duration_rules:
     guessing_allowed: false
     required_source: USER_INPUT
+    every_task_requires_override_when_no_profile: true
+    accepted_override_required: true
+    required_override_fields:
+    - task_id
+    - duration_value
+    - duration_unit
+    - source_type
+    - source_reference_or_rationale
+    - recorded_by_or_accepted_by
+    - timestamp_or_source_date
+    - override_status
+    allowed_duration_units:
+    - WORKING_DAYS
+    - CALENDAR_DAYS
+    - CALENDAR_WEEKS
+    - CALENDAR_MONTHS
+    override_status_values:
+    - PROPOSED
+    - ACCEPTED
+    - REJECTED
+    - SUPERSEDED
   export_rules:
     allowed: true
     requires_explicit_confirmation: true
@@ -36,6 +60,9 @@ error_taxonomy:
   - INVALID_DURATION_OVERRIDE
   - INVALID_DURATION_SOURCE_FOR_BASIS
   - PLANNING_BASIS_NOT_SET
+  - DURATION_OVERRIDE_PROVENANCE_MISSING
+  - DURATION_OVERRIDE_NOT_ACCEPTED
+  - DURATION_OVERRIDE_UNIT_UNSUPPORTED
 
 actions:
 - action_type: WP_SET_PLANNING_BASIS
@@ -50,13 +77,15 @@ actions:
   optional_payload_fields:
   - profile_id
   - profile_version
+  - no_profile_exception_reason
   target_fields:
     required:
     - wp_id
     optional: []
   notes:
     - planning_basis values: PROFILE_BASED | USER_DRIVEN_NO_PROFILE
-    - when planning_basis=USER_DRIVEN_NO_PROFILE, durations must be provided via WP_SET_TASK_DURATION_OVERRIDES
+    - PROFILE_BASED is the normal governed baseline.
+    - USER_DRIVEN_NO_PROFILE is allowed only when every task receives an accepted explicit duration override with full provenance stamps.
   errors:
   - code: NOT_FOUND
     subcode: WP_NOT_FOUND
@@ -71,14 +100,17 @@ actions:
   confirmation_required: true
   required_payload_fields:
   - updates
+  - override_batch_metadata
   optional_payload_fields: []
   target_fields:
     required:
     - wp_id
     optional: []
   notes:
-    - each update must include task_id, duration_override_wd (>=0), duration_source=USER_INPUT
-    - WP system must refuse non-USER_INPUT duration_source when planning_basis=USER_DRIVEN_NO_PROFILE
+    - each update must include task_id, duration_value, duration_unit, source_type, source_reference or rationale, recorded_by or accepted_by, timestamp_utc or source_date, and override_status
+    - duration_source/source_type must be USER_INPUT or an approved user-accepted source type when planning_basis=USER_DRIVEN_NO_PROFILE
+    - only override_status=ACCEPTED may satisfy the no-profile planning exception
+    - WP system must refuse missing provenance, unsupported units, non-accepted overrides, or non-user accepted sources when planning_basis=USER_DRIVEN_NO_PROFILE
   errors:
   - code: NOT_FOUND
     subcode: TASK_NOT_FOUND
@@ -86,6 +118,12 @@ actions:
     subcode: INVALID_DURATION_OVERRIDE
   - code: VALIDATION_ERROR
     subcode: INVALID_DURATION_SOURCE_FOR_BASIS
+  - code: VALIDATION_ERROR
+    subcode: DURATION_OVERRIDE_PROVENANCE_MISSING
+  - code: VALIDATION_ERROR
+    subcode: DURATION_OVERRIDE_NOT_ACCEPTED
+  - code: VALIDATION_ERROR
+    subcode: DURATION_OVERRIDE_UNIT_UNSUPPORTED
   - code: INVARIANT_VIOLATION
     subcode: PLANNING_BASIS_NOT_SET
 
@@ -101,6 +139,7 @@ actions:
   - timestamp_utc
   optional_payload_fields:
   - actor
+  - confirmation_rationale
   target_fields:
     required:
     - wp_id
@@ -108,6 +147,7 @@ actions:
   notes:
     - confirmations are append-only; latest timestamp is authoritative for gating exports
     - expected confirmation_type for user-driven baseline: USER_DRIVEN_BASELINE_NO_PROFILE
+    - confirmation does not convert testing-only K&S into regulated-approved K&S
   errors:
   - code: NOT_FOUND
     subcode: WP_NOT_FOUND
