@@ -4,7 +4,7 @@
   "title": "KS External References Register",
   "type": "object",
   "additionalProperties": true,
-  "required": ["reference_register_id", "version", "owner", "effective_date", "source_checked_date", "review_cycle_months", "next_review_due", "expiry_date", "status", "review_required", "expired_behavior", "references"],
+  "required": ["reference_register_id", "version", "owner", "effective_date", "source_checked_date", "review_cycle_months", "next_review_due", "expiry_date", "status", "usage_classification", "testing_use_allowed", "regulated_output_allowed", "testing_only_stamp_required", "approval_status", "source_metadata_acceptance_status", "testing_expired_behavior", "regulated_expired_behavior", "references"],
   "properties": {
     "reference_register_id": {"type": "string"},
     "version": {"type": "string"},
@@ -14,9 +14,15 @@
     "review_cycle_months": {"type": "integer", "minimum": 1},
     "next_review_due": {"type": "string"},
     "expiry_date": {"type": "string"},
-    "status": {"enum": ["ACTIVE", "DUE_FOR_REVIEW", "EXPIRED", "SUPERSEDED", "BLOCKED", "PRE_FREEZE_USER_REVIEW_REQUIRED"]},
-    "review_required": {"type": "boolean"},
-    "expired_behavior": {"type": "string"},
-    "references": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["source_id", "title", "publisher_or_authority", "version_or_edition", "document_date", "source_type", "access_classification", "excerpt_policy", "status", "review_required", "anchors"], "additionalProperties": true}}
+    "status": {"enum": ["TESTING_ONLY", "PRE_FREEZE_USER_REVIEW_REQUIRED", "ACTIVE", "DUE_FOR_REVIEW", "EXPIRED", "SUPERSEDED", "BLOCKED"]},
+    "usage_classification": {"type": "string"},
+    "testing_use_allowed": {"type": "boolean"},
+    "regulated_output_allowed": {"type": "boolean"},
+    "testing_only_stamp_required": {"type": "boolean"},
+    "approval_status": {"type": "string"},
+    "source_metadata_acceptance_status": {"type": "string"},
+    "testing_expired_behavior": {"type": "string"},
+    "regulated_expired_behavior": {"type": "string"},
+    "references": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["source_id", "title", "publisher_or_authority", "version_or_edition", "document_date", "source_type", "access_classification", "excerpt_policy", "status", "regulated_use_status", "testing_use_allowed", "regulated_output_allowed", "anchors"], "additionalProperties": true}}
   }
 }
