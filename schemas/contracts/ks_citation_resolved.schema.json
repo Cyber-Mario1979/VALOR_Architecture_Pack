@@ -1,9 +1,16 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "valor://schemas/contracts/ks_citation_resolved.schema.json",
-  "title": "Knowledge Store Citation Resolved",
+  "title": "KS Citation Resolved",
   "type": "object",
-  "required": [],
-  "properties": {},
-  "additionalProperties": true
+  "additionalProperties": false,
+  "required": ["ok", "anchored_ref", "citation", "excerpt_policy_applied", "refusal"],
+  "properties": {
+    "ok": {"type": "boolean"},
+    "anchored_ref": {"type": "object", "required": ["asset_type", "asset_id", "asset_version", "anchor_id"], "additionalProperties": true},
+    "citation": {"type": ["object", "null"], "properties": {"asset_id": {"type": "string"}, "asset_version": {"type": "string"}, "anchor_id": {"type": "string"}, "anchor_title": {"type": "string"}, "locator": {"type": "string"}, "source_identity": {"type": "string"}}, "additionalProperties": true},
+    "excerpt_policy_applied": {"type": "string", "enum": ["METADATA_ONLY", "PUBLIC_EXCERPT", "INTERNAL_ONLY", "NO_EXCERPTS"]},
+    "excerpt": {"type": ["string", "null"]},
+    "refusal": {"type": ["object", "null"], "properties": {"code": {"type": "string"}, "subcode": {"type": "string"}, "message": {"type": "string"}}, "additionalProperties": true}
+  }
 }
