@@ -7,11 +7,21 @@ source_checked_date: 2026-06-12
 review_cycle_months: 36
 next_review_due: 2029-06-12
 expiry_date: 2029-06-12
-status: PRE_FREEZE_USER_REVIEW_REQUIRED
-review_required: true
-expired_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+status: TESTING_ONLY
+usage_classification: PRODUCT_TESTING_ONLY
+testing_use_allowed: true
+regulated_output_allowed: false
+testing_only_stamp_required: true
+real_life_use_allowed: false
+approval_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+user_site_acceptance_required: true
+source_metadata_acceptance_status: NOT_ACCEPTED_FOR_REGULATED_USE
+testing_expired_behavior: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
+regulated_expired_behavior: BLOCK_REAL_LIFE_REGULATED_CQV_GMP_OUTPUT
+required_output_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
 applicability:
   scope: VALOR CQV v1.0.1 base scope
+  testing_scope: product testing, dry runs, internal trials, behavior validation, and end-to-end workflow testing only
 included_internal_standards:
   - standard_id: STD-CQV-BASE
     version: v1.0.1
@@ -41,6 +51,8 @@ default_citation_set:
   - STD-CQV-BASE:v1.0.1:CQV-REQ-004
   - STD-CQV-BASE:v1.0.1:CQV-REQ-016
 blocked_state_rules:
+  testing_metadata_expired: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
+  regulated_use_requested: BLOCK_REAL_LIFE_REGULATED_CQV_GMP_OUTPUT
   missing_or_expired_required_asset: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
   unreviewed_required_asset: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
   unmapped_requirement: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
