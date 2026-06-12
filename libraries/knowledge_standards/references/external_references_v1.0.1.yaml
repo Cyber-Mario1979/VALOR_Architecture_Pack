@@ -6,168 +6,193 @@ source_checked_date: 2026-06-12
 review_cycle_months: 36
 next_review_due: 2029-06-12
 expiry_date: 2029-06-12
-status: PRE_FREEZE_USER_REVIEW_REQUIRED
-review_required: true
-expired_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
-purpose: Controlled source-authority register for VALOR CQV v1.0.1 K&S bundles.
+status: TESTING_ONLY
+usage_classification: PRODUCT_TESTING_ONLY
+testing_use_allowed: true
+regulated_output_allowed: false
+testing_only_stamp_required: true
+real_life_use_allowed: false
+approval_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+user_site_acceptance_required: true
+source_metadata_acceptance_status: NOT_ACCEPTED_FOR_REGULATED_USE
+testing_expired_behavior: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
+regulated_expired_behavior: BLOCK_REAL_LIFE_REGULATED_CQV_GMP_OUTPUT
+required_output_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
+purpose: Controlled source-authority register for VALOR CQV v1.0.1 product testing only.
 
 control_rules:
   no_external_text_reproduction: true
   clause_numbers_may_not_be_invented: true
   edition_years_may_not_be_invented: true
   document_dates_may_not_be_invented: true
-  source_text_policy: External copyrighted standards text is not stored or reproduced. VALOR stores source identity, authority, lifecycle state, high-level anchors, and source-to-internal mapping only.
-  unverified_source_behavior: Any reference with version, date, authority, or applicability not accepted by user/site review keeps dependent regulated CQV output blocked or incomplete.
+  testing_placeholders_allowed_for_product_testing: true
+  testing_placeholders_approved_for_regulated_use: false
+  unaccepted_source_behavior_for_testing: ALLOW_PRODUCT_TESTING_WITH_REQUIRED_TESTING_STAMP
+  unaccepted_source_behavior_for_regulated_use: BLOCK_REAL_LIFE_REGULATED_CQV_GMP_OUTPUT
 
-allowed_statuses:
-  - ACTIVE
-  - DUE_FOR_REVIEW
-  - EXPIRED
-  - SUPERSEDED
-  - BLOCKED
-  - PRE_FREEZE_USER_REVIEW_REQUIRED
+allowed_statuses: [TESTING_ONLY, PRE_FREEZE_USER_REVIEW_REQUIRED, ACTIVE, DUE_FOR_REVIEW, EXPIRED, SUPERSEDED, BLOCKED]
 
 references:
   - source_id: EXT-ISPE-BG5
     title: ISPE Baseline Guide Volume 5
     provided_source_name: ISPE Baseline Guide Vol. 5
     publisher_or_authority: ISPE
-    version_or_edition: NOT_PROVIDED_IN_SOURCE_INPUT
-    document_date: NOT_PROVIDED_IN_SOURCE_INPUT
+    version_or_edition: TESTING_PLACEHOLDER_NOT_APPROVED
+    document_date: TESTING_PLACEHOLDER_NOT_APPROVED
     source_type: INDUSTRY_GUIDE
     access_classification: LICENSED
     excerpt_policy: NO_EXCERPTS
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-    review_required: true
+    status: TESTING_ONLY
+    regulated_use_status: NOT_APPROVED_FOR_REGULATED_USE
+    testing_use_allowed: true
+    regulated_output_allowed: false
     anchors:
-      - {anchor_id: EXT-ISPE-BG5-CQV-LIFECYCLE, anchor_title: CQV lifecycle and deliverable model, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
-      - {anchor_id: EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, anchor_title: Qualification document chain, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
-      - {anchor_id: EXT-ISPE-BG5-VSR, anchor_title: Verification summary and lifecycle closure, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
+      - {anchor_id: EXT-ISPE-BG5-CQV-LIFECYCLE, anchor_title: CQV lifecycle and deliverable model, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
+      - {anchor_id: EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, anchor_title: Qualification document chain, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
+      - {anchor_id: EXT-ISPE-BG5-VSR, anchor_title: Verification summary and lifecycle closure, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
   - source_id: EXT-ISPE-GAMP5
     title: ISPE GAMP 5
     provided_source_name: ISPE GAMP 5
     publisher_or_authority: ISPE
-    version_or_edition: NOT_PROVIDED_IN_SOURCE_INPUT
-    document_date: NOT_PROVIDED_IN_SOURCE_INPUT
+    version_or_edition: TESTING_PLACEHOLDER_NOT_APPROVED
+    document_date: TESTING_PLACEHOLDER_NOT_APPROVED
     source_type: INDUSTRY_GUIDE
     access_classification: LICENSED
     excerpt_policy: NO_EXCERPTS
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-    review_required: true
+    status: TESTING_ONLY
+    regulated_use_status: NOT_APPROVED_FOR_REGULATED_USE
+    testing_use_allowed: true
+    regulated_output_allowed: false
     anchors:
-      - {anchor_id: EXT-ISPE-GAMP5-CSV-LIFECYCLE, anchor_title: Computerized system validation lifecycle, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
-      - {anchor_id: EXT-ISPE-GAMP5-RISK-BASED-APPROACH, anchor_title: Risk-based computerized system assurance, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
-      - {anchor_id: EXT-ISPE-GAMP5-DATA-INTEGRITY, anchor_title: Data integrity and computerized records control, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
+      - {anchor_id: EXT-ISPE-GAMP5-CSV-LIFECYCLE, anchor_title: Computerized system validation lifecycle, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
+      - {anchor_id: EXT-ISPE-GAMP5-RISK-BASED-APPROACH, anchor_title: Risk-based computerized system assurance, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
+      - {anchor_id: EXT-ISPE-GAMP5-DATA-INTEGRITY, anchor_title: Data integrity and computerized records control, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
   - source_id: EXT-EUGMP-ANNEX15
     title: EU GMP Annex 15
     provided_source_name: EU GMP Annex 15
     publisher_or_authority: European Commission / EU GMP
-    version_or_edition: NOT_PROVIDED_IN_SOURCE_INPUT
-    document_date: NOT_PROVIDED_IN_SOURCE_INPUT
+    version_or_edition: TESTING_PLACEHOLDER_NOT_APPROVED
+    document_date: TESTING_PLACEHOLDER_NOT_APPROVED
     source_type: REGULATORY_GUIDANCE
     access_classification: PUBLIC_OR_REGULATORY
     excerpt_policy: NO_EXCERPTS
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-    review_required: true
+    status: TESTING_ONLY
+    regulated_use_status: NOT_APPROVED_FOR_REGULATED_USE
+    testing_use_allowed: true
+    regulated_output_allowed: false
     anchors:
-      - {anchor_id: EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, anchor_title: Qualification and validation lifecycle expectations, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
-      - {anchor_id: EXT-EUGMP-ANNEX15-RISK-APPROACH, anchor_title: Risk-based qualification and validation planning, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
-      - {anchor_id: EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, anchor_title: Documentation, review, approval, and reporting expectations, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
+      - {anchor_id: EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, anchor_title: Qualification and validation lifecycle expectations, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
+      - {anchor_id: EXT-EUGMP-ANNEX15-RISK-APPROACH, anchor_title: Risk-based qualification and validation planning, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
+      - {anchor_id: EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, anchor_title: Documentation, review, approval, and reporting expectations, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
   - source_id: EXT-EUGMP-ANNEX11
     title: EU GMP Annex 11
     provided_source_name: EU GMP Annex 11
     publisher_or_authority: European Commission / EU GMP
-    version_or_edition: NOT_PROVIDED_IN_SOURCE_INPUT
-    document_date: NOT_PROVIDED_IN_SOURCE_INPUT
+    version_or_edition: TESTING_PLACEHOLDER_NOT_APPROVED
+    document_date: TESTING_PLACEHOLDER_NOT_APPROVED
     source_type: REGULATORY_GUIDANCE
     access_classification: PUBLIC_OR_REGULATORY
     excerpt_policy: NO_EXCERPTS
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-    review_required: true
+    status: TESTING_ONLY
+    regulated_use_status: NOT_APPROVED_FOR_REGULATED_USE
+    testing_use_allowed: true
+    regulated_output_allowed: false
     anchors:
-      - {anchor_id: EXT-EUGMP-ANNEX11-COMPUTERISED-SYSTEMS, anchor_title: Computerised systems GMP expectations, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
-      - {anchor_id: EXT-EUGMP-ANNEX11-DATA-RECORDS, anchor_title: Electronic records, controls, and data integrity expectations, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
+      - {anchor_id: EXT-EUGMP-ANNEX11-COMPUTERISED-SYSTEMS, anchor_title: Computerised systems GMP expectations, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
+      - {anchor_id: EXT-EUGMP-ANNEX11-DATA-RECORDS, anchor_title: Electronic records, controls, and data integrity expectations, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
   - source_id: EXT-ASTM-E2500
     title: ASTM E2500
     provided_source_name: ASTM E2500
     publisher_or_authority: ASTM International
-    version_or_edition: NOT_PROVIDED_IN_SOURCE_INPUT
-    document_date: NOT_PROVIDED_IN_SOURCE_INPUT
+    version_or_edition: TESTING_PLACEHOLDER_NOT_APPROVED
+    document_date: TESTING_PLACEHOLDER_NOT_APPROVED
     source_type: INDUSTRY_STANDARD
     access_classification: LICENSED
     excerpt_policy: NO_EXCERPTS
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-    review_required: true
+    status: TESTING_ONLY
+    regulated_use_status: NOT_APPROVED_FOR_REGULATED_USE
+    testing_use_allowed: true
+    regulated_output_allowed: false
     anchors:
-      - {anchor_id: EXT-ASTM-E2500-SCIENCE-RISK-BASED, anchor_title: Science- and risk-based verification approach, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
-      - {anchor_id: EXT-ASTM-E2500-SUBJECT-MATTER-EXPERT, anchor_title: SME involvement and verification strategy, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
+      - {anchor_id: EXT-ASTM-E2500-SCIENCE-RISK-BASED, anchor_title: Science- and risk-based verification approach, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
+      - {anchor_id: EXT-ASTM-E2500-SUBJECT-MATTER-EXPERT, anchor_title: SME involvement and verification strategy, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
   - source_id: EXT-ICH-Q9
     title: ICH Q9
     provided_source_name: ICH Q9
     publisher_or_authority: ICH
-    version_or_edition: NOT_PROVIDED_IN_SOURCE_INPUT
-    document_date: NOT_PROVIDED_IN_SOURCE_INPUT
+    version_or_edition: TESTING_PLACEHOLDER_NOT_APPROVED
+    document_date: TESTING_PLACEHOLDER_NOT_APPROVED
     source_type: REGULATORY_GUIDANCE
     access_classification: PUBLIC_OR_REGULATORY
     excerpt_policy: NO_EXCERPTS
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-    review_required: true
+    status: TESTING_ONLY
+    regulated_use_status: NOT_APPROVED_FOR_REGULATED_USE
+    testing_use_allowed: true
+    regulated_output_allowed: false
     anchors:
-      - {anchor_id: EXT-ICH-Q9-QUALITY-RISK-MANAGEMENT, anchor_title: Quality risk management principles, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
-      - {anchor_id: EXT-ICH-Q9-RISK-REVIEW, anchor_title: Risk review and lifecycle update expectations, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
+      - {anchor_id: EXT-ICH-Q9-QUALITY-RISK-MANAGEMENT, anchor_title: Quality risk management principles, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
+      - {anchor_id: EXT-ICH-Q9-RISK-REVIEW, anchor_title: Risk review and lifecycle update expectations, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
   - source_id: EXT-ICH-Q10
     title: ICH Q10
     provided_source_name: ICH Q10
     publisher_or_authority: ICH
-    version_or_edition: NOT_PROVIDED_IN_SOURCE_INPUT
-    document_date: NOT_PROVIDED_IN_SOURCE_INPUT
+    version_or_edition: TESTING_PLACEHOLDER_NOT_APPROVED
+    document_date: TESTING_PLACEHOLDER_NOT_APPROVED
     source_type: REGULATORY_GUIDANCE
     access_classification: PUBLIC_OR_REGULATORY
     excerpt_policy: NO_EXCERPTS
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-    review_required: true
+    status: TESTING_ONLY
+    regulated_use_status: NOT_APPROVED_FOR_REGULATED_USE
+    testing_use_allowed: true
+    regulated_output_allowed: false
     anchors:
-      - {anchor_id: EXT-ICH-Q10-PQS-LIFECYCLE, anchor_title: Pharmaceutical Quality System lifecycle governance, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
-      - {anchor_id: EXT-ICH-Q10-KNOWLEDGE-MANAGEMENT, anchor_title: Knowledge management and continual improvement expectations, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
+      - {anchor_id: EXT-ICH-Q10-PQS-LIFECYCLE, anchor_title: Pharmaceutical Quality System lifecycle governance, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
+      - {anchor_id: EXT-ICH-Q10-KNOWLEDGE-MANAGEMENT, anchor_title: Knowledge management and continual improvement expectations, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
   - source_id: EXT-21CFR11
     title: 21 CFR Part 11
     provided_source_name: 21 CFR Part 11
     publisher_or_authority: US FDA / Code of Federal Regulations
-    version_or_edition: NOT_PROVIDED_IN_SOURCE_INPUT
-    document_date: NOT_PROVIDED_IN_SOURCE_INPUT
+    version_or_edition: TESTING_PLACEHOLDER_NOT_APPROVED
+    document_date: TESTING_PLACEHOLDER_NOT_APPROVED
     source_type: REGULATION
     access_classification: PUBLIC_OR_REGULATORY
     excerpt_policy: NO_EXCERPTS
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-    review_required: true
+    status: TESTING_ONLY
+    regulated_use_status: NOT_APPROVED_FOR_REGULATED_USE
+    testing_use_allowed: true
+    regulated_output_allowed: false
     anchors:
-      - {anchor_id: EXT-21CFR11-ELECTRONIC-RECORDS, anchor_title: Electronic records expectations, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
-      - {anchor_id: EXT-21CFR11-ELECTRONIC-SIGNATURES, anchor_title: Electronic signatures expectations, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
+      - {anchor_id: EXT-21CFR11-ELECTRONIC-RECORDS, anchor_title: Electronic records expectations, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
+      - {anchor_id: EXT-21CFR11-ELECTRONIC-SIGNATURES, anchor_title: Electronic signatures expectations, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
   - source_id: EXT-ISO14644
     title: ISO 14644
     provided_source_name: ISO 14644
     publisher_or_authority: ISO
-    version_or_edition: NOT_PROVIDED_IN_SOURCE_INPUT
-    document_date: NOT_PROVIDED_IN_SOURCE_INPUT
+    version_or_edition: TESTING_PLACEHOLDER_NOT_APPROVED
+    document_date: TESTING_PLACEHOLDER_NOT_APPROVED
     source_type: INTERNATIONAL_STANDARD
     access_classification: LICENSED
     excerpt_policy: NO_EXCERPTS
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-    review_required: true
+    status: TESTING_ONLY
+    regulated_use_status: NOT_APPROVED_FOR_REGULATED_USE
+    testing_use_allowed: true
+    regulated_output_allowed: false
     anchors:
-      - {anchor_id: EXT-ISO14644-AIR-CLEANLINESS-CLASSIFICATION, anchor_title: Air cleanliness classification and monitoring basis, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
-      - {anchor_id: EXT-ISO14644-CLEANROOM-TESTING, anchor_title: Cleanroom testing and classification evidence, anchor_type: TOPIC, locator: USER_SITE_REVIEW_REQUIRED, excerpt_allowed: false}
+      - {anchor_id: EXT-ISO14644-AIR-CLEANLINESS-CLASSIFICATION, anchor_title: Air cleanliness classification and monitoring basis, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
+      - {anchor_id: EXT-ISO14644-CLEANROOM-TESTING, anchor_title: Cleanroom testing and classification evidence, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
   - source_id: EXT-LOCAL-EDA-SITE-GMP
     title: Local EDA / site GMP requirements
     provided_source_name: Local EDA / site GMP requirements
     publisher_or_authority: Local authority and site quality system
-    version_or_edition: SITE_USER_TO_PROVIDE
-    document_date: SITE_USER_TO_PROVIDE
+    version_or_edition: TESTING_PLACEHOLDER_NOT_APPROVED
+    document_date: TESTING_PLACEHOLDER_NOT_APPROVED
     source_type: LOCAL_REGULATORY_SITE_REQUIREMENT
     access_classification: INTERNAL_OR_REGULATORY
     excerpt_policy: NO_EXCERPTS
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-    review_required: true
+    status: TESTING_ONLY
+    regulated_use_status: NOT_APPROVED_FOR_REGULATED_USE
+    testing_use_allowed: true
+    regulated_output_allowed: false
     anchors:
-      - {anchor_id: EXT-LOCAL-EDA-SITE-GMP-LOCAL-REQUIREMENTS, anchor_title: Local regulatory and site GMP requirements applicable to CQV, anchor_type: TOPIC, locator: SITE_USER_REVIEW_REQUIRED, excerpt_allowed: false}
-      - {anchor_id: EXT-LOCAL-EDA-SITE-GMP-APPROVALS, anchor_title: Site approval, documentation, and retention expectations, anchor_type: TOPIC, locator: SITE_USER_REVIEW_REQUIRED, excerpt_allowed: false}
+      - {anchor_id: EXT-LOCAL-EDA-SITE-GMP-LOCAL-REQUIREMENTS, anchor_title: Local regulatory and site GMP requirements applicable to CQV, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
+      - {anchor_id: EXT-LOCAL-EDA-SITE-GMP-APPROVALS, anchor_title: Site approval, documentation, and retention expectations, anchor_type: TOPIC, locator: TESTING_TOPIC_ANCHOR_NOT_APPROVED_FOR_REGULATED_USE, excerpt_allowed: false}
