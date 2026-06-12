@@ -135,12 +135,36 @@ Key decisions:
 - PLAN preview remains `PLAN_GENERATE_PROPOSAL` with `dry_run=true`.
 - K&S remains TESTING_ONLY / PRODUCT_TESTING_ONLY only.
 
+### Blocker 6A — DOC / DCF / URS Source-Chain Alignment
+
+Control record:
+
+- `_review_control/BLOCKER6A_DOC_DCF_URS_SOURCE_CHAIN_ALIGNMENT.md`
+
+Status:
+
+- Completed for scoped architecture and contract alignment.
+- Freeze remains blocked by other pre-freeze work.
+
+Key decisions:
+
+- DCF is declared as a DOC source-capture / input-collection document type or concept.
+- DCF may be referenced through `dcf_ref` or `source_input_set`.
+- DCF artifact generation/finalization is not active until `TPL-DCF_v1.0.1.yaml` and approved source metadata exist.
+- No `TPL-DCF_v1.0.1.yaml` was created.
+- DCF was not added to `BND-CQV-BASE_v1.0.1`.
+- URS generation consumes WP truth, DCF/source input set, governed `template_ref`, governed `bundle_ref` / `citation_set`, and provenance stamps.
+- DOC must not invent intended use, GMP relevance, user needs, critical requirements, interfaces, constraints, assumptions, or acceptance expectations.
+- Active DOC actions are `DOC_GENERATE_DRAFT` and `DOC_FINALIZE_ARTIFACT` only.
+- Deferred DOC actions remain deferred unless later approved: `DOC_VALIDATE`, `DOC_MARK_REVIEW_READY`, `DOC_REGENERATE`, `DOC_GET`, and `DOC_LIST`.
+- `DOC_FINALIZE_ARTIFACT` now checks source-chain provenance, template_ref, bundle_ref, citation_set, provenance_stamps, testing-only stamp, and source-input completion status.
+- K&S remains TESTING_ONLY / PRODUCT_TESTING_ONLY only.
 
 ## Remaining Freeze Blockers
 
 - K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
+- Real template source metadata intake and acceptance before regulated use, including any future DCF template governance record and bundle membership decision.
 - Broader contract/schema validation enforcement and non-K&S validation/test-vector cleanup.
-- DOC/DCF/URS source-chain cleanup.
 - Product surface minimum behavior cleanup.
 - Negative and E2E test vector coverage outside scoped K&S vectors.
 - Governance/audit/security/registry schemas/tests.
@@ -152,10 +176,10 @@ Await explicit user approval/challenge for the next scoped pre-freeze blocker.
 
 Recommended next scoped blocker options:
 
-1. Contract/action registry semantic validation for WP/PLAN/TP/PS/PROF/CAL.
-2. DOC/DCF/URS source-chain cleanup.
-3. Product surface minimum behavior cleanup.
-4. Non-K&S validation/test-vector cleanup.
+1. Real template source metadata intake model and DCF template governance decision.
+2. Product surface minimum behavior cleanup.
+3. Non-K&S validation/test-vector cleanup.
+4. Governance/security/registry schemas/tests.
 
 ## Non-Scope Until Explicitly Approved
 
