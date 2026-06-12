@@ -81,21 +81,26 @@ contracts:
     category: PUBLIC_USER_CALLABLE_WHEN_DIRECT_KS_REQUEST
     owner: KS
     file: contracts/VALOR-contract-orch-ks.yaml
-    status: ACTIVE_PRE_FREEZE_WITH_USER_REVIEW_GATE
+    status: TESTING_ONLY_PRE_FREEZE_WITH_REGULATED_USE_BLOCK
     governed_library_root: libraries/knowledge_standards
+    usage_classification: PRODUCT_TESTING_ONLY
+    testing_use_allowed: true
+    regulated_output_allowed: false
+    testing_only_stamp_required: true
+    required_output_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
     actions:
-      - {type: KS_LIST_STANDARDS, aliases: [list_standards], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_standards_list.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: KS_READ_STANDARD, aliases: [read_standard], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_standard.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: KS_LIST_TEMPLATES, aliases: [list_templates], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_templates_list.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: KS_READ_TEMPLATE, aliases: [read_template], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_template.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: KS_LIST_BUNDLES, aliases: [list_bundles], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_bundles_list.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: KS_READ_BUNDLE, aliases: [read_bundle], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_bundle.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: KS_LIST_ANCHORS, aliases: [list_anchors], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_anchors_list.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: KS_RESOLVE_CITATION, aliases: [resolve_citation, cite_standard], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_citation_resolved.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: KS_VALIDATE_CITATION_SET, aliases: [validate_citation_set], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: KS_VALIDATE_TEMPLATE_REQUIREMENTS, aliases: [validate_template_requirements], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: KS_VALIDATE_SOURCE_MAPPING, aliases: [validate_source_mapping], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: KS_VALIDATE_BUNDLE_INTEGRITY, aliases: [validate_standards_bundle], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: ACTIVE_PRE_FREEZE_WITH_USER_REVIEW_GATE}
+      - {type: KS_LIST_STANDARDS, aliases: [list_standards], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_standards_list.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
+      - {type: KS_READ_STANDARD, aliases: [read_standard], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_standard.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
+      - {type: KS_LIST_TEMPLATES, aliases: [list_templates], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_templates_list.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
+      - {type: KS_READ_TEMPLATE, aliases: [read_template], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_template.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
+      - {type: KS_LIST_BUNDLES, aliases: [list_bundles], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_bundles_list.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
+      - {type: KS_READ_BUNDLE, aliases: [read_bundle], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_bundle.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
+      - {type: KS_LIST_ANCHORS, aliases: [list_anchors], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_anchors_list.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
+      - {type: KS_RESOLVE_CITATION, aliases: [resolve_citation, cite_standard], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_citation_resolved.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
+      - {type: KS_VALIDATE_CITATION_SET, aliases: [validate_citation_set], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
+      - {type: KS_VALIDATE_TEMPLATE_REQUIREMENTS, aliases: [validate_template_requirements], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
+      - {type: KS_VALIDATE_SOURCE_MAPPING, aliases: [validate_source_mapping], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
+      - {type: KS_VALIDATE_BUNDLE_INTEGRITY, aliases: [validate_standards_bundle], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
   - contract_id: VALOR-contract-orch-ps
     category: INTERNAL_SERVICE_RESOLVER
     owner: PS
@@ -116,10 +121,10 @@ cross_cutting_controls:
   - {control_id: SEC, category: POLICY_FIRST_CROSS_CUTTING_CONTROL, status: ACTIVE_POLICY_FIRST_PRE_FREEZE, callable_contract_required: false}
 
 freeze_blockers_retained:
-  - K&S governed content pack exists, but source edition/date/locator acceptance remains gated where source input did not provide concrete values.
+  - K&S governed content pack is available for product testing only; source edition/date/locator acceptance remains gated for regulated use.
   - Contract registry semantic validation remains a later schema/validation blocker.
 
 validation_requirements:
   - A11, this registry, contract files, action_blocks, and schemas must agree before freeze.
   - Any public command alias must map to exactly one canonical action_type.
-  - Any PRE_FREEZE_USER_REVIEW_REQUIRED asset cannot be represented as fully approved regulated CQV standards basis.
+  - Any TESTING_ONLY asset cannot be represented as approved regulated CQV/GMP standards basis.
