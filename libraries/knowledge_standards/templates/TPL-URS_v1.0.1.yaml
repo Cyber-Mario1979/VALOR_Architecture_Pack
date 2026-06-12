@@ -1,0 +1,20 @@
+template_id: TPL-URS
+version: v1.0.1
+name: VALOR URS Template Governance Record
+doc_type: URS
+owner: K&S
+effective_date: 2026-06-12
+source_checked_date: 2026-06-12
+review_cycle_months: 36
+next_review_due: 2029-06-12
+expiry_date: 2029-06-12
+status: PRE_FREEZE_USER_REVIEW_REQUIRED
+review_required: true
+expired_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+content_format: MARKDOWN_OR_DOCX_TEMPLATE
+required_inputs: [intended_use, GMP_relevance, user_needs, critical_requirements, interfaces, constraints, assumptions, acceptance_expectations]
+required_stamps: [bundle_id, bundle_version, internal_standard_id, internal_standard_version, template_id, template_version, source_reference_ids, source_anchor_ids, lifecycle_status]
+anchor_policy:
+  required_internal_requirements: [CQV-REQ-001, CQV-REQ-002, CQV-REQ-003, CQV-REQ-004, CQV-REQ-013, CQV-REQ-014, CQV-REQ-016]
+sections: [purpose, scope, intended_use, GMP_impact, user_requirements, criticality, interfaces, assumptions, acceptance_expectations, traceability_seed, approvals]
+missing_or_expired_behavior: BLOCK_DOC_GENERATION_OR_MARK_INCOMPLETE
