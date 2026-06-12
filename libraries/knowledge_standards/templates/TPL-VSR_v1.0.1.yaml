@@ -1,0 +1,37 @@
+template_id: TPL-VSR
+version: v1.0.1
+doc_type: VSR
+owner: KS
+effective_date: 2026-06-12
+source_checked_date: 2026-06-12
+review_cycle_months: 36
+next_review_due: 2029-06-12
+expiry_date: 2029-06-12
+status: PRE_FREEZE_USER_REVIEW_REQUIRED
+review_required: true
+expired_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+required_inputs:
+  - approved_scope
+  - executed_deliverables
+  - deviations
+  - open_items
+  - traceability_status
+  - acceptance_conclusion
+required_stamps:
+  - bundle_id
+  - template_id
+  - source_reference_ids
+  - lifecycle_status
+anchor_policy:
+  required_internal_requirements:
+    - CQV-REQ-009
+    - CQV-REQ-016
+sections:
+  - scope_summary
+  - deliverables_summary
+  - deviation_summary
+  - traceability_summary
+  - open_items
+  - acceptance_conclusion
+  - final_readiness
+missing_or_expired_behavior: BLOCK_DOC_GENERATION_OR_MARK_INCOMPLETE
