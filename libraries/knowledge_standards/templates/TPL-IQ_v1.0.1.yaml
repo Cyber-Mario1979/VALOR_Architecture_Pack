@@ -1,0 +1,20 @@
+template_id: TPL-IQ
+version: v1.0.1
+name: VALOR IQ Template Governance Record
+doc_type: IQ
+owner: K&S
+effective_date: 2026-06-12
+source_checked_date: 2026-06-12
+review_cycle_months: 36
+next_review_due: 2029-06-12
+expiry_date: 2029-06-12
+status: PRE_FREEZE_USER_REVIEW_REQUIRED
+review_required: true
+expired_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+content_format: MARKDOWN_OR_DOCX_TEMPLATE
+required_inputs: [accepted_design, installation_scope, equipment_or_system_IDs, calibration_requirements, documentation_requirements, prerequisites]
+required_stamps: [bundle_id, bundle_version, internal_standard_id, internal_standard_version, template_id, template_version, source_reference_ids, source_anchor_ids, lifecycle_status]
+anchor_policy:
+  required_internal_requirements: [CQV-REQ-001, CQV-REQ-004, CQV-REQ-006, CQV-REQ-013, CQV-REQ-016]
+sections: [purpose, scope, prerequisites, installation_checks, documentation_checks, calibration_checks, exceptions, IQ_conclusion, approvals]
+missing_or_expired_behavior: BLOCK_DOC_GENERATION_OR_MARK_INCOMPLETE
