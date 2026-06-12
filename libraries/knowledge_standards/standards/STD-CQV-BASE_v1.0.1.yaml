@@ -7,24 +7,37 @@ source_checked_date: 2026-06-12
 review_cycle_months: 36
 next_review_due: 2029-06-12
 expiry_date: 2029-06-12
-status: PRE_FREEZE_USER_REVIEW_REQUIRED
+status: TESTING_ONLY
+usage_classification: PRODUCT_TESTING_ONLY
+testing_use_allowed: true
+regulated_output_allowed: false
+real_life_use_allowed: false
+testing_only_stamp_required: true
+approval_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+user_site_acceptance_required: true
+source_metadata_acceptance_status: NOT_ACCEPTED_FOR_REGULATED_USE
+testing_expired_behavior: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
+regulated_expired_behavior: BLOCK_REAL_LIFE_REGULATED_CQV_GMP_OUTPUT
+required_output_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
 review_required: true
 expired_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
 access_classification: INTERNAL
 excerpt_policy: INTERNAL_ONLY
 source_register: libraries/knowledge_standards/references/external_references_v1.0.1.yaml
 mapping_file: libraries/knowledge_standards/mapping/source_to_internal_requirements_v1.0.1.yaml
-operative_rule: Internal VALOR requirements are the operative governed CQV requirements. External standards are controlled source authorities only.
+operative_rule: Internal VALOR requirements are governed product-testing content only until user/site source metadata acceptance is completed. External standards are controlled source authorities only.
 
 citation_behavior:
   default: cite_internal_requirement_with_source_anchor_metadata
   external_text_reproduction: prohibited
   missing_anchor_behavior: BLOCK_OR_REFUSE
   unmapped_requirement_behavior: BLOCK_OR_REFUSE
+  testing_only_output_stamp_required: true
+  regulated_output_with_testing_only_status: BLOCK_OR_MARK_INCOMPLETE
 
 excerpt_redaction_behavior:
-  internal_requirement_excerpt: allowed_for_internal_governed_context
-  external_standard_excerpt: prohibited_unless_explicitly_approved_public_excerpt_source_exists
+  internal_requirement_excerpt: allowed_for_product_testing_context
+  external_standard_excerpt: prohibited
   restricted_excerpt_request: refuse_with_EXCERPT_BLOCKED
 
 requirements:
@@ -39,7 +52,7 @@ requirements:
     citation_behavior: cite_requirement_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_OUTPUT_IF_LIFECYCLE_SCOPE_OR_REQUIRED_DELIVERABLE_STATUS_IS_MISSING
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY
   - requirement_id: CQV-REQ-002
     title: URS governance
     internal_requirement_statement: A URS shall define intended use, GMP relevance, user needs, critical requirements, interfaces, constraints, assumptions, acceptance expectations, and traceability anchors before downstream deliverables rely on it.
@@ -51,7 +64,7 @@ requirements:
     citation_behavior: cite_URS_requirement_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_DOWNSTREAM_DOC_GENERATION_IF_ACCEPTED_URS_SOURCE_IS_MISSING
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY
   - requirement_id: CQV-REQ-003
     title: Risk assessment and criticality
     internal_requirement_statement: CQV scope, test depth, acceptance focus, and review priority shall be based on documented product, patient, process, GMP, data integrity, and operational risk.
@@ -63,7 +76,7 @@ requirements:
     citation_behavior: cite_risk_basis_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_OUTPUT_IF_RISK_BASIS_IS_MISSING_FOR_GMP_RELEVANT_SCOPE
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY
   - requirement_id: CQV-REQ-004
     title: RTM and traceability
     internal_requirement_statement: Each accepted GMP-relevant or risk-relevant URS requirement shall trace to design verification, qualification evidence, deviations where applicable, and VSR disposition.
@@ -75,7 +88,7 @@ requirements:
     citation_behavior: cite_traceability_requirement_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_VSR_OR_FINAL_STATUS_IF_OPEN_TRACEABILITY_GAPS_EXIST_WITHOUT_ACCEPTED_JUSTIFICATION
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY
   - requirement_id: CQV-REQ-005
     title: DQ governance
     internal_requirement_statement: DQ shall verify that proposed design, configuration, materials, utilities, automation interfaces, GMP functions, and acceptance strategy are suitable to meet accepted URS and risk requirements.
@@ -87,7 +100,7 @@ requirements:
     citation_behavior: cite_DQ_requirement_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_IQ_OQ_PQ_GENERATION_IF_DQ_SCOPE_IS_REQUIRED_BUT_UNACCEPTED
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY
   - requirement_id: CQV-REQ-006
     title: IQ governance
     internal_requirement_statement: IQ shall verify installed equipment, system, facility, utility, documentation, calibration, instrumentation, software/configuration where applicable, and installation prerequisites against accepted design and site requirements.
@@ -99,7 +112,7 @@ requirements:
     citation_behavior: cite_IQ_requirement_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_OQ_OR_PQ_DEPENDENT_OUTPUT_IF_IQ_PREREQUISITES_ARE_NOT_ACCEPTED
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY
   - requirement_id: CQV-REQ-007
     title: OQ governance
     internal_requirement_statement: OQ shall verify GMP-relevant functions, controls, alarms, interlocks, operating ranges, failure responses, data outputs, and critical operating parameters under defined conditions.
@@ -111,7 +124,7 @@ requirements:
     citation_behavior: cite_OQ_requirement_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_PQ_OR_VSR_IF_CRITICAL_OQ_FUNCTIONS_ARE_UNVERIFIED_WITHOUT_ACCEPTED_JUSTIFICATION
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY
   - requirement_id: CQV-REQ-008
     title: PQ governance
     internal_requirement_statement: PQ shall verify that the qualified system, equipment, facility, or process performs as intended under defined routine or representative operating conditions.
@@ -123,7 +136,7 @@ requirements:
     citation_behavior: cite_PQ_requirement_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_FINAL_CQV_COMPLETION_IF_PQ_IS_REQUIRED_BUT_NOT_ACCEPTED
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY
   - requirement_id: CQV-REQ-009
     title: VSR governance
     internal_requirement_statement: VSR shall summarize scope, executed deliverables, deviations, unresolved items, traceability status, acceptance conclusions, limitations, and final readiness decision.
@@ -135,7 +148,7 @@ requirements:
     citation_behavior: cite_VSR_requirement_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_VSR_FINALIZATION_IF_REQUIRED_EVIDENCE_OR_APPROVAL_STATUS_IS_MISSING
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY
   - requirement_id: CQV-REQ-010
     title: FAT and SAT handling
     internal_requirement_statement: FAT and SAT evidence may support CQV only when scope, acceptance criteria, execution conditions, deviations, data integrity, and transferability to site GMP use are documented and accepted.
@@ -147,7 +160,7 @@ requirements:
     citation_behavior: cite_FAT_SAT_basis_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_REUSE_OF_SUPPLIER_TEST_EVIDENCE_IF_TRANSFERABILITY_OR_DEVIATION_STATUS_IS_UNACCEPTED
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY
   - requirement_id: CQV-REQ-011
     title: Computerized systems trigger
     internal_requirement_statement: If scope includes computerized control, automated GMP functions, electronic records/signatures, data integrity impact, recipes, audit trails, alarms, reports, or configurable software, BND-CSV-ADDON shall be triggered.
@@ -159,7 +172,7 @@ requirements:
     citation_behavior: cite_CSV_trigger_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_REGULATED_OUTPUT_IF_CSV_TRIGGER_IS_TRUE_AND_BND_CSV_ADDON_IS_MISSING_EXPIRED_OR_UNACCEPTED
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY
   - requirement_id: CQV-REQ-012
     title: Cleanroom and HVAC trigger
     internal_requirement_statement: If scope includes classified areas, HVAC serving classified GMP spaces, cleanroom classification, ISO 8, Grade D, environmental control, pressure cascade, airflow, filtration, temperature, humidity, or monitoring interfaces, BND-CLEANROOM-ADDON shall be triggered.
@@ -171,7 +184,7 @@ requirements:
     citation_behavior: cite_cleanroom_trigger_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_REGULATED_OUTPUT_IF_CLEANROOM_TRIGGER_IS_TRUE_AND_BND_CLEANROOM_ADDON_IS_MISSING_EXPIRED_OR_UNACCEPTED
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY
   - requirement_id: CQV-REQ-013
     title: Documentation control
     internal_requirement_statement: CQV documents, reports, exports, and evidence summaries shall carry controlled identifiers, version/date/status metadata, source bundle references, template references, and clear draft/final/accepted state.
@@ -183,7 +196,7 @@ requirements:
     citation_behavior: cite_document_control_requirement_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_FINAL_OR_APPROVED_LABEL_IF_DOCUMENT_CONTROL_METADATA_IS_MISSING
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY
   - requirement_id: CQV-REQ-014
     title: Approval and review expectations
     internal_requirement_statement: Regulated CQV outputs shall distinguish generated, reviewed, accepted, approved, closed, and final states. Formal approval may be represented only when applicable human/site approval evidence is present.
@@ -195,7 +208,7 @@ requirements:
     citation_behavior: cite_approval_expectation_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_APPROVED_FINAL_STATUS_IF_APPROVAL_EVIDENCE_IS_MISSING
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY
   - requirement_id: CQV-REQ-015
     title: Reporting and reference expectations
     internal_requirement_statement: Reports, exports, Gantt artifacts, and CQV documents that reference standards shall cite active internal requirement IDs, bundle ID/version, template ID/version, and controlled source anchor metadata without reproducing restricted external text.
@@ -207,10 +220,10 @@ requirements:
     citation_behavior: cite_internal_standard_requirement_bundle_template_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_OR_REDACT_OUTPUT_IF_STANDARD_REFERENCE_OR_EXCERPT_POLICY_CANNOT_BE_RESOLVED
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY
   - requirement_id: CQV-REQ-016
     title: Missing or expired standards blocked state
-    internal_requirement_statement: If a required bundle, internal standard, external reference, anchor, source-to-internal mapping, template record, or lifecycle field is missing, expired, superseded, invalid, unreviewed, or unapproved, dependent regulated CQV output shall be blocked or marked incomplete. Silent fallback and no-standards mode are prohibited.
+    internal_requirement_statement: If a required bundle, internal standard, external reference, anchor, source-to-internal mapping, template record, or lifecycle field is missing, expired, superseded, invalid, unreviewed, not approved for regulated use, or classified as testing-only, regulated CQV output shall be blocked or marked incomplete. Silent fallback and no-standards mode are prohibited.
     rationale: Standards governance is a prerequisite for regulated CQV output.
     applies_to: [K&S, WP, DOC, RPT, URS, RTM, DQ, IQ, OQ, PQ, VSR]
     source_refs: [EXT-EUGMP-ANNEX15, EXT-ICH-Q10, EXT-LOCAL-EDA-SITE-GMP]
@@ -219,4 +232,4 @@ requirements:
     citation_behavior: cite_blocked_state_requirement_and_source_anchor_metadata
     excerpt_redaction_behavior: external_source_excerpts_prohibited
     failure_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
-    lifecycle_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+    lifecycle_status: TESTING_ONLY

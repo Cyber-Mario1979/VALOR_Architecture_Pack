@@ -82,18 +82,17 @@ Files successfully updated in Blocker 3A:
 - `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`
 - K&S testing-only test vectors under `test_vectors/`
 
-Connector-limited file exceptions:
+Connector-limited normalization update:
 
-- `libraries/knowledge_standards/README.md`
-- `libraries/knowledge_standards/standards/STD-CQV-BASE_v1.0.1.yaml`
-- `libraries/knowledge_standards/templates/*.yaml`
-
-These rewrites were repeatedly blocked by the connector safety gate and were not forced with misleading workarounds. Their testing-only behavior is currently controlled by the updated bundles, external reference register, mapping file, schemas, A12, K&S contract, registry, and test vectors.
+- Connector updated successfully: `libraries/knowledge_standards/README.md`, `TPL-URS`, `TPL-RTM`, `TPL-DQ`, `TPL-IQ`, and `TPL-OQ`.
+- Connector blocked: `TPL-PQ`.
+- USER_APPLY_REQUIRED normalization package was applied locally; `STD-CQV-BASE`, `TPL-PQ`, `TPL-VSR`, and review-control notes are normalized in the working tree pending commit.
+- When GitHub connector limitations prevent safe full-file edits, the assistant must use a user-apply package fallback rather than shrinking governed specification content into illustrative summaries.
 
 ## Remaining Freeze Blockers
 
 - K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
-- Normalization of connector-limited K&S files if targeted edits become available.
+- Commit of applied K&S connector-limited normalization for `STD-CQV-BASE`, `TPL-PQ`, and `TPL-VSR`.
 - WP/Planning/governed-library cleanup.
 - DOC/DCF/URS source-chain cleanup.
 - Product surface minimum behavior cleanup.

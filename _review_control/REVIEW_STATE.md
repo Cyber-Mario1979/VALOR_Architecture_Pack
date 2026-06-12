@@ -106,18 +106,17 @@ Important outcome:
 - External references use testing placeholders, not invented source editions/dates/locators.
 - Updated K&S external references, bundles, mapping, schemas, A12, K&S contract, registry, and testing-only vectors.
 
-Known connector-limited exceptions:
+Connector-limited normalization update:
 
-- `libraries/knowledge_standards/README.md`
-- `libraries/knowledge_standards/standards/STD-CQV-BASE_v1.0.1.yaml`
-- `libraries/knowledge_standards/templates/*.yaml`
-
-These file rewrites were repeatedly blocked by the connector safety gate and were not forced with misleading workarounds. Their testing-only behavior is currently enforced through the updated bundles, external references, mapping file, A12, contract, registry, schemas, and test vectors.
+- Connector updated successfully: `libraries/knowledge_standards/README.md`, `TPL-URS`, `TPL-RTM`, `TPL-DQ`, `TPL-IQ`, and `TPL-OQ`.
+- Connector blocked: `TPL-PQ`.
+- USER_APPLY_REQUIRED normalization package was applied locally; `STD-CQV-BASE`, `TPL-PQ`, `TPL-VSR`, and review-control notes are normalized in the working tree pending commit.
+- When GitHub connector limitations prevent safe full-file edits, the assistant must use a user-apply package fallback rather than shrinking governed specification content into illustrative summaries.
 
 ## Must-Resolve-Before-Freeze Themes
 
 - K&S user/site source metadata acceptance for real regulated CQV/GMP use.
-- Normalization of connector-limited K&S files when targeted edits are available.
+- Commit of applied K&S connector-limited normalization for `STD-CQV-BASE`, `TPL-PQ`, and `TPL-VSR`.
 - Authority, status, and terminology.
 - Contract registry semantic validation.
 - WP, Planning, and governed libraries.

@@ -70,15 +70,24 @@ Required metadata fields added to the model:
 - `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`
 - K&S testing-only test vectors under `test_vectors/`
 
-## Connector-limited exceptions
+## Connector-limited normalization update
 
-The connector safety gate repeatedly blocked updates to:
+Connector updated successfully:
 
 - `libraries/knowledge_standards/README.md`
-- `libraries/knowledge_standards/standards/STD-CQV-BASE_v1.0.1.yaml`
-- individual template governance files under `libraries/knowledge_standards/templates/*.yaml`
+- `libraries/knowledge_standards/templates/TPL-URS_v1.0.1.yaml`
+- `libraries/knowledge_standards/templates/TPL-RTM_v1.0.1.yaml`
+- `libraries/knowledge_standards/templates/TPL-DQ_v1.0.1.yaml`
+- `libraries/knowledge_standards/templates/TPL-IQ_v1.0.1.yaml`
+- `libraries/knowledge_standards/templates/TPL-OQ_v1.0.1.yaml`
 
-Those files were not forced with misleading workarounds. Their testing-only behavior is controlled through the updated bundles, external reference register, mapping file, A12 architecture, K&S contract, registry, schemas, and test vectors. They should be normalized in a follow-up patch if connector access allows targeted updates.
+Connector blocked:
+
+- `libraries/knowledge_standards/templates/TPL-PQ_v1.0.1.yaml`
+
+Per fallback protocol, connector writes stopped after the block. Remaining normalization for `STD-CQV-BASE`, `TPL-PQ`, `TPL-VSR`, and review-control notes was applied locally and is pending commit.
+
+When GitHub connector limitations prevent safe full-file edits, the assistant must use a user-apply package fallback rather than shrinking governed specification content into illustrative summaries.
 
 ## External references correction
 
