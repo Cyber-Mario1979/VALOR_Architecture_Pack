@@ -4,8 +4,8 @@ block type: Arch
 version: v1.0.1
 owner: Nexus
 editor: Senior Architect
-status: released
-date: 2025-12-23
+status: pre_freeze_controlled
+date: 2026-06-12
 dependencies:
   - VALOR-block-A00-specs-architecture-pack
   - VALOR-block-A01-sos-context-capability
@@ -209,18 +209,22 @@ Pass/Fail:
 Architecture is not closed until at least one end-to-end flow is described using contracts and stamps.
 
 Required flow (PE-HIGH baseline):
-1) Orchestration selects/creates WP (WP_CREATE / WP_GET).
-2) Orchestration resolves preset (PS_RESOLVE_PRESET) → obtains bindings + stamp set.
-3) Orchestration resolves task set (TP_RESOLVE_TASK_SET).
-4) Orchestration stages tasks to WP (WP_STAGE_TASKS) → PROPOSED.
-5) Orchestration commits tasks (WP_COMMIT_STAGED_TASKS) → COMMITTED.
-6) Orchestration generates plan proposal (PLAN_GENERATE) using profile+calendar versions → PROPOSED.
-7) Orchestration applies plan to WP (WP_UPDATE_TASK_FIELDS) → committed dates.
-8) Orchestration generates a document draft (DOC_GENERATE_DRAFT) using template/bundle + stamps.
-9) Orchestration generates export (RPT_GENERATE_EXPORT) with required stamps.
+
+1. Orchestration selects/creates WP (`WP_CREATE` / `WP_GET`).
+2. Orchestration resolves preset (`PS_RESOLVE_PRESET`) to obtain governed bindings and stamp set.
+3. Orchestration binds the selected preset context to WP truth (`WP_BIND_PRESET_CONTEXT`).
+4. Orchestration stages tasks to WP (`WP_STAGE_TASKS`) → `STAGED` / not committed.
+5. Orchestration commits staged tasks (`WP_COMMIT_STAGED_TASKS`) → `COMMITTED`.
+6. Orchestration generates a plan proposal (`PLAN_GENERATE_PROPOSAL`) using profile/calendar versions → `PROPOSED`.
+7. Orchestration applies the proposal to WP through WP authority (`WP_APPLY_PLAN_PROPOSAL`) → committed dates.
+8. Orchestration generates a document draft (`DOC_GENERATE_DRAFT`) using template/bundle/source-chain refs and stamps.
+9. Orchestration generates one or more declared RPT artifacts as needed:
+   - `RPT_GENERATE_STATUS_REPORT`;
+   - `RPT_GENERATE_WORKBOOK_EXPORT`;
+   - `RPT_GENERATE_GANTT_CHART`.
 
 Pass/Fail:
-- If any step requires invented fields or unspecified contract behavior → not closed.
+- If any step requires invented fields, unspecified contract behavior, or a non-registered action name → architecture is not closed.
 
 ---
 
@@ -250,9 +254,9 @@ To hand off to implementation, produce a bundle containing:
 
 ### 9.4 Test Vectors
 - One sample WP seed input
-- One expected resolved task set
+- One expected staged task set
 - One expected plan proposal outline
-- One expected export CSV sample
+- One expected declared RPT artifact metadata sample
 - One expected doc metadata sample
 
 Handoff is complete only if:
@@ -274,4 +278,5 @@ When all checks pass, declare:
 ## CHANGELOG
 | Date       | Changes     | Type / Version |
 | ---------- | ----------- | -------------- |
+| 2026-06-12 | Blocker 7A closure-flow action names aligned to current registry actions and declared RPT artifact families | Pre-freeze controlled update |
 | 2025-12-23 | First Issue | Arch_v1.0.1    |
