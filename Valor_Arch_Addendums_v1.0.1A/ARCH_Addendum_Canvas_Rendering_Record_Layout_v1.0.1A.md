@@ -1,73 +1,100 @@
 ---
-id: VALOR-arch-addendum-canvas-rendering
+id: VALOR-arch-addendum-record-view-layout
 version: v1.0.1A
-date: 2026-01-03
+revision_context: Blocker 7A
+revision_date: 2026-06-12
 owner: Nexus
 editor: VALOR DEV-TASK-FORCE
-status: released
+status: pre_freeze_controlled
 dependencies: []
-summary: Canonical Canvas rendering layout for WP truth, Task truth, and Plan proposals (document-like, not code blocks).
+summary: Product-surface record/output view layout rules for WP truth, task truth, and plan proposals without requiring a specific Canvas UI/runtime implementation.
 acceptance_criteria:
-  - WP/Task truth uses bullet-per-field layout with arrow markers.
-  - Missing values are blank after arrow (never 'No Entry').
-  - Preset staging shows descriptions only; structured task fields appear only after explicit add.
-  - Plan proposals persist and switch to APPLIED after commit.
+  - WP/Task truth uses clear record-view fields without implying a specific UI technology.
+  - Missing values are blank after the field marker, never fabricated.
+  - Preset staging shows staged descriptions only until explicit commit.
+  - Plan proposals remain visibly PROPOSED until applied through WP authority.
 ---
 
-# Canvas Rendering & Record Layout Contract
+# Record / Output View Layout Contract
 
 ## 1) Global rules
-- Canvas is the **truth view** for WP/task/doc records.
-- Never render Canvas truth in fenced code blocks.
-- Missing values render as **blank after the arrow** (e.g., `**Title** ➡️ `). Do not print `No Entry`.
 
-## 2) Work Package (WP) Canvas layout
+- A record/output/artifact view is a user-facing representation of governed data; it is not the source of truth unless the owning subsystem contract has written that truth.
+- This addendum does not require a specific Canvas runtime, screen, widget, or UI implementation.
+- Never represent proposed, staged, or generated content as committed truth.
+- Missing values render as blank after the field marker. Do not print `No Entry` or invent values.
+- Contract/audit/provenance timestamps remain UTC. Optional local display time may be shown only when explicitly labeled as display/local time.
 
-### 2.1 Title (first line)
+## 2) Work Package (WP) record view
+
+### 2.1 Title
+
 `Work Package WP###`
 
-### 2.2 Header fields (exact order; one bullet per field)
+### 2.2 Header fields
+
 - **Work Package ID** ➡️ WP###
 - **Title** ➡️
 - **Area** ➡️
 - **Scope** ➡️
 - **Objective** ➡️
 - **Governance** ➡️
-- **Status** ➡️ Opened
+- **Status** ➡️
 
-### 2.3 Optional stamps
-- **Plan Applied** ➡️ PLAN### [dd-mm-yyyy HH:MM Africa/Cairo]
+### 2.3 Optional applied-plan display stamp
+
+- **Plan Applied** ➡️ PLAN### [display/local timestamp if shown]
+
+This display stamp does not replace UTC contract/audit metadata.
 
 ## 3) Tasks section
 
 ### 3.1 Tasks header
+
 `**Tasks**`
 
 - If none: `- No tasks created yet.`
 
-### 3.2 Structured task record (canonical)
+### 3.2 Structured task record
+
 - **Task ID** ➡️ WP###-T###
   - **Description** ➡️
   - **Owner** ➡️
   - **Start Date** ➡️
   - **Finish Date** ➡️
-  - **Status** ➡️ Opened
-  - **Depends On** ➡️ —
+  - **Status** ➡️
+  - **Depends On** ➡️
 
 ## 4) Preset staging visibility
-- After `Use Preset WP <code>`:
-  - WP Canvas must still show `Tasks` = none (`No tasks created yet.`).
-  - Staged items are **descriptions-only** and are displayed in chat as:
+
+After staging candidate tasks:
+
+- WP/task truth must still show no committed tasks until `WP_COMMIT_STAGED_TASKS` succeeds.
+- Staged items are displayed as staged/not committed, for example:
 
 **STAGED TASKS (NOT COMMITTED) — WP###**
 1. <description>
 2. <description>
 
-- Structured tasks (IDs + fields) are created only after:
-  - `Add Suggested Tasks WP###`
+Structured committed task records are created only after explicit commit through WP authority.
 
 ## 5) Plan Proposal section
-- Proposal block appears in WP Canvas when planning occurs:
-  - `PLAN PROPOSAL (NOT COMMITTED) — PLAN###`
-- After apply, proposal remains and becomes:
-  - `PLAN PROPOSAL (APPLIED) — PLAN###`
+
+A plan proposal view may be shown when planning occurs:
+
+- `PLAN PROPOSAL (PROPOSED / NOT COMMITTED) — PLAN###`
+
+After successful apply through `WP_APPLY_PLAN_PROPOSAL`, the display may show:
+
+- `PLAN PROPOSAL (APPLIED TO WP TRUTH) — PLAN###`
+
+The authoritative committed dates are the WP task date fields written by WP authority, not the proposal view itself.
+
+---
+
+## CHANGELOG
+
+| Date | Changes | Type / Version |
+| ---- | ------- | -------------- |
+| 2026-06-12 | Blocker 7A normalized Canvas wording to record/output/artifact view terminology and preserved non-UI product-surface layout rules | Pre-freeze controlled update |
+| 2026-01-03 | First Issue | v1.0.1A |
