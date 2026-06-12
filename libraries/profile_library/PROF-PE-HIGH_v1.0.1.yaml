@@ -115,35 +115,35 @@ entries:
     description: FAT scheduling/coordination duration after manufacturing completion (dates, agenda, attendees).
     selection_priority: 0
     value_table:
-    - context_selector: {phase: FAT, task_type: VENDOR_WAIT, profile_task_semantic: SCHEDULING}
+    - context_selector: {phase: OTHER, task_type: VENDOR_WAIT, profile_task_semantic: SCHEDULING}
       value: 14
       unit: CALENDAR_DAYS
   FAT_PREP_DUR:
     description: FAT preparation duration for protocol/package readiness, agenda finalization, and internal readiness before execution.
     selection_priority: 0
     value_table:
-    - context_selector: {phase: FAT, task_type: AUTHORING, profile_task_semantic: PREP}
+    - context_selector: {phase: OTHER, task_type: AUTHORING, profile_task_semantic: PREP}
       value: 5
       unit: WORKING_DAYS
   FAT_EXECUTION_DUR:
     description: FAT execution duration for high-complexity process equipment.
     selection_priority: 0
     value_table:
-    - context_selector: {phase: FAT, task_type: EXECUTION, profile_task_semantic: EXECUTION}
+    - context_selector: {phase: OTHER, task_type: EXECUTION, profile_task_semantic: EXECUTION}
       value: 5
       unit: WORKING_DAYS
   FAT_REPORT_DUR:
     description: FAT report and punch-list summary duration after FAT execution.
     selection_priority: 0
     value_table:
-    - context_selector: {phase: FAT, task_type: REPORTING, profile_task_semantic: REPORT}
+    - context_selector: {phase: OTHER, task_type: REPORTING, profile_task_semantic: REPORT}
       value: 5
       unit: WORKING_DAYS
   FAT_ACCEPTANCE_DUR:
     description: FAT acceptance and release-to-ship decision duration.
     selection_priority: 0
     value_table:
-    - context_selector: {phase: FAT, task_type: APPROVAL, profile_task_semantic: ACCEPTANCE}
+    - context_selector: {phase: OTHER, task_type: APPROVAL, profile_task_semantic: ACCEPTANCE}
       value: 3
       unit: WORKING_DAYS
   LOGISTICS_DELIVERY_DUR:
