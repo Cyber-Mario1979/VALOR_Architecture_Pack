@@ -1,9 +1,52 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "valor://schemas/contracts/ks_standard.schema.json",
-  "title": "Knowledge Store Standard",
+  "title": "Knowledge Store Internal Standard",
   "type": "object",
-  "required": [],
-  "properties": {},
-  "additionalProperties": true
+  "additionalProperties": false,
+  "required": ["standard_id", "version", "title", "owner", "effective_date", "source_checked_date", "review_cycle_months", "next_review_due", "expiry_date", "status", "review_required", "expired_behavior", "access_classification", "excerpt_policy", "requirements"],
+  "properties": {
+    "standard_id": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1},
+    "owner": {"type": "string", "minLength": 1},
+    "effective_date": {"type": "string", "minLength": 1},
+    "source_checked_date": {"type": "string", "minLength": 1},
+    "review_cycle_months": {"type": "integer", "minimum": 1},
+    "next_review_due": {"type": "string", "minLength": 1},
+    "expiry_date": {"type": "string", "minLength": 1},
+    "status": {"enum": ["ACTIVE", "DUE_FOR_REVIEW", "EXPIRED", "SUPERSEDED", "BLOCKED", "PRE_FREEZE_USER_REVIEW_REQUIRED"]},
+    "review_required": {"type": "boolean"},
+    "expired_behavior": {"type": "string", "minLength": 1},
+    "access_classification": {"enum": ["PUBLIC", "LICENSED", "INTERNAL", "CONFIDENTIAL", "PUBLIC_OR_REGULATORY", "INTERNAL_OR_REGULATORY"]},
+    "excerpt_policy": {"enum": ["METADATA_ONLY", "PUBLIC_EXCERPT", "INTERNAL_ONLY", "NO_EXCERPTS"]},
+    "source_register": {"type": "string"},
+    "mapping_file": {"type": "string"},
+    "operative_rule": {"type": "string"},
+    "citation_behavior": {"type": "object"},
+    "excerpt_redaction_behavior": {"type": "object"},
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["requirement_id", "title", "internal_requirement_statement", "rationale", "applies_to", "source_refs", "source_anchor_refs", "source_to_internal_mapping_ref", "citation_behavior", "excerpt_redaction_behavior", "failure_behavior", "lifecycle_status"],
+        "properties": {
+          "requirement_id": {"type": "string", "minLength": 1},
+          "title": {"type": "string", "minLength": 1},
+          "internal_requirement_statement": {"type": "string", "minLength": 1},
+          "rationale": {"type": "string", "minLength": 1},
+          "applies_to": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "source_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "source_anchor_refs": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+          "source_to_internal_mapping_ref": {"type": "string", "minLength": 1},
+          "citation_behavior": {"type": "string", "minLength": 1},
+          "excerpt_redaction_behavior": {"type": "string", "minLength": 1},
+          "failure_behavior": {"type": "string", "minLength": 1},
+          "lifecycle_status": {"enum": ["ACTIVE", "DUE_FOR_REVIEW", "EXPIRED", "SUPERSEDED", "BLOCKED", "PRE_FREEZE_USER_REVIEW_REQUIRED"]}
+        }
+      }
+    }
+  }
 }
