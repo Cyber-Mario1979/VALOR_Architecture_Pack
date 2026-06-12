@@ -1,0 +1,12 @@
+{
+  "test_id": "KS-NEG-004",
+  "name": "excerpt refused",
+  "action_type": "KS_RESOLVE_CITATION",
+  "input": {"asset_id": "EXT-ISPE-BG5", "anchor_id": "EXT-ISPE-BG5-CQV-LIFECYCLE", "request_excerpt": true},
+  "expected": {
+    "ok": false,
+    "excerpt_policy_applied": "NO_EXCERPTS",
+    "error": {"code": "UNSUPPORTED_OPERATION", "subcode": "EXCERPT_BLOCKED"},
+    "excerpt": null
+  }
+}
