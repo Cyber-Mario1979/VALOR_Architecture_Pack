@@ -4,21 +4,24 @@ block type: Arch
 version: v1.0.1
 owner: Nexus
 editor: Senior Architect
-status: released
-date: 2025-12-23
+status: pre_freeze_controlled
+date: 2026-06-12
 dependencies:
   - VALOR-block-A00-specs-architecture-pack
   - VALOR-block-A01-sos-context-capability
   - VALOR-block-A02-principles-invariants
   - VALOR-block-A03-subsystems-authority
   - VALOR-block-A05-task-pool-architecture
-summary: "Block A06 — Preset System Architecture: versioned selectors that bind task pool + profile + standards bundle and define deterministic inclusion/exclusion and tailoring rules for staging CQV work packages."
+  - VALOR-block-A07-calendar-logic-architecture
+  - VALOR-block-A08-profile-library-architecture
+summary: "Block A06 — Preset System Architecture: versioned selectors that bind task pool, profile, testing-only standards bundle, and calendar logic, using deterministic inclusion/exclusion and tailoring rules for staging CQV work packages."
 acceptance_criteria:
-  - Defines Preset System authority and boundaries (selectors only; does not own WP truth).
-  - Defines Preset entity schema including bindings (task_pool/profile/standards bundle/calendar) and rule sets.
-  - Defines deterministic selection and tailoring rules with precedence and conflict behavior.
-  - Defines preset lifecycle/versioning and compatibility policy.
-  - Defines contract actions for listing/reading/resolving presets and their error semantics.
+  - Defines Preset System authority and boundaries.
+  - Defines `PS-PE-HIGH` as the canonical high-complexity process-equipment preset ID.
+  - Defines primary applicability fields: equipment_domain, complexity, scope.
+  - Defines optional matching hints as secondary only.
+  - Defines deterministic selection and tailoring rules.
+  - Defines testing-only K&S binding without approving regulated CQV/GMP use.
   - Defines mandatory stamp propagation requirements for downstream subsystems.
 ---
 
@@ -26,277 +29,228 @@ acceptance_criteria:
 
 Terminology: See **A15_Global_Glossary_Arch_v1_0_1.md** for definitions.
 
-
 ## 1. Purpose and Authority
-The Preset System (PS) provides **versioned, governed presets** that convert a high-level context (equipment domain + complexity + scope) into a fully specified “work recipe”:
-- which task pool version to use,
-- which profile version to use (durations/lead times defaults),
-- which standards bundle and templates are in scope,
-- which calendar logic version applies,
-- which tasks are required/optional/inserted,
-- which departments/roles are in scope.
 
-Presets are the mechanism that makes Valor deterministic and auditable:
-- presets are pinned by ID/version,
-- outputs stamp preset_id/version as provenance.
+The Preset System (PS) provides versioned, governed presets that convert a high-level context into a fully specified work recipe:
+
+- which task pool version to use;
+- which profile version to use;
+- which standards bundle and templates are in scope;
+- which calendar logic version applies;
+- which tasks are required, optional, inserted, or excluded;
+- which departments/roles are in scope;
+- which stamps must propagate downstream.
 
 PS is authoritative for:
-- preset definitions and rules,
-- binding references to governed assets (task pool/profile/bundle/calendar),
-- deterministic tailoring decisions encoded as rules.
+
+- preset definitions and rules;
+- binding references to governed assets;
+- deterministic tailoring decisions encoded as rules;
+- stamp set construction for downstream use.
 
 PS is not authoritative for:
-- WP/task truth instances (WP System),
-- schedule computation (Planning),
-- document generation (Document Factory),
-- reports/exports (Reporting).
 
----
+- WP/task truth instances;
+- schedule computation;
+- document generation;
+- reports/exports;
+- real regulated CQV/GMP approval.
 
-## 2. Core Entities (Authoritative Data Model)
+## 2. Canonical v1.0.1 Preset
 
-### 2.1 Preset
-A Preset is a versioned selector + binding object.
+The canonical high-complexity process-equipment preset is:
 
-Required fields:
-- preset_id (string, stable)
-- version (semver)
-- revision_date (YYYY-MM-DD)
-- name (string)
-- description (string)
-- applicability:
-  - equipment_domain: ProcessEquipment | Utilities | Facility
-  - complexity: Low | Medium | High
-  - scope: SingleEquipment | Project
-  - optional system_types (array; e.g., RollerCompactor, BlisterLine)
-- bindings:
-  - task_pool_ref: {task_pool_id, task_pool_version}
-  - profile_ref: {profile_id, profile_version}
-  - standards_bundle_ref: {bundle_id, bundle_version}
-  - calendar_logic_ref: {calendar_id, calendar_version}
-- rule_set (see §2.2)
-- outputs:
-  - default_doc_set (array of doc_types) (optional)
-  - default_milestones (array) (optional)
-- governance:
-  - owner_function
-  - change_control_ref (optional)
-  - checksum (optional)
+- preset_id: `PS-PE-HIGH`
+- version: `v1.0.1`
+- library path: `libraries/preset_library/PS-PE-HIGH_v1.0.1.yaml`
 
-### 2.2 RuleSet (Tailoring Rules)
+Do not rename this preset to `PRESET-PE-HIGH`.
+
+Examples, architecture text, test vectors, and downstream stamps should use `PS-PE-HIGH` unless a later controlled migration introduces a new ID.
+
+## 3. Preset Entity Schema
+
+A preset record must include:
+
+- preset_id;
+- version;
+- revision_date;
+- status;
+- usage_classification;
+- effective_date;
+- source_checked_date;
+- review_cycle_months;
+- next_review_due;
+- expiry_date;
+- review_required;
+- expired_behavior;
+- name;
+- description;
+- applicability;
+- bindings;
+- rules;
+- stamps;
+- regulated_use_rule where a testing-only K&S bundle is bound.
+
+The governed lifecycle metadata is local governed-library metadata only. It does not mean the preset is frozen, final, released, or regulated-approved.
+
+## 4. Applicability Model
+
+Primary applicability fields are:
+
+- equipment_domain;
+- complexity;
+- scope.
+
+For `PS-PE-HIGH`, the primary applicability is:
+
+```yaml
+equipment_domain: ProcessEquipment
+complexity: High
+scope: Project
+```
+
+Optional matching hints may be retained for user convenience or future matching logic, but they are secondary only and must not replace the primary schema.
+
+Allowed optional matching hints include:
+
+- system_type;
+- tags_any;
+- tags_all;
+- scope_hints.
+
+If primary fields conflict with matching hints, the preset resolver must return `CONFLICT` and require a controlled preset update or explicit user decision.
+
+## 5. Bindings
+
+A preset must bind explicit governed asset versions.
+
+For `PS-PE-HIGH v1.0.1`, the required bindings are:
+
+- task_pool_ref: `TP-PE-HIGH v1.0.1`;
+- profile_ref: `PROF-PE-HIGH v1.0.1`;
+- calendar_logic_ref: `CAL-WORKWEEK v1.0.1`, wrapper around canonical `CAL-WORKWEEK v1`;
+- standards_bundle_ref: `BND-CQV-BASE v1.0.1`, with `TESTING_ONLY / PRODUCT_TESTING_ONLY` usage.
+
+## 6. Testing-Only K&S Binding Rule
+
+`PS-PE-HIGH` may bind to `BND-CQV-BASE v1.0.1` only as testing-only K&S while Blocker 3A remains in effect.
+
+Required K&S binding fields:
+
+- status: `TESTING_ONLY`;
+- usage_classification: `PRODUCT_TESTING_ONLY`;
+- testing_use_allowed: `true`;
+- regulated_output_allowed: `false`;
+- real_life_use_allowed: `false`;
+- testing_only_stamp_required: `true`;
+- required_output_stamp: `PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.`
+
+This binding supports product testing, dry runs, internal trials, behavior validation, and E2E workflow testing only.
+
+It does not approve real regulated CQV/GMP output. Regulated output remains blocked/refused/marked incomplete until user/site source metadata acceptance is complete.
+
+## 7. Rule Set
+
 Rules define how to tailor the resolved task set and metadata.
 
 A rule has:
-- rule_id
-- rule_type (enum): INCLUDE | EXCLUDE | OPTIONAL | INSERT | OVERRIDE | REQUIRE
-- condition (boolean expression over selection_context)
-- target (what it applies to)
-- payload (rule action details)
-- priority (integer; higher wins)
-- rationale (string; mandatory for CQV auditability)
 
-Example rule payloads:
-- INCLUDE: include atomic_task_ids with tags
-- EXCLUDE: remove atomic_task_ids
-- INSERT: insert specific block tasks between phases
-- OVERRIDE: override owner_role_default or duration_ref keys (not numeric values)
-- REQUIRE: enforce presence of WP fields before commit/export
+- rule_id;
+- rule_type: INCLUDE, EXCLUDE, OPTIONAL, INSERT, OVERRIDE, REQUIRE;
+- condition;
+- target;
+- payload;
+- priority;
+- rationale.
 
-### 2.3 SelectionContext (Input to Preset Resolution)
-Required fields:
-- equipment_domain
-- complexity
-- scope
-Optional:
-- system_type
-- departments_in_scope
-- site_calendar_overrides
-- vendor_model (local vs intercontinental) (optional)
+Presets may not embed numeric durations or lead times. Presets reference governed profile keys only.
 
----
+## 8. Deterministic Resolution Model
 
-## 3. Deterministic Resolution Model
+Resolving a preset produces a Preset Resolution object containing:
 
-### 3.1 Resolution Output
-Resolving a preset produces a “Preset Resolution” object:
-- preset_id/version
-- bound asset refs (task pool/profile/bundle/calendar) — pinned
-- resolved rule decisions (which rules fired)
-- resolved task set constraints (e.g., “VMP required”)
-- resolved departments/roles in scope
-- stamp set to propagate downstream
+- preset_id/version;
+- pinned task_pool_ref;
+- pinned profile_ref;
+- pinned calendar_logic_ref;
+- pinned standards_bundle_ref;
+- resolved rule decisions;
+- resolved task set constraints;
+- resolved departments/roles in scope;
+- stamp set for downstream propagation.
 
-### 3.2 Rule Precedence
 Rule precedence is deterministic:
-1) Higher priority wins
-2) If same priority:
-   - OVERRIDE > INSERT > INCLUDE/EXCLUDE > OPTIONAL
-3) If still tied:
-   - stable sort by rule_id
 
-If two rules conflict and neither overrides the other deterministically:
-- return CONFLICT and require explicit user decision or preset update.
+1. higher priority wins;
+2. if same priority, OVERRIDE > INSERT > INCLUDE/EXCLUDE > OPTIONAL;
+3. if still tied, stable sort by rule_id;
+4. unresolved conflicts return `CONFLICT`.
 
-### 3.3 No Numeric Durations in Presets
-Presets may not embed numeric durations or lead times.
-They reference governed profile keys only (A02 “versioned assets not embedded rules”).
+## 9. Stamp Propagation Requirements
 
----
+PS is responsible for producing the stamp set that Orchestration must carry into:
 
-## 4. Compatibility and Versioning Policy
+- WP staging and commit;
+- Planning requests;
+- document generation;
+- reporting/export artifacts;
+- downstream provenance and validation.
 
-### 4.1 Preset Immutability
-- A preset version is immutable once published.
-- Any change requires a new preset version.
+The minimum stamp set must include:
 
-### 4.2 Binding Compatibility
-A preset version must only reference compatible asset versions:
-- task pool version compatible with preset major version policy
-- profile version compatible with task pool tasks (duration keys exist)
-- standards bundle compatible with intended document set
-- calendar version supported by planning/reporting logic
+- preset_id/version;
+- task_pool_id/version;
+- profile_id/version;
+- calendar_id/version and canonical calendar version where applicable;
+- standards_bundle_id/version/status/usage_classification where applicable.
 
-If bindings are incompatible:
-- PS must fail with CONFLICT / BINDING_INCOMPATIBLE.
+If Orchestration cannot confirm the stamp set, it must block commit/export/finalization paths that depend on those stamps.
 
----
+## 10. Compatibility and Versioning Policy
 
-## 5. Preset-Driven CQV Scenarios (Canonical)
+A preset version is immutable once published as a governed version.
 
-### 5.1 VMP Optional Predecessor Scenario
-- Preset for Project scope:
-  - includes VMP tasks
-  - requires VMP approval before URS authoring
-- Preset for SingleEquipment scope:
-  - excludes VMP tasks
-  - allows URS authoring first
+Any change to bindings, primary applicability, rule behavior, or output stamps requires a new version or a controlled pre-freeze update.
 
-### 5.2 High Complexity Process Equipment Scenario
-- Includes vendor wait blocks (quotation, FAT scheduling)
-- Includes procurement + lead-time tasks
-- Includes RTM insertion block (mandatory)
-- Binds to standards bundle for CQV process equipment
+Binding compatibility checks must verify:
 
----
+- task pool version exists and is compatible;
+- profile version contains all required duration entries for task duration refs;
+- calendar version exists and supports required arithmetic;
+- standards bundle status is valid for requested use;
+- testing-only K&S is not used for regulated output.
 
-## 6. Preset System Contract (Implementation-Ready)
+If bindings are incompatible, PS must fail with `CONFLICT / BINDING_INCOMPATIBLE`.
 
-PS is invoked via `VALOR-contract-orch-ps`.
-
-### 6.1 Actions
-READ:
-- PS_LIST_PRESETS (filters by applicability)
-- PS_READ_PRESET (preset_id + version)
-
-RESOLVE:
-- PS_RESOLVE_PRESET
-  - Inputs: selection_context + optional preferred preset_id/version
-  - Output: pinned bindings + rule decisions + stamp set
-
-VALIDATE:
-- PS_VALIDATE_BINDINGS (check referenced assets exist and compatible)
-- PS_VALIDATE_RULESET (check determinism and no contradictions)
-
-### 6.2 Canonical Request Envelope (Resolve Preset)
-```json
-{
-  "contract": "VALOR-contract-orch-ps",
-  "contract_version": "v1.0.1",
-  "action_id": "ACT-000610",
-  "action_type": "PS_RESOLVE_PRESET",
-  "mode": "M2",
-  "payload": {
-    "selection_context": {
-      "equipment_domain": "ProcessEquipment",
-      "complexity": "High",
-      "scope": "Project",
-      "system_type": "BlisterLine"
-    }
-  },
-  "options": {"require_exact_match": true},
-  "context": {"timestamp_utc": "2025-12-22T00:00:00Z"}
-}
-```
-
-### 6.3 Canonical Response Envelope
-```json
-{
-  "contract": "VALOR-contract-orch-ps",
-  "contract_version": "v1.0.1",
-  "action_id": "ACT-000610",
-  "ok": true,
-  "result": {
-    "preset_id": "PRESET-PE-HIGH",
-    "preset_version": "v1.0.1",
-    "bindings": {
-      "task_pool_ref": {"task_pool_id": "TP-CORE", "task_pool_version": "v1.0.1"},
-      "profile_ref": {"profile_id": "PROF-PE-HIGH", "profile_version": "v1.0.1"},
-      "standards_bundle_ref": {"bundle_id": "STD-BUNDLE-CQV", "bundle_version": "v1.0.1"},
-      "calendar_logic_ref": {"calendar_id": "CAL-WORKWEEK", "calendar_version": "v1.0.1"}
-    },
-    "rules_fired": ["R-INS-RTM", "R-REQ-VMP"],
-    "stamps": {
-      "preset_id": "PRESET-PE-HIGH",
-      "preset_version": "v1.0.1",
-      "profile_id": "PROF-PE-HIGH",
-      "profile_version": "v1.0.1",
-      "task_pool_id": "TP-CORE",
-      "task_pool_version": "v1.0.1",
-      "calendar_logic_version": "v1.0.1",
-      "standards_bundle_id": "STD-BUNDLE-CQV",
-      "standards_bundle_version": "v1.0.1"
-    }
-  },
-  "error": null
-}
-```
-
----
-
-## 7. Error Semantics (Preset System)
+## 11. Error Semantics
 
 Standard codes:
-- VALIDATION_ERROR: invalid context, missing required fields
-- NOT_FOUND: preset/version not found
-- CONFLICT: ambiguous match, incompatible bindings, nondeterministic rules
-- UNSUPPORTED_OPERATION: unsupported matching strategy
-- INTERNAL_ERROR: unexpected
+
+- VALIDATION_ERROR: invalid context, missing required fields;
+- NOT_FOUND: preset/version not found;
+- CONFLICT: ambiguous match, incompatible bindings, nondeterministic rules;
+- UNSUPPORTED_OPERATION: unsupported matching strategy;
+- INTERNAL_ERROR: unexpected.
 
 PS-specific subcodes:
+
 - NO_MATCH
 - MULTIPLE_MATCHES
 - BINDING_INCOMPATIBLE
 - RULESET_NONDETERMINISTIC
 - RULE_CONTRADICTION
+- TESTING_ONLY_STANDARDS_BUNDLE_BLOCKS_REGULATED_OUTPUT
 
-Example error:
-```json
-{
-  "code": "CONFLICT",
-  "subcode": "MULTIPLE_MATCHES",
-  "message": "Multiple presets match selection context ProcessEquipment/High/Project.",
-  "entity": "preset",
-  "remediation": "Specify preset_id/version explicitly or refine selection context (system_type)."
-}
-```
+## 12. Contract Alignment Dependency
 
----
+Preset contract/action naming remains a later contract/action registry semantic validation dependency.
 
-## 8. Stamp Propagation Requirements
-PS is responsible for producing the “stamp set” that Orchestration must carry into:
-- WP staging/commit (store preset/profile/task_pool refs in WP metadata),
-- Planning requests (profile + calendar versions),
-- Document generation (template/bundle versions),
-- Reporting exports (minimum stamp set enforced).
-
-Failure mode prevention:
-- If Orchestration cannot confirm stamp set, it must block exports (A02 INV-07).
-
----
-
----
+This blocker aligns the architecture and governed library content only. It does not edit contract files.
 
 ## CHANGELOG
-| Date       | Changes     | Type / Version |
-| ---------- | ----------- | -------------- |
-| 2025-12-23 | First Issue | Arch_v1.0.1    |
+
+| Date       | Changes | Type / Version |
+| ---------- | ------- | -------------- |
+| 2025-12-23 | First Issue | Arch_v1.0.1 |
+| 2026-06-12 | WP/Planning/Governed Library cleanup: made PS-PE-HIGH canonical, normalized primary applicability fields, retained matching hints as secondary, added testing-only K&S binding rule, and clarified stamp propagation | Pre-freeze controlled update |
