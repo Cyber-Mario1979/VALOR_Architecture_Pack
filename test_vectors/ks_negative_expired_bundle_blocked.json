@@ -1,0 +1,12 @@
+{
+  "test_id": "KS-NEG-002",
+  "name": "expired bundle blocked",
+  "action_type": "KS_VALIDATE_BUNDLE_INTEGRITY",
+  "input": {"bundle_id": "BND-CQV-BASE", "version": "v1.0.1", "simulated_status": "EXPIRED"},
+  "expected": {
+    "ok": false,
+    "status": "EXPIRED",
+    "error": {"code": "VALIDATION_ERROR", "subcode": "BUNDLE_EXPIRED"},
+    "blocked_behavior": "BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT"
+  }
+}
