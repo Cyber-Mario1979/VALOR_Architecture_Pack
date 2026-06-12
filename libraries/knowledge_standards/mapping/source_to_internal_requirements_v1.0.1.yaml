@@ -6,96 +6,42 @@ source_checked_date: 2026-06-12
 review_cycle_months: 36
 next_review_due: 2029-06-12
 expiry_date: 2029-06-12
-status: PRE_FREEZE_USER_REVIEW_REQUIRED
-review_required: true
-expired_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
-purpose: Maps controlled external source anchors to internal VALOR governed CQV requirements.
+status: TESTING_ONLY
+usage_classification: PRODUCT_TESTING_ONLY
+testing_use_allowed: true
+regulated_output_allowed: false
+testing_only_stamp_required: true
+real_life_use_allowed: false
+approval_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+user_site_acceptance_required: true
+source_metadata_acceptance_status: NOT_ACCEPTED_FOR_REGULATED_USE
+testing_expired_behavior: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
+regulated_expired_behavior: BLOCK_REAL_LIFE_REGULATED_CQV_GMP_OUTPUT
+required_output_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
+purpose: Maps controlled external source anchors to internal VALOR governed CQV requirements for product testing only.
 
 mapping_rules:
   external_source_text_reproduction: prohibited
   unmapped_internal_requirement_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
   unknown_anchor_behavior: REFUSE_WITH_ANCHOR_NOT_FOUND
-  unverified_source_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
-  approved_use_requires: [source_id, source_version_or_review_gate, source_anchor_id, internal_requirement_id, reviewer_acceptance]
+  testing_use_with_testing_placeholders: ALLOWED_WITH_REQUIRED_TESTING_STAMP
+  regulated_use_with_testing_placeholders: PROHIBITED
+  approved_use_requires: [source_id, accepted_source_version, accepted_source_anchor_id, internal_requirement_id, reviewer_acceptance]
 
 mappings:
-  - mapping_ref: MAP-CQV-REQ-001
-    internal_requirement_id: CQV-REQ-001
-    source_anchor_refs: [EXT-ISPE-BG5-CQV-LIFECYCLE, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-ICH-Q10-PQS-LIFECYCLE]
-    mapping_basis: Establishes lifecycle governance and closure expectations.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-  - mapping_ref: MAP-CQV-REQ-002
-    internal_requirement_id: CQV-REQ-002
-    source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-LOCAL-EDA-SITE-GMP-LOCAL-REQUIREMENTS]
-    mapping_basis: Establishes URS as accepted source for downstream verification.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-  - mapping_ref: MAP-CQV-REQ-003
-    internal_requirement_id: CQV-REQ-003
-    source_anchor_refs: [EXT-ICH-Q9-QUALITY-RISK-MANAGEMENT, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-EUGMP-ANNEX15-RISK-APPROACH, EXT-ISPE-BG5-CQV-LIFECYCLE]
-    mapping_basis: Establishes risk and criticality basis for scope and test depth.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-  - mapping_ref: MAP-CQV-REQ-004
-    internal_requirement_id: CQV-REQ-004
-    source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-LOCAL-EDA-SITE-GMP-APPROVALS]
-    mapping_basis: Establishes traceability from requirements to evidence and final disposition.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-  - mapping_ref: MAP-CQV-REQ-005
-    internal_requirement_id: CQV-REQ-005
-    source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-ASTM-E2500-SCIENCE-RISK-BASED]
-    mapping_basis: Establishes DQ suitability against accepted URS and risk basis.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-  - mapping_ref: MAP-CQV-REQ-006
-    internal_requirement_id: CQV-REQ-006
-    source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-LOCAL-EDA-SITE-GMP-LOCAL-REQUIREMENTS]
-    mapping_basis: Establishes installed baseline verification.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-  - mapping_ref: MAP-CQV-REQ-007
-    internal_requirement_id: CQV-REQ-007
-    source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-ICH-Q9-QUALITY-RISK-MANAGEMENT]
-    mapping_basis: Establishes operational function verification.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-  - mapping_ref: MAP-CQV-REQ-008
-    internal_requirement_id: CQV-REQ-008
-    source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-ICH-Q9-RISK-REVIEW, EXT-LOCAL-EDA-SITE-GMP-LOCAL-REQUIREMENTS]
-    mapping_basis: Establishes representative performance verification.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-  - mapping_ref: MAP-CQV-REQ-009
-    internal_requirement_id: CQV-REQ-009
-    source_anchor_refs: [EXT-ISPE-BG5-VSR, EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ICH-Q10-PQS-LIFECYCLE, EXT-LOCAL-EDA-SITE-GMP-APPROVALS]
-    mapping_basis: Establishes VSR conclusion and readiness decision expectations.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-  - mapping_ref: MAP-CQV-REQ-010
-    internal_requirement_id: CQV-REQ-010
-    source_anchor_refs: [EXT-ISPE-BG5-CQV-LIFECYCLE, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION]
-    mapping_basis: Establishes controlled FAT/SAT evidence use.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-  - mapping_ref: MAP-CQV-REQ-011
-    internal_requirement_id: CQV-REQ-011
-    source_anchor_refs: [EXT-ISPE-GAMP5-CSV-LIFECYCLE, EXT-EUGMP-ANNEX11-COMPUTERISED-SYSTEMS, EXT-21CFR11-ELECTRONIC-RECORDS, EXT-ICH-Q9-QUALITY-RISK-MANAGEMENT]
-    mapping_basis: Establishes computerized system and data integrity add-on trigger.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-  - mapping_ref: MAP-CQV-REQ-012
-    internal_requirement_id: CQV-REQ-012
-    source_anchor_refs: [EXT-ISO14644-AIR-CLEANLINESS-CLASSIFICATION, EXT-ISO14644-CLEANROOM-TESTING, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-LOCAL-EDA-SITE-GMP-LOCAL-REQUIREMENTS]
-    mapping_basis: Establishes cleanroom/HVAC/classified-area add-on trigger.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-  - mapping_ref: MAP-CQV-REQ-013
-    internal_requirement_id: CQV-REQ-013
-    source_anchor_refs: [EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ICH-Q10-PQS-LIFECYCLE, EXT-LOCAL-EDA-SITE-GMP-APPROVALS]
-    mapping_basis: Establishes documentation control expectations.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-  - mapping_ref: MAP-CQV-REQ-014
-    internal_requirement_id: CQV-REQ-014
-    source_anchor_refs: [EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ICH-Q10-PQS-LIFECYCLE, EXT-LOCAL-EDA-SITE-GMP-APPROVALS]
-    mapping_basis: Establishes review and approval-state expectations.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-  - mapping_ref: MAP-CQV-REQ-015
-    internal_requirement_id: CQV-REQ-015
-    source_anchor_refs: [EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ISPE-BG5-CQV-LIFECYCLE, EXT-ICH-Q10-KNOWLEDGE-MANAGEMENT]
-    mapping_basis: Establishes report/reference citation expectations.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
-  - mapping_ref: MAP-CQV-REQ-016
-    internal_requirement_id: CQV-REQ-016
-    source_anchor_refs: [EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ICH-Q10-KNOWLEDGE-MANAGEMENT, EXT-LOCAL-EDA-SITE-GMP-APPROVALS]
-    mapping_basis: Establishes blocked-state behavior for missing, expired, invalid, or unreviewed K&S assets.
-    status: PRE_FREEZE_USER_REVIEW_REQUIRED
+  - {mapping_ref: MAP-CQV-REQ-001, internal_requirement_id: CQV-REQ-001, source_anchor_refs: [EXT-ISPE-BG5-CQV-LIFECYCLE, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-ICH-Q10-PQS-LIFECYCLE], mapping_basis: Establishes lifecycle governance and closure expectations., status: TESTING_ONLY, regulated_output_allowed: false}
+  - {mapping_ref: MAP-CQV-REQ-002, internal_requirement_id: CQV-REQ-002, source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-LOCAL-EDA-SITE-GMP-LOCAL-REQUIREMENTS], mapping_basis: Establishes URS as accepted source for downstream verification., status: TESTING_ONLY, regulated_output_allowed: false}
+  - {mapping_ref: MAP-CQV-REQ-003, internal_requirement_id: CQV-REQ-003, source_anchor_refs: [EXT-ICH-Q9-QUALITY-RISK-MANAGEMENT, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-EUGMP-ANNEX15-RISK-APPROACH, EXT-ISPE-BG5-CQV-LIFECYCLE], mapping_basis: Establishes risk and criticality basis for scope and test depth., status: TESTING_ONLY, regulated_output_allowed: false}
+  - {mapping_ref: MAP-CQV-REQ-004, internal_requirement_id: CQV-REQ-004, source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-LOCAL-EDA-SITE-GMP-APPROVALS], mapping_basis: Establishes traceability from requirements to evidence and final disposition., status: TESTING_ONLY, regulated_output_allowed: false}
+  - {mapping_ref: MAP-CQV-REQ-005, internal_requirement_id: CQV-REQ-005, source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-ASTM-E2500-SCIENCE-RISK-BASED], mapping_basis: Establishes DQ suitability against accepted URS and risk basis., status: TESTING_ONLY, regulated_output_allowed: false}
+  - {mapping_ref: MAP-CQV-REQ-006, internal_requirement_id: CQV-REQ-006, source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-LOCAL-EDA-SITE-GMP-LOCAL-REQUIREMENTS], mapping_basis: Establishes installed baseline verification., status: TESTING_ONLY, regulated_output_allowed: false}
+  - {mapping_ref: MAP-CQV-REQ-007, internal_requirement_id: CQV-REQ-007, source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-ICH-Q9-QUALITY-RISK-MANAGEMENT], mapping_basis: Establishes operational function verification., status: TESTING_ONLY, regulated_output_allowed: false}
+  - {mapping_ref: MAP-CQV-REQ-008, internal_requirement_id: CQV-REQ-008, source_anchor_refs: [EXT-ISPE-BG5-URS-DQ-IQ-OQ-PQ, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-ICH-Q9-RISK-REVIEW, EXT-LOCAL-EDA-SITE-GMP-LOCAL-REQUIREMENTS], mapping_basis: Establishes representative performance verification., status: TESTING_ONLY, regulated_output_allowed: false}
+  - {mapping_ref: MAP-CQV-REQ-009, internal_requirement_id: CQV-REQ-009, source_anchor_refs: [EXT-ISPE-BG5-VSR, EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ICH-Q10-PQS-LIFECYCLE, EXT-LOCAL-EDA-SITE-GMP-APPROVALS], mapping_basis: Establishes VSR conclusion and readiness decision expectations., status: TESTING_ONLY, regulated_output_allowed: false}
+  - {mapping_ref: MAP-CQV-REQ-010, internal_requirement_id: CQV-REQ-010, source_anchor_refs: [EXT-ISPE-BG5-CQV-LIFECYCLE, EXT-ASTM-E2500-SCIENCE-RISK-BASED, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION], mapping_basis: Establishes controlled FAT/SAT evidence use., status: TESTING_ONLY, regulated_output_allowed: false}
+  - {mapping_ref: MAP-CQV-REQ-011, internal_requirement_id: CQV-REQ-011, source_anchor_refs: [EXT-ISPE-GAMP5-CSV-LIFECYCLE, EXT-EUGMP-ANNEX11-COMPUTERISED-SYSTEMS, EXT-21CFR11-ELECTRONIC-RECORDS, EXT-ICH-Q9-QUALITY-RISK-MANAGEMENT], mapping_basis: Establishes computerized system and data integrity add-on trigger., status: TESTING_ONLY, regulated_output_allowed: false}
+  - {mapping_ref: MAP-CQV-REQ-012, internal_requirement_id: CQV-REQ-012, source_anchor_refs: [EXT-ISO14644-AIR-CLEANLINESS-CLASSIFICATION, EXT-ISO14644-CLEANROOM-TESTING, EXT-EUGMP-ANNEX15-QUALIFICATION-VALIDATION, EXT-LOCAL-EDA-SITE-GMP-LOCAL-REQUIREMENTS], mapping_basis: Establishes classified-area and HVAC add-on trigger., status: TESTING_ONLY, regulated_output_allowed: false}
+  - {mapping_ref: MAP-CQV-REQ-013, internal_requirement_id: CQV-REQ-013, source_anchor_refs: [EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ICH-Q10-PQS-LIFECYCLE, EXT-LOCAL-EDA-SITE-GMP-APPROVALS], mapping_basis: Establishes documentation control expectations., status: TESTING_ONLY, regulated_output_allowed: false}
+  - {mapping_ref: MAP-CQV-REQ-014, internal_requirement_id: CQV-REQ-014, source_anchor_refs: [EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ICH-Q10-PQS-LIFECYCLE, EXT-LOCAL-EDA-SITE-GMP-APPROVALS], mapping_basis: Establishes review and approval-state expectations., status: TESTING_ONLY, regulated_output_allowed: false}
+  - {mapping_ref: MAP-CQV-REQ-015, internal_requirement_id: CQV-REQ-015, source_anchor_refs: [EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ISPE-BG5-CQV-LIFECYCLE, EXT-ICH-Q10-KNOWLEDGE-MANAGEMENT], mapping_basis: Establishes report/reference citation expectations., status: TESTING_ONLY, regulated_output_allowed: false}
+  - {mapping_ref: MAP-CQV-REQ-016, internal_requirement_id: CQV-REQ-016, source_anchor_refs: [EXT-EUGMP-ANNEX15-DOCUMENTATION-APPROVAL, EXT-ICH-Q10-KNOWLEDGE-MANAGEMENT, EXT-LOCAL-EDA-SITE-GMP-APPROVALS], mapping_basis: Establishes blocked-state behavior for missing, expired, invalid, or unreviewed K&S assets., status: TESTING_ONLY, regulated_output_allowed: false}
