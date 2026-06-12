@@ -1,0 +1,33 @@
+template_id: TPL-PQ
+version: v1.0.1
+doc_type: PQ
+owner: KS
+effective_date: 2026-06-12
+source_checked_date: 2026-06-12
+review_cycle_months: 36
+next_review_due: 2029-06-12
+expiry_date: 2029-06-12
+status: PRE_FREEZE_USER_REVIEW_REQUIRED
+review_required: true
+expired_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+required_inputs:
+  - accepted_OQ_status
+  - representative_conditions
+  - acceptance_criteria
+required_stamps:
+  - bundle_id
+  - template_id
+  - source_reference_ids
+  - lifecycle_status
+anchor_policy:
+  required_internal_requirements:
+    - CQV-REQ-008
+    - CQV-REQ-016
+sections:
+  - scope
+  - prerequisites
+  - performance_conditions
+  - acceptance_criteria
+  - execution
+  - conclusion
+missing_or_expired_behavior: BLOCK_DOC_GENERATION_OR_MARK_INCOMPLETE
