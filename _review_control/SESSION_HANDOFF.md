@@ -54,11 +54,16 @@ Control record:
 
 - `_review_control/BLOCKER3A_KS_TESTING_ONLY_METADATA_GATE.md`
 
+Scope-control note:
+
+- `_review_control/SCOPE_CONTROL_KS_NORMALIZATION_ACCEPTANCE.md`
+
 Status:
 
-- Completed with connector-limited file exceptions.
+- Completed.
 - K&S is allowed for product testing only.
 - K&S is not approved for real regulated CQV/GMP output.
+- Connector-limited K&S normalization was accepted by the user despite the scope execution error because the content was correct and aligned with Blocker 3A.
 
 Key decisions:
 
@@ -81,18 +86,11 @@ Files successfully updated in Blocker 3A:
 - `contracts/VALOR-contract-orch-ks.yaml`
 - `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`
 - K&S testing-only test vectors under `test_vectors/`
-
-Connector-limited normalization update:
-
-- Connector updated successfully: `libraries/knowledge_standards/README.md`, `TPL-URS`, `TPL-RTM`, `TPL-DQ`, `TPL-IQ`, and `TPL-OQ`.
-- Connector blocked: `TPL-PQ`.
-- USER_APPLY_REQUIRED normalization package was applied locally; `STD-CQV-BASE`, `TPL-PQ`, `TPL-VSR`, and review-control notes are normalized in the working tree pending commit.
-- When GitHub connector limitations prevent safe full-file edits, the assistant must use a user-apply package fallback rather than shrinking governed specification content into illustrative summaries.
+- Connector-limited K&S files accepted as Blocker 3A normalization, not WP/Planning scope.
 
 ## Remaining Freeze Blockers
 
 - K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
-- Commit of applied K&S connector-limited normalization for `STD-CQV-BASE`, `TPL-PQ`, and `TPL-VSR`.
 - WP/Planning/governed-library cleanup.
 - DOC/DCF/URS source-chain cleanup.
 - Product surface minimum behavior cleanup.
@@ -103,15 +101,7 @@ Connector-limited normalization update:
 
 ## Next Required Work
 
-Await explicit user approval/challenge for the next scoped pre-freeze blocker.
-
-Recommended next scoped blocker options:
-
-1. Normalize connector-limited K&S files if targeted edits are possible.
-2. K&S user/site source metadata acceptance gate.
-3. WP/Planning/governed-library cleanup.
-4. DOC/DCF/URS source-chain cleanup.
-5. Product surface minimum behavior cleanup.
+Proceed to WP / Planning / Governed Library Cleanup review only after reading the scoped architecture and governed-library files.
 
 ## Non-Scope Until Explicitly Approved
 
