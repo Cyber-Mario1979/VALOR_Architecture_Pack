@@ -4,8 +4,8 @@ block type: Arch
 version: v1.0.1
 owner: Nexus
 editor: Senior Architect
-status: released
-date: 2025-12-23
+status: pre_freeze_controlled
+date: 2026-06-12
 dependencies:
   - VALOR-block-A00-specs-architecture-pack
   - VALOR-block-A01-sos-context-capability
@@ -19,6 +19,7 @@ acceptance_criteria:
   - Defines supported target scopes: SINGLE_WP and SELECTED_WP_SET; ALL_WPS is outside freeze scope.
   - Defines traceability stamping, artifact metadata, list/get behavior, and schema/template references.
   - Defines contract actions, response envelopes, confirmation rules, and error semantics.
+  - Defines product-surface behavior for RPT baseline artifacts and refusal of non-baseline CSV/ALL_WPS behavior.
   - Defines reproducibility/determinism requirements for all declared RPT artifacts.
 ---
 
@@ -28,7 +29,7 @@ Terminology: See **A15_Global_Glossary_Arch_v1_0_1.md** for definitions.
 
 ## 1. Purpose and Authority
 
-Reporting & Export (RPT) is Valor’s **projection and publishing layer** for three distinct artifact families:
+Reporting & Export (RPT) is Valor’s projection and publishing layer for three distinct artifact families:
 
 1. **Narrative status reports** — human-readable report artifacts intended for PDF-style output.
 2. **Workbook exports** — structured Excel `.xlsx` technical workbooks for task/status/statistics review.
@@ -81,7 +82,16 @@ Out of freeze scope:
 | `WORK_PACKAGE_WORKBOOK_EXPORT` | Work Package Workbook Export | `RPT_GENERATE_WORKBOOK_EXPORT` | Excel `.xlsx` workbook |
 | `WORK_PACKAGE_GANTT_CHART` | Work Package Gantt Chart | `RPT_GENERATE_GANTT_CHART` | Excel-based Gantt artifact |
 
-CSV is not the v1.0.1 freeze baseline for RPT/export.
+CSV is not the v1.0.1 freeze baseline for RPT/export. Any request for CSV export must be treated as outside the declared baseline unless later enabled by controlled update.
+
+### 2.3 Product Surface Behavior
+
+- RPT outputs are generated artifacts/projections, not WP/task truth.
+- RPT must not mutate WP/task truth, plan proposals, owners, dates, statuses, IDs, or source-data state.
+- Product surface must present status report, workbook export, and Gantt chart as distinct artifact choices.
+- `SINGLE_WP` and `SELECTED_WP_SET` are supported; `ALL_WPS` must be refused or bounded by explicit selected WPs.
+- Proposed schedule data must be labeled separately from committed WP date truth.
+- Contract/audit/provenance metadata timestamps use UTC. Optional local display time may be shown only when explicitly labeled as display/local time.
 
 ---
 
@@ -136,13 +146,9 @@ Artifact metadata is required for list/get behavior even if the generated conten
 
 ## 5. Work Package Status Report
 
-### 5.1 Purpose
-
 `WORK_PACKAGE_STATUS_REPORT` is a narrative report for human review. It is intended to become a PDF-style controlled artifact.
 
 It is not a workbook export.
-
-### 5.2 Template
 
 Template ID:
 
@@ -164,27 +170,15 @@ Required sections:
 8. Recommendations / Next Actions
 9. Appendix
 
-### 5.3 Selected WP Set Behavior
-
-For `SELECTED_WP_SET`, the report must include:
-
-- one consolidated executive summary;
-- one cross-WP summary table;
-- individual WP sections or subsections;
-- consolidated risks/issues/next actions;
-- per-WP source snapshot references or hashes.
+For `SELECTED_WP_SET`, the report must include a consolidated executive summary, cross-WP summary table, individual WP sections or subsections, consolidated risks/issues/next actions, and per-WP source snapshot references or hashes.
 
 ---
 
 ## 6. Work Package Workbook Export
 
-### 6.1 Purpose
-
 `WORK_PACKAGE_WORKBOOK_EXPORT` is a technical structured workbook for review, filtering, analysis, and downstream planning support.
 
 It is not a narrative report.
-
-### 6.2 Output Format
 
 The declared freeze baseline is Excel `.xlsx`.
 
@@ -196,8 +190,6 @@ Workbook template/spec source:
 
 - `templates/export/WP_WORKBOOK_EXPORT_v1.0.1.yaml`
 
-### 6.3 Required Workbook Sheets
-
 The canonical workbook export contains exactly these required sheets in this order:
 
 1. `Cover`
@@ -208,21 +200,15 @@ The canonical workbook export contains exactly these required sheets in this ord
 
 The Gantt chart is not a tab in the workbook export freeze baseline. It is a separate artifact.
 
-### 6.4 Selected WP Set Behavior
-
 For `SELECTED_WP_SET`, task-level and metric-level sheets must include `wp_id` and `wp_title` so the source WP remains explicit.
 
 ---
 
 ## 7. Work Package Gantt Chart Artifact
 
-### 7.1 Purpose
-
 `WORK_PACKAGE_GANTT_CHART` is a separate visual schedule artifact derived from WP task schedule data.
 
 It is not part of the core workbook export.
-
-### 7.2 Output Format
 
 The declared freeze baseline is an Excel-based Gantt artifact.
 
@@ -234,15 +220,11 @@ Gantt template/spec source:
 
 - `templates/export/WP_GANTT_CHART_v1.0.1.yaml`
 
-### 7.3 Required Sheets
-
 The Gantt artifact contains:
 
 1. `Gantt`
 2. `Task Data`
 3. `Metadata`
-
-### 7.4 Visual Rule
 
 The Gantt timeline must use full-cell coloring across the timeline area.
 
@@ -414,5 +396,6 @@ If any controlled input changes, the artifact metadata must identify a new sourc
 ## CHANGELOG
 | Date       | Changes     | Type / Version |
 | ---------- | ----------- | -------------- |
+| 2026-06-12 | Blocker 7A RPT product-surface wording: baseline report/workbook/Gantt artifacts, no CSV baseline, ALL_WPS refusal/bounding, and projection-only behavior clarified | Pre-freeze controlled update |
 | 2026-06-10 | Pre-freeze RPT/export blocker: separated narrative report, workbook export, and Gantt chart artifact scope; removed CSV as freeze baseline; added target-scope and artifact registry behavior | Arch_v1.0.1-control |
 | 2025-12-23 | First Issue | Arch_v1.0.1    |
