@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "required": ["status", "standards"],
   "properties": {
-    "status": {"type": "string", "enum": ["ACTIVE", "DUE_FOR_REVIEW", "EXPIRED", "SUPERSEDED", "BLOCKED", "PRE_FREEZE_USER_REVIEW_REQUIRED"]},
+    "status": {"type": "string", "enum": ["TESTING_ONLY", "PRE_FREEZE_USER_REVIEW_REQUIRED", "ACTIVE", "DUE_FOR_REVIEW", "EXPIRED", "SUPERSEDED", "BLOCKED"]},
     "standards": {"type": "array", "items": {"type": "object", "required": ["standard_id", "version", "status", "expiry_date"], "additionalProperties": true}}
   }
 }
