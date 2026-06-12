@@ -1,196 +1,50 @@
 contract_id: VALOR-contract-orch-ks
 current_version: v1.0.1
-supported_versions:
-- v1.0.1
+supported_versions: [v1.0.1]
 owner_subsystem: K&S
 called_by: Orchestration
-compatibility_policy:
-  semver: true
-  orchestration_rules:
-    accept_minor_patch_within_major: true
-    refuse_major_without_explicit_upgrade: true
+status: ACTIVE_PRE_FREEZE_WITH_USER_REVIEW_GATE
+purpose: Governed read-only standards, templates, bundles, anchors, citations, source mappings, and bundle validation for declared VALOR CQV v1.0.1 scope.
+
 envelopes:
   request_schema: schemas/contracts/contract_request.schema.json
   response_schema: schemas/contracts/contract_response.schema.json
+
+library_assets:
+  external_references: libraries/knowledge_standards/references/external_references_v1.0.1.yaml
+  base_bundle: libraries/knowledge_standards/bundles/BND-CQV-BASE_v1.0.1.yaml
+  csv_addon_bundle: libraries/knowledge_standards/bundles/BND-CSV-ADDON_v1.0.1.yaml
+  cleanroom_addon_bundle: libraries/knowledge_standards/bundles/BND-CLEANROOM-ADDON_v1.0.1.yaml
+  internal_standard: libraries/knowledge_standards/standards/STD-CQV-BASE_v1.0.1.yaml
+  source_mapping: libraries/knowledge_standards/mapping/source_to_internal_requirements_v1.0.1.yaml
+
+lifecycle_policy:
+  allowed_statuses: [ACTIVE, DUE_FOR_REVIEW, EXPIRED, SUPERSEDED, BLOCKED, PRE_FREEZE_USER_REVIEW_REQUIRED]
+  default_review_cycle_months: 36
+  expired_bundle_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  missing_bundle_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  unreviewed_bundle_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  no_standards_mode: PROHIBITED
+
+excerpt_policy:
+  external_text_reproduction: prohibited
+  external_excerpt_default: NO_EXCERPTS
+  restricted_excerpt_error: {code: UNSUPPORTED_OPERATION, subcode: EXCERPT_BLOCKED}
+
 error_taxonomy:
-  standard_codes:
-  - MODE_VIOLATION
-  - VALIDATION_ERROR
-  - INVARIANT_VIOLATION
-  - NOT_FOUND
-  - CONFLICT
-  - UNSUPPORTED_OPERATION
-  - INTERNAL_ERROR
+  standard_codes: [MODE_VIOLATION, VALIDATION_ERROR, INVARIANT_VIOLATION, NOT_FOUND, CONFLICT, UNSUPPORTED_OPERATION, INTERNAL_ERROR]
+  ks_subcodes: [ASSET_VERSION_NOT_FOUND, ANCHOR_NOT_FOUND, EXCERPT_BLOCKED, BUNDLE_INTEGRITY_FAILED, TEMPLATE_REQUIREMENT_MISSING, SOURCE_REVIEW_REQUIRED, INTERNAL_REQUIREMENT_UNMAPPED, BUNDLE_EXPIRED]
+
 actions:
-- action_type: KS_LIST_STANDARDS
-  allowed_modes:
-  - M1
-  - M2
-  side_effect_class: READ_ONLY
-  idempotent: true
-  required_payload_fields: []
-  optional_payload_fields:
-  - filters
-  target_fields:
-    required: []
-    optional: []
-  result_schema_ref: schemas/contracts/ks_standards_list.schema.json
-  errors:
-  - code: VALIDATION_ERROR
-    subcode: PAYLOAD_SCHEMA_MISMATCH
-- action_type: KS_READ_STANDARD
-  allowed_modes:
-  - M1
-  - M2
-  side_effect_class: READ_ONLY
-  idempotent: true
-  required_payload_fields:
-  - standard_id
-  - version
-  optional_payload_fields: []
-  target_fields:
-    required: []
-    optional: []
-  result_schema_ref: schemas/contracts/ks_standard.schema.json
-  errors:
-  - code: NOT_FOUND
-    subcode: ASSET_VERSION_NOT_FOUND
-- action_type: KS_LIST_TEMPLATES
-  allowed_modes:
-  - M1
-  - M2
-  side_effect_class: READ_ONLY
-  idempotent: true
-  required_payload_fields: []
-  optional_payload_fields:
-  - filters
-  target_fields:
-    required: []
-    optional: []
-  result_schema_ref: schemas/contracts/ks_templates_list.schema.json
-  errors:
-  - code: VALIDATION_ERROR
-    subcode: PAYLOAD_SCHEMA_MISMATCH
-- action_type: KS_READ_TEMPLATE
-  allowed_modes:
-  - M1
-  - M2
-  side_effect_class: READ_ONLY
-  idempotent: true
-  required_payload_fields:
-  - template_id
-  - version
-  optional_payload_fields: []
-  target_fields:
-    required: []
-    optional: []
-  result_schema_ref: schemas/contracts/ks_template.schema.json
-  errors:
-  - code: NOT_FOUND
-    subcode: ASSET_VERSION_NOT_FOUND
-- action_type: KS_LIST_BUNDLES
-  allowed_modes:
-  - M1
-  - M2
-  side_effect_class: READ_ONLY
-  idempotent: true
-  required_payload_fields: []
-  optional_payload_fields:
-  - filters
-  target_fields:
-    required: []
-    optional: []
-  result_schema_ref: schemas/contracts/ks_bundles_list.schema.json
-  errors:
-  - code: VALIDATION_ERROR
-    subcode: PAYLOAD_SCHEMA_MISMATCH
-- action_type: KS_READ_BUNDLE
-  allowed_modes:
-  - M1
-  - M2
-  side_effect_class: READ_ONLY
-  idempotent: true
-  required_payload_fields:
-  - bundle_id
-  - version
-  optional_payload_fields: []
-  target_fields:
-    required: []
-    optional: []
-  result_schema_ref: schemas/contracts/ks_bundle.schema.json
-  errors:
-  - code: NOT_FOUND
-    subcode: ASSET_VERSION_NOT_FOUND
-- action_type: KS_LIST_ANCHORS
-  allowed_modes:
-  - M1
-  - M2
-  side_effect_class: READ_ONLY
-  idempotent: true
-  required_payload_fields:
-  - asset_type
-  - asset_id
-  - asset_version
-  optional_payload_fields: []
-  target_fields:
-    required: []
-    optional: []
-  result_schema_ref: schemas/contracts/ks_anchors_list.schema.json
-  errors:
-  - code: NOT_FOUND
-    subcode: ANCHOR_NOT_FOUND
-- action_type: KS_RESOLVE_CITATION
-  allowed_modes:
-  - M2
-  side_effect_class: READ_ONLY
-  idempotent: true
-  required_payload_fields:
-  - anchored_ref
-  optional_payload_fields: []
-  target_fields:
-    required: []
-    optional: []
-  result_schema_ref: schemas/contracts/ks_citation_resolved.schema.json
-  errors:
-  - code: NOT_FOUND
-    subcode: ANCHOR_NOT_FOUND
-  - code: UNSUPPORTED_OPERATION
-    subcode: EXCERPT_BLOCKED
-- action_type: KS_VALIDATE_BUNDLE_INTEGRITY
-  allowed_modes:
-  - M2
-  side_effect_class: VALIDATE_ONLY
-  idempotent: true
-  required_payload_fields:
-  - bundle_id
-  - version
-  optional_payload_fields: []
-  target_fields:
-    required: []
-    optional: []
-  result_schema_ref: schemas/contracts/ks_bundle_validation.schema.json
-  errors:
-  - code: NOT_FOUND
-    subcode: BUNDLE_INTEGRITY_FAILED
-examples:
-- name: ks_resolve_citation_request
-  request:
-    contract: VALOR-contract-orch-ks
-    contract_version: v1.0.1
-    action_id: ACT-001210
-    action_type: KS_RESOLVE_CITATION
-    mode: M2
-    actor:
-      role: User
-      name: optional
-    target: {}
-    payload:
-      anchored_ref:
-        asset_type: standard
-        asset_id: STD-123
-        asset_version: '2020'
-        anchor_id: A-5-2
-    options:
-      dry_run: false
-    context:
-      timestamp_utc: '2025-12-25T00:00:00Z'
+  - {action_type: KS_LIST_STANDARDS, allowed_modes: [M1, M2], side_effect_class: READ_ONLY, idempotent: true, required_payload_fields: [], optional_payload_fields: [filters], result_schema_ref: schemas/contracts/ks_standards_list.schema.json}
+  - {action_type: KS_READ_STANDARD, allowed_modes: [M1, M2], side_effect_class: READ_ONLY, idempotent: true, required_payload_fields: [standard_id, version], optional_payload_fields: [], result_schema_ref: schemas/contracts/ks_standard.schema.json}
+  - {action_type: KS_LIST_TEMPLATES, allowed_modes: [M1, M2], side_effect_class: READ_ONLY, idempotent: true, required_payload_fields: [], optional_payload_fields: [filters], result_schema_ref: schemas/contracts/ks_templates_list.schema.json}
+  - {action_type: KS_READ_TEMPLATE, allowed_modes: [M1, M2], side_effect_class: READ_ONLY, idempotent: true, required_payload_fields: [template_id, version], optional_payload_fields: [], result_schema_ref: schemas/contracts/ks_template.schema.json}
+  - {action_type: KS_LIST_BUNDLES, allowed_modes: [M1, M2], side_effect_class: READ_ONLY, idempotent: true, required_payload_fields: [], optional_payload_fields: [filters], result_schema_ref: schemas/contracts/ks_bundles_list.schema.json}
+  - {action_type: KS_READ_BUNDLE, allowed_modes: [M1, M2], side_effect_class: READ_ONLY, idempotent: true, required_payload_fields: [bundle_id, version], optional_payload_fields: [], result_schema_ref: schemas/contracts/ks_bundle.schema.json}
+  - {action_type: KS_LIST_ANCHORS, allowed_modes: [M1, M2], side_effect_class: READ_ONLY, idempotent: true, required_payload_fields: [asset_type, asset_id, asset_version], optional_payload_fields: [], result_schema_ref: schemas/contracts/ks_anchors_list.schema.json}
+  - {action_type: KS_RESOLVE_CITATION, allowed_modes: [M2], side_effect_class: READ_ONLY, idempotent: true, required_payload_fields: [anchored_ref], optional_payload_fields: [request_excerpt], result_schema_ref: schemas/contracts/ks_citation_resolved.schema.json}
+  - {action_type: KS_VALIDATE_CITATION_SET, allowed_modes: [M2], side_effect_class: VALIDATE_ONLY, idempotent: true, required_payload_fields: [anchored_refs], optional_payload_fields: [], result_schema_ref: schemas/contracts/ks_bundle_validation.schema.json}
+  - {action_type: KS_VALIDATE_TEMPLATE_REQUIREMENTS, allowed_modes: [M2], side_effect_class: VALIDATE_ONLY, idempotent: true, required_payload_fields: [template_id, version, provided_inputs], optional_payload_fields: [], result_schema_ref: schemas/contracts/ks_bundle_validation.schema.json}
+  - {action_type: KS_VALIDATE_SOURCE_MAPPING, allowed_modes: [M2], side_effect_class: VALIDATE_ONLY, idempotent: true, required_payload_fields: [requirement_id], optional_payload_fields: [bundle_id, version], result_schema_ref: schemas/contracts/ks_bundle_validation.schema.json}
+  - {action_type: KS_VALIDATE_BUNDLE_INTEGRITY, allowed_modes: [M2], side_effect_class: VALIDATE_ONLY, idempotent: true, required_payload_fields: [bundle_id, version], optional_payload_fields: [scope_flags], result_schema_ref: schemas/contracts/ks_bundle_validation.schema.json}
