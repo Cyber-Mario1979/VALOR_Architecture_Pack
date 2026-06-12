@@ -138,11 +138,34 @@ Important outcome:
 - Added the high-complexity process-equipment FAT prep/execution/report/acceptance chain without adding ERP/procurement integration, resource loading, evidence ingestion, or delivery planning.
 - No contract files were edited; contract/action registry semantic validation remains a later dependency.
 
+### Blocker 5 — Contract/action registry semantic validation for WP / PLAN / TP / PS / PROF / CAL
+
+Status: **COMPLETED FOR SCOPED WP / PLAN / TP / PS / PROF / CAL SEMANTIC ALIGNMENT — FREEZE STILL BLOCKED BY OTHER PRE-FREEZE WORK**
+
+Control record:
+
+- `_review_control/BLOCKER5_CONTRACT_ACTION_REGISTRY_SEMANTIC_VALIDATION.md`
+
+Important outcome:
+
+- Aligned `PS_VALIDATE_BINDINGS` as `VALIDATE_ONLY` in both the PS contract and contract registry.
+- Preserved WP and PLAN as public/user-callable where applicable.
+- Preserved PS as internal service/resolver only.
+- Preserved TP / PROF / CAL as non-callable governed support authorities.
+- Strengthened PLAN governed-profile default, stamped no-profile exception, `calendar_logic_ref` wrapper semantics, mixed-unit handling, and planning provenance stamps.
+- Strengthened WP user-driven no-profile duration override provenance/stamp requirements.
+- Corrected PROF FAT selector phase values from `FAT` to `OTHER` while preserving FAT meaning through profile keys and `profile_task_semantic`.
+- Corrected A04.1 stale orchestration example naming from `PRESET-PE-HIGH` / `equipment_type` to `PS-PE-HIGH` / `equipment_domain` with `complexity` and `scope`.
+- Did not add `WP_VALIDATE`, `PS_VALIDATE_RULESET`, `PLAN_PREVIEW`, `WP_CLOSE`, or `WP_UPDATE_DEPENDENCIES`.
+- Did not add public callable TP / PROF / CAL actions.
+- Did not promote K&S beyond TESTING_ONLY / PRODUCT_TESTING_ONLY.
+
+
 ## Must-Resolve-Before-Freeze Themes
 
 - K&S user/site source metadata acceptance for real regulated CQV/GMP use.
 - Authority, status, and terminology.
-- Contract/action registry semantic validation for WP/PLAN/TP/PS/PROF/CAL naming and action catalogs.
+- Remaining contract/schema validation enforcement beyond completed WP / PLAN / TP / PS / PROF / CAL semantic alignment.
 - DOC, DCF, and URS source chain.
 - Product surface minimum specification.
 - Negative and E2E test vector coverage outside the K&S scoped vectors.

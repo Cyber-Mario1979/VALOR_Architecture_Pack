@@ -111,10 +111,35 @@ Files updated in Blocker 4:
 - `libraries/profile_library/PROF-PE-HIGH_v1.0.1.yaml`
 - `libraries/calendar/CAL-WORKWEEK_v1.0.1.yaml`
 
+### Blocker 5 — Contract/action registry semantic validation for WP / PLAN / TP / PS / PROF / CAL
+
+Control record:
+
+- `_review_control/BLOCKER5_CONTRACT_ACTION_REGISTRY_SEMANTIC_VALIDATION.md`
+
+Status:
+
+- Completed for scoped WP / PLAN / TP / PS / PROF / CAL semantic alignment.
+- Freeze remains blocked by other pre-freeze work.
+
+Key decisions:
+
+- WP and PLAN remain public/user-callable where applicable.
+- PS remains internal service/resolver only.
+- TP / PROF / CAL remain non-callable governed support authorities.
+- `PS_VALIDATE_BINDINGS` is `VALIDATE_ONLY` in both the PS contract and contract registry.
+- PLAN governed-profile default, stamped no-profile exception, calendar wrapper semantics, mixed-unit behavior, and provenance stamp requirements were strengthened.
+- WP user-driven duration override provenance requirements were strengthened.
+- PROF FAT selectors were corrected from `phase: FAT` to `phase: OTHER` without changing FAT profile keys, values, units, descriptions, or `profile_task_semantic`.
+- `WP_VALIDATE`, `PS_VALIDATE_RULESET`, `PLAN_PREVIEW`, `WP_CLOSE`, and `WP_UPDATE_DEPENDENCIES` remain deferred.
+- PLAN preview remains `PLAN_GENERATE_PROPOSAL` with `dry_run=true`.
+- K&S remains TESTING_ONLY / PRODUCT_TESTING_ONLY only.
+
+
 ## Remaining Freeze Blockers
 
 - K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
-- Contract/action registry semantic validation for WP/PLAN/TP/PS/PROF/CAL naming and action catalogs.
+- Broader contract/schema validation enforcement and non-K&S validation/test-vector cleanup.
 - DOC/DCF/URS source-chain cleanup.
 - Product surface minimum behavior cleanup.
 - Negative and E2E test vector coverage outside scoped K&S vectors.
