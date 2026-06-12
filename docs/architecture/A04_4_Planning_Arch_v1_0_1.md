@@ -4,269 +4,248 @@ block type: Arch
 version: v1.0.1
 owner: Nexus
 editor: Senior Architect
-status: released
-date: 2025-12-23
+status: pre_freeze_controlled
+date: 2026-06-12
 dependencies:
   - VALOR-block-A00-specs-architecture-pack
   - VALOR-block-A01-sos-context-capability
   - VALOR-block-A02-principles-invariants
   - VALOR-block-A03-subsystems-authority
   - VALOR-block-A04-2-work-package-architecture
-summary: "Block A04.4 — Planning System Architecture (Advisory): schedule proposal generation from WP truth + governed profiles + calendar logic; produces PROPOSED plans only and never commits truth."
+  - VALOR-block-A05-task-pool-architecture
+  - VALOR-block-A07-calendar-logic-architecture
+  - VALOR-block-A08-profile-library-architecture
+summary: "Block A04.4 — Planning System Architecture (Advisory): proposal-only schedule generation from WP truth, governed profiles, and governed calendar logic; never commits truth and requires governed provenance stamps."
 acceptance_criteria:
-  - Defines Planning’s advisory-only authority and non-ownership constraints.
-  - Defines planning inputs/outputs, including required governed version stamps.
-  - Defines the scheduling model (dependencies, working-day calendar rules, milestones).
-  - Defines resource assignment as advisory suggestions (not authoritative allocations).
-  - Defines contract actions and error semantics for planning requests.
-  - Enforces proposal vs commitment boundary and determinism (A02).
+  - Defines Planning's advisory-only authority and non-ownership constraints.
+  - Defines profile-required baseline and stamped no-profile exception.
+  - Defines planning inputs/outputs with governed version stamps.
+  - Defines scheduling model using dependency graph, profile units, and calendar logic.
+  - Defines proposal vs commitment boundary.
+  - Defines resource assignment as advisory only.
+  - Records contract/action registry alignment as later dependency.
 ---
 
 # Planning System Architecture (Advisory)
 
 Terminology: See **A15_Global_Glossary_Arch_v1_0_1.md** for definitions.
 
-
 ## 1. Purpose and Authority
-The Planning System produces **PROPOSED schedules** for a Work Package by combining:
-- WP truth (tasks, dependencies, constraints),
-- governed profile data (durations, lead times, review/approval cycle assumptions),
-- governed calendar logic (working days, weekends, holidays),
+
+The Planning System produces proposed schedules for a Work Package by combining:
+
+- WP truth: tasks, statuses, dependencies, constraints, and explicit overrides;
+- governed profile data: durations, lead times, and units;
+- governed calendar logic: working days, weekends, holidays, arithmetic policy;
 - optional resource availability hints.
 
-Planning is **advisory**:
-- It does not mutate WP truth.
-- It does not allocate authoritative resource capacity.
-- It does not “commit dates” without an explicit APPLY step executed via the WP System.
+Planning is advisory:
 
-This implements A02 INV-02 (Proposal vs Commitment) and A03 (authority separation).
+- it does not mutate WP truth;
+- it does not allocate authoritative resource capacity;
+- it does not commit dates;
+- it produces `PROPOSED` plan outputs only;
+- committed dates require explicit apply through WP authority.
 
----
+This implements proposal vs commitment separation and subsystem authority separation.
 
-## 2. Boundary and Non-Ownership Rules
+## 2. Planning Owns / Does Not Own
 
-### 2.1 Planning Owns
 Planning is authoritative for:
-- the schedule computation algorithm definition (as a subsystem capability),
-- the resulting plan **proposal object** and its internal provenance,
-- validation results specific to scheduling (e.g., infeasible constraints).
 
-### 2.2 Planning Does Not Own
+- schedule computation rules;
+- plan proposal object structure;
+- scheduling validation results;
+- planning provenance stamps.
+
 Planning is not authoritative for:
-- WP/task truth (task list, dependency graph, statuses),
-- committed task dates (only WP owns committed_* fields),
-- vendor lead-time truth (unless supplied as governed profile data or WP facts),
-- approvals and governance decisions,
-- export/report truth.
 
----
+- WP/task truth;
+- committed task dates;
+- task-pool definitions;
+- profile values;
+- calendar rules;
+- standards approval state;
+- final regulated output state.
 
-## 3. Planning Inputs (Canonical)
+## 3. Required Inputs
 
-Planning must be invoked with explicit versioned inputs. If any required input is missing, Planning must refuse.
+Planning must be invoked with explicit versioned inputs.
 
-### 3.1 Required Inputs
-- wp_id
-- tasks snapshot (task_id, type/phase, status, dependency edges, duration inputs)
-- dependency graph (FS baseline)
-- **profile_ref**: {profile_id, profile_version}
-- **calendar_logic_ref**: {calendar_id, calendar_version} (or calendar_logic_version)
-- planning policy options (see §3.3)
+Required inputs:
 
-### 3.2 Optional Inputs
-- milestones (explicit milestone tasks or milestone markers)
-- constraints:
-  - earliest_start_date
-  - must_finish_by_date (deadline)
-  - fixed dates for certain tasks (locked tasks)
-- resource hints:
-  - role-based availability windows
-  - max parallel tasks by role
-- vendor/business wait rules (if modeled separately from durations):
-  - e.g., “Quotation waiting time” as a VENDOR_WAIT task
+- wp_id;
+- task snapshot from WP truth;
+- dependency graph;
+- profile_ref unless the no-profile exception is fully satisfied;
+- calendar_logic_ref;
+- planning policy options;
+- provenance stamps from preset/task pool/profile/calendar where applicable.
 
-### 3.3 Planning Policy Options (v0.1.x)
-- dependency_types_allowed: ["FS"] (default)
-- calendar_rule: WEEKENDS_OFF (default)
-- holidays: optional list or calendar_id reference
-- duration_unit: working_days (default)
-- schedule_strategy:
-  - ASAP (default) — earliest possible schedule respecting dependencies and calendar
-  - ALAP (optional future) — latest possible schedule respecting deadline
-- treat_missing_durations_as_error: true (default)
-- locked_task_dates_policy: STRICT (default) — do not move locked tasks
+If any required input is missing, Planning must refuse.
 
----
+## 4. No-Profile Baseline
 
-## 4. Scheduling Model
+Normal freeze operation requires a governed profile.
 
-### 4.1 Task Duration
+No-profile planning is allowed only when every task has an explicit duration override and each override includes a stamped source/provenance record.
+
+A valid explicit duration override must include:
+
+- task_id;
+- duration value;
+- duration unit;
+- source type;
+- source reference or rationale;
+- recorded_by or accepted_by where applicable;
+- timestamp/date;
+- override status.
+
+If any task lacks both a resolvable profile entry and a valid explicit stamped override, Planning must return `VALIDATION_ERROR / MISSING_DURATION`.
+
+No-profile planning is not normal freeze operation and must be clearly stamped when used.
+
+## 5. Duration Resolution
+
 Duration source precedence:
-1) explicit task planned_duration_days (if set in WP truth)
-2) profile default by task_type/phase (governed)
-3) otherwise → VALIDATION_ERROR (no guessing)
 
-Duration is expressed in **working days** under calendar rules (weekends/holidays deferred).
+1. explicit task planned_duration override from WP truth, if present and stamped;
+2. governed profile entry resolved from profile_ref, profile_key, and selection_context;
+3. otherwise refuse.
 
-### 4.2 Dependencies
-Baseline support:
-- FS only (Finish-to-Start), lag_days >= 0
+Atomic tasks reference profile entries through `duration_ref.profile_key`.
+
+Profile selectors must keep `task_type` aligned to the WP/TP enum. Profile-specific meaning is carried by `profile_task_semantic`.
+
+## 6. Unit Handling
+
+Planning must respect the profile unit policy.
+
+- `WORKING_DAYS` durations use Calendar Logic arithmetic.
+- `CALENDAR_DAYS` durations use calendar-day arithmetic and must be labeled as calendar days.
+- `CALENDAR_WEEKS` and `CALENDAR_MONTHS` may be used only when explicitly declared in the profile entry.
+- No implicit conversion from calendar months to working days is allowed.
+- Any conversion rule must be explicitly approved, versioned, and stamped.
+
+If a requested plan requires an unsupported unit conversion, Planning must return `UNSUPPORTED_OPERATION / UNIT_CONVERSION_NOT_APPROVED` or equivalent validation error.
+
+## 7. Calendar Baseline
+
+The v1.0.1 baseline calendar asset is `CAL-WORKWEEK_v1.0.1.yaml`, a governed architecture-pack wrapper around canonical `CAL-WORKWEEK v1`.
+
+The baseline calendar rules are:
+
+- timezone: `UTC+02:00`;
+- working week: Sunday through Thursday;
+- weekend: Friday and Saturday;
+- start_date_rule: `IF_NON_WORKING_START_NEXT_WORKING`;
+- end_date_rule: `END_INCLUSIVE`;
+- diff_policy: `COUNT_WORKING_DAYS_BETWEEN`.
+
+Planning must not treat `Africa/Cairo` as the canonical timezone unless accepted in a later controlled patch.
+
+## 8. Scheduling Model
+
+Baseline dependency support:
+
+- FS only;
+- lag_days >= 0;
+- cycles refused;
+- unsupported dependency types refused unless later explicitly enabled.
 
 For each successor:
-- earliest_start = max(predecessor_finish + lag) across all predecessors
-- if locked_start_date exists, must satisfy constraint or raise CONFLICT
 
-Cycle handling:
-- If graph contains a cycle, Planning must return INVARIANT_VIOLATION / CYCLE_DETECTED (A02 INV-05).
+- earliest_start is derived from predecessor finish plus lag;
+- non-working starts are deferred according to calendar policy;
+- locked dates must satisfy constraints or return `CONFLICT`.
 
-### 4.3 Milestones
-A milestone is modeled as either:
-- a task with duration 0 (working days), or
-- a named marker attached to a task boundary (finish/start)
+Milestones may be represented as duration-zero tasks or named markers. Milestones must appear in plan outputs where present in the task set.
 
-Milestones must appear in schedule outputs and can be used for reporting.
+## 9. FAT Chain Scheduling
 
-### 4.4 Working Day Calendar Logic
-Calendar logic must define:
-- weekend rules (e.g., Sat/Sun non-working)
-- optional holidays
-- working-day arithmetic functions:
-  - add_working_days(date, n)
-  - next_working_day(date)
-  - is_working_day(date)
+For high-complexity process equipment, Planning must support the declared FAT chain from the task pool:
 
-Planning must include calendar_version in all outputs.
+```text
+PEH-MFG-LEAD
+→ PEH-FAT-SCHED
+→ PEH-FAT-PREP
+→ PEH-FAT-EXEC
+→ PEH-FAT-REPORT
+→ PEH-FAT-ACCEPTANCE
+→ PEH-LOGISTICS
+```
 
-### 4.5 Resource Allocation (Advisory)
-In v0.1.x, Planning may propose **resource assignments** as hints:
-- assign owner_role per task (from WP truth or profile default)
-- suggest smoothing rules:
-  - max_parallel_by_role (optional)
-  - soft constraints that can shift start dates
+This scheduling support is limited to task sequencing and duration handling. It does not add ERP/procurement integration, resource loading, evidence ingestion, or delivery planning.
 
-Important:
-- Resource allocation is not authoritative.
-- If resource constraints are provided and violate feasibility, Planning returns a warning or CONFLICT depending on strictness policy.
+## 10. Plan Proposal Object
 
----
-
-## 5. Planning Outputs
-
-### 5.1 Plan Proposal Object
 Planning returns a plan proposal with:
-- plan_id (unique)
-- wp_id
-- computed task schedule:
-  - proposed_start_date
-  - proposed_end_date
-  - critical_path_flag (optional)
-  - slack_days (optional)
-- milestone dates
-- resource hints (optional)
-- validation summary (errors/warnings)
-- provenance stamps (mandatory)
 
-### 5.2 Mandatory Provenance Stamps in Plan Output
+- plan_id;
+- wp_id;
+- state: `PROPOSED`;
+- apply_required: true;
+- computed task schedule;
+- proposed_start_date and proposed_end_date;
+- duration source per task;
+- duration unit per task;
+- calendar metadata used;
+- milestone dates;
+- resource hints if provided;
+- validation summary;
+- provenance stamps.
+
+## 11. Mandatory Provenance Stamps
+
 Planning outputs must include:
-- preset_id/version (if preset-driven input; may be null if not applicable)
-- profile_id/version
-- task_pool_id/version (if tasks originated from a task pool; may be null if unknown)
-- calendar_logic_version (or calendar_id/version)
-- planning_logic_version (this block’s version or planning engine version)
-- contract_id/version used for the call
 
-If any required stamp is missing at call time, Planning returns VALIDATION_ERROR.
+- preset_id/version where preset-driven;
+- task_pool_id/version where task-pool-driven;
+- profile_id/version or explicit no-profile override stamp set;
+- calendar_id/version;
+- canonical calendar version where wrapped;
+- planning_logic_version;
+- contract_id/version used for call;
+- standards_bundle_id/version/status where relevant to downstream use.
 
-### 5.3 Output Labeling Rule
-All schedules produced by Planning are labeled:
-- state: PROPOSED
-- apply_required: true
+If required stamps are missing, Planning must return `VALIDATION_ERROR / STAMPS_MISSING`.
 
----
+## 12. Proposal to Commitment Boundary
 
-## 6. Planning Contract (Implementation-Ready)
+Planning never writes committed dates.
 
-Planning is invoked via `VALOR-contract-orch-plan`.
+To make dates authoritative:
 
-### 6.1 Actions
-READ/VALIDATE:
-- PLAN_VALIDATE_INPUTS
-- PLAN_VALIDATE_DEPENDENCIES
-- PLAN_PREVIEW (dry-run)
+1. Planning returns a `PROPOSED` schedule.
+2. Orchestration presents proposal to the user.
+3. User confirms apply.
+4. Orchestration calls WP authority to write committed_start_date and committed_end_date.
+5. WP stores committed dates and provenance stamps.
 
-GENERATE:
-- PLAN_GENERATE (produce a plan proposal)
+If the apply call fails, Orchestration must not claim success.
 
-OPTIONAL (future):
-- PLAN_OPTIMIZE_RESOURCES
-- PLAN_COMPARE (compare two proposals)
+## 13. Resource Assignment
 
-### 6.2 Canonical Request Envelope
-```json
-{
-  "contract": "VALOR-contract-orch-plan",
-  "contract_version": "v1.0.1",
-  "action_id": "ACT-000230",
-  "action_type": "PLAN_GENERATE",
-  "mode": "M2",
-  "target": {"wp_id": "WP-0007"},
-  "payload": {
-    "profile_ref": {"profile_id": "PROF-PE-HIGH", "profile_version": "v1.0.1"},
-    "calendar_logic_ref": {"calendar_id": "CAL-WORKWEEK", "calendar_version": "v1.0.1"},
-    "tasks": [
-      {"task_id": "T-0001", "planned_duration_days": 10, "dependencies": []}
-    ],
-    "options": {
-      "dependency_types_allowed": ["FS"],
-      "duration_unit": "working_days",
-      "schedule_strategy": "ASAP"
-    }
-  },
-  "options": {"dry_run": false},
-  "context": {"timestamp_utc": "2025-12-22T00:00:00Z"}
-}
-```
+Resource assignment is advisory in v1.0.1.
 
-### 6.3 Canonical Response Envelope
-```json
-{
-  "contract": "VALOR-contract-orch-plan",
-  "contract_version": "v1.0.1",
-  "action_id": "ACT-000230",
-  "ok": true,
-  "result": {
-    "plan_id": "PLAN-0003",
-    "wp_id": "WP-0007",
-    "state": "PROPOSED",
-    "task_schedule": [
-      {"task_id": "T-0001", "proposed_start_date": "2025-12-23", "proposed_end_date": "2026-01-06"}
-    ],
-    "stamps": {
-      "profile_id": "PROF-PE-HIGH",
-      "profile_version": "v1.0.1",
-      "calendar_logic_version": "v1.0.1",
-      "planning_logic_version": "v0.1.1"
-    },
-    "warnings": []
-  },
-  "error": null
-}
-```
+Planning may propose role-level hints, but it does not authoritatively allocate resource capacity.
 
----
+If resource constraints are provided and infeasible, Planning returns warning or `CONFLICT` depending on strictness policy.
 
-## 7. Error Semantics (Planning)
+## 14. Error Semantics
 
 Standard codes:
-- VALIDATION_ERROR: missing durations, missing stamps, invalid date formats, invalid options
-- INVARIANT_VIOLATION: dependency cycles, negative lag, attempt to commit truth
-- MODE_VIOLATION: planning invoked in wrong mode (policy)
-- NOT_FOUND: unknown profile/calendar references
-- CONFLICT: locked date infeasible, ambiguous version_ref, incompatible constraints
-- UNSUPPORTED_OPERATION: dependency type not allowed, unsupported strategy
-- INTERNAL_ERROR: unexpected
+
+- VALIDATION_ERROR: missing durations, missing stamps, invalid dates, invalid options;
+- INVARIANT_VIOLATION: dependency cycles, negative lag, attempt to commit truth;
+- MODE_VIOLATION: planning invoked in wrong mode;
+- NOT_FOUND: unknown profile/calendar reference;
+- CONFLICT: locked date infeasible, ambiguous version, incompatible constraints;
+- UNSUPPORTED_OPERATION: unsupported dependency type, unsupported strategy, unsupported unit conversion;
+- INTERNAL_ERROR: unexpected.
 
 Planning-specific subcodes:
+
 - MISSING_DURATION
 - CALENDAR_LOGIC_MISSING
 - CALENDAR_VERSION_UNSUPPORTED
@@ -274,49 +253,31 @@ Planning-specific subcodes:
 - LOCKED_DATE_INFEASIBLE
 - STAMPS_MISSING
 - DEPENDENCY_TYPE_UNSUPPORTED
+- UNIT_CONVERSION_NOT_APPROVED
+- PROFILE_EXPIRED
+- CALENDAR_EXPIRED
 
-Example error:
-```json
-{
-  "code": "VALIDATION_ERROR",
-  "subcode": "MISSING_DURATION",
-  "message": "Cannot plan: task T-0042 has no planned_duration_days and profile has no default for phase=RTM/type=REVIEW.",
-  "entity": "task",
-  "field": "planned_duration_days",
-  "remediation": "Provide duration explicitly or update the profile defaults."
-}
-```
+## 15. Determinism and Reproducibility
 
----
+Planning results must be reproducible given:
 
-## 8. Integration with WP System (Apply Step)
-Planning never writes committed dates. To make dates authoritative:
-
-1) Orchestration requests PLAN_GENERATE (Planning returns PROPOSED schedule).
-2) Orchestration presents proposal to user and requests confirmation.
-3) If confirmed, Orchestration calls:
-   - `WP_UPDATE_TASK_FIELDS` with committed_start_date/committed_end_date
-   - includes provenance stamps (profile/calendar/task_pool/preset versions)
-4) WP System writes committed dates as authoritative truth.
-
-If the APPLY call fails, Orchestration must not claim success.
-
----
-
-## 9. Determinism and Reproducibility Requirements
-- Planning results must be reproducible given:
-  - the same task snapshot,
-  - the same dependency graph,
-  - the same profile/calendar versions,
-  - the same planning policy options.
+- same task snapshot;
+- same dependency graph;
+- same profile/calendar versions;
+- same explicit override stamps;
+- same planning policy options.
 
 If any input changes, a new plan_id must be generated.
 
----
+## 16. Contract Alignment Dependency
 
----
+Planning contract/action naming remains a later contract/action registry semantic validation dependency.
+
+This blocker aligns the architecture and governed library content only. It does not edit contract files.
 
 ## CHANGELOG
-| Date       | Changes     | Type / Version |
-| ---------- | ----------- | -------------- |
-| 2025-12-23 | First Issue | Arch_v1.0.1    |
+
+| Date       | Changes | Type / Version |
+| ---------- | ------- | -------------- |
+| 2025-12-23 | First Issue | Arch_v1.0.1 |
+| 2026-06-12 | WP/Planning/Governed Library cleanup: clarified profile-required baseline, stamped no-profile exception, canonical CAL-WORKWEEK wrapper use, mixed-unit handling, FAT chain scheduling, and proposal-only boundary | Pre-freeze controlled update |
