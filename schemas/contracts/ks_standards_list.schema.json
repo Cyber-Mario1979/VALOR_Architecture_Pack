@@ -1,9 +1,12 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "valor://schemas/contracts/ks_standards_list.schema.json",
-  "title": "Knowledge Store Standards List",
+  "title": "KS Standards List",
   "type": "object",
-  "required": [],
-  "properties": {},
-  "additionalProperties": true
+  "additionalProperties": false,
+  "required": ["status", "standards"],
+  "properties": {
+    "status": {"type": "string", "enum": ["ACTIVE", "DUE_FOR_REVIEW", "EXPIRED", "SUPERSEDED", "BLOCKED", "PRE_FREEZE_USER_REVIEW_REQUIRED"]},
+    "standards": {"type": "array", "items": {"type": "object", "required": ["standard_id", "version", "status", "expiry_date"], "additionalProperties": true}}
+  }
 }
