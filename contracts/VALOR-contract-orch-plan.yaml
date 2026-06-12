@@ -12,6 +12,41 @@ compatibility_policy:
 envelopes:
   request_schema: schemas/contracts/contract_request.schema.json
   response_schema: schemas/contracts/contract_response.schema.json
+
+authority_policy:
+  advisory_only: true
+  mutates_wp_truth: false
+  commit_boundary: Proposed schedules become authoritative only when applied through WP authority after explicit user confirmation.
+
+planning_baseline:
+  normal_basis: PROFILE_BASED
+  governed_profile_required: true
+  no_profile_exception:
+    allowed_basis: USER_DRIVEN_NO_PROFILE
+    normal_operation: false
+    requirement: Every task must have an accepted explicit duration override with required provenance stamps.
+    required_override_fields: [task_id, duration_value, duration_unit, source_type, source_reference_or_rationale, recorded_by_or_accepted_by, timestamp_or_source_date, override_status]
+    missing_duration_error: VALIDATION_ERROR / MISSING_DURATION
+
+calendar_baseline:
+  required_ref_field: calendar_logic_ref
+  calendar_id: CAL-WORKWEEK
+  calendar_version: v1.0.1
+  canonical_calendar_id: CAL-WORKWEEK
+  canonical_calendar_version: v1
+  package_asset_version: v1.0.1
+  timezone: UTC+02:00
+  africa_cairo_canonical: false
+  rule: CAL-WORKWEEK_v1.0.1 is an architecture-pack wrapper around canonical CAL-WORKWEEK v1. Do not treat Africa/Cairo as canonical unless separately accepted in a controlled patch.
+
+duration_unit_policy:
+  working_days: Use Calendar Logic arithmetic.
+  calendar_days: Use calendar-day arithmetic and label the result as calendar days.
+  calendar_weeks: Allowed only when explicitly declared in the profile entry.
+  calendar_months: Allowed only when explicitly declared in the profile entry.
+  no_implicit_month_to_working_day_conversion: true
+  unsupported_conversion_error: UNSUPPORTED_OPERATION / UNIT_CONVERSION_NOT_APPROVED
+
 error_taxonomy:
   standard_codes:
   - MODE_VIOLATION
@@ -21,6 +56,18 @@ error_taxonomy:
   - CONFLICT
   - UNSUPPORTED_OPERATION
   - INTERNAL_ERROR
+  plan_subcodes:
+  - MISSING_REQUIRED_FIELD
+  - MISSING_DURATION
+  - CALENDAR_LOGIC_MISSING
+  - CALENDAR_VERSION_UNSUPPORTED
+  - CYCLE_DETECTED
+  - PAYLOAD_SCHEMA_MISMATCH
+  - STAMPS_MISSING
+  - UNIT_CONVERSION_NOT_APPROVED
+  - PROFILE_EXPIRED
+  - CALENDAR_EXPIRED
+
 actions:
 - action_type: PLAN_GENERATE_PROPOSAL
   allowed_modes:
@@ -29,9 +76,13 @@ actions:
   idempotent: true
   required_payload_fields:
   - wp_snapshot
-  - profile_ref
-  - calendar_ref
+  - dependency_graph
+  - planning_basis
+  - calendar_logic_ref
+  - provenance_stamps
   optional_payload_fields:
+  - profile_ref
+  - no_profile_override_stamp_set
   - constraints
   - options
   target_fields:
@@ -39,11 +90,24 @@ actions:
     - wp_id
     optional: []
   result_schema_ref: schemas/contracts/plan_proposal.schema.json
+  validation_rules:
+  - When planning_basis=PROFILE_BASED, profile_ref is required and must resolve to a governed profile.
+  - When planning_basis=USER_DRIVEN_NO_PROFILE, profile_ref may be absent only if every task has an accepted explicit duration override with the required provenance stamps.
+  - calendar_logic_ref must carry calendar_id, calendar_version, canonical_calendar_version, package_asset_version, and timezone.
+  - PLAN preview is represented by this action with options.dry_run=true; no PLAN_PREVIEW action is registered.
+  - Planning returns PROPOSED schedules only and does not mutate WP truth.
+  - Mixed duration units must follow duration_unit_policy with no implicit calendar-month-to-working-day conversion.
   errors:
   - code: VALIDATION_ERROR
     subcode: MISSING_REQUIRED_FIELD
   - code: VALIDATION_ERROR
+    subcode: MISSING_DURATION
+  - code: VALIDATION_ERROR
     subcode: CALENDAR_LOGIC_MISSING
+  - code: VALIDATION_ERROR
+    subcode: STAMPS_MISSING
+  - code: UNSUPPORTED_OPERATION
+    subcode: UNIT_CONVERSION_NOT_APPROVED
   - code: INVARIANT_VIOLATION
     subcode: CYCLE_DETECTED
 - action_type: PLAN_VALIDATE_PROPOSAL
@@ -59,11 +123,18 @@ actions:
     - wp_id
     optional: []
   result_schema_ref: schemas/contracts/plan_validation_result.schema.json
+  validation_rules:
+  - Validate proposal state remains PROPOSED until applied by WP.
+  - Validate required provenance stamps are present.
+  - Validate calendar wrapper/canonical version fields are present and consistent.
+  - Validate mixed-unit labels and unsupported conversion refusals.
   errors:
   - code: VALIDATION_ERROR
     subcode: PAYLOAD_SCHEMA_MISMATCH
+  - code: VALIDATION_ERROR
+    subcode: STAMPS_MISSING
 examples:
-- name: plan_generate_request
+- name: plan_generate_profile_based_request
   request:
     contract: VALOR-contract-orch-plan
     contract_version: v1.0.1
@@ -79,12 +150,22 @@ examples:
       wp_snapshot:
         wp_id: WP-0007
         tasks: omitted_for_brevity
+      dependency_graph: omitted_for_brevity
+      planning_basis: PROFILE_BASED
       profile_ref:
-        profile_id: PR-DEFAULT
+        profile_id: PROF-PE-HIGH
         profile_version: v1.0.1
-      calendar_ref:
+      calendar_logic_ref:
         calendar_id: CAL-WORKWEEK
         calendar_version: v1.0.1
+        canonical_calendar_version: v1
+        package_asset_version: v1.0.1
+        timezone: UTC+02:00
+      provenance_stamps:
+        preset_ref: {preset_id: PS-PE-HIGH, preset_version: v1.0.1}
+        task_pool_ref: {task_pool_id: TP-PE-HIGH, task_pool_version: v1.0.1}
+        profile_ref: {profile_id: PROF-PE-HIGH, profile_version: v1.0.1}
+        calendar_logic_ref: {calendar_id: CAL-WORKWEEK, calendar_version: v1.0.1, canonical_calendar_version: v1}
     options:
       dry_run: false
     context:
