@@ -74,34 +74,63 @@ Key decisions:
 - If testing metadata expires, even product testing must block until renewed.
 - A later separate controlled acceptance patch is required before any K&S asset may be approved for real regulated CQV/GMP use.
 
-Files successfully updated in Blocker 3A:
+### Blocker 4 — WP / Planning / Governed Library Cleanup
 
-- `libraries/knowledge_standards/references/external_references_v1.0.1.yaml`
-- `libraries/knowledge_standards/bundles/BND-CQV-BASE_v1.0.1.yaml`
-- `libraries/knowledge_standards/bundles/BND-CSV-ADDON_v1.0.1.yaml`
-- `libraries/knowledge_standards/bundles/BND-CLEANROOM-ADDON_v1.0.1.yaml`
-- `libraries/knowledge_standards/mapping/source_to_internal_requirements_v1.0.1.yaml`
-- K&S schemas for standards, bundles, templates, lists, citation, external references, source mapping, and validation
-- `docs/architecture/A12_Knowledge_Standards_Arch_v1_0_1.md`
-- `contracts/VALOR-contract-orch-ks.yaml`
-- `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`
-- K&S testing-only test vectors under `test_vectors/`
-- Connector-limited K&S files accepted as Blocker 3A normalization, not WP/Planning scope.
+Control record:
+
+- `_review_control/BLOCKER4_WP_PLANNING_GOVERNED_LIBRARY_CLEANUP.md`
+
+Status:
+
+- Completed for scoped architecture and governed-library alignment.
+- Contract/action registry semantic validation remains a later dependency.
+
+Key decisions:
+
+- `CAL-WORKWEEK_v1.0.1.yaml` remains the architecture-pack asset and now declares itself as a wrapper around canonical `CAL-WORKWEEK v1`.
+- Canonical calendar baseline is UTC+02:00, Sun-Thu working week, Fri-Sat weekend, `IF_NON_WORKING_START_NEXT_WORKING`, `END_INCLUSIVE`, and `COUNT_WORKING_DAYS_BETWEEN`.
+- `PS-PE-HIGH` remains the canonical preset ID.
+- `PS-PE-HIGH` uses primary applicability fields: `equipment_domain`, `complexity`, and `scope`.
+- `PS-PE-HIGH` binds to `BND-CQV-BASE v1.0.1` as TESTING_ONLY / PRODUCT_TESTING_ONLY only; regulated CQV/GMP output remains blocked until K&S source metadata acceptance.
+- `PROF-PE-HIGH` was converted from `keys` to canonical `entries` map.
+- `task_type` remains aligned to the WP/TP enum; non-enum duration meaning is carried in `profile_task_semantic`.
+- `TP-PE-HIGH` now includes the FAT prep/execution/report/acceptance chain within the existing high-complexity process-equipment path.
+- TP/PS/PROF/CAL now carry local pre-freeze governed-library lifecycle/status/review/expiry metadata.
+- No contract files were edited.
+
+Files updated in Blocker 4:
+
+- `docs/architecture/A04_2_WorkPackage_Arch_v1_0_1.md`
+- `docs/architecture/A04_4_Planning_Arch_v1_0_1.md`
+- `docs/architecture/A05_TaskPool_Arch_v1_0_1.md`
+- `docs/architecture/A06_PresetSystem_Arch_v1_0_1.md`
+- `docs/architecture/A07_CalendarLogic_Arch_v1_0_1.md`
+- `docs/architecture/A08_ProfileLibrary_Arch_v1_0_1.md`
+- `libraries/task_pool/TP-PE-HIGH_v1.0.1.yaml`
+- `libraries/preset_library/PS-PE-HIGH_v1.0.1.yaml`
+- `libraries/profile_library/PROF-PE-HIGH_v1.0.1.yaml`
+- `libraries/calendar/CAL-WORKWEEK_v1.0.1.yaml`
 
 ## Remaining Freeze Blockers
 
 - K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
-- WP/Planning/governed-library cleanup.
+- Contract/action registry semantic validation for WP/PLAN/TP/PS/PROF/CAL naming and action catalogs.
 - DOC/DCF/URS source-chain cleanup.
 - Product surface minimum behavior cleanup.
-- Contract/schema validation enforcement, including contract registry schema and semantic catalog validator.
 - Negative and E2E test vector coverage outside scoped K&S vectors.
 - Governance/audit/security/registry schemas/tests.
 - Manifest regeneration and final freeze-readiness check after all content edits.
 
 ## Next Required Work
 
-Proceed to WP / Planning / Governed Library Cleanup review only after reading the scoped architecture and governed-library files.
+Await explicit user approval/challenge for the next scoped pre-freeze blocker.
+
+Recommended next scoped blocker options:
+
+1. Contract/action registry semantic validation for WP/PLAN/TP/PS/PROF/CAL.
+2. DOC/DCF/URS source-chain cleanup.
+3. Product surface minimum behavior cleanup.
+4. Non-K&S validation/test-vector cleanup.
 
 ## Non-Scope Until Explicitly Approved
 
