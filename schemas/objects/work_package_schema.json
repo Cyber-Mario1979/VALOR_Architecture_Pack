@@ -1,72 +1,29 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "valor://schemas/objects/work_package_schema.json",
   "title": "Work Package",
   "type": "object",
-  "properties": {
-    "id": {
-      "type": "string",
-      "pattern": "^WP[0-9]{3}$",
-      "description": "Work Package ID in format WP### (three digits, zero-padded)."
-    },
-    "title": {
-      "type": "string"
-    },
-    "area": {
-      "type": "string"
-    },
-    "scope": {
-      "type": "string"
-    },
-    "objective": {
-      "type": "string"
-    },
-    "governance": {
-      "type": "string"
-    },
-    "tasks": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/task"
-      }
-    }
-  },
-  "required": [
-    "id",
-    "title",
-    "scope"
-  ],
-  "definitions": {
-    "task": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "pattern": "^WP\\d{3}-T\\d{3}$"
-        },
-        "description": {
-          "type": "string"
-        },
-        "owner": {
-          "type": "string"
-        },
-        "start_date": {
-          "type": "string",
-          "format": "date"
-        },
-        "finish_date": {
-          "type": "string",
-          "format": "date"
-        },
-        "status": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "id",
-        "description"
-      ]
-    }
-  },
   "additionalProperties": true,
-  "$id": "valor://schemas/objects/work_package_schema.json"
+  "required": ["wp_id", "title", "scope", "wp_type", "complexity", "lifecycle_state", "owner_function", "tasks", "provenance_refs"],
+  "properties": {
+    "wp_id": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1},
+    "scope": {"type": "string", "minLength": 1},
+    "wp_type": {"type": "string", "minLength": 1},
+    "complexity": {"type": "string", "minLength": 1},
+    "lifecycle_state": {"type": "string", "enum": ["WP_DRAFT", "WP_STAGED", "WP_COMMITTED", "WP_IN_EXECUTION", "WP_CLOSED", "BLOCKED", "INCOMPLETE"]},
+    "owner_function": {"type": "string", "minLength": 1},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "updated_at_utc": {"type": "string", "format": "date-time"},
+    "preset_ref": {"type": ["object", "null"], "additionalProperties": true},
+    "task_pool_ref": {"type": ["object", "null"], "additionalProperties": true},
+    "profile_ref": {"type": ["object", "null"], "additionalProperties": true},
+    "calendar_logic_ref": {"type": ["object", "null"], "additionalProperties": true},
+    "standards_bundle_ref": {"type": ["object", "null"], "additionalProperties": true},
+    "provenance_refs": {"type": "object", "additionalProperties": true},
+    "tasks": {"type": "array", "items": {"$ref": "task_schema.json"}},
+    "planning_basis": {"type": "string"},
+    "testing_only": {"type": "boolean"},
+    "usage_classification": {"type": "string"}
+  }
 }
