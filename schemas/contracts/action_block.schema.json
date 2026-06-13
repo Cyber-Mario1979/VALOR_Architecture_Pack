@@ -4,31 +4,83 @@
   "title": "VALOR Action Block",
   "type": "object",
   "additionalProperties": true,
-  "anyOf": [
+  "oneOf": [
     {
+      "title": "Canonical action block",
       "required": [
-        "action_type"
-      ]
+        "action_type",
+        "contract",
+        "version",
+        "purpose",
+        "allowed_modes",
+        "side_effect_class",
+        "confirmation_required"
+      ],
+      "not": {
+        "required": ["alias_id"]
+      }
     },
     {
+      "title": "Alias action block",
       "required": [
         "alias_id",
-        "canonical_action_type"
-      ]
+        "canonical_action_type",
+        "contract",
+        "version",
+        "purpose",
+        "allowed_modes",
+        "side_effect_class",
+        "confirmation_required"
+      ],
+      "not": {
+        "required": ["action_type"]
+      }
     }
-  ],
-  "required": [
-    "contract",
-    "version",
-    "purpose",
-    "allowed_modes",
-    "side_effect_class",
-    "confirmation_required"
   ],
   "properties": {
     "action_type": {
       "type": "string",
-      "minLength": 1
+      "enum": [
+        "WP_GET",
+        "WP_CREATE",
+        "WP_STAGE_TASKS",
+        "WP_COMMIT_STAGED_TASKS",
+        "WP_UPDATE_TASK_FIELDS",
+        "WP_APPLY_PLAN_PROPOSAL",
+        "WP_BIND_PRESET_CONTEXT",
+        "WP_SET_PLANNING_BASIS",
+        "WP_SET_TASK_DURATION_OVERRIDES",
+        "WP_RECORD_CONFIRMATION",
+        "PLAN_GENERATE_PROPOSAL",
+        "PLAN_VALIDATE_PROPOSAL",
+        "DOC_GENERATE_DRAFT",
+        "DOC_FINALIZE_ARTIFACT",
+        "RPT_GENERATE_STATUS_REPORT",
+        "RPT_VALIDATE_REPORT_INPUTS",
+        "RPT_GENERATE_WORKBOOK_EXPORT",
+        "RPT_VALIDATE_WORKBOOK_EXPORT",
+        "RPT_GENERATE_GANTT_CHART",
+        "RPT_VALIDATE_GANTT_INPUTS",
+        "RPT_VALIDATE_STAMPS",
+        "RPT_LIST_ARTIFACTS",
+        "RPT_GET_ARTIFACT",
+        "KS_LIST_STANDARDS",
+        "KS_READ_STANDARD",
+        "KS_LIST_TEMPLATES",
+        "KS_READ_TEMPLATE",
+        "KS_LIST_BUNDLES",
+        "KS_READ_BUNDLE",
+        "KS_LIST_ANCHORS",
+        "KS_RESOLVE_CITATION",
+        "KS_VALIDATE_CITATION_SET",
+        "KS_VALIDATE_TEMPLATE_REQUIREMENTS",
+        "KS_VALIDATE_SOURCE_MAPPING",
+        "KS_VALIDATE_BUNDLE_INTEGRITY",
+        "PS_LIST_PRESETS",
+        "PS_READ_PRESET",
+        "PS_RESOLVE_PRESET",
+        "PS_VALIDATE_BINDINGS"
+      ]
     },
     "alias_id": {
       "type": "string",
@@ -36,7 +88,9 @@
     },
     "canonical_action_type": {
       "type": "string",
-      "minLength": 1
+      "enum": [
+        "RPT_GENERATE_STATUS_REPORT"
+      ]
     },
     "public_command_aliases": {
       "type": "array",
@@ -89,6 +143,9 @@
     "confirmation_required": {
       "type": "boolean"
     },
+    "status": {
+      "type": "string"
+    },
     "required_payload_fields": {
       "type": "array",
       "items": {
@@ -107,6 +164,10 @@
     "request_schema_ref": {
       "type": "string"
     },
+    "target_fields": {
+      "type": "object",
+      "additionalProperties": true
+    },
     "target_scope": {
       "type": "object",
       "additionalProperties": true
@@ -115,6 +176,12 @@
       "type": "object",
       "additionalProperties": true
     },
+    "validation_rules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "validation_checks": {
       "type": "array",
       "items": {
@@ -122,10 +189,18 @@
       }
     },
     "notes": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
+      "oneOf": [
+        {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": true
+        }
+      ]
     }
   }
 }
