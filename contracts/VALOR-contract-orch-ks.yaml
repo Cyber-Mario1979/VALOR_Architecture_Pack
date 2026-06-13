@@ -11,21 +11,44 @@ envelopes:
   request_schema: schemas/contracts/contract_request.schema.json
   response_schema: schemas/contracts/contract_response.schema.json
 
+library_assets:
+  external_references: libraries/knowledge_standards/references/external_references_v1.0.1.yaml
+  base_bundle: libraries/knowledge_standards/bundles/BND-CQV-BASE_v1.0.1.yaml
+  csv_addon_bundle: libraries/knowledge_standards/bundles/BND-CSV-ADDON_v1.0.1.yaml
+  cleanroom_addon_bundle: libraries/knowledge_standards/bundles/BND-CLEANROOM-ADDON_v1.0.1.yaml
+  internal_standard: libraries/knowledge_standards/standards/STD-CQV-BASE_v1.0.1.yaml
+  source_mapping: libraries/knowledge_standards/mapping/source_to_internal_requirements_v1.0.1.yaml
+
 testing_only_policy:
   status: TESTING_ONLY
   usage_classification: PRODUCT_TESTING_ONLY
   testing_use_allowed: true
   regulated_output_allowed: false
+  real_life_use_allowed: false
   testing_only_stamp_required: true
   required_output_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
   testing_expired_behavior: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
   regulated_use_request_behavior: BLOCK_OR_MARK_INCOMPLETE
+
+lifecycle_policy:
+  allowed_statuses: [TESTING_ONLY, PRE_FREEZE_USER_REVIEW_REQUIRED, ACTIVE, DUE_FOR_REVIEW, EXPIRED, SUPERSEDED, BLOCKED]
+  default_review_cycle_months: 36
+  testing_metadata_expired_behavior: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
+  expired_bundle_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  missing_bundle_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  unreviewed_bundle_behavior: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT
+  no_standards_mode: PROHIBITED
 
 source_metadata_policy:
   exact_external_edition_date_locator_required_for_regulated_use: true
   testing_placeholders_allowed_for_product_testing: true
   testing_placeholders_approved_for_regulated_use: false
   user_site_acceptance_required: true
+
+excerpt_policy:
+  external_text_reproduction: prohibited
+  external_excerpt_default: NO_EXCERPTS
+  restricted_excerpt_error: {code: UNSUPPORTED_OPERATION, subcode: EXCERPT_BLOCKED}
 
 error_taxonomy:
   standard_codes: [MODE_VIOLATION, VALIDATION_ERROR, INVARIANT_VIOLATION, NOT_FOUND, CONFLICT, UNSUPPORTED_OPERATION, INTERNAL_ERROR]
