@@ -224,6 +224,23 @@ Important outcome:
 - Did not regenerate manifest.
 - Deferred full document render schema redesign and validator tooling rewrite.
 
+### Blocker 8B — Negative and E2E Test Vector Coverage
+
+Status: **COMPLETED FOR SCOPED NON-K&S NEGATIVE AND E2E TEST VECTOR COVERAGE — FREEZE STILL BLOCKED BY OTHER PRE-FREEZE WORK**
+
+Control record:
+
+- `_review_control/BLOCKER8B_NEGATIVE_E2E_TEST_VECTOR_COVERAGE.md`
+
+Important outcome:
+
+- Created non-K&S negative vectors for WP, PLAN, DOC, and RPT blocked/refused/incomplete behavior.
+- Created positive E2E vector for WP → PLAN → DOC → RPT traceability flow.
+- Created negative E2E vector for PLAN failure stopping downstream success claims, DOC source-chain failure stopping finalization, and RPT refusal creating no artifact.
+- Covered `ALL_WPS` refusal/bounding, missing stamps, missing source snapshot hash, attempted RPT truth mutation, DCF generation inactive behavior, and regulated-output-blocked behavior while assets are TESTING_ONLY / PRODUCT_TESTING_ONLY.
+- Referenced K&S/template/bundle assets as metadata only.
+- Did not edit K&S schemas, K&S vectors, K&S bundles, K&S standards, schemas, manifest, validator tooling, templates, or implementation files.
+
 ## Must-Resolve-Before-Freeze Themes
 
 - K&S user/site source metadata acceptance for real regulated CQV/GMP use.
@@ -231,7 +248,6 @@ Important outcome:
 - Broader contract/schema validation enforcement after scoped non-K&S schema/vector cleanup.
 - Real template source metadata acceptance before regulated use; DCF is now governed for PRODUCT_TESTING_ONLY only.
 - Product surface minimum behavior is aligned for terminology/addenda; remaining product-surface gaps, if any, must be validated during final freeze-readiness review.
-- Negative and E2E test vector coverage outside the K&S scoped vectors.
 - Governance/audit/security/registry schemas/tests.
 - Manifest regeneration and final freeze-readiness check after all content edits.
 
@@ -265,7 +281,8 @@ Current controlled state:
 - Blocker 6A DOC / DCF / URS source-chain architecture and contract alignment executed under user approval.
 - Blocker 7A Product Surface Terminology and Stale Addenda Cleanup executed under user approval.
 - Blocker 8A Non-K&S Core Schema and Root Test Vector Cleanup executed under user approval.
-- Freeze remains blocked by broader contract/schema validation enforcement, negative/E2E test-vector coverage, governance/security/registry, manifest, final freeze-readiness work, real template source metadata acceptance before regulated use, and K&S source metadata acceptance gate.
+- Blocker 8B Negative and E2E Test Vector Coverage executed under user approval.
+- Freeze remains blocked by broader contract/schema validation enforcement, governance/security/registry, manifest, final freeze-readiness work, real template source metadata acceptance before regulated use, and K&S source metadata acceptance gate.
 
 ## Next Session Objective
 
