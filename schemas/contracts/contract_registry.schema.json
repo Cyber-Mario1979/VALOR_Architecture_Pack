@@ -34,7 +34,7 @@
     },
     "owner": {
       "type": "string",
-      "minLength": 1
+      "const": "Orchestration"
     },
     "review_branch": {
       "type": "string",
@@ -62,7 +62,29 @@
         "internal_service_resolver",
         "non_callable_governed_support_authority",
         "policy_first_cross_cutting_control"
-      ]
+      ],
+      "properties": {
+        "public_user_callable": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "public_user_callable_policy_extension": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "internal_service_resolver": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "non_callable_governed_support_authority": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "policy_first_cross_cutting_control": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
     },
     "side_effect_classes": {
       "type": "array",
@@ -88,11 +110,11 @@
       "properties": {
         "request_schema": {
           "type": "string",
-          "minLength": 1
+          "const": "schemas/contracts/contract_request.schema.json"
         },
         "response_schema": {
           "type": "string",
-          "minLength": 1
+          "const": "schemas/contracts/contract_response.schema.json"
         }
       }
     },
@@ -117,11 +139,16 @@
           },
           "category": {
             "type": "string",
-            "minLength": 1
+            "enum": [
+              "PUBLIC_USER_CALLABLE",
+              "PUBLIC_USER_CALLABLE_POLICY_EXTENSION",
+              "PUBLIC_USER_CALLABLE_WHEN_DIRECT_KS_REQUEST",
+              "INTERNAL_SERVICE_RESOLVER"
+            ]
           },
           "owner": {
             "type": "string",
-            "minLength": 1
+            "enum": ["WP", "PLAN", "DOC", "RPT", "KS", "PS"]
           },
           "file": {
             "type": "string",
@@ -133,6 +160,7 @@
           },
           "actions": {
             "type": "array",
+            "minItems": 1,
             "items": {
               "type": "object",
               "additionalProperties": false,
