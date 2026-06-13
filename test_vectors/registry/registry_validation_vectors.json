@@ -1,0 +1,162 @@
+{
+  "vector_group_id": "REGISTRY-VALIDATION-VECTORS-0001",
+  "scope": "REGISTRY_STATIC_TEST_VECTORS",
+  "schema_refs": {
+    "contract_registry": "schemas/contracts/contract_registry.schema.json",
+    "action_block": "schemas/contracts/action_block.schema.json",
+    "request_envelope": "schemas/contracts/contract_request.schema.json",
+    "response_envelope": "schemas/contracts/contract_response.schema.json"
+  },
+  "positive_cases": [
+    {
+      "case_id": "REGISTRY-ENTRY-POSITIVE-WP-STAGE",
+      "description": "Valid registry action entry for WP_STAGE_TASKS.",
+      "schema_ref": "schemas/contracts/contract_registry.schema.json",
+      "instance_fragment": {
+        "contract_id": "VALOR-contract-orch-wp",
+        "category": "PUBLIC_USER_CALLABLE",
+        "owner": "WP",
+        "file": "contracts/VALOR-contract-orch-wp.yaml",
+        "status": "ACTIVE_PRE_FREEZE",
+        "action": {
+          "type": "WP_STAGE_TASKS",
+          "aliases": [
+            "stage_tasks"
+          ],
+          "side_effect": "STAGE_ONLY",
+          "confirm": false,
+          "schema": "schemas/contracts/staged_task_set.schema.json",
+          "block": null,
+          "status": "ACTIVE_PRE_FREEZE"
+        }
+      },
+      "expected_result": {
+        "valid": true
+      }
+    },
+    {
+      "case_id": "ACTION-BLOCK-POSITIVE-RPT-VALIDATE",
+      "description": "Valid action block metadata for RPT_VALIDATE_REPORT_INPUTS.",
+      "schema_ref": "schemas/contracts/action_block.schema.json",
+      "instance": {
+        "action_type": "RPT_VALIDATE_REPORT_INPUTS",
+        "public_command_aliases": [
+          "validate_report_inputs",
+          "validate_status_report"
+        ],
+        "contract": "VALOR-contract-orch-rpt",
+        "version": "v1.0.1",
+        "purpose": "Validate source scope, WP snapshots, stamps, and template availability before generating a Work Package Status Report.",
+        "allowed_modes": [
+          "M1",
+          "M2"
+        ],
+        "side_effect_class": "VALIDATE_ONLY",
+        "idempotent": true,
+        "confirmation_required": false,
+        "required_payload_fields": [
+          "artifact_type",
+          "target_scope",
+          "wp_ids",
+          "source_snapshot_refs",
+          "stamps",
+          "validation_mode"
+        ],
+        "optional_payload_fields": [
+          "template_id",
+          "options"
+        ],
+        "result_schema_ref": "schemas/contracts/report_result.schema.json",
+        "request_schema_ref": "schemas/contracts/report_request.schema.json"
+      },
+      "expected_result": {
+        "valid": true
+      }
+    }
+  ],
+  "negative_cases": [
+    {
+      "case_id": "REGISTRY-NEGATIVE-MISSING-SCHEMA-REF",
+      "description": "Registry action without schema reference must fail pre-freeze validation.",
+      "instance_fragment": {
+        "contract_id": "VALOR-contract-orch-plan",
+        "action": {
+          "type": "PLAN_GENERATE_PROPOSAL",
+          "aliases": [
+            "generate_plan"
+          ],
+          "side_effect": "GENERATES_ARTIFACT",
+          "confirm": false,
+          "schema": null,
+          "status": "ACTIVE_PRE_FREEZE"
+        }
+      },
+      "expected_result": {
+        "valid": false,
+        "code": "VALIDATION_ERROR",
+        "subcode": "SCHEMA_REF_MISSING"
+      }
+    },
+    {
+      "case_id": "ACTION-BLOCK-NEGATIVE-ALIAS-AS-ACTION-TYPE",
+      "description": "Public alias BUILD_REPORT must not be treated as canonical action_type.",
+      "schema_ref": "schemas/contracts/action_block.schema.json",
+      "instance": {
+        "action_type": "BUILD_REPORT",
+        "contract": "VALOR-contract-orch-rpt",
+        "version": "v1.0.1",
+        "purpose": "Incorrectly treating BUILD_REPORT alias as canonical action_type.",
+        "allowed_modes": [
+          "M1",
+          "M2"
+        ],
+        "side_effect_class": "GENERATES_ARTIFACT",
+        "idempotent": true,
+        "confirmation_required": false,
+        "required_payload_fields": [
+          "artifact_type"
+        ],
+        "result_schema_ref": "schemas/contracts/report_result.schema.json"
+      },
+      "expected_result": {
+        "valid": false,
+        "code": "VALIDATION_ERROR",
+        "subcode": "ALIAS_NOT_CANONICAL_ACTION_TYPE",
+        "expected_canonical_action_type": "RPT_GENERATE_STATUS_REPORT"
+      }
+    },
+    {
+      "case_id": "REQUEST-ENVELOPE-NEGATIVE-OLD-CONTRACT-ID-FIELD",
+      "description": "Old request envelope using contract_id instead of contract must fail A11 envelope validation.",
+      "schema_ref": "schemas/contracts/contract_request.schema.json",
+      "instance": {
+        "contract_id": "VALOR-contract-orch-wp",
+        "action_type": "WP_STAGE_TASKS",
+        "mode": "M2",
+        "payload": {},
+        "stamps": {}
+      },
+      "expected_result": {
+        "valid": false,
+        "code": "VALIDATION_ERROR",
+        "subcode": "REQUEST_ENVELOPE_NOT_A11_ALIGNED"
+      }
+    },
+    {
+      "case_id": "RESPONSE-ENVELOPE-NEGATIVE-OLD-STATUS-FIELD",
+      "description": "Old response envelope using status instead of ok/error must fail A11 envelope validation.",
+      "schema_ref": "schemas/contracts/contract_response.schema.json",
+      "instance": {
+        "contract_id": "VALOR-contract-orch-wp",
+        "action_type": "WP_STAGE_TASKS",
+        "status": "OK",
+        "result": {}
+      },
+      "expected_result": {
+        "valid": false,
+        "code": "VALIDATION_ERROR",
+        "subcode": "RESPONSE_ENVELOPE_NOT_A11_ALIGNED"
+      }
+    }
+  ]
+}

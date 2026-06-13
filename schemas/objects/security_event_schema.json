@@ -1,0 +1,65 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "valor://schemas/objects/security_event_schema.json",
+  "title": "VALOR Security Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "security_event_id",
+    "timestamp_utc",
+    "event_type",
+    "sec_subcode",
+    "rationale",
+    "remediation"
+  ],
+  "properties": {
+    "security_event_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "EVT_DISCLOSURE_DENIED",
+        "EVT_SECURITY_POLICY_BLOCK",
+        "EVT_REDACTION_APPLIED",
+        "EVT_STAMP_CONTEXT_CHANGED"
+      ]
+    },
+    "sec_subcode": {
+      "type": "string",
+      "enum": [
+        "DISCLOSURE_DENIED",
+        "PROMPT_INJECTION_DETECTED",
+        "RESTRICTED_EXCERPT_BLOCKED",
+        "REDACTION_REQUIRED",
+        "ROLE_CONTEXT_REQUIRED"
+      ]
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    },
+    "affected_artifact_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "stamps": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "remediation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "safe_alternative": {
+      "type": "string"
+    }
+  }
+}

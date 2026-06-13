@@ -3,36 +3,61 @@
   "$id": "valor://schemas/contracts/contract_response.schema.json",
   "title": "Contract Response Envelope",
   "type": "object",
+  "additionalProperties": false,
   "required": [
-    "contract_id",
-    "action_type",
-    "status"
+    "contract",
+    "contract_version",
+    "action_id",
+    "ok",
+    "result",
+    "error"
   ],
   "properties": {
-    "contract_id": {
-      "type": "string"
-    },
-    "action_type": {
-      "type": "string"
-    },
-    "status": {
+    "contract": {
       "type": "string",
-      "enum": [
-        "OK",
-        "ERROR"
-      ]
+      "minLength": 1
+    },
+    "contract_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "action_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ok": {
+      "type": "boolean"
     },
     "result": {
-      "type": "object",
+      "type": [
+        "object",
+        "null"
+      ],
       "additionalProperties": true
     },
-    "errors": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "additionalProperties": true
+    "error": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "subcode": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "entity": {
+          "type": "string"
+        },
+        "remediation": {
+          "type": "string"
+        }
       }
     }
-  },
-  "additionalProperties": true
+  }
 }

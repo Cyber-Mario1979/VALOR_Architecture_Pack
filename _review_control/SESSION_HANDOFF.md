@@ -223,11 +223,33 @@ Key decisions:
 - K&S/template/bundle references are metadata-only.
 - No K&S schemas/vectors, schemas, manifest, validator tooling, templates, implementation, or artifacts were edited/generated.
 
+### Blocker 9A — Governance / Security / Registry Schemas and Static Test Vectors
+
+Control record:
+
+- `_review_control/BLOCKER9A_GOVERNANCE_SECURITY_REGISTRY_SCHEMA_TESTS.md`
+
+Status:
+
+- Completed for scoped governance/security/registry schemas and static test vectors.
+- Freeze remains blocked by other pre-freeze work.
+
+Key decisions:
+
+- Audit event, governance branch, confirmation record, override record, and security event schemas were added.
+- Contract registry and action-block schemas were added.
+- `contract_request.schema.json` and `contract_response.schema.json` were corrected to match A11 canonical envelope fields.
+- Governance/security/registry static vectors were added.
+- Registry YAML and action-block YAML were not edited.
+- Manifest was not regenerated.
+- Smoke test and pack validation scripts were not edited.
+- K&S schemas/vectors were not edited.
+- K&S was not promoted to regulated-active use.
+
 ## Remaining Freeze Blockers
 
 - K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
-- Broader contract/schema validation enforcement after scoped vector coverage.
-- Governance/audit/security/registry schemas/tests.
+- Broader contract/schema validation enforcement after scoped 9A static schemas/vectors.
 - Manifest regeneration and final freeze-readiness check after all content edits.
 
 ## Next Required Work
@@ -236,8 +258,8 @@ Await explicit user approval/challenge for the next scoped pre-freeze blocker.
 
 Recommended next scoped blocker options:
 
-1. Governance/security/registry schemas/tests.
-2. Manifest regeneration and final freeze-readiness check after all content edits.
+1. Manifest regeneration and final freeze-readiness check after all content edits.
+2. Broader contract/schema validation enforcement review.
 3. K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
 
 ## Non-Scope Until Explicitly Approved

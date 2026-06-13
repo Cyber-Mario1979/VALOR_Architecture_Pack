@@ -1,0 +1,102 @@
+{
+  "vector_group_id": "SECURITY-EVENT-VECTORS-0001",
+  "scope": "SECURITY_STATIC_TEST_VECTORS",
+  "schema_ref": "schemas/objects/security_event_schema.json",
+  "positive_cases": [
+    {
+      "case_id": "SEC-DISCLOSURE-DENIED",
+      "description": "Protected internal instructions or hidden controls disclosure request is denied.",
+      "instance": {
+        "security_event_id": "SEC-EVT-000001",
+        "timestamp_utc": "2026-06-12T00:00:00Z",
+        "event_type": "EVT_DISCLOSURE_DENIED",
+        "sec_subcode": "DISCLOSURE_DENIED",
+        "rationale": "User request attempted to access protected internal instructions or hidden controls.",
+        "affected_artifact_ids": [],
+        "stamps": {},
+        "remediation": "Provide a public summary of allowed contract requirements instead.",
+        "safe_alternative": "Summarize public behavior, allowed inputs, and refusal boundary."
+      },
+      "expected_result": {
+        "valid": true,
+        "ok": false,
+        "code": "UNSUPPORTED_OPERATION",
+        "subcode": "DISCLOSURE_DENIED"
+      }
+    },
+    {
+      "case_id": "SEC-REDACTION-REQUIRED",
+      "description": "Sensitive vendor/site fields require redaction before output.",
+      "instance": {
+        "security_event_id": "SEC-EVT-000002",
+        "timestamp_utc": "2026-06-12T00:00:00Z",
+        "event_type": "EVT_REDACTION_APPLIED",
+        "sec_subcode": "REDACTION_REQUIRED",
+        "rationale": "Sensitive supplier/site data was present in a report/export request.",
+        "affected_artifact_ids": [
+          "RPT-STATUS-0001"
+        ],
+        "stamps": {
+          "contract_ref": {
+            "contract_id": "VALOR-contract-orch-rpt",
+            "contract_version": "v1.0.1"
+          }
+        },
+        "remediation": "Apply configured redaction fields before report/export output.",
+        "safe_alternative": "Generate projection-only report with vendor/site fields redacted."
+      },
+      "expected_result": {
+        "valid": true,
+        "redaction_applied": true
+      }
+    },
+    {
+      "case_id": "SEC-ROLE-CONTEXT-REQUIRED",
+      "description": "Sensitive operation requires declared role context.",
+      "instance": {
+        "security_event_id": "SEC-EVT-000003",
+        "timestamp_utc": "2026-06-12T00:00:00Z",
+        "event_type": "EVT_SECURITY_POLICY_BLOCK",
+        "sec_subcode": "ROLE_CONTEXT_REQUIRED",
+        "rationale": "User requested document finalization without declared role context.",
+        "affected_artifact_ids": [
+          "DOC-URS-0001"
+        ],
+        "stamps": {
+          "contract_ref": {
+            "contract_id": "VALOR-contract-orch-doc",
+            "contract_version": "v1.0.1"
+          }
+        },
+        "remediation": "Request explicit role context and confirmation before finalization.",
+        "safe_alternative": "Continue with draft review only."
+      },
+      "expected_result": {
+        "valid": true,
+        "ok": false,
+        "code": "VALIDATION_ERROR",
+        "subcode": "ROLE_CONTEXT_REQUIRED"
+      }
+    }
+  ],
+  "negative_cases": [
+    {
+      "case_id": "SEC-NEGATIVE-MISSING-REMEDIATION",
+      "description": "Security event without remediation must fail.",
+      "instance": {
+        "security_event_id": "SEC-EVT-000004",
+        "timestamp_utc": "2026-06-12T00:00:00Z",
+        "event_type": "EVT_SECURITY_POLICY_BLOCK",
+        "sec_subcode": "RESTRICTED_EXCERPT_BLOCKED",
+        "rationale": "Restricted excerpt requested.",
+        "affected_artifact_ids": [],
+        "stamps": {}
+      },
+      "expected_result": {
+        "valid": false,
+        "code": "VALIDATION_ERROR",
+        "subcode": "REMEDIATION_REQUIRED"
+      }
+    }
+  ]
+}

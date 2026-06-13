@@ -241,14 +241,35 @@ Important outcome:
 - Referenced K&S/template/bundle assets as metadata only.
 - Did not edit K&S schemas, K&S vectors, K&S bundles, K&S standards, schemas, manifest, validator tooling, templates, or implementation files.
 
+### Blocker 9A — Governance / Security / Registry Schemas and Static Test Vectors
+
+Status: **COMPLETED FOR SCOPED GOVERNANCE / SECURITY / REGISTRY SCHEMAS AND STATIC TEST VECTORS — FREEZE STILL BLOCKED BY OTHER PRE-FREEZE WORK**
+
+Control record:
+
+- `_review_control/BLOCKER9A_GOVERNANCE_SECURITY_REGISTRY_SCHEMA_TESTS.md`
+
+Important outcome:
+
+- Created audit event, governance branch, confirmation record, override record, and security event schemas.
+- Created contract registry and action-block schemas.
+- Corrected `contract_request.schema.json` and `contract_response.schema.json` to match A11 canonical envelope fields.
+- Added static governance/security/registry vectors for audit, branch/override, security events, registry entries, action blocks, and A11 envelope alignment.
+- Did not edit `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`.
+- Did not edit `action_blocks/*.yaml`.
+- Did not edit `manifest.yaml`.
+- Did not regenerate manifest.
+- Did not edit `smoke_test.py` or `scripts/pack_validation/*`.
+- Did not edit K&S schemas/vectors.
+- Did not promote K&S beyond TESTING_ONLY / PRODUCT_TESTING_ONLY.
+
 ## Must-Resolve-Before-Freeze Themes
 
 - K&S user/site source metadata acceptance for real regulated CQV/GMP use.
 - Authority, status, and terminology.
-- Broader contract/schema validation enforcement after scoped non-K&S schema/vector cleanup.
+- Broader contract/schema validation enforcement after scoped 9A static schemas/vectors.
 - Real template source metadata acceptance before regulated use; DCF is now governed for PRODUCT_TESTING_ONLY only.
 - Product surface minimum behavior is aligned for terminology/addenda; remaining product-surface gaps, if any, must be validated during final freeze-readiness review.
-- Governance/audit/security/registry schemas/tests.
 - Manifest regeneration and final freeze-readiness check after all content edits.
 
 ## Can’t Do Now Items
@@ -282,7 +303,8 @@ Current controlled state:
 - Blocker 7A Product Surface Terminology and Stale Addenda Cleanup executed under user approval.
 - Blocker 8A Non-K&S Core Schema and Root Test Vector Cleanup executed under user approval.
 - Blocker 8B Negative and E2E Test Vector Coverage executed under user approval.
-- Freeze remains blocked by broader contract/schema validation enforcement, governance/security/registry, manifest, final freeze-readiness work, real template source metadata acceptance before regulated use, and K&S source metadata acceptance gate.
+- Blocker 9A Governance / Security / Registry Schemas and Static Test Vectors executed under user approval.
+- Freeze remains blocked by broader contract/schema validation enforcement, manifest regeneration, final freeze-readiness work, real template source metadata acceptance before regulated use, and K&S source metadata acceptance gate.
 
 ## Next Session Objective
 
