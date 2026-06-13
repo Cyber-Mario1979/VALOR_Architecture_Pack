@@ -9,9 +9,139 @@
   },
   "positive_cases": [
     {
-      "case_id": "REGISTRY-ENTRY-POSITIVE-WP-STAGE",
-      "description": "Valid registry action entry for WP_STAGE_TASKS.",
+      "case_id": "REGISTRY-FULL-POSITIVE-MINIMAL-WP",
+      "description": "Full-object registry schema positive case, not a fragment.",
       "schema_ref": "schemas/contracts/contract_registry.schema.json",
+      "instance": {
+        "registry_id": "VALOR-contract-registry",
+        "registry_version": "v1.0.1",
+        "status": "pre_freeze_controlled",
+        "owner": "Orchestration",
+        "review_branch": "review-spec-freeze-control",
+        "created_date": "2026-06-10",
+        "last_updated": "2026-06-13",
+        "purpose": "Canonical pre-freeze contract and action catalog for declared VALOR product scope.",
+        "scope_categories": {
+          "public_user_callable": ["WP"],
+          "public_user_callable_policy_extension": ["WP_USER_DRIVEN_BASELINE"],
+          "internal_service_resolver": ["PS"],
+          "non_callable_governed_support_authority": ["TP", "PROF", "CAL"],
+          "policy_first_cross_cutting_control": ["SEC"]
+        },
+        "side_effect_classes": ["READ_ONLY", "VALIDATE_ONLY", "STAGE_ONLY", "MUTATES_TRUTH", "GENERATES_ARTIFACT"],
+        "schema_defaults": {
+          "request_schema": "schemas/contracts/contract_request.schema.json",
+          "response_schema": "schemas/contracts/contract_response.schema.json"
+        },
+        "contracts": [
+          {
+            "contract_id": "VALOR-contract-orch-wp",
+            "category": "PUBLIC_USER_CALLABLE",
+            "owner": "WP",
+            "file": "contracts/VALOR-contract-orch-wp.yaml",
+            "status": "ACTIVE_PRE_FREEZE",
+            "actions": [
+              {
+                "type": "WP_STAGE_TASKS",
+                "aliases": ["stage_tasks"],
+                "side_effect": "STAGE_ONLY",
+                "confirm": false,
+                "schema": "schemas/contracts/staged_task_set.schema.json",
+                "block": null,
+                "status": "ACTIVE_PRE_FREEZE"
+              }
+            ]
+          }
+        ],
+        "non_callable_support_authorities": [
+          {"authority_id": "TP", "owner": "Task_Pool_Library", "status": "ACTIVE_NON_CALLABLE_PRE_FREEZE", "consumed_by": ["WP", "PS"]}
+        ],
+        "cross_cutting_controls": [
+          {"control_id": "SEC", "category": "POLICY_FIRST_CROSS_CUTTING_CONTROL", "status": "ACTIVE_POLICY_FIRST_PRE_FREEZE", "callable_contract_required": false}
+        ],
+        "validation_requirements": [
+          "A11, registry, contract files, action_blocks, and schemas must agree before freeze.",
+          "Any public command alias must map to exactly one canonical action_type."
+        ]
+      },
+      "expected_result": {"valid": true}
+    },
+    {
+      "case_id": "ACTION-BLOCK-POSITIVE-RPT-VALIDATE",
+      "description": "Valid action block metadata for RPT_VALIDATE_REPORT_INPUTS.",
+      "schema_ref": "schemas/contracts/action_block.schema.json",
+      "instance": {
+        "action_type": "RPT_VALIDATE_REPORT_INPUTS",
+        "public_command_aliases": ["validate_report_inputs", "validate_status_report"],
+        "contract": "VALOR-contract-orch-rpt",
+        "version": "v1.0.1",
+        "purpose": "Validate source scope, WP snapshots, stamps, and template availability before generating a Work Package Status Report.",
+        "allowed_modes": ["M1", "M2"],
+        "side_effect_class": "VALIDATE_ONLY",
+        "idempotent": true,
+        "confirmation_required": false,
+        "required_payload_fields": ["artifact_type", "target_scope", "wp_ids", "source_snapshot_refs", "stamps", "validation_mode"],
+        "optional_payload_fields": ["template_id", "options"],
+        "result_schema_ref": "schemas/contracts/report_result.schema.json",
+        "request_schema_ref": "schemas/contracts/report_request.schema.json"
+      },
+      "expected_result": {"valid": true}
+    },
+    {
+      "case_id": "ACTION-BLOCK-POSITIVE-WP-APPLY-PLAN",
+      "description": "Valid WP_APPLY_PLAN_PROPOSAL action block with required provenance and calendar payload gates.",
+      "schema_ref": "schemas/contracts/action_block.schema.json",
+      "instance": {
+        "action_type": "WP_APPLY_PLAN_PROPOSAL",
+        "public_command_aliases": ["apply_plan", "commit_schedule"],
+        "contract": "VALOR-contract-orch-wp",
+        "version": "v1.0.1",
+        "purpose": "Commit dates into WP/task truth from a governed Planning proposal while preserving the proposal-vs-commitment boundary.",
+        "allowed_modes": ["M2"],
+        "side_effect_class": "MUTATES_TRUTH",
+        "idempotent": false,
+        "confirmation_required": true,
+        "required_payload_fields": ["plan_proposal_id", "date_updates", "planning_provenance_stamps", "calendar_logic_ref"],
+        "optional_payload_fields": ["change_reason", "no_profile_override_stamp_set"],
+        "result_schema_ref": "schemas/objects/work_package_schema.json"
+      },
+      "expected_result": {"valid": true}
+    },
+    {
+      "case_id": "REQUEST-ENVELOPE-POSITIVE-A11",
+      "description": "A11-aligned request envelope with canonical action_type and action_id.",
+      "schema_ref": "schemas/contracts/contract_request.schema.json",
+      "instance": {
+        "contract": "VALOR-contract-orch-wp",
+        "contract_version": "v1.0.1",
+        "action_id": "ACT-000001",
+        "action_type": "WP_STAGE_TASKS",
+        "mode": "M2",
+        "payload": {},
+        "context": {"timestamp_utc": "2026-06-13T00:00:00Z"}
+      },
+      "expected_result": {"valid": true}
+    },
+    {
+      "case_id": "RESPONSE-ENVELOPE-POSITIVE-SUCCESS",
+      "description": "A11 response envelope success must carry ok=true and error=null.",
+      "schema_ref": "schemas/contracts/contract_response.schema.json",
+      "instance": {
+        "contract": "VALOR-contract-orch-wp",
+        "contract_version": "v1.0.1",
+        "action_id": "ACT-000001",
+        "ok": true,
+        "result": {"state": "STAGED"},
+        "error": null
+      },
+      "expected_result": {"valid": true}
+    }
+  ],
+  "semantic_fragment_cases": [
+    {
+      "case_id": "REGISTRY-ACTION-FRAGMENT-POSITIVE-WP-STAGE",
+      "description": "Fragment-level semantic validation case for a registry action entry; not a full JSON Schema object.",
+      "validation_type": "SEMANTIC_FRAGMENT",
       "instance_fragment": {
         "contract_id": "VALOR-contract-orch-wp",
         "category": "PUBLIC_USER_CALLABLE",
@@ -20,9 +150,7 @@
         "status": "ACTIVE_PRE_FREEZE",
         "action": {
           "type": "WP_STAGE_TASKS",
-          "aliases": [
-            "stage_tasks"
-          ],
+          "aliases": ["stage_tasks"],
           "side_effect": "STAGE_ONLY",
           "confirm": false,
           "schema": "schemas/contracts/staged_task_set.schema.json",
@@ -30,72 +158,26 @@
           "status": "ACTIVE_PRE_FREEZE"
         }
       },
-      "expected_result": {
-        "valid": true
-      }
-    },
-    {
-      "case_id": "ACTION-BLOCK-POSITIVE-RPT-VALIDATE",
-      "description": "Valid action block metadata for RPT_VALIDATE_REPORT_INPUTS.",
-      "schema_ref": "schemas/contracts/action_block.schema.json",
-      "instance": {
-        "action_type": "RPT_VALIDATE_REPORT_INPUTS",
-        "public_command_aliases": [
-          "validate_report_inputs",
-          "validate_status_report"
-        ],
-        "contract": "VALOR-contract-orch-rpt",
-        "version": "v1.0.1",
-        "purpose": "Validate source scope, WP snapshots, stamps, and template availability before generating a Work Package Status Report.",
-        "allowed_modes": [
-          "M1",
-          "M2"
-        ],
-        "side_effect_class": "VALIDATE_ONLY",
-        "idempotent": true,
-        "confirmation_required": false,
-        "required_payload_fields": [
-          "artifact_type",
-          "target_scope",
-          "wp_ids",
-          "source_snapshot_refs",
-          "stamps",
-          "validation_mode"
-        ],
-        "optional_payload_fields": [
-          "template_id",
-          "options"
-        ],
-        "result_schema_ref": "schemas/contracts/report_result.schema.json",
-        "request_schema_ref": "schemas/contracts/report_request.schema.json"
-      },
-      "expected_result": {
-        "valid": true
-      }
+      "expected_result": {"semantic_valid": true}
     }
   ],
   "negative_cases": [
     {
-      "case_id": "REGISTRY-NEGATIVE-MISSING-SCHEMA-REF",
-      "description": "Registry action without schema reference must fail pre-freeze validation.",
+      "case_id": "REGISTRY-FRAGMENT-NEGATIVE-MISSING-SCHEMA-REF",
+      "description": "Fragment-level registry action without schema reference must fail semantic validation.",
+      "validation_type": "SEMANTIC_FRAGMENT",
       "instance_fragment": {
         "contract_id": "VALOR-contract-orch-plan",
         "action": {
           "type": "PLAN_GENERATE_PROPOSAL",
-          "aliases": [
-            "generate_plan"
-          ],
+          "aliases": ["generate_plan"],
           "side_effect": "GENERATES_ARTIFACT",
           "confirm": false,
           "schema": null,
           "status": "ACTIVE_PRE_FREEZE"
         }
       },
-      "expected_result": {
-        "valid": false,
-        "code": "VALIDATION_ERROR",
-        "subcode": "SCHEMA_REF_MISSING"
-      }
+      "expected_result": {"valid": false, "code": "VALIDATION_ERROR", "subcode": "SCHEMA_REF_MISSING"}
     },
     {
       "case_id": "ACTION-BLOCK-NEGATIVE-ALIAS-AS-ACTION-TYPE",
@@ -106,16 +188,11 @@
         "contract": "VALOR-contract-orch-rpt",
         "version": "v1.0.1",
         "purpose": "Incorrectly treating BUILD_REPORT alias as canonical action_type.",
-        "allowed_modes": [
-          "M1",
-          "M2"
-        ],
+        "allowed_modes": ["M1", "M2"],
         "side_effect_class": "GENERATES_ARTIFACT",
         "idempotent": true,
         "confirmation_required": false,
-        "required_payload_fields": [
-          "artifact_type"
-        ],
+        "required_payload_fields": ["artifact_type"],
         "result_schema_ref": "schemas/contracts/report_result.schema.json"
       },
       "expected_result": {
@@ -136,11 +213,7 @@
         "payload": {},
         "stamps": {}
       },
-      "expected_result": {
-        "valid": false,
-        "code": "VALIDATION_ERROR",
-        "subcode": "REQUEST_ENVELOPE_NOT_A11_ALIGNED"
-      }
+      "expected_result": {"valid": false, "code": "VALIDATION_ERROR", "subcode": "REQUEST_ENVELOPE_NOT_A11_ALIGNED"}
     },
     {
       "case_id": "RESPONSE-ENVELOPE-NEGATIVE-OLD-STATUS-FIELD",
@@ -152,11 +225,21 @@
         "status": "OK",
         "result": {}
       },
-      "expected_result": {
-        "valid": false,
-        "code": "VALIDATION_ERROR",
-        "subcode": "RESPONSE_ENVELOPE_NOT_A11_ALIGNED"
-      }
+      "expected_result": {"valid": false, "code": "VALIDATION_ERROR", "subcode": "RESPONSE_ENVELOPE_NOT_A11_ALIGNED"}
+    },
+    {
+      "case_id": "RESPONSE-ENVELOPE-NEGATIVE-OK-FALSE-MISSING-ERROR",
+      "description": "A11 failure response must carry ok=false, result=null, and a structured error object.",
+      "schema_ref": "schemas/contracts/contract_response.schema.json",
+      "instance": {
+        "contract": "VALOR-contract-orch-wp",
+        "contract_version": "v1.0.1",
+        "action_id": "ACT-000001",
+        "ok": false,
+        "result": {},
+        "error": null
+      },
+      "expected_result": {"valid": false, "code": "VALIDATION_ERROR", "subcode": "RESPONSE_ENVELOPE_INCONSISTENT"}
     }
   ]
 }
