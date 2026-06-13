@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "valor://schemas/objects/audit_event_schema.json",
+  "title": "VALOR Audit Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["event_id", "timestamp_utc", "event_type", "actor", "branch_id", "action_id", "stamps"],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1},
+    "timestamp_utc": {"type": "string", "format": "date-time"},
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "EVT_BRANCH_CREATED", "EVT_BRANCH_FROZEN", "EVT_STAGE_CREATED", "EVT_VALIDATION_RUN",
+        "EVT_COMMIT_EXECUTED", "EVT_PLAN_GENERATED", "EVT_PLAN_APPLIED", "EVT_DOC_GENERATED",
+        "EVT_DOC_FINALIZED", "EVT_EXPORT_GENERATED", "EVT_WP_CLOSED", "EVT_OVERRIDE_ACCEPTED",
+        "EVT_MERGE_ATTEMPTED", "EVT_MERGE_RESOLVED", "EVT_DISCLOSURE_DENIED",
+        "EVT_SECURITY_POLICY_BLOCK", "EVT_REDACTION_APPLIED", "EVT_STAMP_CONTEXT_CHANGED"
+      ]
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["role"],
+      "properties": {
+        "role": {"type": "string", "minLength": 1},
+        "name": {"type": "string"},
+        "id": {"type": "string"}
+      }
+    },
+    "branch_id": {"type": "string", "minLength": 1},
+    "wp_id": {"type": ["string", "null"]},
+    "action_id": {"type": "string", "minLength": 1},
+    "before_hash": {"type": ["string", "null"]},
+    "after_hash": {"type": ["string", "null"]},
+    "previous_event_hash": {"type": ["string", "null"]},
+    "stamps": {"type": "object", "additionalProperties": true, "minProperties": 1},
+    "rationale": {"type": ["string", "null"]},
+    "attachments": {"type": "array", "items": {"type": "object", "additionalProperties": true}}
+  }
+}
