@@ -1,31 +1,19 @@
 {
+  "action_type": "WP_STAGE_TASKS",
   "wp_id": "WP-0007",
-  "staged_task_set_id": "STAGE-000045",
+  "staged_task_set_id": "STAGE-PEHIGH-0001",
+  "state": "STAGED",
+  "preset_ref": {"preset_id": "PS-PE-HIGH", "preset_version": "v1.0.1"},
+  "source_task_pool_ref": {"task_pool_id": "TP-PE-HIGH", "task_pool_version": "v1.0.1"},
   "tasks": [
-    {
-      "task_id": "T-0001",
-      "name": "URS Draft",
-      "type": "DOC",
-      "status": "STAGED"
-    },
-    {
-      "task_id": "T-0002",
-      "name": "DQ Draft",
-      "type": "DOC",
-      "status": "STAGED",
-      "depends_on": [
-        "T-0001"
-      ]
-    },
-    {
-      "task_id": "T-0003",
-      "name": "RTM Build",
-      "type": "DOC",
-      "status": "STAGED",
-      "depends_on": [
-        "T-0002"
-      ]
-    }
+    {"task_id": "WP-0007-T001", "wp_id": "WP-0007", "name": "URS authoring", "task_type": "AUTHORING", "phase": "URS", "status": "STAGED", "dependencies": [], "duration_ref": {"profile_key": "URS_AUTHORING_DUR"}, "owner_role": "CQV"},
+    {"task_id": "WP-0007-T002", "wp_id": "WP-0007", "name": "URS cross-functional review", "task_type": "REVIEW", "phase": "URS", "status": "STAGED", "dependencies": ["WP-0007-T001"], "duration_ref": {"profile_key": "URS_REVIEW_DUR"}, "owner_role": "QA"},
+    {"task_id": "WP-0007-T003", "wp_id": "WP-0007", "name": "URS approval cycle", "task_type": "APPROVAL", "phase": "URS", "status": "STAGED", "dependencies": ["WP-0007-T002"], "duration_ref": {"profile_key": "URS_APPROVAL_DUR"}, "owner_role": "QA"}
   ],
-  "staged_hash": "sha256:EXAMPLE"
+  "provenance_stamps": {
+    "preset_ref": {"preset_id": "PS-PE-HIGH", "preset_version": "v1.0.1"},
+    "task_pool_ref": {"task_pool_id": "TP-PE-HIGH", "task_pool_version": "v1.0.1"},
+    "standards_bundle_ref": {"bundle_id": "BND-CQV-BASE", "bundle_version": "v1.0.1", "usage_classification": "PRODUCT_TESTING_ONLY"}
+  },
+  "validation_result": {"ok": true, "errors": [], "warnings": []}
 }
