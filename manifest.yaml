@@ -2,7 +2,7 @@ manifest_version: v1.0.1
 pack:
   name: Valor_Architecture_Pack
   pack_version: v1.0.1
-  created_at_utc: '2026-06-13T15:23:07Z'
+  created_at_utc: '2026-06-13T19:01:39Z'
   hash_algorithm: sha256
   root: .
 files:
@@ -22,8 +22,8 @@ files:
   sha256: 50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a
   bytes: 11324
 - path: README.md
-  sha256: 59ac5ed626466a6f37934f7c54d1bc186464dcfb837cf9aee2521f3f4521d88f
-  bytes: 10630
+  sha256: 6778c3f2129602decb16338a38b77f8f671a76fc1d323d7cdda61b0d205aec66
+  bytes: 10551
 - path: Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Canvas_Rendering_Record_Layout_v1.0.1A.md
   sha256: 7084cb5d809c6cb89ce8f8d6fc6d7ee5032c009d8573bb4bdb1becb3d28eea64
   bytes: 3212
@@ -84,6 +84,9 @@ files:
 - path: _review_control/DECISION_LOG.md.bak_phase11
   sha256: 1fdc64ffbd4a73db189364dfe7bc9bdebb6d260eb166a89d347ea1d4fb757f9e
   bytes: 12615
+- path: _review_control/FINAL_FREEZE_READINESS_PRODUCT_TESTING_FIELD_TRIAL.md
+  sha256: 6df5b112483caab746d2c4899b862401113a590522dc894aabdcde6dec9d4797
+  bytes: 4737
 - path: _review_control/PHASE10_DECISIONS_PENDING.md
   sha256: c12f7e2066427421f50ec9424b7806ca54c6f2e9eed8adcccf3e2bb702caf8c0
   bytes: 9706
@@ -103,8 +106,8 @@ files:
   sha256: a7c77f851031e1619c19ab3593817f8b58a57f75bbffd442464ce359e8dd0e25
   bytes: 7142
 - path: _review_control/REVIEW_STATE.md
-  sha256: 92d0f2a3c1e794b058a0ab3960a4fd5ae11660719adb8f1c3716ad4c3e0e16e8
-  bytes: 19611
+  sha256: 987b940d8e9c8564b6785f9d2334b7f14e6b66062534538094bd9bb49ca74b37
+  bytes: 21318
 - path: _review_control/REVIEW_STATE.md.bak_phase11
   sha256: 8a5759bdfa54becb551e10483016638babc94dc87f1885412b6d145ebd3fb251
   bytes: 13597
@@ -112,8 +115,8 @@ files:
   sha256: 05929fc0474e85152281adf36735fa3495332d1befa44aeff9923c5233e7bc6c
   bytes: 1926
 - path: _review_control/SESSION_HANDOFF.md
-  sha256: 6ff3fd9cbb3b2b2c8020b70eb851868432aea3bfcea9dd8a4b3ca1cd9ed84ad2
-  bytes: 13691
+  sha256: 1f46ffed5282eabeb75d96da1adb23e65a82f10d49c33cfcc3d92bf42b120296
+  bytes: 14923
 - path: _review_control/SESSION_HANDOFF.md.bak_phase11
   sha256: 572f9565a8873432eda3f7e869ba4b88650eaaa4a494584fe188695be8571638
   bytes: 3507

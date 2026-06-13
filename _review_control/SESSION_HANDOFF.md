@@ -10,7 +10,7 @@ The architecture review has completed through Phase 13.
 
 Freeze target: PRODUCT_TESTING / FIELD_TRIAL baseline.
 
-Final FREEZE-READY recommendation remains pending final freeze-readiness review.
+Final recommendation: FREEZE-READY FOR PRODUCT_TESTING / FIELD_TRIAL BASELINE ONLY.
 
 REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
 
@@ -286,9 +286,27 @@ Key decisions:
 - No scripts, smoke tests, CI, contracts, schemas, vectors, action blocks, K&S assets, templates, artifacts, or implementation files are in scope.
 - Final freeze remains NO-FREEZE YET.
 
-## Remaining PRODUCT_TESTING / FIELD_TRIAL Freeze Gate
+### Final Freeze-Readiness Review — PRODUCT_TESTING / FIELD_TRIAL Baseline
 
-- Final freeze-readiness review for PRODUCT_TESTING / FIELD_TRIAL baseline.
+Control record:
+
+- `_review_control/FINAL_FREEZE_READINESS_PRODUCT_TESTING_FIELD_TRIAL.md`
+
+Status:
+
+- Completed.
+- Final recommendation: FREEZE-READY FOR PRODUCT_TESTING / FIELD_TRIAL BASELINE ONLY.
+
+Key decisions:
+
+- This is not REGULATED_RELEASE approval.
+- This freeze supports ASBP — AI System Builder Program / AI System Builder product construction, product testing, field trials, document generation testing, report generation testing, E2E workflow validation, and evaluation by parallel professional/market testers.
+- PRODUCT_TESTING / FIELD_TRIAL outputs are not official GMP records.
+- Required testing-only stamp remains applicable where testing-only assets are used.
+- FIELD_TRIAL remains an operating label under PRODUCT_TESTING_ONLY, not a new schema/machine enum.
+- REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
+- K&S was not promoted to regulated-active.
+- Source metadata was not invented.
 
 ## Active Product-Testing / Field-Trial Permission
 
@@ -304,12 +322,13 @@ Key decisions:
 
 ## Next Required Work
 
-Await explicit user approval/challenge for the next scoped pre-freeze blocker.
+Await explicit user approval/challenge for any next scoped step.
 
 Recommended next scoped action:
 
-1. Report the local Blocker 10 verification output for watcher/reviewer confirmation.
-2. Proceed to final freeze-readiness review for PRODUCT_TESTING / FIELD_TRIAL baseline only after watcher/reviewer confirmation.
+1. Regenerate and verify `manifest.yaml` locally after this final-freeze record patch is applied.
+2. Consider implementation/delivery planning only if explicitly approved by the user.
+3. Treat REGULATED_RELEASE acceptance as a separate conditional future gate.
 
 ## Non-Scope Until Explicitly Approved
 
@@ -321,6 +340,11 @@ Do not:
 - create a clean implementation repository.
 
 After this USER_APPLY_REQUIRED wording/status reframe patch is applied, regenerate and verify `manifest.yaml` locally using:
+
+- `python scripts/pack_validation/generate_manifest.py`
+- `python scripts/pack_validation/verify_manifest.py`
+
+After this final freeze-readiness record patch is applied, regenerate and verify `manifest.yaml` locally again using:
 
 - `python scripts/pack_validation/generate_manifest.py`
 - `python scripts/pack_validation/verify_manifest.py`
