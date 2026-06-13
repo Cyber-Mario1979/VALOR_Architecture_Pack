@@ -1,0 +1,94 @@
+{
+  "vector_group_id": "NEG-WP-0001",
+  "scope": "NON_KS_NEGATIVE_TEST_VECTORS",
+  "description": "WP negative vectors for controlled validation/refusal behavior. These vectors do not execute implementation code or generate artifacts.",
+  "cases": [
+    {
+      "case_id": "NEG-WP-COMMIT-MISSING-PROVENANCE",
+      "action_type": "WP_COMMIT_STAGED_TASKS",
+      "invalid_condition": "Commit staged tasks without required provenance_stamps.",
+      "input_summary": {
+        "wp_id": "WP-0007",
+        "staged_task_set_id": "STAGE-PEHIGH-0001",
+        "provenance_stamps": null
+      },
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "VALIDATION_ERROR",
+        "subcode": "PROVENANCE_STAMP_MISSING",
+        "mutates_wp_truth": false,
+        "remediation": "Provide preset/task_pool/profile/calendar/bundle provenance stamps before commit."
+      }
+    },
+    {
+      "case_id": "NEG-WP-APPLY-MISSING-PLAN-ID",
+      "action_type": "WP_APPLY_PLAN_PROPOSAL",
+      "invalid_condition": "Apply plan without a valid plan_proposal_id.",
+      "input_summary": {
+        "wp_id": "WP-0007",
+        "plan_proposal_id": null,
+        "date_updates": []
+      },
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "NOT_FOUND",
+        "subcode": "PLAN_PROPOSAL_NOT_FOUND",
+        "mutates_wp_truth": false,
+        "remediation": "Generate or select a valid PROPOSED plan before apply."
+      }
+    },
+    {
+      "case_id": "NEG-WP-APPLY-NON-PROPOSED-PLAN",
+      "action_type": "WP_APPLY_PLAN_PROPOSAL",
+      "invalid_condition": "Apply stale or non-PROPOSED plan proposal.",
+      "input_summary": {
+        "wp_id": "WP-0007",
+        "plan_proposal_id": "PLAN-PEHIGH-0001",
+        "plan_state": "COMMITTED"
+      },
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "VALIDATION_ERROR",
+        "subcode": "PAYLOAD_SCHEMA_MISMATCH",
+        "mutates_wp_truth": false,
+        "remediation": "Only a current PROPOSED plan may be applied through WP authority."
+      }
+    },
+    {
+      "case_id": "NEG-WP-STAGE-INVALID-TASK-TYPE",
+      "action_type": "WP_STAGE_TASKS",
+      "invalid_condition": "Stage a task with a task_type outside the WP/TP enum.",
+      "input_summary": {
+        "task_id": "WP-0007-T999",
+        "task_type": "DOCUMENT"
+      },
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "VALIDATION_ERROR",
+        "subcode": "PAYLOAD_SCHEMA_MISMATCH",
+        "mutates_wp_truth": false,
+        "remediation": "Use one of the governed task_type enum values."
+      }
+    },
+    {
+      "case_id": "NEG-WP-DEPENDENCY-CYCLE",
+      "action_type": "WP_COMMIT_STAGED_TASKS",
+      "invalid_condition": "Dependency cycle exists in staged or committed task set.",
+      "input_summary": {
+        "cycle": ["WP-0007-T001", "WP-0007-T002", "WP-0007-T001"]
+      },
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "INVARIANT_VIOLATION",
+        "subcode": "CYCLE_DETECTED",
+        "mutates_wp_truth": false,
+        "remediation": "Remove the dependency cycle before commit or apply."
+      }
+    }
+  ]
+}
