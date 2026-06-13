@@ -1,14 +1,10 @@
 contract_id: VALOR-contract-orch-wp-user-driven-baseline
 current_version: v1.0.1
-supported_versions:
-- v1.0.1
+supported_versions: [v1.0.1]
 owner_subsystem: WP
 called_by: Orchestration
-compatibility_policy:
-  semver: true
-  orchestration_rules:
-    accept_minor_patch_within_major: true
-    refuse_major_without_explicit_upgrade: true
+registry_category: PUBLIC_USER_CALLABLE_POLICY_EXTENSION
+
 envelopes:
   request_schema: schemas/contracts/contract_request.schema.json
   response_schema: schemas/contracts/contract_response.schema.json
@@ -23,133 +19,60 @@ policy_lock:
     required_source: USER_INPUT
     every_task_requires_override_when_no_profile: true
     accepted_override_required: true
-    required_override_fields:
-    - task_id
-    - duration_value
-    - duration_unit
-    - source_type
-    - source_reference_or_rationale
-    - recorded_by_or_accepted_by
-    - timestamp_or_source_date
-    - override_status
-    allowed_duration_units:
-    - WORKING_DAYS
-    - CALENDAR_DAYS
-    - CALENDAR_WEEKS
-    - CALENDAR_MONTHS
-    override_status_values:
-    - PROPOSED
-    - ACCEPTED
-    - REJECTED
-    - SUPERSEDED
+    required_override_fields: [task_id, duration_value, duration_unit, source_type, source_reference_or_rationale, recorded_by_or_accepted_by, timestamp_or_source_date, override_status]
+    allowed_duration_units: [WORKING_DAYS, CALENDAR_DAYS, CALENDAR_WEEKS, CALENDAR_MONTHS]
+    override_status_values: [PROPOSED, ACCEPTED, REJECTED, SUPERSEDED]
   export_rules:
     allowed: true
     requires_explicit_confirmation: true
     confirmation_type: USER_DRIVEN_BASELINE_NO_PROFILE
 
 error_taxonomy:
-  standard_codes:
-  - MODE_VIOLATION
-  - VALIDATION_ERROR
-  - NOT_FOUND
-  - CONFLICT
-  - INVARIANT_VIOLATION
-  - INTERNAL_ERROR
-  additional_error_subcodes:
-  - MISSING_CONFIRMATION_USER_DRIVEN_BASELINE
-  - INVALID_DURATION_OVERRIDE
-  - INVALID_DURATION_SOURCE_FOR_BASIS
-  - PLANNING_BASIS_NOT_SET
-  - DURATION_OVERRIDE_PROVENANCE_MISSING
-  - DURATION_OVERRIDE_NOT_ACCEPTED
-  - DURATION_OVERRIDE_UNIT_UNSUPPORTED
+  standard_codes: [MODE_VIOLATION, VALIDATION_ERROR, NOT_FOUND, CONFLICT, INVARIANT_VIOLATION, INTERNAL_ERROR]
+  additional_error_subcodes: [MISSING_CONFIRMATION_USER_DRIVEN_BASELINE, INVALID_DURATION_OVERRIDE, INVALID_DURATION_SOURCE_FOR_BASIS, PLANNING_BASIS_NOT_SET, DURATION_OVERRIDE_PROVENANCE_MISSING, DURATION_OVERRIDE_NOT_ACCEPTED, DURATION_OVERRIDE_UNIT_UNSUPPORTED]
 
 actions:
-- action_type: WP_SET_PLANNING_BASIS
-  allowed_modes:
-  - M2
-  side_effect_class: MUTATES_TRUTH
-  idempotent: true
-  confirmation_required: true
-  required_payload_fields:
-  - planning_basis
-  - planning_label
-  optional_payload_fields:
-  - profile_id
-  - profile_version
-  - no_profile_exception_reason
-  target_fields:
-    required:
-    - wp_id
-    optional: []
-  notes:
-    - planning_basis values: PROFILE_BASED | USER_DRIVEN_NO_PROFILE
-    - PROFILE_BASED is the normal governed baseline.
-    - USER_DRIVEN_NO_PROFILE is allowed only when every task receives an accepted explicit duration override with full provenance stamps.
-  errors:
-  - code: NOT_FOUND
-    subcode: WP_NOT_FOUND
-  - code: VALIDATION_ERROR
-    subcode: INVALID_PLANNING_BASIS
+  - action_type: WP_SET_PLANNING_BASIS
+    public_command_aliases: [set_planning_basis]
+    allowed_modes: [M2]
+    side_effect_class: MUTATES_TRUTH
+    idempotent: true
+    confirmation_required: true
+    status: ACTIVE_PRE_FREEZE
+    required_payload_fields: [planning_basis, planning_label]
+    optional_payload_fields: [profile_id, profile_version, no_profile_exception_reason]
+    target_fields: {required: [wp_id], optional: []}
+    result_schema_ref: schemas/objects/work_package_schema.json
+    notes:
+      - planning_basis values: PROFILE_BASED | USER_DRIVEN_NO_PROFILE.
+      - USER_DRIVEN_NO_PROFILE is allowed only with accepted explicit duration overrides and full provenance stamps.
 
-- action_type: WP_SET_TASK_DURATION_OVERRIDES
-  allowed_modes:
-  - M2
-  side_effect_class: MUTATES_TRUTH
-  idempotent: false
-  confirmation_required: true
-  required_payload_fields:
-  - updates
-  - override_batch_metadata
-  optional_payload_fields: []
-  target_fields:
-    required:
-    - wp_id
-    optional: []
-  notes:
-    - each update must include task_id, duration_value, duration_unit, source_type, source_reference or rationale, recorded_by or accepted_by, timestamp_utc or source_date, and override_status
-    - duration_source/source_type must be USER_INPUT or an approved user-accepted source type when planning_basis=USER_DRIVEN_NO_PROFILE
-    - only override_status=ACCEPTED may satisfy the no-profile planning exception
-    - WP system must refuse missing provenance, unsupported units, non-accepted overrides, or non-user accepted sources when planning_basis=USER_DRIVEN_NO_PROFILE
-  errors:
-  - code: NOT_FOUND
-    subcode: TASK_NOT_FOUND
-  - code: VALIDATION_ERROR
-    subcode: INVALID_DURATION_OVERRIDE
-  - code: VALIDATION_ERROR
-    subcode: INVALID_DURATION_SOURCE_FOR_BASIS
-  - code: VALIDATION_ERROR
-    subcode: DURATION_OVERRIDE_PROVENANCE_MISSING
-  - code: VALIDATION_ERROR
-    subcode: DURATION_OVERRIDE_NOT_ACCEPTED
-  - code: VALIDATION_ERROR
-    subcode: DURATION_OVERRIDE_UNIT_UNSUPPORTED
-  - code: INVARIANT_VIOLATION
-    subcode: PLANNING_BASIS_NOT_SET
+  - action_type: WP_SET_TASK_DURATION_OVERRIDES
+    public_command_aliases: [set_task_durations]
+    allowed_modes: [M2]
+    side_effect_class: MUTATES_TRUTH
+    idempotent: false
+    confirmation_required: true
+    status: ACTIVE_PRE_FREEZE
+    required_payload_fields: [updates, override_batch_metadata]
+    optional_payload_fields: []
+    target_fields: {required: [wp_id], optional: []}
+    result_schema_ref: schemas/objects/work_package_schema.json
+    notes:
+      - Each update must include task_id, duration_value, duration_unit, source_type, source_reference_or_rationale, recorded_by_or_accepted_by, timestamp_or_source_date, and override_status.
+      - Only override_status=ACCEPTED may satisfy the no-profile planning exception.
 
-- action_type: WP_RECORD_CONFIRMATION
-  allowed_modes:
-  - M2
-  side_effect_class: MUTATES_TRUTH
-  idempotent: false
-  confirmation_required: true
-  required_payload_fields:
-  - confirmation_type
-  - confirmed
-  - timestamp_utc
-  optional_payload_fields:
-  - actor
-  - confirmation_rationale
-  target_fields:
-    required:
-    - wp_id
-    optional: []
-  notes:
-    - confirmations are append-only; latest timestamp is authoritative for gating exports
-    - expected confirmation_type for user-driven baseline: USER_DRIVEN_BASELINE_NO_PROFILE
-    - confirmation does not convert testing-only K&S into regulated-approved K&S
-  errors:
-  - code: NOT_FOUND
-    subcode: WP_NOT_FOUND
-  - code: VALIDATION_ERROR
-    subcode: INVALID_CONFIRMATION_TYPE
+  - action_type: WP_RECORD_CONFIRMATION
+    public_command_aliases: [record_confirmation]
+    allowed_modes: [M2]
+    side_effect_class: MUTATES_TRUTH
+    idempotent: false
+    confirmation_required: true
+    status: ACTIVE_PRE_FREEZE
+    required_payload_fields: [confirmation_type, confirmed, timestamp_utc]
+    optional_payload_fields: [actor, confirmation_rationale]
+    target_fields: {required: [wp_id], optional: []}
+    result_schema_ref: schemas/objects/work_package_schema.json
+    notes:
+      - Confirmations are append-only and support gating exports.
+      - Confirmation does not convert testing-only K&S into regulated-approved K&S.
