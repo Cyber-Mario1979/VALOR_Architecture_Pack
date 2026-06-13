@@ -2,7 +2,7 @@ manifest_version: v1.0.1
 pack:
   name: Valor_Architecture_Pack
   pack_version: v1.0.1
-  created_at_utc: '2026-06-13T19:49:19Z'
+  created_at_utc: '2026-06-13T22:04:01Z'
   hash_algorithm: sha256
   root: .
 files:
@@ -466,8 +466,8 @@ files:
   sha256: 8dedf90836b4a47807d85be237d09aa50df36554ae16145ffb1979fdce811227
   bytes: 3210
 - path: smoke_test.py
-  sha256: a320a5f89144e866401ed39841fcaf43f1b5bea35158226832ff5a2931750b71
-  bytes: 11356
+  sha256: 2e2320bcde03d144a0ac979f7b02f1626bcc5c56c9d235454f77699f0bbacab1
+  bytes: 12209
 - path: templates/T10_VSR_Template_V1_0_1.md
   sha256: 64a41a552c4aef5a2e64ce17ba7a4690116d4c42f7ed0b5a0c3349028c1afff0
   bytes: 3284
