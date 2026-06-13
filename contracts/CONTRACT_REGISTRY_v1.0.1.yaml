@@ -4,7 +4,7 @@ status: pre_freeze_controlled
 owner: Orchestration
 review_branch: review-spec-freeze-control
 created_date: 2026-06-10
-last_updated: 2026-06-12
+last_updated: 2026-06-13
 purpose: Canonical pre-freeze contract and action catalog for declared VALOR product scope.
 
 freeze_rule:
@@ -13,6 +13,7 @@ freeze_rule:
 
 scope_categories:
   public_user_callable: [WP, PLAN, DOC, RPT, KS_DIRECT_STANDARDS_CITATION_ADVISORY]
+  public_user_callable_policy_extension: [WP_USER_DRIVEN_BASELINE]
   internal_service_resolver: [PS]
   non_callable_governed_support_authority: [TP, PROF, CAL]
   policy_first_cross_cutting_control: [SEC]
@@ -68,13 +69,13 @@ contracts:
     file: contracts/VALOR-contract-orch-rpt.yaml
     status: ACTIVE_PRE_FREEZE
     actions:
-      - {type: RPT_GENERATE_STATUS_REPORT, aliases: [BUILD_REPORT, build_report, generate_status_report], side_effect: GENERATES_ARTIFACT, confirm: false, schema: schemas/contracts/report_result.schema.json, block: action_blocks/RPT_GENERATE_STATUS_REPORT.yaml, status: ACTIVE_PRE_FREEZE}
-      - {type: RPT_VALIDATE_REPORT_INPUTS, aliases: [validate_report_inputs], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/report_result.schema.json, block: action_blocks/RPT_VALIDATE_REPORT_INPUTS.yaml, status: ACTIVE_PRE_FREEZE}
-      - {type: RPT_GENERATE_WORKBOOK_EXPORT, aliases: [export_workbook, generate_workbook_export], side_effect: GENERATES_ARTIFACT, confirm: true, schema: schemas/contracts/workbook_export_result.schema.json, block: action_blocks/RPT_GENERATE_WORKBOOK_EXPORT.yaml, status: ACTIVE_PRE_FREEZE}
+      - {type: RPT_GENERATE_STATUS_REPORT, aliases: [BUILD_REPORT, build_report, generate_status_report, create_status_report], side_effect: GENERATES_ARTIFACT, confirm: false, schema: schemas/contracts/report_result.schema.json, block: action_blocks/RPT_GENERATE_STATUS_REPORT.yaml, status: ACTIVE_PRE_FREEZE}
+      - {type: RPT_VALIDATE_REPORT_INPUTS, aliases: [validate_report_inputs, validate_status_report], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/report_result.schema.json, block: action_blocks/RPT_VALIDATE_REPORT_INPUTS.yaml, status: ACTIVE_PRE_FREEZE}
+      - {type: RPT_GENERATE_WORKBOOK_EXPORT, aliases: [export_workbook, generate_workbook_export, download_workbook_export], side_effect: GENERATES_ARTIFACT, confirm: true, schema: schemas/contracts/workbook_export_result.schema.json, block: action_blocks/RPT_GENERATE_WORKBOOK_EXPORT.yaml, status: ACTIVE_PRE_FREEZE}
       - {type: RPT_VALIDATE_WORKBOOK_EXPORT, aliases: [validate_workbook_export], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/workbook_export_result.schema.json, block: action_blocks/RPT_VALIDATE_WORKBOOK_EXPORT.yaml, status: ACTIVE_PRE_FREEZE}
       - {type: RPT_GENERATE_GANTT_CHART, aliases: [generate_gantt, generate_gantt_chart], side_effect: GENERATES_ARTIFACT, confirm: true, schema: schemas/contracts/gantt_chart_result.schema.json, block: action_blocks/RPT_GENERATE_GANTT_CHART.yaml, status: ACTIVE_PRE_FREEZE}
-      - {type: RPT_VALIDATE_GANTT_INPUTS, aliases: [validate_gantt_inputs], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/gantt_chart_result.schema.json, block: action_blocks/RPT_VALIDATE_GANTT_INPUTS.yaml, status: ACTIVE_PRE_FREEZE}
-      - {type: RPT_VALIDATE_STAMPS, aliases: [validate_report_stamps, validate_artifact_stamps], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: null, status: ACTIVE_PRE_FREEZE}
+      - {type: RPT_VALIDATE_GANTT_INPUTS, aliases: [validate_gantt_inputs, validate_gantt_chart], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/gantt_chart_result.schema.json, block: action_blocks/RPT_VALIDATE_GANTT_INPUTS.yaml, status: ACTIVE_PRE_FREEZE}
+      - {type: RPT_VALIDATE_STAMPS, aliases: [validate_report_stamps, validate_export_stamps, validate_artifact_stamps], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: null, status: ACTIVE_PRE_FREEZE}
       - {type: RPT_LIST_ARTIFACTS, aliases: [list_report_artifacts, list_rpt_artifacts], side_effect: READ_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: action_blocks/RPT_LIST_ARTIFACTS.yaml, status: ACTIVE_PRE_FREEZE}
       - {type: RPT_GET_ARTIFACT, aliases: [get_report_artifact, get_rpt_artifact], side_effect: READ_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: action_blocks/RPT_GET_ARTIFACT.yaml, status: ACTIVE_PRE_FREEZE}
   - contract_id: VALOR-contract-orch-ks
@@ -122,9 +123,9 @@ cross_cutting_controls:
 
 freeze_blockers_retained:
   - K&S governed content pack is available for product testing only; source edition/date/locator acceptance remains gated for regulated use.
-  - Contract registry semantic validation remains a later schema/validation blocker.
+  - Manifest regeneration and final freeze-readiness check remain blocked until all pre-freeze content edits are complete.
 
 validation_requirements:
   - A11, this registry, contract files, action_blocks, and schemas must agree before freeze.
-  - Any public command alias must map to exactly one canonical action_type.
+  - Any public command alias must map to exactly one canonical action_type and must not be used as the canonical action_type.
   - Any TESTING_ONLY asset cannot be represented as approved regulated CQV/GMP standards basis.
