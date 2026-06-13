@@ -2,7 +2,7 @@ manifest_version: v1.0.1
 pack:
   name: Valor_Architecture_Pack
   pack_version: v1.0.1
-  created_at_utc: '2026-06-13T22:11:15Z'
+  created_at_utc: '2026-06-13T22:16:06Z'
   hash_algorithm: sha256
   root: .
 files:
@@ -55,14 +55,14 @@ files:
   sha256: a95f0d5f73f24fbe70f111f7770e5b7fcbb7b2e214d9feb9e984fdcbd2e6e922
   bytes: 4921
 - path: _review_control/BLOCKER5_CONTRACT_ACTION_REGISTRY_SEMANTIC_VALIDATION.md
-  sha256: c80e308d12dc6f1fa98f489934a4edf79954618384eb88631c11077a162ef76f
-  bytes: 3350
+  sha256: 082b47ee1a059856fb792135a707aff4c930caa05e614e9dc96431604e54ed1b
+  bytes: 3285
 - path: _review_control/BLOCKER6A_DOC_DCF_URS_SOURCE_CHAIN_ALIGNMENT.md
   sha256: f6af6b8fa0ce5a90bcda5314465422b13a16979aef3bee77439f4255a68b0235
   bytes: 3458
 - path: _review_control/BLOCKER6B_DCF_TEMPLATE_GOVERNANCE_PRODUCT_TESTING.md
-  sha256: bd4a94e69ea28a03f13a5b8ff15574eebcd0ce44325a3441d3dc617c83c1f94e
-  bytes: 3387
+  sha256: 1900ce20651497040850e0511a13126defb90b965b197f20cefa62550a6ce6d5
+  bytes: 3305
 - path: _review_control/BLOCKER7A_PRODUCT_SURFACE_TERMINOLOGY_STALE_ADDENDA_CLEANUP.md
   sha256: 48e9a50822392c936084713dc68c27d31ddf4a5eba5436411abc2913c0009d33
   bytes: 3989
@@ -73,14 +73,14 @@ files:
   sha256: cdb563acc8c364c77ce501b1b87afadad8a0d570d5f37cbf29cb913a804fc6cb
   bytes: 4214
 - path: _review_control/BLOCKER9A_GOVERNANCE_SECURITY_REGISTRY_SCHEMA_TESTS.md
-  sha256: 9fee5a8aad935167151ae3cd13975baeb9350ec53215bab94b4ba1f94f24569c
-  bytes: 3731
+  sha256: 645e997c0a453ae7d7a9a665adb687c694b3864a74da93b134d5c30d4b0adfe5
+  bytes: 3645
 - path: _review_control/BLOCKER9B_BROADER_CONTRACT_SCHEMA_VALIDATION_ENFORCEMENT.md
   sha256: 03d529b186081411d1e50aeee9a5fe37ec709e10c674b0e2eace93b2b6d0cb21
   bytes: 4248
 - path: _review_control/DECISION_LOG.md
-  sha256: 0bec7096879a52bdff6ed1ad9340479be42d0a3bea55d89f78eb9b1b41607e0d
-  bytes: 30355
+  sha256: 795b1b3f1e4ac63589b5204b255f1976bb83003a5094306b399d127a44e9384b
+  bytes: 29909
 - path: _review_control/DECISION_LOG.md.bak_phase11
   sha256: 1fdc64ffbd4a73db189364dfe7bc9bdebb6d260eb166a89d347ea1d4fb757f9e
   bytes: 12615
