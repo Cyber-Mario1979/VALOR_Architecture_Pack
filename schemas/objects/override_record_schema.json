@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "valor://schemas/objects/override_record_schema.json",
+  "title": "VALOR Override Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["override_id", "override_type", "timestamp_utc", "rationale", "impact_statement", "confirmation_ref", "audit_event_ref"],
+  "properties": {
+    "override_id": {"type": "string", "minLength": 1},
+    "override_type": {"type": "string", "enum": ["readiness_override", "duration_override", "dependency_override", "stamp_override"]},
+    "timestamp_utc": {"type": "string", "format": "date-time"},
+    "rationale": {"type": "string", "minLength": 1},
+    "impact_statement": {"type": "string", "minLength": 1},
+    "confirmation_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["confirmation_id", "scope"],
+      "properties": {
+        "confirmation_id": {"type": "string", "minLength": 1},
+        "scope": {"type": "string", "minLength": 1}
+      }
+    },
+    "audit_event_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "event_type"],
+      "properties": {
+        "event_id": {"type": "string", "minLength": 1},
+        "event_type": {"type": "string", "const": "EVT_OVERRIDE_ACCEPTED"}
+      }
+    }
+  }
+}
