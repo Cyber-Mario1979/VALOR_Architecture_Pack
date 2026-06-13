@@ -41,15 +41,21 @@
         "null"
       ],
       "additionalProperties": false,
+      "required": [
+        "code",
+        "message"
+      ],
       "properties": {
         "code": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "subcode": {
           "type": "string"
         },
         "message": {
-          "type": "string"
+          "type": "string",
+          "minLength": 1
         },
         "entity": {
           "type": "string"
@@ -59,5 +65,42 @@
         }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "ok": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "error": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "ok": {
+            "const": false
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "result": {
+            "type": "null"
+          },
+          "error": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  ]
 }
