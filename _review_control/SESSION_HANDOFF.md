@@ -204,11 +204,29 @@ Key decisions:
 - K&S schemas/vectors were not edited.
 - Manifest regeneration, document render schema redesign, and validator tooling rewrite remain deferred.
 
+### Blocker 8B — Negative and E2E Test Vector Coverage
+
+Control record:
+
+- `_review_control/BLOCKER8B_NEGATIVE_E2E_TEST_VECTOR_COVERAGE.md`
+
+Status:
+
+- Completed for scoped non-K&S negative and E2E test-vector coverage.
+- Freeze remains blocked by other pre-freeze work.
+
+Key decisions:
+
+- Added non-K&S negative vectors for WP, PLAN, DOC, and RPT blocked/refused/incomplete behavior.
+- Added a positive E2E vector for WP → PLAN → DOC → RPT traceability.
+- Added a negative E2E vector covering PLAN gate failure, DOC source-chain failure, and RPT refusal/no-artifact behavior.
+- K&S/template/bundle references are metadata-only.
+- No K&S schemas/vectors, schemas, manifest, validator tooling, templates, implementation, or artifacts were edited/generated.
+
 ## Remaining Freeze Blockers
 
 - K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
-- Broader contract/schema validation enforcement after scoped non-K&S schema/vector cleanup.
-- Negative and E2E test-vector coverage outside scoped K&S vectors.
+- Broader contract/schema validation enforcement after scoped vector coverage.
 - Governance/audit/security/registry schemas/tests.
 - Manifest regeneration and final freeze-readiness check after all content edits.
 
@@ -218,9 +236,9 @@ Await explicit user approval/challenge for the next scoped pre-freeze blocker.
 
 Recommended next scoped blocker options:
 
-1. Negative and E2E test-vector coverage outside scoped K&S vectors.
-2. Governance/security/registry schemas/tests.
-3. Manifest regeneration and final freeze-readiness check after all content edits.
+1. Governance/security/registry schemas/tests.
+2. Manifest regeneration and final freeze-readiness check after all content edits.
+3. K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
 
 ## Non-Scope Until Explicitly Approved
 
