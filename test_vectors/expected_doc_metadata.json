@@ -26,5 +26,5 @@
   "testing_only_stamp": "PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.",
   "usage_classification": "PRODUCT_TESTING_ONLY",
   "regulated_output_allowed": false,
-  "validation_summary": {"ok": true, "errors": [], "warnings": []}
+  "validation_result": {"ok": true, "errors": [], "warnings": []}
 }
