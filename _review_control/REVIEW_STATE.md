@@ -109,12 +109,6 @@ Important outcome:
 - Real regulated CQV/GMP output remains blocked while K&S assets are testing-only or source metadata is unaccepted.
 - External references use testing placeholders, not invented source editions/dates/locators.
 - Updated K&S external references, bundles, mapping, schemas, A12, K&S contract, registry, testing-only vectors, and connector-limited K&S normalization files.
-
-Scope-error acceptance note:
-
-- During transition to WP / Planning / Governed Library Cleanup, K&S normalization edits were started before WP/Planning review began.
-- The user accepted those K&S edits because the content was consistent with the approved Blocker 3A testing-only metadata gate.
-- The accepted K&S edits are treated as completion/normalization of Blocker 3A only, not as WP/Planning scope.
 - No K&S asset was promoted to `ACTIVE` for regulated use.
 - No external source edition/date/clause/locator metadata was invented.
 
@@ -130,13 +124,9 @@ Important outcome:
 
 - Aligned WP truth/provenance rules, Planning proposal-only behavior, governed Task Pool, Preset, Calendar, and Profile boundaries.
 - Added local governed-library lifecycle/status/review/expiry metadata to TP, PS, PROF, and CAL.
-- Aligned `CAL-WORKWEEK_v1.0.1.yaml` as an architecture-pack wrapper around canonical `CAL-WORKWEEK v1` with UTC+02:00, Sun-Thu working week, and Fri-Sat weekend.
 - Kept `PS-PE-HIGH` as canonical preset ID and normalized primary applicability fields.
 - Bound `PS-PE-HIGH` to `BND-CQV-BASE v1.0.1` as TESTING_ONLY / PRODUCT_TESTING_ONLY only.
-- Converted `PROF-PE-HIGH` from `keys` to canonical `entries` map while preserving existing profile values and adding approved FAT duration entries.
-- Kept `task_type` aligned to WP/TP enum and moved non-enum duration meaning to `profile_task_semantic`.
-- Added the high-complexity process-equipment FAT prep/execution/report/acceptance chain without adding ERP/procurement integration, resource loading, evidence ingestion, or delivery planning.
-- No contract files were edited; contract/action registry semantic validation remains a later dependency.
+- Added high-complexity process-equipment FAT chain without ERP/procurement integration, resource loading, evidence ingestion, or delivery planning.
 
 ### Blocker 5 — Contract/action registry semantic validation for WP / PLAN / TP / PS / PROF / CAL
 
@@ -154,8 +144,6 @@ Important outcome:
 - Preserved TP / PROF / CAL as non-callable governed support authorities.
 - Strengthened PLAN governed-profile default, stamped no-profile exception, `calendar_logic_ref` wrapper semantics, mixed-unit handling, and planning provenance stamps.
 - Strengthened WP user-driven no-profile duration override provenance/stamp requirements.
-- Corrected PROF FAT selector phase values from `FAT` to `OTHER` while preserving FAT meaning through profile keys and `profile_task_semantic`.
-- Corrected A04.1 stale orchestration example naming from `PRESET-PE-HIGH` / `equipment_type` to `PS-PE-HIGH` / `equipment_domain` with `complexity` and `scope`.
 - Did not add `WP_VALIDATE`, `PS_VALIDATE_RULESET`, `PLAN_PREVIEW`, `WP_CLOSE`, or `WP_UPDATE_DEPENDENCIES`.
 - Did not add public callable TP / PROF / CAL actions.
 - Did not promote K&S beyond TESTING_ONLY / PRODUCT_TESTING_ONLY.
@@ -172,14 +160,10 @@ Important outcome:
 
 - Declared DCF as a DOC source-capture / input-collection document type or concept.
 - Allowed DCF reference through `dcf_ref` or `source_input_set`.
-- Kept DCF artifact generation/finalization inactive until `TPL-DCF_v1.0.1.yaml` and approved source metadata exist.
-- Did not create `TPL-DCF_v1.0.1.yaml` and did not add DCF to `BND-CQV-BASE_v1.0.1`.
 - Defined URS generation as consuming WP truth, DCF/source input set, governed `template_ref`, governed `bundle_ref` / `citation_set`, and provenance stamps.
 - Added no-invention rule for intended use, GMP relevance, user needs, critical requirements, interfaces, constraints, assumptions, and acceptance expectations.
 - Aligned active DOC actions to `DOC_GENERATE_DRAFT` and `DOC_FINALIZE_ARTIFACT` only.
 - Deferred `DOC_VALIDATE`, `DOC_MARK_REVIEW_READY`, `DOC_REGENERATE`, `DOC_GET`, and `DOC_LIST` unless later approved.
-- Strengthened `DOC_FINALIZE_ARTIFACT` source-chain, template, bundle, citation, provenance, testing-only stamp, and source-input completion checks.
-- Added narrow glossary definitions for DOC, DCF, URS, Source Capture, Source Input Set, Template Governance Record, Template Source Metadata, and Testing-Only Document Output.
 - Preserved K&S as TESTING_ONLY / PRODUCT_TESTING_ONLY only and did not promote K&S to regulated-active use.
 
 ### Blocker 6B — DCF Template Governance Product Testing
@@ -195,8 +179,6 @@ Important outcome:
 - Created `TPL-DCF_v1.0.1.yaml` as one governed DCF template family record with four variants: Cleanroom, Computerized Systems, Process Equipment, and Utilities.
 - Recorded user-approved PRODUCT_TESTING_ONLY source-candidate metadata only.
 - Added `TPL-DCF_v1.0.1` to `BND-CQV-BASE_v1.0.1` as PRODUCT_TESTING_ONLY source-capture template family membership.
-- Updated A12 to include DCF in declared K&S template governance scope.
-- Updated A04.5 to recognize `TPL-DCF_v1.0.1` while keeping DCF artifact generation/finalization inactive unless DOC behavior is separately activated.
 - Did not import Markdown or DOCX template content.
 - Did not create render schemas or test vectors.
 - Did not regenerate manifest.
@@ -215,22 +197,38 @@ Important outcome:
 
 - Defined canonical product-surface states: `STAGED`, `PROPOSED`, `COMMITTED`, `DRAFT`, `FINAL`, `INCOMPLETE`, `BLOCKED`, and `PRODUCT_TESTING_ONLY`.
 - Removed Canvas as a runtime/truth requirement and normalized record/output/artifact view terminology.
-- Preserved useful non-UI layout/product-surface rules.
 - Normalized timestamp rule: contract/audit/provenance metadata uses UTC; optional local display time must be explicitly labeled.
 - Normalized RPT surface to status report, workbook export, and Gantt chart baseline; CSV is not v1.0.1 freeze baseline.
 - Preserved ALL_WPS as out of scope unless bounded.
-- Normalized DOC/DCF/URS product-surface behavior, including DCF inactive generation/finalization and testing-only stamp behavior.
-- Normalized PLAN/WP proposal vs committed behavior around `PLAN_GENERATE_PROPOSAL` and `WP_APPLY_PLAN_PROPOSAL`.
+- Normalized DOC/DCF/URS and PLAN/WP product-surface behavior.
 - Updated A13 stale action names to current registry-aligned actions.
 - Updated README to state controlled pre-freeze review and NO-FREEZE YET.
 - Did not edit contracts, schemas, test vectors, manifest, templates, or implementation files.
 
+### Blocker 8A — Non-K&S Core Schema and Root Test Vector Cleanup
+
+Status: **COMPLETED FOR SCOPED NON-K&S CORE SCHEMA AND ROOT TEST VECTOR CLEANUP — FREEZE STILL BLOCKED BY OTHER PRE-FREEZE WORK**
+
+Control record:
+
+- `_review_control/BLOCKER8A_NON_KS_VALIDATION_TEST_VECTOR_CLEANUP.md`
+
+Important outcome:
+
+- Replaced empty/permissive active public-action result schemas for staged task set, plan proposal, plan validation result, DOC draft result, and DOC artifact result.
+- Strengthened WP, task, and document metadata object schemas for current architecture naming and source-chain/test-only metadata.
+- Updated root test vectors from stale IDs/versions to current governed IDs: `PS-PE-HIGH`, `TP-PE-HIGH`, `PROF-PE-HIGH`, `CAL-WORKWEEK v1.0.1`, `BND-CQV-BASE v1.0.1`, `TPL-URS v1.0.1`, `TPL-DCF v1.0.1` where source-capture metadata is relevant, and `STD-CQV-BASE v1.0.1`.
+- Replaced old generic export vector behavior with declared RPT artifact-family baseline: status report, workbook export, and Gantt chart.
+- Updated `validation/examples/render_inputs_min.json` with current IDs, testing-only stamp, and DCF/source input metadata only.
+- Did not edit K&S schemas/vectors.
+- Did not regenerate manifest.
+- Deferred full document render schema redesign and validator tooling rewrite.
 
 ## Must-Resolve-Before-Freeze Themes
 
 - K&S user/site source metadata acceptance for real regulated CQV/GMP use.
 - Authority, status, and terminology.
-- Remaining contract/schema validation enforcement beyond completed WP / PLAN / TP / PS / PROF / CAL semantic alignment.
+- Broader contract/schema validation enforcement after scoped non-K&S schema/vector cleanup.
 - Real template source metadata acceptance before regulated use; DCF is now governed for PRODUCT_TESTING_ONLY only.
 - Product surface minimum behavior is aligned for terminology/addenda; remaining product-surface gaps, if any, must be validated during final freeze-readiness review.
 - Negative and E2E test vector coverage outside the K&S scoped vectors.
@@ -266,7 +264,8 @@ Current controlled state:
 - Blocker 5 Contract/action registry semantic validation for WP / PLAN / TP / PS / PROF / CAL executed under user approval.
 - Blocker 6A DOC / DCF / URS source-chain architecture and contract alignment executed under user approval.
 - Blocker 7A Product Surface Terminology and Stale Addenda Cleanup executed under user approval.
-- Freeze remains blocked by broader contract/schema validation enforcement, non-K&S schema/validation/test-vector, governance/security/registry, manifest, final freeze-readiness work, real template source metadata acceptance before regulated use, and K&S source metadata acceptance gate.
+- Blocker 8A Non-K&S Core Schema and Root Test Vector Cleanup executed under user approval.
+- Freeze remains blocked by broader contract/schema validation enforcement, negative/E2E test-vector coverage, governance/security/registry, manifest, final freeze-readiness work, real template source metadata acceptance before regulated use, and K&S source metadata acceptance gate.
 
 ## Next Session Objective
 
