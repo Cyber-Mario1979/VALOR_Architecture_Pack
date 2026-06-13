@@ -1,0 +1,99 @@
+{
+  "vector_group_id": "NEG-PLAN-0001",
+  "scope": "NON_KS_NEGATIVE_TEST_VECTORS",
+  "description": "PLAN negative vectors for controlled validation/refusal behavior. These vectors do not execute implementation code or generate artifacts.",
+  "cases": [
+    {
+      "case_id": "NEG-PLAN-PROFILE-BASED-MISSING-PROFILE",
+      "action_type": "PLAN_GENERATE_PROPOSAL",
+      "invalid_condition": "planning_basis is PROFILE_BASED but profile_ref is missing.",
+      "input_summary": {
+        "wp_id": "WP-0007",
+        "planning_basis": "PROFILE_BASED",
+        "profile_ref": null
+      },
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "VALIDATION_ERROR",
+        "subcode": "MISSING_REQUIRED_FIELD",
+        "plan_state": null,
+        "mutates_wp_truth": false,
+        "remediation": "Provide governed profile_ref PROF-PE-HIGH v1.0.1 or use a valid no-profile override set."
+      }
+    },
+    {
+      "case_id": "NEG-PLAN-NO-PROFILE-MISSING-OVERRIDES",
+      "action_type": "PLAN_GENERATE_PROPOSAL",
+      "invalid_condition": "planning_basis is USER_DRIVEN_NO_PROFILE but explicit duration override provenance is incomplete.",
+      "input_summary": {
+        "wp_id": "WP-0007",
+        "planning_basis": "USER_DRIVEN_NO_PROFILE",
+        "no_profile_override_stamp_set": null
+      },
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "VALIDATION_ERROR",
+        "subcode": "MISSING_DURATION",
+        "plan_state": null,
+        "mutates_wp_truth": false,
+        "remediation": "Provide accepted duration overrides with stamped source/provenance for every task."
+      }
+    },
+    {
+      "case_id": "NEG-PLAN-MISSING-CALENDAR-LOGIC",
+      "action_type": "PLAN_GENERATE_PROPOSAL",
+      "invalid_condition": "calendar_logic_ref is missing or lacks required wrapper/canonical fields.",
+      "input_summary": {
+        "wp_id": "WP-0007",
+        "calendar_logic_ref": {"calendar_id": "CAL-WORKWEEK"}
+      },
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "VALIDATION_ERROR",
+        "subcode": "CALENDAR_LOGIC_MISSING",
+        "plan_state": null,
+        "mutates_wp_truth": false,
+        "remediation": "Provide CAL-WORKWEEK v1.0.1 with canonical_calendar_version v1 and timezone."
+      }
+    },
+    {
+      "case_id": "NEG-PLAN-DEPENDENCY-CYCLE",
+      "action_type": "PLAN_GENERATE_PROPOSAL",
+      "invalid_condition": "Input dependency graph contains a cycle.",
+      "input_summary": {
+        "cycle": ["WP-0007-T001", "WP-0007-T002", "WP-0007-T001"]
+      },
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "INVARIANT_VIOLATION",
+        "subcode": "CYCLE_DETECTED",
+        "plan_state": null,
+        "mutates_wp_truth": false,
+        "remediation": "Resolve cyclic dependencies before planning."
+      }
+    },
+    {
+      "case_id": "NEG-PLAN-UNSUPPORTED-UNIT-CONVERSION",
+      "action_type": "PLAN_GENERATE_PROPOSAL",
+      "invalid_condition": "Request requires implicit calendar-month to working-day conversion.",
+      "input_summary": {
+        "duration_unit": "CALENDAR_MONTHS",
+        "requested_output_unit": "WORKING_DAYS",
+        "conversion_rule_ref": null
+      },
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "UNSUPPORTED_OPERATION",
+        "subcode": "UNIT_CONVERSION_NOT_APPROVED",
+        "plan_state": null,
+        "mutates_wp_truth": false,
+        "remediation": "Use declared units or provide an approved, versioned conversion rule."
+      }
+    }
+  ]
+}
