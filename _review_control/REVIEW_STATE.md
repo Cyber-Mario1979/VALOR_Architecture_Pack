@@ -2,7 +2,7 @@
 
 Status: ACTIVE
 Review branch: review-spec-freeze-control
-Last updated: 2026-06-12
+Last updated: 2026-06-13
 
 ## Current Mission
 
@@ -263,11 +263,31 @@ Important outcome:
 - Did not edit K&S schemas/vectors.
 - Did not promote K&S beyond TESTING_ONLY / PRODUCT_TESTING_ONLY.
 
+### Blocker 9B — Broader Contract / Schema Validation Enforcement Review
+
+Status: **COMPLETED FOR SCOPED CONTRACT / SCHEMA / VECTOR ALIGNMENT — FREEZE STILL BLOCKED BY OTHER PRE-FREEZE WORK**
+
+Control record:
+
+- `_review_control/BLOCKER9B_BROADER_CONTRACT_SCHEMA_VALIDATION_ENFORCEMENT.md`
+
+Important outcome:
+
+- Aligned active non-deferred contract/action catalog metadata across registry and active contract files.
+- Aligned RPT registry aliases with RPT contract/action block aliases.
+- Corrected WP action block schema shape for `WP_UPDATE_TASK_FIELDS`, `WP_APPLY_PLAN_PROPOSAL`, and `WP_BIND_PRESET_CONTEXT`.
+- Aligned `WP_APPLY_PLAN_PROPOSAL` required payload fields with the WP contract.
+- Corrected PS example request to the A11 canonical envelope.
+- Strengthened response envelope ok/error/result consistency.
+- Updated registry vectors to separate full-object schema validation from semantic fragment validation.
+- Aligned DOC draft result schema and vector.
+- Touched K&S contract only for metadata-neutral contract/action catalog consistency and preserved TESTING_ONLY / PRODUCT_TESTING_ONLY regulated-use blocking.
+- Did not edit `manifest.yaml`, `smoke_test.py`, `scripts/pack_validation/*`, CI, executable validators, K&S schemas/vectors/library assets/source metadata, or regulated-use status.
+
 ## Must-Resolve-Before-Freeze Themes
 
 - K&S user/site source metadata acceptance for real regulated CQV/GMP use.
-- Authority, status, and terminology.
-- Broader contract/schema validation enforcement after scoped 9A static schemas/vectors.
+- Authority, status, and terminology final sanity check.
 - Real template source metadata acceptance before regulated use; DCF is now governed for PRODUCT_TESTING_ONLY only.
 - Product surface minimum behavior is aligned for terminology/addenda; remaining product-surface gaps, if any, must be validated during final freeze-readiness review.
 - Manifest regeneration and final freeze-readiness check after all content edits.
@@ -300,15 +320,21 @@ Current controlled state:
 - Blocker 4 WP / Planning / Governed Library Cleanup executed under user approval.
 - Blocker 5 Contract/action registry semantic validation for WP / PLAN / TP / PS / PROF / CAL executed under user approval.
 - Blocker 6A DOC / DCF / URS source-chain architecture and contract alignment executed under user approval.
+- Blocker 6B DCF Template Governance Product Testing executed under user approval.
 - Blocker 7A Product Surface Terminology and Stale Addenda Cleanup executed under user approval.
 - Blocker 8A Non-K&S Core Schema and Root Test Vector Cleanup executed under user approval.
 - Blocker 8B Negative and E2E Test Vector Coverage executed under user approval.
 - Blocker 9A Governance / Security / Registry Schemas and Static Test Vectors executed under user approval.
-- Freeze remains blocked by broader contract/schema validation enforcement, manifest regeneration, final freeze-readiness work, real template source metadata acceptance before regulated use, and K&S source metadata acceptance gate.
+- Blocker 9B Broader Contract / Schema Validation Enforcement Review executed under user approval.
+- Freeze remains blocked by manifest regeneration, final freeze-readiness work, real template source metadata acceptance before regulated use, and K&S source metadata acceptance gate.
 
 ## Next Session Objective
 
 Continue pre-freeze blocker cleanup only after explicit user approval of the next scoped step.
+
+Recommended next narrow blocker:
+
+- Manifest regeneration and final manifest verification, after a watcher/reviewer confirms no further content-edit blocker remains.
 
 ## Explicit Non-Scope Until Approved
 
