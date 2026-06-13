@@ -1,25 +1,30 @@
 {
+  "action_type": "DOC_GENERATE_DRAFT",
   "doc_id": "DOC-URS-0001",
-  "wp_id": "WP-0007",
   "doc_type": "URS",
-  "template_ref": {
-    "template_id": "TMP-URS",
-    "version": "v1.0.0"
-  },
-  "bundle_ref": {
-    "id": "BND-CQV-BASE",
-    "version": "v1.0.0"
-  },
+  "doc_version": "v1.0.1",
+  "wp_id": "WP-0007",
+  "state": "DRAFT",
+  "generated_at_utc": "2026-06-12T00:00:00Z",
+  "template_ref": {"template_id": "TPL-URS", "template_version": "v1.0.1"},
+  "bundle_ref": {"bundle_id": "BND-CQV-BASE", "bundle_version": "v1.0.1", "status": "TESTING_ONLY", "usage_classification": "PRODUCT_TESTING_ONLY"},
+  "dcf_ref": {"template_id": "TPL-DCF", "template_version": "v1.0.1", "generation_active": false, "finalization_active": false},
+  "source_input_set_ref": {"source_input_set_id": "SRC-URS-0001", "source_input_completion_status": "COMPLETE"},
   "citation_set": [
-    {
-      "asset_type": "standard",
-      "asset_id": "STD-123",
-      "asset_version": "2020",
-      "anchor_id": "A-5-2"
-    }
+    {"asset_type": "internal_standard", "asset_id": "STD-CQV-BASE", "asset_version": "v1.0.1", "anchor_id": "CQV-REQ-002", "usage_classification": "PRODUCT_TESTING_ONLY", "regulated_output_allowed": false}
   ],
-  "provenance": {
-    "generated_by": "DOC",
-    "timestamp_utc": "2025-12-25T00:00:00Z"
-  }
+  "source_chain_provenance": {"wp_snapshot_hash": "sha256:TEST-WP-SNAPSHOT", "source_input_set_hash": "sha256:TEST-SOURCE-INPUTS", "dcf_metadata_only": true},
+  "source_input_completion_status": "COMPLETE",
+  "provenance_stamps": {
+    "template_ref": {"template_id": "TPL-URS", "template_version": "v1.0.1"},
+    "bundle_ref": {"bundle_id": "BND-CQV-BASE", "bundle_version": "v1.0.1"},
+    "internal_standard_ref": {"standard_id": "STD-CQV-BASE", "standard_version": "v1.0.1"},
+    "contract_ref": {"contract_id": "VALOR-contract-orch-doc", "contract_version": "v1.0.1"}
+  },
+  "testing_only": true,
+  "testing_only_stamp_required": true,
+  "testing_only_stamp": "PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.",
+  "usage_classification": "PRODUCT_TESTING_ONLY",
+  "regulated_output_allowed": false,
+  "validation_result": {"ok": true, "errors": [], "warnings": []}
 }

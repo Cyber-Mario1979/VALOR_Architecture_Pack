@@ -1,9 +1,16 @@
 task_pool_id: TP-PE-HIGH
 version: v1.0.1
 revision_date: '2025-12-26'
-description: Atomic task pool for Process Equipment — High. Tasks reference Profile
-  Library duration keys (no embedded numeric durations). Designed for deterministic
-  staging into WPs.
+status: PRE_FREEZE_CONTROLLED
+usage_classification: PRODUCT_TESTING_OR_PRE_FREEZE_SPECIFICATION
+effective_date: 2026-06-12
+source_checked_date: 2026-06-12
+review_cycle_months: 36
+next_review_due: 2029-06-12
+expiry_date: 2029-06-12
+review_required: true
+expired_behavior: BLOCK_TASK_STAGING_UNTIL_REVIEWED
+description: Atomic task pool for Process Equipment - High. Tasks reference Profile Library duration keys with no embedded numeric durations. Designed for deterministic staging into WPs.
 owner_function: CQV
 integrity:
   schema_version: v0.1.0
@@ -11,531 +18,381 @@ integrity:
     profile_id: PROF-PE-HIGH
     profile_version: v1.0.1
 governance:
-  change_control_ref: N/A (design-stage dataset)
+  change_control_ref: N/A (pre-freeze governed-library dataset)
+  lifecycle_note: Pre-freeze controlled library metadata only; not frozen, final, or regulated-approved.
+task_type_policy:
+  allowed_values: [AUTHORING, REVIEW, APPROVAL, EXECUTION, REPORTING, VENDOR_WAIT, PROCUREMENT_WAIT, LEAD_TIME]
+  rule: task_type must remain aligned to WP/TP enum values. Non-enum timing semantics are represented in profile duration semantics, not task_type.
 tasks:
 - atomic_task_id: PEH-VMP-CYCLE
   name: VMP cycle (draft/review/approval)
   phase: VMP
   task_type: AUTHORING
   owner_role_default: CQV
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  - Project
-  required_inputs:
-  - Project scope defined
-  - System boundary agreed
-  outputs:
-  - Approved VMP
-  duration_ref:
-    profile_key: VMP_CYCLE_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity, Project]
+  required_inputs: [Project scope defined, System boundary agreed]
+  outputs: [Approved VMP]
+  duration_ref: {profile_key: VMP_CYCLE_DUR}
   dependency_wiring:
     predecessors: []
-  flags:
-    is_optional: true
-  notes: Optional predecessor for single equipment; mandatory for project/multi-equipment
-    per policy flags.
+  flags: {is_optional: true}
+  notes: Optional predecessor for single equipment; mandatory for project/multi-equipment per policy flags.
 - atomic_task_id: PEH-URS-AUTH
   name: URS authoring
   phase: URS
   task_type: AUTHORING
   owner_role_default: CQV
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  - SingleEquipment
-  - Project
-  required_inputs:
-  - WP created
-  - Scope defined
-  outputs:
-  - URS draft
-  duration_ref:
-    profile_key: URS_AUTHORING_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity, SingleEquipment, Project]
+  required_inputs: [WP created, Scope defined]
+  outputs: [URS draft]
+  duration_ref: {profile_key: URS_AUTHORING_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-VMP-CYCLE
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-VMP-CYCLE, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-URS-REVIEW
   name: URS cross-functional review
   phase: URS
   task_type: REVIEW
   owner_role_default: QA
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - URS draft
-  outputs:
-  - URS review comments
-  duration_ref:
-    profile_key: URS_REVIEW_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [URS draft]
+  outputs: [URS review comments]
+  duration_ref: {profile_key: URS_REVIEW_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-URS-AUTH
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-URS-AUTH, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-URS-APPROVAL
   name: URS approval cycle
   phase: URS
   task_type: APPROVAL
   owner_role_default: QA
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - URS review completed
-  outputs:
-  - Approved URS
-  duration_ref:
-    profile_key: URS_APPROVAL_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [URS review completed]
+  outputs: [Approved URS]
+  duration_ref: {profile_key: URS_APPROVAL_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-URS-REVIEW
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-URS-REVIEW, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-QUOTE-WAIT
   name: Vendor quotation waiting period
   phase: OTHER
   task_type: VENDOR_WAIT
   owner_role_default: Vendor
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  - Vendor
-  required_inputs:
-  - Approved URS issued to vendor
-  outputs:
-  - Quotation received
-  duration_ref:
-    profile_key: QUOTATION_WAIT_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity, Vendor]
+  required_inputs: [Approved URS issued to vendor]
+  outputs: [Quotation received]
+  duration_ref: {profile_key: QUOTATION_WAIT_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-URS-APPROVAL
-      dependency_type: FS
-      lag_days: 0
-  flags:
-    is_insertion_block: true
+    - {atomic_task_id: PEH-URS-APPROVAL, dependency_type: FS, lag_days: 0}
+  flags: {is_insertion_block: true}
   notes: Represents external waiting time; not resource-consuming in v1.
 - atomic_task_id: PEH-RTM-DRAFT
   name: RTM draft
   phase: RTM
   task_type: AUTHORING
   owner_role_default: CQV
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - Approved URS
-  outputs:
-  - RTM draft
-  duration_ref:
-    profile_key: RTM_DRAFT_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [Approved URS]
+  outputs: [RTM draft]
+  duration_ref: {profile_key: RTM_DRAFT_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-URS-APPROVAL
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-URS-APPROVAL, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-RTM-COORD
   name: RTM vendor coordination block
   phase: RTM
   task_type: VENDOR_WAIT
   owner_role_default: CQV
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  - Vendor
-  required_inputs:
-  - RTM draft
-  - Vendor responses required
-  outputs:
-  - Vendor feedback integrated
-  duration_ref:
-    profile_key: RTM_VENDOR_COORDINATION_BLOCK_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity, Vendor]
+  required_inputs: [RTM draft, Vendor responses required]
+  outputs: [Vendor feedback integrated]
+  duration_ref: {profile_key: RTM_VENDOR_COORDINATION_BLOCK_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-RTM-DRAFT
-      dependency_type: FS
-      lag_days: 0
-  flags:
-    is_insertion_block: true
+    - {atomic_task_id: PEH-RTM-DRAFT, dependency_type: FS, lag_days: 0}
+  flags: {is_insertion_block: true}
 - atomic_task_id: PEH-RTM-FINALIZE
   name: RTM finalize
   phase: RTM
   task_type: AUTHORING
   owner_role_default: CQV
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - RTM coordination completed
-  outputs:
-  - Final RTM
-  duration_ref:
-    profile_key: RTM_FINALIZE_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [RTM coordination completed]
+  outputs: [Final RTM]
+  duration_ref: {profile_key: RTM_FINALIZE_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-RTM-COORD
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-RTM-COORD, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-DQ-CYCLE
   name: Design Qualification (DQ) cycle
   phase: DQ
   task_type: AUTHORING
   owner_role_default: CQV
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - Final RTM
-  - Design inputs available
-  outputs:
-  - Approved DQ
-  duration_ref:
-    profile_key: DQ_CYCLE_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [Final RTM, Design inputs available]
+  outputs: [Approved DQ]
+  duration_ref: {profile_key: DQ_CYCLE_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-RTM-FINALIZE
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-RTM-FINALIZE, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-MFG-LEAD
   name: Manufacturing lead time (vendor)
   phase: OTHER
   task_type: LEAD_TIME
   owner_role_default: Vendor
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  - Vendor
-  required_inputs:
-  - PO issued
-  outputs:
-  - Equipment manufactured
-  duration_ref:
-    profile_key: MANUFACTURING_LEADTIME_BLISTERLINE
+  applicability_tags: [ProcessEquipment, HighComplexity, Vendor]
+  required_inputs: [PO issued]
+  outputs: [Equipment manufactured]
+  duration_ref: {profile_key: MANUFACTURING_LEADTIME_BLISTERLINE}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-DQ-CYCLE
-      dependency_type: FS
-      lag_days: 0
-  flags:
-    is_insertion_block: true
-  notes: Represents external manufacturing lead time; stored as CALENDAR_MONTHS/DAYS
-    per profile unit policy.
+    - {atomic_task_id: PEH-DQ-CYCLE, dependency_type: FS, lag_days: 0}
+  flags: {is_insertion_block: true}
+  notes: Represents external manufacturing lead time; stored as CALENDAR_MONTHS/DAYS per profile unit policy.
 - atomic_task_id: PEH-FAT-SCHED
   name: FAT scheduling / coordination
   phase: OTHER
   task_type: VENDOR_WAIT
   owner_role_default: CQV
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  - Vendor
-  required_inputs:
-  - Manufacturing complete
-  outputs:
-  - FAT scheduled
-  duration_ref:
-    profile_key: FAT_SCHEDULING_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity, Vendor, FAT]
+  required_inputs: [Manufacturing complete]
+  outputs: [FAT scheduled]
+  duration_ref: {profile_key: FAT_SCHEDULING_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-MFG-LEAD
-      dependency_type: FS
-      lag_days: 0
-  flags:
-    is_insertion_block: true
+    - {atomic_task_id: PEH-MFG-LEAD, dependency_type: FS, lag_days: 0}
+  flags: {is_insertion_block: true}
+- atomic_task_id: PEH-FAT-PREP
+  name: FAT preparation package
+  phase: OTHER
+  task_type: AUTHORING
+  owner_role_default: CQV
+  applicability_tags: [ProcessEquipment, HighComplexity, Vendor, FAT]
+  required_inputs: [FAT scheduled, FAT agenda agreed, FAT prerequisites known]
+  outputs: [FAT preparation package ready]
+  duration_ref: {profile_key: FAT_PREP_DUR}
+  dependency_wiring:
+    predecessors:
+    - {atomic_task_id: PEH-FAT-SCHED, dependency_type: FS, lag_days: 0}
+  flags: {is_insertion_block: true}
+- atomic_task_id: PEH-FAT-EXEC
+  name: FAT execution
+  phase: OTHER
+  task_type: EXECUTION
+  owner_role_default: CQV
+  applicability_tags: [ProcessEquipment, HighComplexity, Vendor, FAT]
+  required_inputs: [FAT preparation package ready, Vendor FAT slot confirmed]
+  outputs: [Executed FAT]
+  duration_ref: {profile_key: FAT_EXECUTION_DUR}
+  dependency_wiring:
+    predecessors:
+    - {atomic_task_id: PEH-FAT-PREP, dependency_type: FS, lag_days: 0}
+  flags: {is_insertion_block: true}
+- atomic_task_id: PEH-FAT-REPORT
+  name: FAT report and punch-list summary
+  phase: OTHER
+  task_type: REPORTING
+  owner_role_default: CQV
+  applicability_tags: [ProcessEquipment, HighComplexity, Vendor, FAT]
+  required_inputs: [Executed FAT, FAT deviations and punch-list items captured]
+  outputs: [FAT report, FAT punch-list summary]
+  duration_ref: {profile_key: FAT_REPORT_DUR}
+  dependency_wiring:
+    predecessors:
+    - {atomic_task_id: PEH-FAT-EXEC, dependency_type: FS, lag_days: 0}
+  flags: {is_insertion_block: true}
+- atomic_task_id: PEH-FAT-ACCEPTANCE
+  name: FAT acceptance / release-to-ship decision
+  phase: OTHER
+  task_type: APPROVAL
+  owner_role_default: QA
+  applicability_tags: [ProcessEquipment, HighComplexity, Vendor, FAT]
+  required_inputs: [FAT report, Punch-list disposition, Release-to-ship decision basis]
+  outputs: [FAT accepted or dispositioned, Release-to-ship decision]
+  duration_ref: {profile_key: FAT_ACCEPTANCE_DUR}
+  dependency_wiring:
+    predecessors:
+    - {atomic_task_id: PEH-FAT-REPORT, dependency_type: FS, lag_days: 0}
+  flags: {is_insertion_block: true}
 - atomic_task_id: PEH-LOGISTICS
   name: Logistics / delivery lead time
   phase: OTHER
   task_type: LEAD_TIME
   owner_role_default: Vendor
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  - Vendor
-  required_inputs:
-  - FAT complete
-  outputs:
-  - Equipment delivered to site
-  duration_ref:
-    profile_key: LOGISTICS_DELIVERY_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity, Vendor, Logistics]
+  required_inputs: [FAT accepted or release-to-ship decision]
+  outputs: [Equipment delivered to site]
+  duration_ref: {profile_key: LOGISTICS_DELIVERY_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-FAT-SCHED
-      dependency_type: FS
-      lag_days: 0
-  flags:
-    is_insertion_block: true
+    - {atomic_task_id: PEH-FAT-ACCEPTANCE, dependency_type: FS, lag_days: 0}
+  flags: {is_insertion_block: true}
 - atomic_task_id: PEH-IQ-PROTOCOL
   name: IQ protocol preparation
   phase: IQ
   task_type: AUTHORING
   owner_role_default: CQV
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - IQ strategy agreed
-  - Vendor documentation available
-  outputs:
-  - Approved IQ protocol
-  duration_ref:
-    profile_key: IQ_PROTOCOL_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [IQ strategy agreed, Vendor documentation available]
+  outputs: [Approved IQ protocol]
+  duration_ref: {profile_key: IQ_PROTOCOL_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-LOGISTICS
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-LOGISTICS, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-IQ-EXEC
   name: IQ execution
   phase: IQ
   task_type: EXECUTION
   owner_role_default: Engineering
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - Approved IQ protocol
-  - Installation complete
-  outputs:
-  - Executed IQ protocol
-  duration_ref:
-    profile_key: IQ_EXECUTION_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [Approved IQ protocol, Installation complete]
+  outputs: [Executed IQ protocol]
+  duration_ref: {profile_key: IQ_EXECUTION_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-IQ-PROTOCOL
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-IQ-PROTOCOL, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-IQ-REPORT
   name: IQ report
   phase: IQ
   task_type: REPORTING
   owner_role_default: CQV
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - IQ execution complete
-  outputs:
-  - Approved IQ report
-  duration_ref:
-    profile_key: IQ_REPORT_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [IQ execution complete]
+  outputs: [Approved IQ report]
+  duration_ref: {profile_key: IQ_REPORT_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-IQ-EXEC
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-IQ-EXEC, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-OQ-PROTOCOL
   name: OQ protocol preparation
   phase: OQ
   task_type: AUTHORING
   owner_role_default: CQV
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - IQ complete
-  - Control strategy available
-  outputs:
-  - OQ protocol draft
-  duration_ref:
-    profile_key: OQ_PROTOCOL_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [IQ complete, Control strategy available]
+  outputs: [OQ protocol draft]
+  duration_ref: {profile_key: OQ_PROTOCOL_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-IQ-REPORT
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-IQ-REPORT, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-OQ-APPROVAL
   name: OQ protocol approval
   phase: OQ
   task_type: APPROVAL
   owner_role_default: QA
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - OQ protocol draft
-  outputs:
-  - Approved OQ protocol
-  duration_ref:
-    profile_key: OQ_APPROVAL_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [OQ protocol draft]
+  outputs: [Approved OQ protocol]
+  duration_ref: {profile_key: OQ_APPROVAL_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-OQ-PROTOCOL
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-OQ-PROTOCOL, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-OQ-EXEC
   name: OQ execution
   phase: OQ
   task_type: EXECUTION
   owner_role_default: Automation
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - Approved OQ protocol
-  outputs:
-  - Executed OQ protocol
-  duration_ref:
-    profile_key: OQ_EXECUTION_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [Approved OQ protocol]
+  outputs: [Executed OQ protocol]
+  duration_ref: {profile_key: OQ_EXECUTION_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-OQ-APPROVAL
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-OQ-APPROVAL, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-OQ-REPORT
   name: OQ report
   phase: OQ
   task_type: REPORTING
   owner_role_default: CQV
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - OQ execution complete
-  outputs:
-  - Approved OQ report
-  duration_ref:
-    profile_key: OQ_REPORT_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [OQ execution complete]
+  outputs: [Approved OQ report]
+  duration_ref: {profile_key: OQ_REPORT_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-OQ-EXEC
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-OQ-EXEC, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-PQ-PROTOCOL
   name: PQ protocol preparation
   phase: PQ
   task_type: AUTHORING
   owner_role_default: Production
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - OQ complete
-  - Process parameters defined
-  outputs:
-  - PQ protocol draft
-  duration_ref:
-    profile_key: PQ_PROTOCOL_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [OQ complete, Process parameters defined]
+  outputs: [PQ protocol draft]
+  duration_ref: {profile_key: PQ_PROTOCOL_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-OQ-REPORT
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-OQ-REPORT, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-PQ-APPROVAL
   name: PQ protocol approval
   phase: PQ
   task_type: APPROVAL
   owner_role_default: QA
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - PQ protocol draft
-  outputs:
-  - Approved PQ protocol
-  duration_ref:
-    profile_key: PQ_APPROVAL_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [PQ protocol draft]
+  outputs: [Approved PQ protocol]
+  duration_ref: {profile_key: PQ_APPROVAL_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-PQ-PROTOCOL
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-PQ-PROTOCOL, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-PQ-EXEC
   name: PQ execution
   phase: PQ
   task_type: EXECUTION
   owner_role_default: Production
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - Approved PQ protocol
-  - Materials available
-  outputs:
-  - Executed PQ runs
-  duration_ref:
-    profile_key: PQ_EXECUTION_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [Approved PQ protocol, Materials available]
+  outputs: [Executed PQ runs]
+  duration_ref: {profile_key: PQ_EXECUTION_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-PQ-APPROVAL
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-PQ-APPROVAL, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-PQ-REPORT
   name: PQ report
   phase: PQ
   task_type: REPORTING
   owner_role_default: CQV
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - PQ execution complete
-  outputs:
-  - Approved PQ report
-  duration_ref:
-    profile_key: PQ_REPORT_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [PQ execution complete]
+  outputs: [Approved PQ report]
+  duration_ref: {profile_key: PQ_REPORT_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-PQ-EXEC
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-PQ-EXEC, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-VSR-DRAFT
   name: VSR draft
   phase: VSR
   task_type: AUTHORING
   owner_role_default: CQV
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - PQ complete
-  - All deviations resolved
-  outputs:
-  - VSR draft
-  duration_ref:
-    profile_key: VSR_DRAFT_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [PQ complete, All deviations resolved]
+  outputs: [VSR draft]
+  duration_ref: {profile_key: VSR_DRAFT_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-PQ-REPORT
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-PQ-REPORT, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-VSR-REVIEW
   name: VSR review
   phase: VSR
   task_type: REVIEW
   owner_role_default: QA
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - VSR draft
-  outputs:
-  - VSR review comments
-  duration_ref:
-    profile_key: VSR_REVIEW_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [VSR draft]
+  outputs: [VSR review comments]
+  duration_ref: {profile_key: VSR_REVIEW_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-VSR-DRAFT
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-VSR-DRAFT, dependency_type: FS, lag_days: 0}
 - atomic_task_id: PEH-VSR-APPROVAL
   name: VSR approval
   phase: VSR
   task_type: APPROVAL
   owner_role_default: QA
-  applicability_tags:
-  - ProcessEquipment
-  - HighComplexity
-  required_inputs:
-  - VSR review complete
-  outputs:
-  - Approved VSR
-  duration_ref:
-    profile_key: VSR_APPROVAL_DUR
+  applicability_tags: [ProcessEquipment, HighComplexity]
+  required_inputs: [VSR review complete]
+  outputs: [Approved VSR]
+  duration_ref: {profile_key: VSR_APPROVAL_DUR}
   dependency_wiring:
     predecessors:
-    - atomic_task_id: PEH-VSR-REVIEW
-      dependency_type: FS
-      lag_days: 0
+    - {atomic_task_id: PEH-VSR-REVIEW, dependency_type: FS, lag_days: 0}

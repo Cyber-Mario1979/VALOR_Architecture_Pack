@@ -34,43 +34,80 @@ Contracts are the formal interface between Valor subsystems. They exist to:
 - guarantee deterministic behavior and auditability,
 - enable a “system of systems” to evolve without constant rewrites.
 
-Orchestration may only interact with subsystems via contracts. If a behavior cannot be expressed as a contract action, it is not allowed.
+Orchestration may only invoke registered callable subsystem behavior through contracts. If a behavior in the declared callable product scope cannot be expressed as a registered contract action, it is not freeze-ready behavior.
+
+Non-callable governed support authorities may be consumed only through registered callable contracts or governed library references; they are not independent public/user-callable contract endpoints unless explicitly promoted in a later declared scope.
 
 ---
 
 ## 2. What a Contract Is (Canonical Definition)
 A contract is a versioned specification containing:
 - contract_id and contract_version (SemVer),
+- registry category (public/user-callable, internal service/resolver, policy extension, or other approved category),
 - an action catalog (action_type list) with required/optional fields,
 - request/response envelope schemas,
 - validation rules and error taxonomy,
 - invariants that must be enforced by the contract implementer,
-- stamp propagation requirements (when relevant).
+- stamp propagation requirements (when relevant),
+- side-effect class and confirmation requirement for every action.
 
 A contract is not:
 - a prompt narrative,
 - a hidden rules list,
-- an informal “workflow description” without schema.
+- an informal “workflow description” without schema,
+- a public command by itself.
+
+Public command names are aliases. The canonical executable identity is the registered `action_type`.
 
 ---
 
-## 3. Canonical Contract IDs (Registry Standard)
+## 3. Canonical Registry Categories and Contract IDs
 
-### 3.1 System-of-Systems Contracts (Core)
+The canonical registry artifact for v1.0.1 is:
+
+- `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`
+
+The registry is the pack-level catalog that classifies active contracts, support authorities, public aliases, canonical action types, schemas, side-effect classes, confirmation rules, and active/deferred status.
+
+### 3.1 Public/User-Callable Contracts
+These may be invoked by Orchestration when the user directly requests the related behavior:
+
 - `VALOR-contract-orch-wp` — Orchestration ↔ Work Package System
 - `VALOR-contract-orch-plan` — Orchestration ↔ Planning (Advisory)
 - `VALOR-contract-orch-doc` — Orchestration ↔ Document Factory
 - `VALOR-contract-orch-rpt` — Orchestration ↔ Reporting & Export
-- `VALOR-contract-orch-ks` — Orchestration ↔ Knowledge & Standards
+- `VALOR-contract-orch-ks` — Orchestration ↔ Knowledge & Standards when the user directly asks for standards, citation, source, bundle, template, or standards-aware advisory behavior
 
-### 3.2 Data Asset Contracts (Support)
-- `VALOR-contract-orch-tp` — Orchestration ↔ Task Pool Library
-- `VALOR-contract-orch-ps` — Orchestration ↔ Preset System
-- `VALOR-contract-orch-prof` — Orchestration ↔ Profile Library
-- `VALOR-contract-orch-cal` — Orchestration ↔ Calendar Logic
+### 3.2 Public/User-Callable Policy Extension
+- `VALOR-contract-orch-wp-user-driven-baseline` — a WP-owned policy extension for user-driven no-profile planning baseline behavior.
 
-### 3.3 Security/Policy Contracts (Optional)
-- `VALOR-contract-orch-sec` — Orchestration ↔ Security & Compliance checks (if separated)
+This extension does not create a second owner of WP truth. It is a scoped WP contract extension for explicit user-driven planning basis, duration overrides, and confirmation recording.
+
+### 3.3 Internal Service/Resolver Contracts
+- `VALOR-contract-orch-ps` — Orchestration ↔ Preset System as an internal preset resolver and binding authority.
+
+PS is active in the declared scope as an internal service/resolver. It is not an independent public/user-callable subsystem unless explicitly promoted in a later declared scope.
+
+### 3.4 Non-Callable Governed Support Authorities
+The following are governed support authorities in the declared scope, not standalone public contracts:
+
+- TP — Task Pool Library
+- PROF — Profile Library
+- CAL — Calendar Logic
+
+They may be selected, consumed, referenced, stamped, and validated through PS/WP/PLAN/RPT flows, but they are not public/user-callable contract endpoints in v1.0.1 freeze scope.
+
+### 3.5 Policy-First Cross-Cutting Control
+SEC is a policy-first cross-cutting control, not a standalone callable contract in the declared scope.
+
+Security and compliance rules are enforced by:
+- Orchestration pre-call validation,
+- subsystem validators,
+- governance gates,
+- output redaction/refusal rules,
+- audit/security event capture where applicable.
+
+`VALOR-contract-orch-sec` is only required if SEC is intentionally separated into a callable subsystem in a later declared scope.
 
 ---
 
@@ -88,7 +125,7 @@ Orchestration must:
 - accept MINOR/PATCH upgrades within the same MAJOR,
 - refuse incompatible MAJOR versions unless explicitly upgraded.
 
-Subsytems must:
+Subsystems must:
 - reject requests using unsupported MAJOR versions,
 - return CONFLICT / UNSUPPORTED_MAJOR_VERSION.
 
@@ -158,12 +195,15 @@ Canonical structure:
 
 ### 6.1 Stamp Requirements by Contract Category
 - WP contract: stores preset/profile/task_pool/calendar refs in WP metadata; enforces staging/commit boundaries.
-- PLAN contract: requires profile+calendar refs and returns stamps + planning_logic_version.
+- WP user-driven baseline extension: records planning basis, user-provided duration sources, and required confirmations.
+- PLAN contract: requires profile+calendar refs when profile-based planning is used and returns stamps + planning_logic_version.
 - DOC contract: requires stamps + template/bundle refs; returns provenance metadata.
-- RPT contract: requires minimum stamps; returns schema_version + stamps.
+- RPT contract: requires stamp set for regulated reports/exports and returns schema_version + stamps.
+- KS contract: resolves governed standards/templates/bundles/anchors and enforces citation/excerpt policy.
+- PS contract: resolves/binds governed preset context internally and supplies preset/profile/task_pool/calendar/bundle references where applicable.
 
 ### 6.2 Stamp Validation Rule (Global)
-For any action that generates regulated outputs (DOC_FINALIZE, RPT_GENERATE_EXPORT, etc.):
+For any action that generates regulated outputs (DOC_FINALIZE_ARTIFACT, RPT_GENERATE_EXPORT, etc.):
 - missing stamp set → INVARIANT_VIOLATION / MISSING_TRACEABILITY_STAMPS.
 
 ---
@@ -171,24 +211,32 @@ For any action that generates regulated outputs (DOC_FINALIZE, RPT_GENERATE_EXPO
 ## 7. Action Catalog Structure (Per Contract)
 
 Each contract must define:
-- action_type name
-- allowed modes
-- required payload fields
-- validation rules
-- result schema (what success returns)
-- side-effect classification:
-  - READ_ONLY
-  - STAGE_ONLY
-  - MUTATES_TRUTH
-  - GENERATES_ARTIFACT
+- action_type name,
+- allowed modes,
+- required payload fields,
+- validation rules,
+- result schema,
+- public command aliases or internal aliases,
+- active/deferred/freeze-blocked status,
+- confirmation rule,
+- side-effect classification.
+
+Allowed side-effect classes:
+- READ_ONLY
+- VALIDATE_ONLY
+- STAGE_ONLY
+- MUTATES_TRUTH
+- GENERATES_ARTIFACT
 
 Example (WP contract snippet):
-- WP_GET — READ_ONLY
-- WP_STAGE_TASKS — STAGE_ONLY
-- WP_COMMIT_STAGED_TASKS — MUTATES_TRUTH
-- WP_UPDATE_TASK_FIELDS — MUTATES_TRUTH
+- WP_GET — READ_ONLY — no confirmation
+- WP_STAGE_TASKS — STAGE_ONLY — no confirmation
+- WP_COMMIT_STAGED_TASKS — MUTATES_TRUTH — confirmation required
+- WP_UPDATE_TASK_FIELDS — MUTATES_TRUTH — confirmation required
 
-This classification is used by SEC and Governance to enforce gates.
+Validation-only actions are distinct from read-only actions because they perform deterministic checks and may return pass/fail diagnostics, but they do not mutate truth or generate governed artifacts.
+
+This classification is used by Orchestration, Governance, and SEC policy controls to enforce gates.
 
 ---
 
@@ -196,22 +244,27 @@ This classification is used by SEC and Governance to enforce gates.
 
 ### 8.1 Pre-Call Validation (Orchestration)
 Orchestration must validate:
-- contract is known,
+- contract is known in `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`,
 - contract_version is supported,
-- action_type exists in catalog,
+- action_type exists in the registered catalog,
+- public command alias maps to exactly one canonical action_type,
 - required fields are present,
 - mode is permitted,
-- if action is MUTATES_TRUTH, confirmation must be recorded.
+- side-effect class is known,
+- if action is MUTATES_TRUTH, confirmation has been recorded,
+- if action is a final regulated artifact action, required confirmation and stamp gates are satisfied.
 
 ### 8.2 Subsystem Validation (Implementer)
 Subsystems must validate:
 - schema correctness,
 - invariants relevant to the domain (cycles, stamps, immutability),
+- confirmation flags where the contract requires them,
 - and must fail closed on missing required fields.
 
 ### 8.3 Idempotency Guidance
 Actions should specify idempotency where relevant:
 - READ actions: idempotent
+- VALIDATE actions: idempotent for the same input set
 - STAGE actions: idempotent if same inputs produce same staged hash
 - COMMIT actions: either:
   - idempotent via staged_task_set_id (commit once), or
@@ -220,7 +273,6 @@ Actions should specify idempotency where relevant:
 ---
 
 ## 9. Error Semantics (Contract-Level)
-
 Standard codes (A01):
 - MODE_VIOLATION
 - VALIDATION_ERROR
@@ -243,7 +295,7 @@ Example error:
 {
   "code": "CONFLICT",
   "subcode": "CONTRACT_VERSION_UNSUPPORTED",
-  "message": "Requested contract_version v2.0.0 is not supported. Supported: v1.0.1–v0.4.x.",
+  "message": "Requested contract_version v2.0.0 is not supported. Supported: v1.0.1.",
   "entity": "contract",
   "remediation": "Use a supported version or upgrade the orchestration contract registry."
 }
@@ -251,22 +303,34 @@ Example error:
 
 ---
 
-## 10. Contract Registry Metadata Schema (Documentation in Pack)
+## 10. Contract Registry Metadata Artifact
 
-Each contract entry in the registry must include:
-- contract_id
-- current_version
-- supported_versions
-- owner_subsystem
-- action_catalog (list)
-- schema_refs (JSON schema files if available)
-- change_log (top appended)
-- dependencies (other contracts or asset schemas)
+The pack-level registry artifact is:
+
+- `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`
+
+Each registry entry must include:
+- contract_id,
+- current version or active version,
+- registry category,
+- owner subsystem/control/authority,
+- contract file path where applicable,
+- public aliases or internal aliases,
+- action catalog,
+- side-effect class per action,
+- confirmation rule per action,
+- schema references,
+- action block reference where applicable,
+- active/deferred/freeze-blocked status,
+- dependencies on governed support authorities or cross-cutting policy controls.
 
 This enables:
 - reproducible builds,
 - audit trace (“which contract version governed this export”),
-- safer evolution.
+- safer evolution,
+- pack-level action catalog validation.
+
+Before freeze, A11, the registry artifact, contract files, action-block files, and schemas must agree. Any action marked freeze-blocked in the registry cannot be represented as freeze-ready product behavior.
 
 ---
 
@@ -275,4 +339,5 @@ This enables:
 ## CHANGELOG
 | Date       | Changes     | Type / Version |
 | ---------- | ----------- | -------------- |
+| 2026-06-10 | Pre-freeze Blocker 1 catalog classification, registry artifact, callable/internal/support/policy categories, and VALIDATE_ONLY side-effect class added | Arch_v1.0.1-control |
 | 2025-12-23 | First Issue | Arch_v1.0.1    |

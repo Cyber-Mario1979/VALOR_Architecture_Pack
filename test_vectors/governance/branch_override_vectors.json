@@ -1,0 +1,150 @@
+{
+  "vector_group_id": "GOV-BRANCH-OVERRIDE-VECTORS-0001",
+  "scope": "GOVERNANCE_STATIC_TEST_VECTORS",
+  "schema_refs": {
+    "branch": "schemas/objects/governance_branch_schema.json",
+    "confirmation": "schemas/objects/confirmation_record_schema.json",
+    "override": "schemas/objects/override_record_schema.json"
+  },
+  "positive_cases": [
+    {
+      "case_id": "BRANCH-POSITIVE-EXEC-BRANCH",
+      "description": "Valid execution branch carrying pinned stamp context.",
+      "schema_ref": "schemas/objects/governance_branch_schema.json",
+      "instance": {
+        "branch_id": "BR-EXEC-WP-0007",
+        "branch_type": "BR-EXEC",
+        "parent_branch_id": null,
+        "wp_id": "WP-0007",
+        "created_at_utc": "2026-06-12T00:00:00Z",
+        "updated_at_utc": "2026-06-12T00:00:00Z",
+        "purpose": "Primary execution branch for WP-0007 product-testing flow.",
+        "state": "ACTIVE",
+        "stamp_context": {
+          "preset_ref": {
+            "preset_id": "PS-PE-HIGH",
+            "preset_version": "v1.0.1"
+          },
+          "profile_ref": {
+            "profile_id": "PROF-PE-HIGH",
+            "profile_version": "v1.0.1"
+          },
+          "calendar_logic_ref": {
+            "calendar_id": "CAL-WORKWEEK",
+            "calendar_version": "v1.0.1",
+            "canonical_calendar_version": "v1"
+          },
+          "bundle_ref": {
+            "bundle_id": "BND-CQV-BASE",
+            "bundle_version": "v1.0.1",
+            "usage_classification": "PRODUCT_TESTING_ONLY"
+          }
+        },
+        "pointers": {
+          "staged_task_set_id": "STAGE-PEHIGH-0001",
+          "plan_id": "PLAN-PEHIGH-0001",
+          "doc_ids": [
+            "DOC-URS-0001"
+          ],
+          "export_ids": [
+            "RPT-STATUS-0001"
+          ]
+        }
+      },
+      "expected_result": {
+        "valid": true
+      }
+    },
+    {
+      "case_id": "OVERRIDE-POSITIVE-DURATION-OVERRIDE",
+      "description": "Valid override record with confirmation and audit event reference.",
+      "schema_ref": "schemas/objects/override_record_schema.json",
+      "instance": {
+        "override_id": "OVR-000001",
+        "override_type": "duration_override",
+        "timestamp_utc": "2026-06-12T00:00:00Z",
+        "rationale": "User-provided duration override accepted for product-testing scenario.",
+        "impact_statement": "Planning proposal uses explicit stamped duration instead of governed profile value for the selected task.",
+        "confirmation_ref": {
+          "confirmation_id": "CONF-000001",
+          "scope": "OVERRIDE_ACCEPTANCE"
+        },
+        "audit_event_ref": {
+          "event_id": "EVT-OVERRIDE-000001",
+          "event_type": "EVT_OVERRIDE_ACCEPTED"
+        }
+      },
+      "expected_result": {
+        "valid": true
+      }
+    }
+  ],
+  "negative_cases": [
+    {
+      "case_id": "BRANCH-MERGE-CONFLICT-NEGATIVE",
+      "description": "Unresolved branch merge conflict must block merge.",
+      "schema_ref": "schemas/objects/audit_event_schema.json",
+      "instance": {
+        "event_id": "EVT-MERGE-000001",
+        "timestamp_utc": "2026-06-12T00:00:00Z",
+        "event_type": "EVT_MERGE_ATTEMPTED",
+        "actor": {
+          "role": "CQV Lead"
+        },
+        "branch_id": "BR-EXEC-WP-0007-ALT",
+        "wp_id": "WP-0007",
+        "action_id": "ACT-MERGE-0001",
+        "before_hash": "sha256:PRIMARY-BRANCH",
+        "after_hash": null,
+        "previous_event_hash": "sha256:PREVIOUS-EVENT",
+        "stamps": {
+          "preset_ref": {
+            "preset_id": "PS-PE-HIGH",
+            "preset_version": "v1.0.1"
+          }
+        },
+        "rationale": "Merge attempted while task field conflict remains unresolved.",
+        "attachments": [
+          {
+            "ref_type": "conflict",
+            "ref_id": "CONFLICT-TASK-FIELD-0001"
+          }
+        ]
+      },
+      "expected_result": {
+        "valid": true,
+        "expected_outcome": {
+          "ok": false,
+          "code": "CONFLICT",
+          "subcode": "BRANCH_CONFLICT_UNRESOLVED",
+          "merge_allowed": false
+        }
+      }
+    },
+    {
+      "case_id": "OVERRIDE-NEGATIVE-MISSING-RATIONALE",
+      "description": "Override without rationale must be rejected.",
+      "schema_ref": "schemas/objects/override_record_schema.json",
+      "instance": {
+        "override_id": "OVR-000002",
+        "override_type": "readiness_override",
+        "timestamp_utc": "2026-06-12T00:00:00Z",
+        "rationale": "",
+        "impact_statement": "Attempted readiness override without rationale.",
+        "confirmation_ref": {
+          "confirmation_id": "CONF-000002",
+          "scope": "OVERRIDE_ACCEPTANCE"
+        },
+        "audit_event_ref": {
+          "event_id": "EVT-OVERRIDE-000002",
+          "event_type": "EVT_OVERRIDE_ACCEPTED"
+        }
+      },
+      "expected_result": {
+        "valid": false,
+        "code": "VALIDATION_ERROR",
+        "subcode": "RATIONALE_REQUIRED"
+      }
+    }
+  ]
+}

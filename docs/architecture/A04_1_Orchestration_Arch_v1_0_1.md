@@ -4,8 +4,8 @@ block type: Arch
 version: v1.0.1
 owner: Nexus
 editor: Senior Architect
-status: released
-date: 2025-12-23
+status: pre_freeze_controlled
+date: 2026-06-12
 dependencies:
   - VALOR-block-A00-specs-architecture-pack
   - VALOR-block-A01-sos-context-capability
@@ -18,6 +18,7 @@ acceptance_criteria:
   - Defines orchestration I/O contracts at the envelope level (contract registry, action routing rules).
   - Defines governance gates (stage, commit, plan, apply, export) as enforceable steps.
   - Defines traceability context management and mandatory stamp propagation behavior.
+  - Defines product-surface state labels and safe user-facing behavior boundaries.
   - Defines error taxonomy handling and safe failure behavior (no silent commit, no guessing).
 ---
 
@@ -110,7 +111,7 @@ Orchestration enforces the following gates as mandatory steps:
 1) **GATE-Stage**
 - Purpose: assemble candidate tasks and metadata without allocating IDs.
 - Entry condition: WP exists (or WP_CREATE requested).
-- Output: staged task set (PROPOSED).
+- Output: staged task set (STAGED / not committed).
 
 2) **GATE-Commit**
 - Purpose: allocate task IDs and write WP truth.
@@ -130,37 +131,93 @@ Orchestration enforces the following gates as mandatory steps:
 5) **GATE-Export**
 - Purpose: generate report/export artifacts.
 - Entry condition: required traceability stamps available.
-- Output: exported artifact with stamps.
+- Output: generated artifact with stamps.
 
 ### 4.2 Mandatory Confirmations
 Before any COMMIT or APPLY action, orchestration must ask:
 - “Confirm commit staged tasks to WP### (Yes/No).”
 - “Confirm apply schedule proposal to WP### (Yes/No).”
 
-If user says No → remain PROPOSED; do not mutate WP truth.
+If user says No → remain STAGED/PROPOSED as applicable; do not mutate WP truth.
+
+### 4.3 Product Surface Minimum Behavior
+The product surface is the user-visible contract behavior, not a pixel-level UI or wireframe. It must use these canonical state labels consistently:
+
+| State | Product-surface meaning |
+| --- | --- |
+| `STAGED` | Prepared for user review but not committed to WP/task truth. |
+| `PROPOSED` | Advisory output or recommendation; not authoritative truth. |
+| `COMMITTED` | Written to authoritative WP/task truth after required confirmation. |
+| `DRAFT` | Generated DOC artifact that is not finalized. |
+| `FINAL` | Finalized DOC artifact with required source-chain controls, stamps, and checksum where applicable. |
+| `INCOMPLETE` | Output is explicitly incomplete because required source, stamp, citation, template, or validation data is missing. |
+| `BLOCKED` | Operation refused/stopped because a hard gate is not satisfied. |
+| `PRODUCT_TESTING_ONLY` | Output or governed asset may support product testing only and must not be represented as regulated-ready CQV/GMP output. |
+
+Product-surface rules:
+
+- Public/user-callable behavior is limited to registered public contracts and their active actions.
+- Internal resolver behavior must not be presented as independent user-callable product surface.
+- Non-callable governed support authorities must not be exposed as public actions.
+- Contract/audit/provenance metadata timestamps use UTC, such as `timestamp_utc` or `generated_at_utc`.
+- Optional local display time may be shown only when explicitly labeled as display/local time; Africa/Cairo must not replace canonical UTC metadata.
+- Any output using TESTING_ONLY / PRODUCT_TESTING_ONLY K&S assets must visibly carry the required testing-only stamp.
+- If source data, stamps, standards bundle, template metadata, or approved scope are missing, Orchestration must return `BLOCKED` or `INCOMPLETE` behavior and remediation guidance.
+- Orchestration must not claim success for any WP mutation, document generation, finalization, report, workbook, or Gantt artifact unless the relevant contract action succeeded.
 
 ---
 
 ## 5. Contract Registry and Routing
 
-### 5.1 Contract Registry
-Orchestration maintains a registry of known contracts and supported major versions:
-- VALOR-contract-orch-wp
-- VALOR-contract-orch-plan
-- VALOR-contract-orch-ks
-- VALOR-contract-orch-doc
-- VALOR-contract-orch-rpt
+### 5.1 Canonical Registry Artifact
+Orchestration routes through the pack-level contract registry:
+
+- `contracts/CONTRACT_REGISTRY_v1.0.1.yaml`
+
+The registry is the canonical pre-freeze catalog for:
+- contract IDs and versions,
+- registry category,
+- owner subsystem/control/authority,
+- canonical action_type names,
+- public command aliases and internal aliases,
+- schema references,
+- side-effect class,
+- confirmation rule,
+- active/deferred/freeze-blocked status.
+
+### 5.2 Declared Callable Scope
+Public/user-callable contract categories in the declared v1.0.1 scope:
+- `VALOR-contract-orch-wp`
+- `VALOR-contract-orch-wp-user-driven-baseline` as a WP-owned policy extension
+- `VALOR-contract-orch-plan`
+- `VALOR-contract-orch-doc`
+- `VALOR-contract-orch-rpt`
+- `VALOR-contract-orch-ks` when the user directly requests standards, citation, source, bundle, template, or standards-aware advisory behavior
+
+Internal service/resolver contract:
+- `VALOR-contract-orch-ps` as an internal preset resolver and binding authority, not an independent public/user-callable subsystem unless later promoted.
+
+Non-callable governed support authorities:
+- TP — Task Pool Library
+- PROF — Profile Library
+- CAL — Calendar Logic
+
+Policy-first cross-cutting control:
+- SEC — enforced through Orchestration, subsystem validators, governance gates, and output redaction/refusal policy; no callable SEC contract is required unless SEC is later separated into a callable subsystem.
 
 Routing rule:
-- Orchestration may invoke a contract only if it supports the MAJOR version required by the target subsystem.
+- Orchestration may invoke a contract only if it is registered, active for the declared scope, and supports the required MAJOR version.
 - If not supported → CONFLICT / UNSUPPORTED_MAJOR_VERSION.
+- If an action is marked freeze-blocked in the registry, it cannot be represented as freeze-ready product behavior.
 
-### 5.2 Canonical Action Envelope (Orchestration Output)
+### 5.3 Canonical Action Envelope (Orchestration Output)
 All calls must use the SoS envelope (A01). Orchestration is responsible for:
 - selecting contract + version,
-- selecting action_type,
+- selecting canonical action_type,
+- mapping any public command alias to exactly one canonical action_type,
 - populating payload from validated user inputs and session context,
-- setting options (dry_run, return_full_wp).
+- setting options (dry_run, return_full_wp),
+- enforcing confirmation rules from side-effect class and registry entry.
 
 Example:
 ```json
@@ -172,22 +229,23 @@ Example:
   "mode": "M2",
   "target": {"wp_id": "WP-0007"},
   "payload": {
-    "preset_id": "PRESET-PE-HIGH",
+    "preset_id": "PS-PE-HIGH",
     "preset_version": "v1.0.1",
-    "selection_context": {"equipment_type": "Process Equipment", "complexity": "High"}
+    "selection_context": {"equipment_domain": "ProcessEquipment", "complexity": "High", "scope": "Project"}
   },
   "options": {"dry_run": false},
   "context": {"timestamp_utc": "2025-12-22T00:00:00Z"}
 }
 ```
 
-### 5.3 Action Routing Rules (Implementation Guidance)
+### 5.4 Action Routing Rules (Implementation Guidance)
 - WP object creation/update → WP System.
-- Task suggestion and metadata enrichment → Task Pool + Preset + Profile (read), then stage via WP.
+- Task suggestion and metadata enrichment → TP/PS/PROF/CAL governed support data resolved through PS where applicable, then staged/committed via WP.
 - Planning → Planning subsystem (advisory), then apply via WP.
-- Templates/standards → K&S (read).
-- Document generation → Doc Factory, with WP truth + template references.
+- Templates/standards/citations → K&S when directly requested or when needed by DOC/RPT regulated output flows.
+- Document generation → Doc Factory, with WP truth + template/standards references.
 - Export/report → Reporting, with WP truth + stamp set.
+- Security/compliance → policy-first enforcement through Orchestration/subsystem validators, not a separate callable SEC contract in this declared scope.
 
 ---
 
@@ -203,11 +261,11 @@ Orchestration must propagate and/or store:
 ### 6.2 Stamping Gate Enforcement
 Before generating documents or exports, orchestration must validate that:
 - preset_id/version is known (if preset-driven),
-- profile_id/version is known,
+- profile_id/version is known where profile-based planning/output is used,
 - task_pool_id/version is known,
-- calendar_logic_version is known.
+- calendar_logic_version is known where schedule/export/report metrics require it.
 
-If any missing → block export and return INVARIANT_VIOLATION / MISSING_TRACEABILITY_STAMPS.
+If any required stamp is missing → block regulated output and return INVARIANT_VIOLATION / MISSING_TRACEABILITY_STAMPS.
 
 ---
 
@@ -232,11 +290,11 @@ If a contract call fails or is not executed:
 States (conceptual):
 - S0: Idle (no active WP)
 - S1: WP Selected/Created
-- S2: Tasks Staged (PROPOSED)
+- S2: Tasks Staged (STAGED / not committed)
 - S3: Tasks Committed (COMMITTED)
 - S4: Plan Proposed (PROPOSED schedule)
 - S5: Plan Applied (COMMITTED dates)
-- S6: Export Generated (artifact issued)
+- S6: Artifact Generated (report/document/export artifact issued)
 
 Transitions are gated by confirmations and invariant checks.
 
@@ -247,4 +305,6 @@ Transitions are gated by confirmations and invariant checks.
 ## CHANGELOG
 | Date       | Changes     | Type / Version |
 | ---------- | ----------- | -------------- |
+| 2026-06-12 | Blocker 7A product-surface state labels, timestamp display rule, and user-facing behavior boundaries added | Pre-freeze controlled update |
+| 2026-06-10 | Pre-freeze Blocker 1 contract registry routing categories and canonical registry artifact alignment | Arch_v1.0.1-control |
 | 2025-12-23 | First Issue | Arch_v1.0.1    |

@@ -1,0 +1,41 @@
+# Action Spec: RPT_VALIDATE_REPORT_INPUTS
+action_type: RPT_VALIDATE_REPORT_INPUTS
+public_command_aliases:
+  - validate_report_inputs
+  - validate_status_report
+contract: VALOR-contract-orch-rpt
+version: v1.0.1
+purpose: Validate source scope, WP snapshots, stamps, and template availability before generating a Work Package Status Report.
+allowed_modes: [M1, M2]
+side_effect_class: VALIDATE_ONLY
+idempotent: true
+confirmation_required: false
+
+required_payload_fields:
+  - artifact_type
+  - target_scope
+  - wp_ids
+  - source_snapshot_refs
+  - stamps
+  - validation_mode
+
+optional_payload_fields:
+  - template_id
+  - options
+
+target_scope:
+  supported: [SINGLE_WP, SELECTED_WP_SET]
+  excluded_from_freeze_scope: [ALL_WPS]
+
+result_schema_ref: schemas/contracts/report_result.schema.json
+request_schema_ref: schemas/contracts/report_request.schema.json
+
+validation_checks:
+  - artifact_type must equal WORK_PACKAGE_STATUS_REPORT
+  - target_scope must be SINGLE_WP or SELECTED_WP_SET
+  - wp_ids must match target_scope cardinality
+  - source snapshot references must exist
+  - source snapshot hash must be available
+  - required stamps must be present for requested sections
+  - report template must be available
+  - selected WP set must be explicitly bounded

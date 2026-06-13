@@ -3,7 +3,19 @@
   "$id": "valor://schemas/contracts/plan_validation_result.schema.json",
   "title": "Plan Validation Result",
   "type": "object",
-  "required": [],
-  "properties": {},
-  "additionalProperties": true
+  "additionalProperties": false,
+  "required": ["action_type", "wp_id", "plan_proposal_id", "state", "ok", "errors", "warnings", "validated_at_utc"],
+  "properties": {
+    "action_type": {"type": "string", "enum": ["PLAN_VALIDATE_PROPOSAL", "PS_VALIDATE_BINDINGS"]},
+    "wp_id": {"type": "string", "minLength": 1},
+    "plan_proposal_id": {"type": "string", "minLength": 1},
+    "state": {"type": "string", "const": "PROPOSED"},
+    "ok": {"type": "boolean"},
+    "errors": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+    "warnings": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+    "validated_at_utc": {"type": "string", "format": "date-time"},
+    "provenance_stamps_checked": {"type": "boolean"},
+    "calendar_logic_checked": {"type": "boolean"},
+    "proposal_commit_boundary_checked": {"type": "boolean"}
+  }
 }

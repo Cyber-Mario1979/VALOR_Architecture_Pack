@@ -3,7 +3,25 @@
   "$id": "valor://schemas/contracts/doc_artifact_result.schema.json",
   "title": "Document Artifact Result",
   "type": "object",
-  "required": [],
-  "properties": {},
-  "additionalProperties": true
+  "additionalProperties": false,
+  "required": ["action_type", "doc_id", "doc_type", "doc_version", "wp_id", "state", "template_ref", "bundle_ref", "citation_set", "source_chain_provenance", "source_input_completion_status", "provenance_stamps", "testing_only", "checksum", "artifact_metadata", "validation_result"],
+  "properties": {
+    "action_type": {"type": "string", "const": "DOC_FINALIZE_ARTIFACT"},
+    "doc_id": {"type": "string", "minLength": 1},
+    "doc_type": {"type": "string", "enum": ["DCF", "VMP", "URS", "RA", "RTM", "DQ", "IQ", "OQ", "PQ", "VSR", "REPORT"]},
+    "doc_version": {"type": "string", "minLength": 1},
+    "wp_id": {"type": "string", "minLength": 1},
+    "state": {"type": "string", "enum": ["FINAL", "INCOMPLETE", "BLOCKED", "PRODUCT_TESTING_ONLY"]},
+    "template_ref": {"type": "object", "additionalProperties": true, "required": ["template_id", "template_version"]},
+    "bundle_ref": {"type": "object", "additionalProperties": true, "required": ["bundle_id", "bundle_version", "usage_classification"]},
+    "citation_set": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+    "source_chain_provenance": {"type": "object", "additionalProperties": true, "minProperties": 1},
+    "source_input_completion_status": {"type": "string", "enum": ["COMPLETE", "INCOMPLETE", "BLOCKED"]},
+    "provenance_stamps": {"type": "object", "additionalProperties": true, "minProperties": 1},
+    "testing_only": {"type": "boolean"},
+    "testing_only_stamp": {"type": "string"},
+    "checksum": {"type": ["string", "null"]},
+    "artifact_metadata": {"$ref": "../objects/document_metadata_schema.json"},
+    "validation_result": {"type": "object", "additionalProperties": true, "required": ["ok", "errors", "warnings"]}
+  }
 }

@@ -1,40 +1,20 @@
 {
-  "export_id": "EXP-0001",
-  "wp_id": "WP-0007",
-  "format": "JSON",
-  "rows": [
+  "vector_id": "RPT-ARTIFACT-FAMILIES-BASELINE-0001",
+  "purpose": "Declared v1.0.1 RPT artifact family baseline; generic JSON/CSV export is not the freeze baseline.",
+  "target_scope_allowed": ["SINGLE_WP", "SELECTED_WP_SET"],
+  "target_scope_blocked": ["ALL_WPS"],
+  "artifacts": [
     {
-      "task_id": "T-0001",
-      "name": "URS Draft",
-      "status": "OPEN"
+      "action_type": "RPT_GENERATE_STATUS_REPORT",
+      "artifact_metadata": {"artifact_id": "RPT-STATUS-0001", "artifact_type": "WORK_PACKAGE_STATUS_REPORT", "artifact_label": "Work Package Status Report", "target_scope": "SINGLE_WP", "wp_ids": ["WP-0007"], "source_snapshot_hash": "sha256:TEST-WP-SNAPSHOT", "template_id": "TPL-RPT-WP-STATUS-REPORT-v1.0.1", "template_version": "v1.0.1", "contract_id": "VALOR-contract-orch-rpt", "contract_version": "v1.0.1", "action_type": "RPT_GENERATE_STATUS_REPORT", "generated_at_utc": "2026-06-12T00:00:00Z", "projection_only": true, "mutates_wp_truth": false, "stamps": {}, "validation_result": {"ok": true, "mode": "STRICT", "errors": [], "warnings": []}, "content_ref": {"ref_type": "CONTENT_REF", "format": "REPORT_SOURCE", "uri": "artifact://RPT-STATUS-0001"}}
     },
     {
-      "task_id": "T-0002",
-      "name": "DQ Draft",
-      "status": "OPEN"
+      "action_type": "RPT_GENERATE_WORKBOOK_EXPORT",
+      "artifact_metadata": {"artifact_id": "RPT-WORKBOOK-0001", "artifact_type": "WORK_PACKAGE_WORKBOOK_EXPORT", "artifact_label": "Work Package Workbook Export", "target_scope": "SINGLE_WP", "wp_ids": ["WP-0007"], "source_snapshot_hash": "sha256:TEST-WP-SNAPSHOT", "template_id": "TPL-RPT-WP-WORKBOOK-EXPORT-v1.0.1", "template_version": "v1.0.1", "contract_id": "VALOR-contract-orch-rpt", "contract_version": "v1.0.1", "action_type": "RPT_GENERATE_WORKBOOK_EXPORT", "generated_at_utc": "2026-06-12T00:00:00Z", "projection_only": true, "mutates_wp_truth": false, "stamps": {}, "validation_result": {"ok": true, "mode": "STRICT", "errors": [], "warnings": []}, "content_ref": {"ref_type": "CONTENT_REF", "format": "XLSX", "uri": "artifact://RPT-WORKBOOK-0001"}}
     },
     {
-      "task_id": "T-0003",
-      "name": "RTM Build",
-      "status": "OPEN"
+      "action_type": "RPT_GENERATE_GANTT_CHART",
+      "artifact_metadata": {"artifact_id": "RPT-GANTT-0001", "artifact_type": "WORK_PACKAGE_GANTT_CHART", "artifact_label": "Work Package Gantt Chart", "target_scope": "SINGLE_WP", "wp_ids": ["WP-0007"], "source_snapshot_hash": "sha256:TEST-WP-SNAPSHOT", "template_id": "TPL-RPT-WP-GANTT-CHART-v1.0.1", "template_version": "v1.0.1", "contract_id": "VALOR-contract-orch-rpt", "contract_version": "v1.0.1", "action_type": "RPT_GENERATE_GANTT_CHART", "generated_at_utc": "2026-06-12T00:00:00Z", "projection_only": true, "mutates_wp_truth": false, "stamps": {}, "validation_result": {"ok": true, "mode": "STRICT", "errors": [], "warnings": []}, "content_ref": {"ref_type": "CONTENT_REF", "format": "XLSX", "uri": "artifact://RPT-GANTT-0001"}}
     }
-  ],
-  "stamps": {
-    "preset": {
-      "id": "PS-STERILE",
-      "version": "v0.1.0"
-    },
-    "profile": {
-      "id": "PR-DEFAULT",
-      "version": "v1.0.0"
-    },
-    "calendar": {
-      "id": "CAL-WORKWEEK",
-      "version": "v1.0.0"
-    },
-    "bundle": {
-      "id": "BND-CQV-BASE",
-      "version": "v1.0.0"
-    }
-  }
+  ]
 }

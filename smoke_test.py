@@ -23,11 +23,10 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable, Optional, Sequence, Tuple
+from typing import Any, Optional, Sequence
 
 # -----------------------------
 # Dependency checks
@@ -68,10 +67,6 @@ def load_json(path: Path) -> Any:
 def load_yaml(path: Path) -> Any:
     with path.open("r", encoding="utf-8") as f:
         return yaml.safe_load(f)
-
-
-def glob_rel(root: Path, pattern: str) -> Sequence[Path]:
-    return sorted(root.glob(pattern))
 
 
 def verify_manifest(pack_root: Path, verbose: bool) -> CheckResult:
@@ -150,6 +145,30 @@ def validate_all_json_schemas(pack_root: Path) -> CheckResult:
     return CheckResult("schemas.load", True, f"Loaded {len(schema_paths)} schema files")
 
 
+def inline_known_local_refs(schema: Any, schema_path: Path) -> Any:
+    """
+    Inline local JSON Schema refs that the smoke test needs to validate vectors.
+
+    This keeps validation active without depending on jsonschema RefResolver,
+    which is deprecated and was failing to resolve the pack's local relative ref
+    from report_result.schema.json to schemas/objects/rpt_artifact_metadata_schema.json.
+    """
+    if not isinstance(schema, dict):
+        return schema
+
+    artifact_metadata_ref = (
+        schema.get("properties", {})
+        .get("artifact_metadata", {})
+        .get("$ref")
+    )
+
+    if artifact_metadata_ref == "../objects/rpt_artifact_metadata_schema.json":
+        ref_path = (schema_path.parent / artifact_metadata_ref).resolve()
+        schema["properties"]["artifact_metadata"] = load_json(ref_path)
+
+    return schema
+
+
 def validate_report_vectors(pack_root: Path) -> CheckResult:
     # Expected convention in this pack
     schema_candidates = [p for p in pack_root.rglob("report_result.schema.json")]
@@ -157,10 +176,16 @@ def validate_report_vectors(pack_root: Path) -> CheckResult:
         return CheckResult("report.vectors", False, "report_result.schema.json not found")
 
     schema_path = schema_candidates[0]
+
     try:
         schema = load_json(schema_path)
+        schema = inline_known_local_refs(schema, schema_path)
     except Exception as e:
-        return CheckResult("report.vectors", False, f"Failed to load report schema: {schema_path.relative_to(pack_root)}: {e}")
+        return CheckResult(
+            "report.vectors",
+            False,
+            f"Failed to load report schema: {schema_path.relative_to(pack_root)}: {e}",
+        )
 
     vector_paths = sorted(pack_root.rglob("expected_report_*.json"))
     if not vector_paths:
@@ -175,8 +200,19 @@ def validate_report_vectors(pack_root: Path) -> CheckResult:
             bad.append(f"{vp.relative_to(pack_root)}: {e}")
 
     if bad:
-        return CheckResult("report.vectors", False, "Report vector validation failures: " + "; ".join(bad[:3]) + (" ..." if len(bad) > 3 else ""))
-    return CheckResult("report.vectors", True, f"Validated {len(vector_paths)} report vectors against {schema_path.relative_to(pack_root)}")
+        return CheckResult(
+            "report.vectors",
+            False,
+            "Report vector validation failures: "
+            + "; ".join(bad[:3])
+            + (" ..." if len(bad) > 3 else ""),
+        )
+
+    return CheckResult(
+        "report.vectors",
+        True,
+        f"Validated {len(vector_paths)} report vectors against {schema_path.relative_to(pack_root)}",
+    )
 
 
 def _find_yaml_by_id_version(
@@ -231,8 +267,6 @@ def validate_preset_bindings(pack_root: Path) -> CheckResult:
             failures.append(f"{pf.name}: not a YAML mapping")
             continue
 
-        preset_id = preset.get("preset_id")
-        preset_ver = preset.get("version")
         bindings = preset.get("bindings") or {}
         if not isinstance(bindings, dict):
             failures.append(f"{pf.name}: missing/invalid 'bindings'")
@@ -297,7 +331,7 @@ def validate_preset_bindings(pack_root: Path) -> CheckResult:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="VALOR Architecture Pack — Smoke Test Runner")
-    parser.add_argument("--skip-manifest", action="store_true", help="Skip manifest verification (hash/size)")
+    parser.add_argument("--skip-manifest", action="store_true", help="Skip manifest hash/size verification")
     parser.add_argument("--verbose", action="store_true", help="Verbose output")
     args = parser.parse_args()
 

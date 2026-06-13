@@ -1,0 +1,55 @@
+# Action Spec: RPT_GENERATE_GANTT_CHART
+action_type: RPT_GENERATE_GANTT_CHART
+public_command_aliases:
+  - generate_gantt
+  - generate_gantt_chart
+contract: VALOR-contract-orch-rpt
+version: v1.0.1
+purpose: Generate a separate Excel-based Work Package Gantt Chart artifact with full-cell timeline coloring.
+allowed_modes: [M2]
+side_effect_class: GENERATES_ARTIFACT
+idempotent: true
+confirmation_required: true
+
+required_payload_fields:
+  - artifact_type
+  - target_scope
+  - wp_ids
+  - source_snapshot_refs
+  - gantt_template_id
+  - timeline
+  - stamps
+  - validation_mode
+
+optional_payload_fields:
+  - gantt_options
+
+target_scope:
+  supported: [SINGLE_WP, SELECTED_WP_SET]
+  excluded_from_freeze_scope: [ALL_WPS]
+
+output_format: XLSX
+result_schema_ref: schemas/contracts/gantt_chart_result.schema.json
+request_schema_ref: schemas/contracts/gantt_chart_request.schema.json
+
+template_ref:
+  template_id: TPL-RPT-WP-GANTT-CHART-v1.0.1
+  template_path: templates/export/WP_GANTT_CHART_v1.0.1.yaml
+
+required_sheets:
+  - Gantt
+  - Task Data
+  - Metadata
+
+visual_rule:
+  timeline_coloring: FULL_CELL_FILL
+  character_bars_inside_cells: false
+
+projection_policy:
+  mutates_wp_truth: false
+  mutates_task_truth: false
+
+notes:
+  - "Gantt is a separate artifact, not a tab in the workbook export freeze baseline."
+  - "For SELECTED_WP_SET, rows must be grouped by WP."
+  - "If strict mode cannot produce a readable selected-WP-set Gantt, generation must refuse rather than produce a misleading artifact."

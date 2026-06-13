@@ -1,0 +1,94 @@
+{
+  "vector_id": "E2E-POS-WP-PLAN-DOC-RPT-0001",
+  "scope": "NON_KS_E2E_TEST_VECTORS",
+  "description": "Positive traceable WP to PLAN to DOC to RPT flow. This vector defines expected states/metadata only and does not generate artifacts.",
+  "testing_only_stamp": "PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.",
+  "ks_metadata_refs": {
+    "bundle_ref": {"bundle_id": "BND-CQV-BASE", "bundle_version": "v1.0.1", "usage_classification": "PRODUCT_TESTING_ONLY"},
+    "standard_ref": {"standard_id": "STD-CQV-BASE", "standard_version": "v1.0.1"},
+    "urs_template_ref": {"template_id": "TPL-URS", "template_version": "v1.0.1"},
+    "dcf_template_ref": {"template_id": "TPL-DCF", "template_version": "v1.0.1", "generation_active": false, "finalization_active": false}
+  },
+  "flow_steps": [
+    {
+      "step": 1,
+      "action_type": "WP_BIND_PRESET_CONTEXT",
+      "expected_state": "COMMITTED",
+      "mutates_wp_truth": true,
+      "expected_refs": {"preset_id": "PS-PE-HIGH", "preset_version": "v1.0.1"}
+    },
+    {
+      "step": 2,
+      "action_type": "WP_STAGE_TASKS",
+      "expected_state": "STAGED",
+      "mutates_wp_truth": false,
+      "expected_refs": {"task_pool_id": "TP-PE-HIGH", "task_pool_version": "v1.0.1"}
+    },
+    {
+      "step": 3,
+      "action_type": "WP_COMMIT_STAGED_TASKS",
+      "expected_state": "COMMITTED",
+      "mutates_wp_truth": true,
+      "requires_confirmation": true
+    },
+    {
+      "step": 4,
+      "action_type": "PLAN_GENERATE_PROPOSAL",
+      "expected_state": "PROPOSED",
+      "mutates_wp_truth": false,
+      "expected_refs": {"profile_id": "PROF-PE-HIGH", "calendar_id": "CAL-WORKWEEK", "calendar_version": "v1.0.1", "canonical_calendar_version": "v1"}
+    },
+    {
+      "step": 5,
+      "action_type": "WP_APPLY_PLAN_PROPOSAL",
+      "expected_state": "COMMITTED",
+      "mutates_wp_truth": true,
+      "requires_confirmation": true,
+      "rule": "Committed dates are written only through WP_APPLY_PLAN_PROPOSAL."
+    },
+    {
+      "step": 6,
+      "action_type": "DOC_GENERATE_DRAFT",
+      "expected_state": "DRAFT",
+      "output_usage_classification": "PRODUCT_TESTING_ONLY",
+      "mutates_wp_truth": false,
+      "expected_refs": {"template_id": "TPL-URS", "template_version": "v1.0.1", "dcf_metadata_only": true}
+    },
+    {
+      "step": 7,
+      "action_type": "RPT_GENERATE_STATUS_REPORT",
+      "expected_artifact_type": "WORK_PACKAGE_STATUS_REPORT",
+      "target_scope": "SINGLE_WP",
+      "projection_only": true,
+      "mutates_wp_truth": false
+    },
+    {
+      "step": 8,
+      "action_type": "RPT_GENERATE_WORKBOOK_EXPORT",
+      "expected_artifact_type": "WORK_PACKAGE_WORKBOOK_EXPORT",
+      "target_scope": "SINGLE_WP",
+      "projection_only": true,
+      "mutates_wp_truth": false
+    },
+    {
+      "step": 9,
+      "action_type": "RPT_GENERATE_GANTT_CHART",
+      "expected_artifact_type": "WORK_PACKAGE_GANTT_CHART",
+      "target_scope": "SINGLE_WP",
+      "projection_only": true,
+      "mutates_wp_truth": false
+    }
+  ],
+  "assertions": {
+    "staging_state": "STAGED",
+    "commit_state": "COMMITTED",
+    "plan_state": "PROPOSED",
+    "doc_state": "DRAFT",
+    "doc_usage_classification": "PRODUCT_TESTING_ONLY",
+    "testing_only_stamp_present": true,
+    "plan_doc_rpt_do_not_mutate_wp_truth": true,
+    "only_wp_apply_plan_proposal_commits_dates": true,
+    "all_rpt_outputs_projection_only": true,
+    "no_real_regulated_output_claimed": true
+  }
+}

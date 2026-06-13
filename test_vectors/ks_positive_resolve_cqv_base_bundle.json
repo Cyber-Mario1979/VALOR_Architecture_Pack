@@ -1,0 +1,18 @@
+{
+  "test_id": "KS-POS-001",
+  "name": "positive resolve CQV base bundle",
+  "action_type": "KS_VALIDATE_BUNDLE_INTEGRITY",
+  "input": {"bundle_id": "BND-CQV-BASE", "version": "v1.0.1"},
+  "expected": {
+    "bundle_id": "BND-CQV-BASE",
+    "version": "v1.0.1",
+    "ok": false,
+    "status": "PRE_FREEZE_USER_REVIEW_REQUIRED",
+    "checks": [
+      {"check_id": "internal_standard_present", "ok": true, "severity": "PASS"},
+      {"check_id": "templates_present", "ok": true, "severity": "PASS"},
+      {"check_id": "source_review_gate", "ok": false, "severity": "BLOCKING"}
+    ],
+    "blocked_behavior": "BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT_UNTIL_USER_SITE_SOURCE_REVIEW_ACCEPTANCE"
+  }
+}

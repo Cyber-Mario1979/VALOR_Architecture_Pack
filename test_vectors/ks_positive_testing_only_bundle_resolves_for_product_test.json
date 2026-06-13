@@ -1,0 +1,16 @@
+{
+  "test_id": "KS-3A-POS-001",
+  "name": "testing-only bundle resolves for product test",
+  "action_type": "KS_VALIDATE_BUNDLE_INTEGRITY",
+  "requested_use": "PRODUCT_TESTING",
+  "input": {"bundle_id": "BND-CQV-BASE", "version": "v1.0.1"},
+  "expected": {
+    "ok": true,
+    "status": "TESTING_ONLY",
+    "usage_classification": "PRODUCT_TESTING_ONLY",
+    "testing_use_allowed": true,
+    "regulated_output_allowed": false,
+    "testing_only_stamp_required": true,
+    "required_output_stamp": "PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE."
+  }
+}

@@ -4,21 +4,22 @@ block type: Arch
 version: v1.0.1
 owner: Nexus
 editor: Senior Architect
-status: released
-date: 2025-12-23
+status: pre_freeze_controlled
+date: 2026-06-12
 dependencies:
   - VALOR-block-A00-specs-architecture-pack
   - VALOR-block-A01-sos-context-capability
   - VALOR-block-A02-principles-invariants
   - VALOR-block-A03-subsystems-authority
   - VALOR-block-A05-task-pool-architecture
-summary: "Block A08 — Profile Library Architecture: governed duration/lead-time matrices keyed by task semantics and context, providing deterministic defaults used by Planning and stamped into outputs."
+  - VALOR-block-A07-calendar-logic-architecture
+summary: "Block A08 — Profile Library Architecture: governed duration/lead-time matrices keyed by task semantics and context, using entries map model, enum-aligned task_type, separate profile_task_semantic, and explicit unit policy."
 acceptance_criteria:
-  - Defines Profile Library as authoritative governed data for durations/lead times (not embedded in prompts/presets).
-  - Defines Profile entity schema including keys, dimensions, and value semantics (working days vs calendar months).
+  - Defines Profile Library as authoritative governed data for durations and lead times, not calendar rules.
+  - Defines profile entity schema using canonical entries map.
   - Defines duration key mapping between atomic tasks and profile entries.
+  - Separates WP/TP task_type enum from profile_task_semantic.
   - Defines governance/change control and versioning policy for profile updates.
-  - Defines contracts for reading profiles and resolving duration values for tasks.
   - Defines error semantics for missing keys, incompatible units, and context conflicts.
 ---
 
@@ -26,274 +27,231 @@ acceptance_criteria:
 
 Terminology: See **A15_Global_Glossary_Arch_v1_0_1.md** for definitions.
 
-
 ## 1. Purpose and Authority
-The Profile Library (PROF) is a governed, versioned store of **planning data**:
-- default task durations (authoring, review, approval, execution),
-- vendor wait times (quotation, FAT scheduling),
-- procurement cycle assumptions (PO processing),
-- equipment manufacturing lead times,
-- facility construction/install lead times (future).
 
-This data must be governed because it directly impacts:
-- schedule proposals,
-- KPI calculations,
-- report/export artifacts.
+The Profile Library (PROF) is a governed, versioned store of planning data:
+
+- default task durations for authoring, review, approval, execution, reporting, and waits;
+- vendor wait times;
+- procurement cycle assumptions;
+- equipment manufacturing lead times;
+- logistics lead times;
+- FAT preparation, execution, report, and acceptance durations for the declared high-complexity process-equipment baseline.
 
 PROF is authoritative for:
-- default duration/lead time values and their units,
-- the dimensional model (what context dimensions exist),
-- mapping rules (how to select the right value from context).
+
+- default duration and lead-time values;
+- duration units;
+- the dimensional model used to select values;
+- profile key definitions;
+- deterministic profile value selection.
 
 PROF is not authoritative for:
-- WP/task truth values explicitly set by users (these override defaults),
-- scheduling algorithm (Planning),
-- calendar rules (Calendar Logic).
 
-Alignment:
-- A02 INV-01: no guessing; if profile key missing and no override, planning must fail.
-- A02 “versioned assets”: durations must live here, not in prompts or presets.
+- WP/task truth values explicitly set by users;
+- calendar rules or working-day arithmetic;
+- scheduling algorithm choices;
+- approvals or release decisions.
 
----
+Calendar rules are owned by Calendar Logic. A profile may reference compatible calendar assets but must not define the calendar rules itself.
 
-## 2. Core Entities (Authoritative Data Model)
+## 2. Canonical v1.0.1 Profile Asset
 
-### 2.1 Profile
-A Profile is a versioned matrix package.
+The declared profile asset for this blocker is:
 
-Required fields:
-- profile_id (string, stable)
-- version (semver)
-- revision_date (YYYY-MM-DD)
-- name (string)
-- description (string)
-- applicability:
-  - equipment_domain: ProcessEquipment | Utilities | Facility
-  - complexity: Low | Medium | High
-  - scope: SingleEquipment | Project
-  - optional system_types
-- dimensions (array of dimension definitions; see §2.2)
-- entries (map of profile_key → ProfileEntry; see §2.3)
-- unit_policy (see §2.4)
-- governance:
-  - owner_function
-  - change_control_ref (optional)
-  - checksum (optional)
+- `libraries/profile_library/PROF-PE-HIGH_v1.0.1.yaml`
+- profile_id: `PROF-PE-HIGH`
+- version: `v1.0.1`
+- scope: ProcessEquipment / High / Project
+- vendor_model: Intercontinental
+- compatible calendar: `CAL-WORKWEEK v1.0.1` wrapper around canonical `CAL-WORKWEEK v1`
 
-### 2.2 Dimension Definition
-Defines context axes used for selecting values.
+## 3. Profile Entity Schema
 
-Fields:
-- name (e.g., phase, task_type, owner_role, system_type, vendor_model)
-- allowed_values (array)
-- required (bool)
-- default_value (optional)
+A profile record must include:
 
-Recommended v0.1.x dimensions:
-- phase
-- task_type
-- scope (SingleEquipment/Project)
-- complexity (Low/Medium/High)
-Optional:
-- vendor_model (Local/Intercontinental)
-- system_type
+- profile_id;
+- version;
+- revision_date;
+- status;
+- usage_classification;
+- effective_date;
+- source_checked_date;
+- review_cycle_months;
+- next_review_due;
+- expiry_date;
+- review_required;
+- expired_behavior;
+- name;
+- description;
+- applicability;
+- calendar_compatibility_ref;
+- unit_policy;
+- selector_policy;
+- entries.
 
-### 2.3 ProfileEntry
-A profile entry maps a key to one or more context-specific values.
+The governed lifecycle metadata is local governed-library metadata only. It does not mean the profile is frozen, final, released, externally approved, or regulated-approved.
 
-Fields:
-- profile_key (string, stable)
-- description (string)
-- value_table (array of rows):
-  - each row: {context_selector, value, unit}
-- selection_priority (integer; default 0)
-- notes (optional)
+## 4. Entries Map Model
 
-Context selector is a partial match object, e.g.:
-```json
-{"phase":"URS","task_type":"AUTHORING","complexity":"High"}
+The canonical profile structure is an `entries` map:
+
+```yaml
+entries:
+  URS_AUTHORING_DUR:
+    description: URS drafting/authoring duration.
+    selection_priority: 0
+    value_table:
+      - context_selector:
+          phase: URS
+          task_type: AUTHORING
+          profile_task_semantic: AUTHORING
+        value: 10
+        unit: WORKING_DAYS
 ```
 
-### 2.4 Unit Policy
+`keys` is not the canonical v1.0.1 profile structure. If legacy profile files contain `keys`, they must be normalized to `entries` before freeze.
+
+Each entry key is stable. Meaning changes require a profile version change, not silent key redefinition.
+
+## 5. Task Type and Profile Semantics
+
+`task_type` must remain aligned to the WP/TP task_type enum:
+
+- AUTHORING
+- REVIEW
+- APPROVAL
+- EXECUTION
+- REPORTING
+- VENDOR_WAIT
+- PROCUREMENT_WAIT
+- LEAD_TIME
+
+Non-enum duration meaning must be carried by a separate semantic field such as `profile_task_semantic`.
+
+Examples:
+
+| Profile meaning | task_type | profile_task_semantic |
+| --- | --- | --- |
+| cycle package | AUTHORING | CYCLE |
+| finalization | AUTHORING | FINALIZE |
+| protocol authoring | AUTHORING | PROTOCOL_AUTHORING |
+| vendor scheduling | VENDOR_WAIT | SCHEDULING |
+| delivery lead time | LEAD_TIME | DELIVERY |
+| manufacturing lead time | LEAD_TIME | MANUFACTURING_LEADTIME |
+| report closure | REPORTING | REPORT |
+| vendor coordination block | VENDOR_WAIT | VENDOR_COORDINATION_BLOCK |
+
+This prevents profile-specific labels from contaminating the WP/TP task_type enum.
+
+## 6. Duration Key Mapping
+
+Atomic tasks reference profile entries through `duration_ref.profile_key`.
+
+This is the controlled bridge:
+
+- Task Pool defines which tasks exist.
+- Profile defines how long they typically take.
+- Planning resolves duration values using the profile entry and selection context.
+
+If a task references a profile key that does not exist, Planning must refuse unless the task instance has an explicit, stamped duration override.
+
+## 7. Unit Policy
+
 Units must be explicit.
 
 Allowed units:
-- WORKING_DAYS (default for authoring/review/approval/execution)
-- CALENDAR_DAYS (rare; must be explicit)
+
+- WORKING_DAYS
+- CALENDAR_DAYS
 - CALENDAR_WEEKS
-- CALENDAR_MONTHS (common for manufacturing lead times)
-- CALENDAR_YEARS (rare)
+- CALENDAR_MONTHS
+- CALENDAR_YEARS only if explicitly introduced by a later controlled update
 
-Policy:
-- Planning must not convert CALENDAR_MONTHS into WORKING_DAYS unless conversion rule is explicitly defined and approved.
-- If conversion is required, it must be declared (e.g., 1 month = 30 calendar days) and stamped.
+Baseline policy:
 
-CQV default:
-- Prefer WORKING_DAYS for internal work.
-- Prefer CALENDAR_MONTHS for vendor manufacturing lead times (explicit).
+- internal CQV work uses WORKING_DAYS;
+- vendor lead times may use CALENDAR_DAYS, CALENDAR_WEEKS, or CALENDAR_MONTHS;
+- no implicit conversion from CALENDAR_MONTHS to WORKING_DAYS is allowed;
+- if conversion is required, the conversion rule must be explicitly approved and stamped.
 
----
+## 8. Profile Value Selection Logic
 
-## 3. Duration Key Mapping (Atomic Tasks → Profile Keys)
+Given profile_id/version, profile_key, and selection_context:
 
-### 3.1 Why Keys Matter
-Atomic tasks reference profile keys via `duration_ref.profile_key`. This is the controlled bridge:
-- Task Pool defines “what tasks exist.”
-- Profile defines “how long they typically take.”
+1. locate the entry by profile_key;
+2. filter value_table rows where context_selector matches supplied fields;
+3. choose the most specific match;
+4. if tied, choose highest selection_priority;
+5. if still tied, use stable row order only if deterministic and documented;
+6. if no match exists, return `PROFILE_KEY_VALUE_NOT_FOUND`.
 
-### 3.2 Key Naming Convention (Recommended)
-`<PHASE>_<TASKTYPE>_<SUBTYPE>_DUR`
-Examples:
-- URS_AUTHORING_DUR
-- URS_REVIEW_DUR
-- URS_APPROVAL_DUR
-- RTM_CYCLE_DUR
-- QUOTATION_WAIT_DUR
-- MANUFACTURING_LEADTIME_BLISTERLINE
+No guessing is allowed.
 
-Keys must be stable across versions; meaning changes require version bump, not key redefinition.
+## 9. Explicit Duration Overrides and No-Profile Baseline
 
-### 3.3 Overrides
-If WP/task instance has an explicit planned_duration_days:
-- it overrides profile-derived default for that task only.
-- RPT should report both “default” and “overridden” status where useful.
+Normal freeze operation requires a governed profile.
 
----
+No-profile planning is allowed only when every task has an explicit duration override and every override has a stamped source/provenance record.
 
-## 4. Selection Logic (How a Value Is Picked)
+If any task lacks both a resolvable governed profile entry and an explicit stamped override, Planning must refuse.
 
-Given:
-- profile_id/version
-- profile_key
-- selection_context (equipment_domain, complexity, scope, system_type, vendor_model, etc.)
+## 10. FAT Chain Duration Coverage
 
-Selection algorithm (deterministic):
-1) Filter rows where selector matches all provided fields.
-2) Choose the most specific match (highest number of matched fields).
-3) If tie, choose highest selection_priority.
-4) If still tie, deterministic tie-break by stable row ordering.
-5) If no row matches → NOT_FOUND / PROFILE_KEY_VALUE_NOT_FOUND.
+For high-complexity process equipment, the profile must include duration entries supporting the FAT path:
 
-No guessing:
-- If missing, the caller must provide an override or update the profile.
+- FAT scheduling;
+- FAT preparation;
+- FAT execution;
+- FAT report / punch-list summary;
+- FAT acceptance / release-to-ship decision;
+- logistics / delivery lead time.
 
----
+This is limited to the existing high-complexity process-equipment path. It does not add ERP/procurement integration, resource loading, evidence ingestion, or delivery planning.
 
-## 5. Governance and Change Control
+## 11. Governance and Change Control
 
-### 5.1 Immutability per Version
-- profile_id + version is immutable.
-- any value changes → new version.
+Profile versions are immutable.
 
-### 5.2 Change Control Expectations
-Because this impacts CQV timelines:
-- profile updates should be reviewed by owners (CQV/QA/Engineering as applicable),
-- changes should reference rationale (e.g., “blister line lead time observed 6–8 months”).
+Any value change, selector change, unit change, or meaning change requires a new profile version or controlled pre-freeze update.
 
-### 5.3 Compatibility Checks
-A profile version is compatible with a task pool version if:
-- every atomic task duration_ref.profile_key exists in the profile, or
-- atomic task is flagged “duration optional” and planning policy allows.
+Profile updates should include rationale because planning data directly affects CQV schedule proposals and reporting metrics.
 
-If incompatible:
-- return CONFLICT / PROFILE_INCOMPATIBLE_WITH_TASK_POOL.
-
----
-
-## 6. Profile Library Contract (Implementation-Ready)
-
-PROF is invoked via `VALOR-contract-orch-prof`.
-
-### 6.1 Actions
-READ:
-- PROF_LIST (filters by applicability)
-- PROF_READ (profile_id + version)
-- PROF_READ_KEYS (list keys + descriptions)
-
-RESOLVE:
-- PROF_RESOLVE_VALUE
-  - Inputs: profile_ref + profile_key + selection_context
-  - Output: value + unit + match rationale
-
-VALIDATE:
-- PROF_VALIDATE_PROFILE (schema + integrity)
-- PROF_VALIDATE_COMPATIBILITY (profile_ref + task_pool_ref)
-
-### 6.2 Canonical Request (Resolve Value)
-```json
-{
-  "contract": "VALOR-contract-orch-prof",
-  "contract_version": "v1.0.1",
-  "action_id": "ACT-000810",
-  "action_type": "PROF_RESOLVE_VALUE",
-  "mode": "M2",
-  "payload": {
-    "profile_ref": {"profile_id": "PROF-PE-HIGH", "profile_version": "v1.0.1"},
-    "profile_key": "RTM_CYCLE_DUR",
-    "selection_context": {"complexity": "High", "scope": "Project", "vendor_model": "Intercontinental"}
-  },
-  "context": {"timestamp_utc": "2025-12-22T00:00:00Z"}
-}
-```
-
-### 6.3 Canonical Response
-```json
-{
-  "contract": "VALOR-contract-orch-prof",
-  "contract_version": "v1.0.1",
-  "action_id": "ACT-000810",
-  "ok": true,
-  "result": {
-    "profile_key": "RTM_CYCLE_DUR",
-    "value": 30,
-    "unit": "WORKING_DAYS",
-    "match": {"matched_fields": ["complexity","scope","vendor_model"], "row_priority": 10}
-  },
-  "error": null
-}
-```
-
----
-
-## 7. Error Semantics (Profile Library)
+## 12. Error Semantics
 
 Standard codes:
-- VALIDATION_ERROR: invalid context, invalid key format
-- NOT_FOUND: profile not found, key not found
-- CONFLICT: ambiguous match, incompatible units, compatibility failure
-- UNSUPPORTED_OPERATION: unsupported unit conversions
-- INTERNAL_ERROR: unexpected
+
+- VALIDATION_ERROR: invalid context, invalid key format, missing required selector;
+- NOT_FOUND: profile not found, key not found, value not found;
+- CONFLICT: ambiguous match, incompatible units, compatibility failure;
+- UNSUPPORTED_OPERATION: unsupported unit conversion;
+- INTERNAL_ERROR: unexpected.
 
 PROF-specific subcodes:
+
 - PROFILE_KEY_NOT_FOUND
 - PROFILE_KEY_VALUE_NOT_FOUND
 - MULTIPLE_EQUAL_MATCHES
 - UNIT_CONVERSION_NOT_APPROVED
 - PROFILE_INCOMPATIBLE_WITH_TASK_POOL
+- PROFILE_EXPIRED
 
-Example error:
-```json
-{
-  "code": "NOT_FOUND",
-  "subcode": "PROFILE_KEY_VALUE_NOT_FOUND",
-  "message": "No value found for profile_key MANUFACTURING_LEADTIME_BLISTERLINE with context complexity=High/scope=Project.",
-  "entity": "profile",
-  "remediation": "Add a matching entry in the profile (new version) or override duration in the WP task."
-}
-```
+## 13. Integration Requirements
 
----
+- Task Pool atomic tasks reference profile keys.
+- Presets bind a profile version.
+- Planning resolves durations using PROF and applies CAL only where unit is WORKING_DAYS.
+- Reporting stamps profile_id/version and should flag explicit duration overrides where useful.
 
-## 8. Integration Requirements
-- Task Pool atomic tasks reference profile keys; presets bind a profile version.
-- Planning resolves durations using PROF and applies calendar logic where unit is WORKING_DAYS.
-- Reporting stamps profile_id/version and should flag overridden durations.
+## 14. Contract Alignment Dependency
 
----
+Profile contract/action naming remains a later contract/action registry semantic validation dependency.
 
----
+This blocker aligns the architecture and governed library content only. It does not edit contract files.
 
 ## CHANGELOG
-| Date       | Changes     | Type / Version |
-| ---------- | ----------- | -------------- |
-| 2025-12-23 | First Issue | Arch_v1.0.1    |
+
+| Date       | Changes | Type / Version |
+| ---------- | ------- | -------------- |
+| 2025-12-23 | First Issue | Arch_v1.0.1 |
+| 2026-06-12 | WP/Planning/Governed Library cleanup: made entries map canonical, separated task_type enum from profile_task_semantic, clarified no-profile baseline, removed calendar ownership from profile, and added FAT duration coverage expectations | Pre-freeze controlled update |

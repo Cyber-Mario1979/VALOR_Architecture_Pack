@@ -1,0 +1,97 @@
+{
+  "vector_group_id": "NEG-RPT-0001",
+  "scope": "NON_KS_NEGATIVE_TEST_VECTORS",
+  "description": "RPT negative vectors for refused/bounded projection behavior. No artifact should be generated in refused cases.",
+  "cases": [
+    {
+      "case_id": "NEG-RPT-ALL-WPS-SCOPE",
+      "action_type": "RPT_GENERATE_STATUS_REPORT",
+      "invalid_condition": "target_scope=ALL_WPS requested.",
+      "input_summary": {"artifact_type": "WORK_PACKAGE_STATUS_REPORT", "target_scope": "ALL_WPS"},
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "UNSUPPORTED_OPERATION",
+        "subcode": "ALL_WPS_SCOPE_UNSUPPORTED",
+        "artifact_generated": false,
+        "mutates_wp_truth": false,
+        "remediation": "Select SINGLE_WP or an explicit SELECTED_WP_SET."
+      }
+    },
+    {
+      "case_id": "NEG-RPT-MISSING-STAMPS",
+      "action_type": "RPT_GENERATE_WORKBOOK_EXPORT",
+      "invalid_condition": "Required traceability stamps are missing.",
+      "input_summary": {"artifact_type": "WORK_PACKAGE_WORKBOOK_EXPORT", "target_scope": "SINGLE_WP", "stamps": null},
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "INVARIANT_VIOLATION",
+        "subcode": "MISSING_TRACEABILITY_STAMPS",
+        "artifact_generated": false,
+        "mutates_wp_truth": false,
+        "remediation": "Provide required contract/template/preset/profile/task_pool/calendar/bundle stamps."
+      }
+    },
+    {
+      "case_id": "NEG-RPT-MISSING-SOURCE-SNAPSHOT-HASH",
+      "action_type": "RPT_GENERATE_STATUS_REPORT",
+      "invalid_condition": "source_snapshot_hash or source_snapshot_refs are missing.",
+      "input_summary": {"artifact_type": "WORK_PACKAGE_STATUS_REPORT", "source_snapshot_refs": []},
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "INVARIANT_VIOLATION",
+        "subcode": "SOURCE_SNAPSHOT_HASH_MISSING",
+        "artifact_generated": false,
+        "mutates_wp_truth": false,
+        "remediation": "Provide a WP snapshot reference/hash before RPT generation."
+      }
+    },
+    {
+      "case_id": "NEG-RPT-ATTEMPTED-TRUTH-MUTATION",
+      "action_type": "RPT_GENERATE_STATUS_REPORT",
+      "invalid_condition": "RPT request attempts to correct WP/task owners, dates, status, or IDs.",
+      "input_summary": {"requested_mutations": [{"task_id": "WP-0007-T001", "status": "DONE"}]},
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "INVARIANT_VIOLATION",
+        "subcode": "ATTEMPTED_TRUTH_MUTATION",
+        "artifact_generated": false,
+        "mutates_wp_truth": false,
+        "remediation": "Update WP/task truth through WP actions, then rerun RPT generation."
+      }
+    },
+    {
+      "case_id": "NEG-RPT-GANTT-DATES-INVALID",
+      "action_type": "RPT_GENERATE_GANTT_CHART",
+      "invalid_condition": "Gantt timeline dates are missing or finish before start.",
+      "input_summary": {"timeline": {"timeline_start": "2026-07-01", "timeline_end": "2026-06-01"}},
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "VALIDATION_ERROR",
+        "subcode": "GANTT_FINISH_BEFORE_START",
+        "artifact_generated": false,
+        "mutates_wp_truth": false,
+        "remediation": "Provide a valid Gantt timeline with finish after start."
+      }
+    },
+    {
+      "case_id": "NEG-RPT-GENERIC-JSON-CSV-EXPORT-BASELINE",
+      "action_type": "RPT_GENERATE_WORKBOOK_EXPORT",
+      "invalid_condition": "Generic JSON or CSV export requested as v1.0.1 freeze baseline.",
+      "input_summary": {"requested_output_format": "CSV", "artifact_type": "GENERIC_EXPORT"},
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "UNSUPPORTED_OPERATION",
+        "subcode": "FORMAT_NOT_SUPPORTED",
+        "artifact_generated": false,
+        "mutates_wp_truth": false,
+        "remediation": "Use declared RPT artifact families: status report, workbook export, or Gantt chart."
+      }
+    }
+  ]
+}

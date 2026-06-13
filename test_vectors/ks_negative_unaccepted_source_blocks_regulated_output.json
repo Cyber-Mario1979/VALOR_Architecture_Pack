@@ -1,0 +1,13 @@
+{
+  "test_id": "KS-3A-NEG-003",
+  "name": "unaccepted source metadata blocks regulated output",
+  "action_type": "KS_VALIDATE_BUNDLE_INTEGRITY",
+  "requested_use": "REGULATED_CQV_OUTPUT",
+  "input": {"source_id": "EXT-ISPE-BG5", "version_or_edition": "TESTING_PLACEHOLDER_NOT_APPROVED", "document_date": "TESTING_PLACEHOLDER_NOT_APPROVED"},
+  "expected": {
+    "ok": false,
+    "regulated_output_allowed": false,
+    "error": {"code": "VALIDATION_ERROR", "subcode": "SOURCE_REVIEW_REQUIRED"},
+    "blocked_behavior": "BLOCK_OR_MARK_INCOMPLETE"
+  }
+}

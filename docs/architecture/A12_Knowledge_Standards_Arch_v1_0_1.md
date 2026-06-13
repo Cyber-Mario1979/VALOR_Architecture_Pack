@@ -4,300 +4,110 @@ block type: Arch
 version: v1.0.1
 owner: Nexus
 editor: Senior Architect
-status: released
-date: 2025-12-23
-dependencies:
-  - VALOR-block-A00-specs-architecture-pack
-  - VALOR-block-A01-sos-context-capability
-  - VALOR-block-A02-principles-invariants
-  - VALOR-block-A10-security-compliance-architecture
-summary: "Block A12 — Knowledge & Standards System Architecture: governed read-only libraries (standards, references, templates) delivered as versioned bundles with anchored citations and excerpt policy for CQV-safe document/report generation."
-acceptance_criteria:
-  - Defines K&S as read-only governed content with versioned bundles and anchors.
-  - Defines entities (StandardRecord, TemplateRecord, Bundle, Anchor, CitationPolicy).
-  - Defines anchored citation mechanism and excerpt policy constraints (metadata-only vs excerpt).
-  - Defines contract actions to list/read bundles/templates/anchors and validate references.
-  - Defines stamping and provenance requirements for downstream DOC/RPT systems.
-  - Defines error semantics and safe handling aligned with Security & Compliance constraints.
+status: pre_freeze_controlled
+date: 2026-06-12
+summary: "A12 — K&S architecture with governed internal standards, controlled external references, TESTING_ONLY operating state, source-metadata acceptance gate, citation/refusal rules, and blocked regulated-use behavior."
 ---
 
-# Knowledge & Standards System Architecture (Read-Only Governance + Bundles + Anchors)
-
-Terminology: See **A15_Global_Glossary_Arch_v1_0_1.md** for definitions.
-
+# Knowledge & Standards System Architecture
 
 ## 1. Purpose and Authority
-Knowledge & Standards (K&S) is the subsystem that provides **governed, read-only reference assets** used across Valor:
-- standards registers (internal/external),
-- reference procedures and policies (metadata and controlled excerpts only),
-- document templates (URS/RTM/DQ/IQ/OQ/PQ/VSR templates),
-- standards bundles (pre-selected sets for a specific context).
 
-K&S is authoritative for:
-- the curated reference asset metadata,
-- bundling/versioning of reference sets,
-- anchored citation IDs and policies,
-- template versions and required-input definitions.
+K&S is the governed read-only standards authority for VALOR CQV outputs. K&S provides internal VALOR/company-worded governed standards, controlled external reference metadata and anchors, source-to-internal mapping, standards bundles, template governance records, citation resolution, excerpt/refusal policy, lifecycle control, and blocked-state behavior.
 
-K&S is not authoritative for:
-- WP/task truth,
-- document generation outputs (DOC),
-- reporting outputs (RPT),
-- approvals.
+K&S is not authoritative for WP/task truth, generated DOC/RPT content, human/site approvals, or external standard ownership.
 
-K&S is designed explicitly to support CQV auditability while respecting confidentiality and copyright.
+## 2. Declared v1.0.1 K&S Scope
 
----
+The declared K&S scope is `BND-CQV-BASE_v1.0.1`, `BND-CSV-ADDON_v1.0.1`, `BND-CLEANROOM-ADDON_v1.0.1`, `STD-CQV-BASE_v1.0.1`, URS/RTM/DQ/IQ/OQ/PQ/VSR template governance records, and the `TPL-DCF_v1.0.1` PRODUCT_TESTING_ONLY DCF source-capture template family governance record.
 
-## 2. Read-Only Governance Model
+The CQV Base Bundle covers WP/RPT standards citation needs, URS, RTM, DQ, IQ, OQ, PQ, VSR, risk-based CQV lifecycle expectations, traceability, documentation and approval expectations, CSV add-on trigger behavior, and cleanroom/HVAC add-on trigger behavior.
 
-### 2.1 Immutable Assets Per Version
-All K&S assets are immutable once published:
-- standard_id + version
-- template_id + version
-- bundle_id + version
-- anchor_id (within an asset version)
+`TPL-DCF_v1.0.1` is a governed DCF source-capture template family record for product testing only. It records metadata for four user-provided DCF source-candidate variants: Cleanroom, Computerized Systems, Process Equipment, and Utilities. It does not import DOCX or Markdown template content into the repository, does not activate DCF artifact generation/finalization, and does not approve real regulated CQV/GMP use.
 
-Changes require publishing a new version.
+## 3. TESTING_ONLY Operating State
 
-### 2.2 Why Read-Only Matters
-Read-only behavior prevents:
-- “silent” changes in standards references,
-- drift between what a document cites and what the library contains,
-- audit inconsistencies.
+`TESTING_ONLY` is a governed state for product testing, dry runs, internal trials, validation of product behavior, and end-to-end workflow testing.
 
----
+PRODUCT_TESTING / FIELD_TRIAL mode is an allowed use of TESTING_ONLY / PRODUCT_TESTING_ONLY K&S assets. It supports ASBP — AI System Builder Program / AI System Builder product construction, internal dry runs, product behavior validation, document generation testing, report generation testing, E2E workflow validation, and evaluation by parallel professional/market testers.
 
-## 3. Core Entities (Authoritative Data Model)
+FIELD_TRIAL is an operating label under PRODUCT_TESTING_ONLY, not a new schema/machine enum.
 
-### 3.1 StandardRecord
-Represents a standard or reference source.
+PRODUCT_TESTING / FIELD_TRIAL outputs are not official GMP records and must carry the required testing-only stamp where applicable.
 
-Required fields:
-- standard_id (string, stable)
-- version (string; may be edition/year or SemVer)
-- title (string)
-- publisher (string)
-- scope_tags (array)
-- access_classification (enum): PUBLIC | LICENSED | INTERNAL | CONFIDENTIAL
-- excerpt_policy (enum; see §3.5)
-- anchors (array of Anchor; see §3.4)
-- metadata:
-  - effective_date (optional)
-  - supersedes (optional)
-  - superseded_by (optional)
-- checksum (optional)
+Source metadata acceptance is not required for PRODUCT_TESTING / FIELD_TRIAL mode.
 
-### 3.2 TemplateRecord
-Represents a governed template used by Document Factory and sometimes Reporting.
+`TESTING_ONLY` assets may support product testing only when:
 
-Required fields:
-- template_id (string, stable)
-- version (semver)
-- name (string)
-- doc_type (enum): VMP | URS | RA | RTM | DQ | IQ | OQ | PQ | VSR | REPORT
-- required_inputs (array of input refs) (what fields must exist in WP/user_inputs)
-- required_stamps (array; minimum stamp set)
-- anchor_policy (required anchors or bundle references)
-- content_format (enum): MARKDOWN | DOCX | PDF (policy)
-- template_body (stored or referenced)
-- checksum (optional)
+- `testing_use_allowed: true`;
+- `regulated_output_allowed: false`;
+- `testing_only_stamp_required: true`;
+- testing metadata has not expired;
+- the output carries this visible stamp: `PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.`
 
-### 3.3 Bundle
-A bundle is a versioned selection of standards and templates for a given context.
+`TESTING_ONLY` assets must never support real-life regulated CQV/GMP output. If a user requests regulated output while K&S is `TESTING_ONLY`, the system must block/refuse or mark the output incomplete.
 
-Required fields:
-- bundle_id (string, stable)
-- version (semver)
-- name (string)
-- applicability:
-  - equipment_domain
-  - complexity
-  - scope
-- included_standards (array of {standard_id, version})
-- included_templates (array of {template_id, version})
-- default_citation_set (array of AnchoredRef; see §3.6)
-- excerpt_policy_override (optional; must not weaken the strictest underlying policy)
-- checksum (optional)
+Missing real external source edition, document date, or locator does not block product testing when the asset is `TESTING_ONLY`; it does block real regulated use.
 
-### 3.4 Anchor
-Anchors are stable reference points inside a standard/template.
+## 4. Regulated-Release Approval Gate
 
-Fields:
-- anchor_id (string, stable within asset version)
-- anchor_title (string)
-- anchor_type (enum): SECTION | CLAUSE | TABLE | FIGURE | APPENDIX | PARAGRAPH
-- locator (string) (e.g., “Section 5.2”, “Table 3”)
-- excerpt_allowed (bool; derived from excerpt policy)
-- notes (optional)
+Assets are not approved for regulated CQV/GMP use unless a separate controlled acceptance patch records user/site acceptance of exact external source edition/version, document date, source locator/anchor locator, source applicability, source-to-internal mapping, and template governance records.
 
-### 3.5 ExcerptPolicy
-Defines what K&S may return in responses for a given asset.
+Do not mark any K&S asset `ACTIVE` during the testing-only gate.
 
-Policies:
-- METADATA_ONLY: return title/ID/version/anchor metadata only; no content.
-- PUBLIC_EXCERPT: allow small excerpt within defined limit and only from public sources.
-- INTERNAL_ONLY: allow internal excerpt to authorized contexts (v0.1.x usually treated as metadata-only unless explicitly configured).
-- NO_EXCERPTS: never return content, only anchors.
+REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
 
-Security rule (from A10):
-- K&S must refuse to output restricted excerpts.
+This gate does not block PRODUCT_TESTING / FIELD_TRIAL freeze, ASBP product construction, product testing, field trials, document generation testing, or report generation testing.
 
-### 3.6 AnchoredRef (Citations)
-Citations in docs/reports must reference anchors:
+## 5. Source Text and Citation Rule
 
-Fields:
-- asset_type: standard | template
-- asset_id
-- asset_version
-- anchor_id
-- citation_label (optional; e.g., “[S1]”)
-- excerpt_policy_applied (resolved)
+Internal VALOR standards are the operative governed requirements. External standards are controlled source authorities only. K&S must not copy or reproduce external standards text. The default external excerpt policy is `NO_EXCERPTS`.
 
----
+Citations must resolve to a governed internal requirement or controlled source anchor and include usage classification, regulated-output allowance, excerpt policy, and lifecycle status.
 
-## 4. Anchored Citation Mechanism (Audit-Grade)
+Unknown anchors must refuse with `ANCHOR_NOT_FOUND`. Restricted excerpt requests must refuse with `EXCERPT_BLOCKED`.
 
-### 4.1 Why Anchors
-In CQV, saying “per ISO/ASTM” is insufficient. A citation must be:
-- precise (which section),
-- stable (anchored to a version),
-- governed (immutable).
+## 6. Lifecycle and Expiry Control
 
-### 4.2 Citation Resolution
-Given an AnchoredRef, K&S returns:
-- title + version + anchor_title + locator
-- excerpt if allowed by excerpt policy
-- a canonical citation string
+Every standards bundle, internal standard, external reference register, source mapping file, and template governance record must include owner, effective_date, source_checked_date, review_cycle_months, next_review_due, expiry_date, status, usage_classification, testing_use_allowed, regulated_output_allowed, testing_only_stamp_required, approval_status, user_site_acceptance_required, source_metadata_acceptance_status, testing_expired_behavior, and regulated_expired_behavior.
 
-### 4.3 Bundle-Level Citation Sets
-Bundles may define default anchor sets required for certain doc types (e.g., URS must cite specific clauses).
+Allowed statuses:
 
-Document Factory must validate required anchors exist and are included.
+- TESTING_ONLY
+- PRE_FREEZE_USER_REVIEW_REQUIRED
+- ACTIVE
+- DUE_FOR_REVIEW
+- EXPIRED
+- SUPERSEDED
+- BLOCKED
 
----
+If testing metadata expires, product testing must block until renewed. If regulated output is requested while required K&S assets are testing-only, unaccepted, missing, expired, invalid, unmapped, or not approved for regulated use, regulated CQV/GMP output must be blocked/refused or marked incomplete.
 
-## 5. K&S Contract (Implementation-Ready)
+Silent fallback to old standards and no-standards mode are prohibited.
 
-K&S is accessed via `VALOR-contract-orch-ks`.
+## 7. Add-on Trigger Rules
 
-### 5.1 Actions
-LIST/READ:
-- KS_LIST_STANDARDS (filters)
-- KS_READ_STANDARD (standard_id + version)
-- KS_LIST_TEMPLATES (filters)
-- KS_READ_TEMPLATE (template_id + version)
-- KS_LIST_BUNDLES (filters)
-- KS_READ_BUNDLE (bundle_id + version)
+CSV add-on trigger: computerized system, automation, data integrity, electronic record/signature, recipe, audit trail, alarm/report, or configurable software scope requires `BND-CSV-ADDON_v1.0.1`.
 
-ANCHORS/CITATIONS:
-- KS_LIST_ANCHORS (asset ref)
-- KS_RESOLVE_CITATION (anchored_ref)
-- KS_VALIDATE_CITATION_SET (list of anchored_refs)
+Cleanroom/HVAC add-on trigger: classified area, cleanroom, HVAC serving classified GMP space, ISO 8, Grade D, environmental control, pressure cascade, airflow, filtration, temperature, humidity, or monitoring interface scope requires `BND-CLEANROOM-ADDON_v1.0.1`.
 
-VALIDATE:
-- KS_VALIDATE_BUNDLE_INTEGRITY (includes exist, versions exist, anchors exist)
-- KS_VALIDATE_TEMPLATE_REQUIREMENTS (required_inputs/stamps/anchors)
+Testing behavior: add-ons may support product testing if testing metadata is valid and the required stamp is applied.
 
-### 5.2 Canonical Request (Resolve Citation)
-```json
-{
-  "contract": "VALOR-contract-orch-ks",
-  "contract_version": "v1.0.1",
-  "action_id": "ACT-001210",
-  "action_type": "KS_RESOLVE_CITATION",
-  "mode": "M2",
-  "payload": {
-    "anchored_ref": {
-      "asset_type": "standard",
-      "asset_id": "STD-123",
-      "asset_version": "2020",
-      "anchor_id": "A-5-2"
-    }
-  },
-  "context": {"timestamp_utc": "2025-12-22T00:00:00Z"}
-}
-```
+Regulated behavior: block regulated output unless the required add-on bundle is approved for regulated use.
 
-### 5.3 Canonical Response
-<!-- NOTE: Example is illustrative, not complete. Refer to schema for full structure. -->
-```json
-{
-  "contract": "VALOR-contract-orch-ks",
-  "contract_version": "v1.0.1",
-  "action_id": "ACT-001210",
-  "ok": true,
-  "result": {
-    "citation": {
-      "title": "Standard Title",
-      "asset_id": "STD-123",
-      "asset_version": "2020",
-      "anchor_title": "Requirements for ...",
-      "locator": "Section 5.2",
-      "excerpt": null,
-      "excerpt_policy": "METADATA_ONLY"
-    }
-  },
-  "error": null
-}
-```
+## 8. Downstream Stamping Requirements
 
----
+When DOC or RPT uses testing-only K&S assets, generated outputs must stamp the required testing-only visible stamp, bundle ID/version, internal standard ID/version, template ID/version if used, mapped requirement IDs, source reference IDs, source anchor IDs, usage classification, regulated-output allowance, and lifecycle/review/expiry status.
 
-## 6. Stamping and Provenance Requirements
+## 9. Pre-freeze User Review Gate
 
-### 6.1 What Downstream Must Stamp
-When DOC or RPT uses K&S assets, their outputs must stamp:
-- bundle_id/version (if used)
-- template_id/version (if used)
-- standards referenced (standard_id/version at minimum; anchors in citations)
-
-### 6.2 K&S Outputs Must Be Versioned
-K&S responses must always include asset_id/version for any provided metadata.
-No unversioned citations are allowed.
-
----
-
-## 7. Error Semantics (K&S)
-
-Standard codes:
-- NOT_FOUND: asset/version/anchor not found
-- VALIDATION_ERROR: invalid request schema, missing fields
-- CONFLICT: ambiguous versions, superseded version requested without explicit pin
-- UNSUPPORTED_OPERATION: excerpt requested but policy prohibits
-- INTERNAL_ERROR: unexpected
-
-K&S-specific subcodes:
-- ASSET_VERSION_NOT_FOUND
-- ANCHOR_NOT_FOUND
-- EXCERPT_BLOCKED
-- BUNDLE_INTEGRITY_FAILED
-- TEMPLATE_REQUIREMENT_MISSING
-
-Example error:
-```json
-{
-  "code": "UNSUPPORTED_OPERATION",
-  "subcode": "EXCERPT_BLOCKED",
-  "message": "Excerpt output is not permitted for this standard (access_classification=LICENSED, excerpt_policy=METADATA_ONLY).",
-  "entity": "standard",
-  "remediation": "Use anchored metadata citation only or provide an approved public excerpt source."
-}
-```
-
----
-
-## 8. Integration Requirements
-- Presets bind to bundle_id/version; Orchestration propagates this.
-- Document Factory uses templates + citation sets; validates required anchors.
-- Reporting can include traceability tables referencing standards/template versions and anchor metadata.
-- Security & Compliance rules constrain excerpt outputs.
-
----
-
----
+Where exact external standard edition, document date, or locator has not been user/site accepted, K&S records may be `TESTING_ONLY` for product testing but remain not approved as regulated standards basis. This is a controlled blocked/incomplete state for real regulated use.
 
 ## CHANGELOG
-| Date       | Changes     | Type / Version |
-| ---------- | ----------- | -------------- |
-| 2025-12-23 | First Issue | Arch_v1.0.1    |
+
+| Date | Changes | Type / Version |
+| ---- | ------- | -------------- |
+| 2026-06-12 | Blocker 6B DCF template governance record added for PRODUCT_TESTING_ONLY source-capture metadata | Pre-freeze controlled update |
+| 2025-12-23 | First Issue | Arch_v1.0.1 |
+| 2026-06-12 | Blocker 3 governed standards bundle aligned | Pre-freeze controlled update |
+| 2026-06-12 | Blocker 3A TESTING_ONLY operating state added; regulated use remains blocked | Pre-freeze controlled update |

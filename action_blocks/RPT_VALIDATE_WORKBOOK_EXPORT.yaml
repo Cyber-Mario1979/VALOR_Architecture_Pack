@@ -1,0 +1,47 @@
+# Action Spec: RPT_VALIDATE_WORKBOOK_EXPORT
+action_type: RPT_VALIDATE_WORKBOOK_EXPORT
+public_command_aliases:
+  - validate_workbook_export
+contract: VALOR-contract-orch-rpt
+version: v1.0.1
+purpose: Validate workbook export request, required sheets, required columns, metadata, and selected-WP-set source fields.
+allowed_modes: [M1, M2]
+side_effect_class: VALIDATE_ONLY
+idempotent: true
+confirmation_required: false
+
+required_payload_fields:
+  - artifact_type
+  - target_scope
+  - wp_ids
+  - source_snapshot_refs
+  - workbook_template_id
+  - validation_mode
+
+optional_payload_fields:
+  - workbook_artifact
+  - workbook_options
+
+target_scope:
+  supported: [SINGLE_WP, SELECTED_WP_SET]
+  excluded_from_freeze_scope: [ALL_WPS]
+
+result_schema_ref: schemas/contracts/workbook_export_result.schema.json
+request_schema_ref: schemas/contracts/workbook_export_request.schema.json
+
+required_sheets:
+  - Cover
+  - WP Summary
+  - Task Table
+  - Statistics
+  - Metadata
+
+validation_checks:
+  - artifact_type must equal WORK_PACKAGE_WORKBOOK_EXPORT
+  - workbook format must be XLSX
+  - required sheets must be present
+  - required columns must be present
+  - Metadata sheet must include artifact metadata fields
+  - selected WP set task rows must include wp_id and wp_title
+  - projection_only must be true
+  - mutates_wp_truth must be false

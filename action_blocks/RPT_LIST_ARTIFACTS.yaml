@@ -1,0 +1,34 @@
+# Action Spec: RPT_LIST_ARTIFACTS
+action_type: RPT_LIST_ARTIFACTS
+public_command_aliases:
+  - list_report_artifacts
+  - list_rpt_artifacts
+contract: VALOR-contract-orch-rpt
+version: v1.0.1
+purpose: List generated RPT artifact metadata records without regenerating artifact content.
+allowed_modes: [M1, M2]
+side_effect_class: READ_ONLY
+idempotent: true
+confirmation_required: false
+
+required_payload_fields: []
+optional_payload_fields:
+  - filters
+
+supported_filters:
+  - artifact_type
+  - wp_id
+  - wp_ids
+  - target_scope
+  - action_type
+  - generation_date_range
+
+result_schema_ref: schemas/objects/rpt_artifact_metadata_schema.json
+
+projection_policy:
+  mutates_wp_truth: false
+  mutates_task_truth: false
+
+notes:
+  - "Returns artifact metadata records only."
+  - "Must not require artifact regeneration."

@@ -11,6 +11,8 @@
 
 # Valor Architecture Pack (v1.0.1)
 
+> **Current review status:** FREEZE-READY FOR PRODUCT_TESTING / FIELD_TRIAL BASELINE ONLY. This is not REGULATED_RELEASE approval.
+
 ![Valor architecture blueprint](architecture_blueprint.png)
 
 The **Valor Architecture Pack** is a blueprint for a contract‑driven,
@@ -21,13 +23,13 @@ planning**, **controlled document generation**, and **audit‑grade
 reporting/export**.  It emphasises repeatable execution, traceability and
 determinism over “smart guesses”.
 
-This pack consolidates architecture specifications, service contracts,
-schemas, templates, governed libraries and test vectors at version
-`v1.0.1`.  It is **implementation‑ready**—every document, schema and
-contract in this repository has been versioned and aligned to work
-together.  There is no code for a running system here; rather, this is
-the definitive reference for anyone building or integrating a Valor
-implementation.
+This pack is frozen as a PRODUCT_TESTING / FIELD_TRIAL architecture baseline. This target supports ASBP — AI System Builder Program / AI System Builder product construction, internal product testing, field trials, document generation testing, report generation testing, E2E workflow validation, and evaluation by parallel professional/market testers.
+
+FIELD_TRIAL is an operating label under PRODUCT_TESTING_ONLY, not a separate regulated-release mode or new schema/machine enum. PRODUCT_TESTING / FIELD_TRIAL outputs are not official GMP records and must carry the required testing-only stamp where applicable:
+
+`PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.`
+
+REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
 
 ## Mission and Scope
 

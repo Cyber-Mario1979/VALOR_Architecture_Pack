@@ -1,97 +1,87 @@
 contract_id: VALOR-contract-orch-doc
 current_version: v1.0.1
-supported_versions:
-- v1.0.1
+supported_versions: [v1.0.1]
 owner_subsystem: DOC
 called_by: Orchestration
-compatibility_policy:
-  semver: true
-  orchestration_rules:
-    accept_minor_patch_within_major: true
-    refuse_major_without_explicit_upgrade: true
+registry_category: PUBLIC_USER_CALLABLE
+
 envelopes:
   request_schema: schemas/contracts/contract_request.schema.json
   response_schema: schemas/contracts/contract_response.schema.json
+
+contract_scope:
+  callable_category: PUBLIC_USER_CALLABLE
+  active_actions: [DOC_GENERATE_DRAFT, DOC_FINALIZE_ARTIFACT]
+  deferred_actions: [DOC_VALIDATE, DOC_MARK_REVIEW_READY, DOC_REGENERATE, DOC_GET, DOC_LIST]
+  rule: No deferred DOC action is active or freeze-ready unless later explicitly approved.
+
+source_chain_policy:
+  dcf_declared_as_source_capture: true
+  dcf_generation_active: false
+  dcf_finalization_active: false
+  dcf_reference_fields: [dcf_ref, source_input_set]
+  dcf_deferred_until: TPL-DCF_v1.0.1.yaml and approved template source metadata exist.
+  dcf_generation_request_behavior: BLOCK_OR_MARK_INCOMPLETE
+  urs_generation_doc_type_required: URS
+  urs_generation_sources: [wp_snapshot, dcf_ref_or_source_input_set, template_ref, bundle_ref, citation_set, provenance_stamps]
+  no_invention_rule: DOC must not invent intended use, GMP relevance, user needs, critical requirements, interfaces, constraints, assumptions, or acceptance expectations.
+  missing_source_input_behavior: BLOCK_OR_MARK_INCOMPLETE
+
+ks_policy:
+  template_standard_citation_authority: K&S
+  testing_only_allowed_for_product_testing: true
+  regulated_output_allowed_from_testing_only_ks: false
+  required_testing_only_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
+  regulated_use_request_behavior: BLOCK_OR_MARK_INCOMPLETE
+  product_testing_field_trial_allowed: true
+  field_trial_allowed_as_operating_label_under_product_testing_only: true
+  field_trial_is_schema_enum: false
+  product_testing_field_trial_outputs_are_official_gmp_records: false
+  source_metadata_acceptance_required_for_product_testing: false
+  source_metadata_acceptance_required_for_field_trial: false
+  source_metadata_acceptance_required_for_regulated_release: true
+  regulated_release_condition: REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
+
 error_taxonomy:
-  standard_codes:
-  - MODE_VIOLATION
-  - VALIDATION_ERROR
-  - INVARIANT_VIOLATION
-  - NOT_FOUND
-  - CONFLICT
-  - UNSUPPORTED_OPERATION
-  - INTERNAL_ERROR
+  standard_codes: [MODE_VIOLATION, VALIDATION_ERROR, INVARIANT_VIOLATION, NOT_FOUND, CONFLICT, UNSUPPORTED_OPERATION, INTERNAL_ERROR]
+  doc_subcodes: [TEMPLATE_REQUIREMENT_MISSING, TEMPLATE_REQUIRED_INPUT_MISSING, SOURCE_INPUT_REQUIRED_FIELD_MISSING, SOURCE_CHAIN_PROVENANCE_MISSING, DCF_ARTIFACT_GENERATION_DEFERRED, TESTING_ONLY_REGULATED_OUTPUT_BLOCKED, MISSING_TRACEABILITY_STAMPS, STAMP_SET_MISSING, CANNOT_FINALIZE_WITH_ERRORS, FINAL_IMMUTABLE, FORMAT_NOT_SUPPORTED, CITATION_ANCHOR_MISSING, EXCERPT_BLOCKED]
+
 actions:
-- action_type: DOC_GENERATE_DRAFT
-  allowed_modes:
-  - M2
-  side_effect_class: GENERATES_ARTIFACT
-  idempotent: true
-  required_payload_fields:
-  - wp_snapshot
-  - template_ref
-  - citation_set
-  optional_payload_fields:
-  - render_options
-  - redaction_options
-  target_fields:
-    required:
-    - wp_id
-    optional:
-    - doc_id
-  result_schema_ref: schemas/contracts/doc_draft_result.schema.json
-  errors:
-  - code: VALIDATION_ERROR
-    subcode: TEMPLATE_REQUIREMENT_MISSING
-  - code: UNSUPPORTED_OPERATION
-    subcode: EXCERPT_BLOCKED
-- action_type: DOC_FINALIZE_ARTIFACT
-  allowed_modes:
-  - M2
-  side_effect_class: GENERATES_ARTIFACT
-  idempotent: false
-  confirmation_required: true
-  required_payload_fields:
-  - draft_id
-  optional_payload_fields:
-  - final_format
-  target_fields:
-    required:
-    - wp_id
-    optional:
-    - doc_id
-  result_schema_ref: schemas/contracts/doc_artifact_result.schema.json
-  errors:
-  - code: NOT_FOUND
-    subcode: DRAFT_NOT_FOUND
-  - code: VALIDATION_ERROR
-    subcode: STAMP_SET_MISSING
-examples:
-- name: doc_generate_draft_request
-  request:
-    contract: VALOR-contract-orch-doc
-    contract_version: v1.0.1
-    action_id: ACT-000301
-    action_type: DOC_GENERATE_DRAFT
-    mode: M2
-    actor:
-      role: User
-      name: optional
-    target:
-      wp_id: WP-0007
-    payload:
-      wp_snapshot:
-        wp_id: WP-0007
-        tasks: omitted_for_brevity
-      template_ref:
-        template_id: TMP-URS
-        template_version: v1.0.1
-      citation_set:
-      - asset_type: standard
-        asset_id: STD-123
-        asset_version: '2020'
-        anchor_id: A-5-2
-    options:
-      dry_run: false
-    context:
-      timestamp_utc: '2025-12-25T00:00:00Z'
+  - action_type: DOC_GENERATE_DRAFT
+    public_command_aliases: [draft_document, generate_draft]
+    allowed_modes: [M2]
+    side_effect_class: GENERATES_ARTIFACT
+    idempotent: true
+    confirmation_required: false
+    status: ACTIVE_PRE_FREEZE
+    required_payload_fields: [doc_type, wp_snapshot, template_ref, bundle_ref, source_input_set, citation_set, provenance_stamps]
+    optional_payload_fields: [dcf_ref, render_options, redaction_options, incomplete_output_policy]
+    target_fields: {required: [wp_id], optional: [doc_id]}
+    result_schema_ref: schemas/contracts/doc_draft_result.schema.json
+    validation_rules:
+      - URS generation requires doc_type=URS.
+      - URS generation may consume dcf_ref and/or source_input_set.
+      - Required source fields must be present or explicitly marked incomplete.
+      - If doc_type=DCF is requested, return blocked/deferred behavior.
+      - DOC must not invent missing source data.
+      - Product-testing-only outputs must carry the required testing-only stamp.
+      - Source metadata acceptance does not block PRODUCT_TESTING / FIELD_TRIAL document generation testing.
+      - REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
+
+  - action_type: DOC_FINALIZE_ARTIFACT
+    public_command_aliases: [finalize_document]
+    allowed_modes: [M2]
+    side_effect_class: GENERATES_ARTIFACT
+    idempotent: false
+    confirmation_required: true
+    status: ACTIVE_PRE_FREEZE
+    required_payload_fields: [draft_id, source_chain_provenance, template_ref, bundle_ref, citation_set, provenance_stamps, source_input_completion_status]
+    optional_payload_fields: [final_format, testing_only_stamp, incomplete_output_policy]
+    target_fields: {required: [wp_id], optional: [doc_id]}
+    result_schema_ref: schemas/contracts/doc_artifact_result.schema.json
+    validation_rules:
+      - Finalization must refuse or mark incomplete if source-chain provenance, refs, stamps, testing-only stamp, or source-input completion status are missing.
+      - DCF finalization remains blocked/deferred.
+      - If source_input_completion_status is incomplete, finalization may only produce an explicitly incomplete product-testing artifact according to incomplete_output_policy.
+      - PRODUCT_TESTING / FIELD_TRIAL outputs are not official GMP records and must carry the required testing-only stamp where applicable.
+      - REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.

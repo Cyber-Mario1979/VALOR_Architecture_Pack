@@ -3,35 +3,76 @@
   "$id": "valor://schemas/contracts/contract_request.schema.json",
   "title": "Contract Request Envelope",
   "type": "object",
+  "additionalProperties": false,
   "required": [
-    "contract_id",
+    "contract",
+    "contract_version",
+    "action_id",
     "action_type",
     "mode",
     "payload",
-    "stamps"
+    "context"
   ],
   "properties": {
-    "contract_id": {
-      "type": "string"
+    "contract": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contract_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "action_id": {
+      "type": "string",
+      "minLength": 1
     },
     "action_type": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "mode": {
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "M1",
+        "M2"
+      ]
+    },
+    "actor": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "role": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "target": {
+      "type": "object",
+      "additionalProperties": true
     },
     "payload": {
       "type": "object",
       "additionalProperties": true
     },
-    "stamps": {
+    "options": {
       "type": "object",
       "additionalProperties": true
     },
-    "trace": {
+    "context": {
       "type": "object",
-      "additionalProperties": true
+      "additionalProperties": true,
+      "required": [
+        "timestamp_utc"
+      ],
+      "properties": {
+        "timestamp_utc": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
     }
-  },
-  "additionalProperties": true
+  }
 }

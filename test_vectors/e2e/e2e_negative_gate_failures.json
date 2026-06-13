@@ -1,0 +1,57 @@
+{
+  "vector_id": "E2E-NEG-GATE-FAILURES-0001",
+  "scope": "NON_KS_E2E_TEST_VECTORS",
+  "description": "Negative end-to-end gate-failure vectors. These vectors assert controlled stop behavior and no downstream success claims.",
+  "flows": [
+    {
+      "flow_id": "E2E-NEG-PLAN-FAILURE-STOPS-DOC-RPT",
+      "description": "PLAN failure must stop downstream DOC/RPT success claims.",
+      "steps": [
+        {"step": 1, "action_type": "WP_STAGE_TASKS", "expected_state": "STAGED", "ok": true},
+        {"step": 2, "action_type": "WP_COMMIT_STAGED_TASKS", "expected_state": "COMMITTED", "ok": true},
+        {"step": 3, "action_type": "PLAN_GENERATE_PROPOSAL", "invalid_condition": "missing calendar_logic_ref", "ok": false, "state": "BLOCKED", "code": "VALIDATION_ERROR", "subcode": "CALENDAR_LOGIC_MISSING"},
+        {"step": 4, "action_type": "DOC_GENERATE_DRAFT", "not_executed": true, "reason": "Upstream PLAN failure"},
+        {"step": 5, "action_type": "RPT_GENERATE_STATUS_REPORT", "not_executed": true, "reason": "Upstream PLAN failure"}
+      ],
+      "assertions": {
+        "no_downstream_success_claim": true,
+        "wp_truth_mutated_after_failure": false,
+        "artifact_generated": false
+      }
+    },
+    {
+      "flow_id": "E2E-NEG-DOC-SOURCE-CHAIN-STOPS-FINALIZATION",
+      "description": "DOC source-chain failure must stop finalization.",
+      "steps": [
+        {"step": 1, "action_type": "WP_STAGE_TASKS", "expected_state": "STAGED", "ok": true},
+        {"step": 2, "action_type": "WP_COMMIT_STAGED_TASKS", "expected_state": "COMMITTED", "ok": true},
+        {"step": 3, "action_type": "PLAN_GENERATE_PROPOSAL", "expected_state": "PROPOSED", "ok": true},
+        {"step": 4, "action_type": "WP_APPLY_PLAN_PROPOSAL", "expected_state": "COMMITTED", "ok": true},
+        {"step": 5, "action_type": "DOC_GENERATE_DRAFT", "invalid_condition": "missing source_chain_provenance", "ok": false, "state": "BLOCKED", "code": "VALIDATION_ERROR", "subcode": "SOURCE_CHAIN_PROVENANCE_MISSING"},
+        {"step": 6, "action_type": "DOC_FINALIZE_ARTIFACT", "not_executed": true, "reason": "DOC draft blocked before valid source-chain provenance"}
+      ],
+      "assertions": {
+        "doc_finalization_blocked": true,
+        "artifact_generated": false,
+        "no_regulated_output_claimed": true
+      }
+    },
+    {
+      "flow_id": "E2E-NEG-RPT-REFUSAL-CREATES-NO-ARTIFACT",
+      "description": "RPT ALL_WPS or missing-stamp failure must create no artifact.",
+      "steps": [
+        {"step": 1, "action_type": "WP_STAGE_TASKS", "expected_state": "STAGED", "ok": true},
+        {"step": 2, "action_type": "WP_COMMIT_STAGED_TASKS", "expected_state": "COMMITTED", "ok": true},
+        {"step": 3, "action_type": "PLAN_GENERATE_PROPOSAL", "expected_state": "PROPOSED", "ok": true},
+        {"step": 4, "action_type": "RPT_GENERATE_STATUS_REPORT", "invalid_condition": "target_scope=ALL_WPS", "ok": false, "state": "BLOCKED", "code": "UNSUPPORTED_OPERATION", "subcode": "ALL_WPS_SCOPE_UNSUPPORTED"},
+        {"step": 5, "action_type": "RPT_GENERATE_WORKBOOK_EXPORT", "invalid_condition": "missing stamps", "ok": false, "state": "BLOCKED", "code": "INVARIANT_VIOLATION", "subcode": "MISSING_TRACEABILITY_STAMPS"}
+      ],
+      "assertions": {
+        "artifact_generated": false,
+        "mutates_wp_truth": false,
+        "all_wps_not_allowed": true,
+        "missing_stamps_block_generation": true
+      }
+    }
+  ]
+}

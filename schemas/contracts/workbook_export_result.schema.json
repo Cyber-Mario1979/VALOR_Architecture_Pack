@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "valor://schemas/contracts/workbook_export_result.schema.json",
+  "title": "VALOR RPT Workbook Export Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_metadata",
+    "workbook_type",
+    "workbook_format",
+    "required_sheets",
+    "sheet_validation"
+  ],
+  "properties": {
+    "artifact_metadata": {"$ref": "../objects/rpt_artifact_metadata_schema.json"},
+    "workbook_type": {"type": "string", "const": "WORK_PACKAGE_WORKBOOK_EXPORT"},
+    "workbook_format": {"type": "string", "const": "XLSX"},
+    "required_sheets": {
+      "type": "array",
+      "minItems": 5,
+      "items": {"type": "string"},
+      "contains": {"const": "Metadata"}
+    },
+    "sheet_validation": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sheet_name", "required", "present", "errors", "warnings"],
+        "properties": {
+          "sheet_name": {"type": "string"},
+          "required": {"type": "boolean"},
+          "present": {"type": "boolean"},
+          "errors": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+          "warnings": {"type": "array", "items": {"type": "object", "additionalProperties": true}}
+        }
+      }
+    },
+    "workbook_schema_ref": {"type": "string", "const": "schemas/objects/workbook_export_schema.json"}
+  }
+}

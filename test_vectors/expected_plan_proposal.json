@@ -1,48 +1,24 @@
 {
-  "plan_proposal_id": "PLAN-00012",
+  "action_type": "PLAN_GENERATE_PROPOSAL",
+  "plan_proposal_id": "PLAN-PEHIGH-0001",
   "wp_id": "WP-0007",
-  "calendar_ref": {
-    "id": "CAL-WORKWEEK",
-    "version": "v1.0.0"
-  },
-  "profile_ref": {
-    "id": "PR-DEFAULT",
-    "version": "v1.0.0"
-  },
+  "state": "PROPOSED",
+  "apply_required": true,
+  "planning_basis": "PROFILE_BASED",
+  "calendar_logic_ref": {"calendar_id": "CAL-WORKWEEK", "calendar_version": "v1.0.1", "canonical_calendar_version": "v1", "timezone": "UTC+02:00"},
+  "profile_ref": {"profile_id": "PROF-PE-HIGH", "profile_version": "v1.0.1"},
   "schedule": [
-    {
-      "task_id": "T-0001",
-      "start": "2025-12-29",
-      "finish": "2025-12-30"
-    },
-    {
-      "task_id": "T-0002",
-      "start": "2025-12-31",
-      "finish": "2026-01-02"
-    },
-    {
-      "task_id": "T-0003",
-      "start": "2026-01-05",
-      "finish": "2026-01-06"
-    }
+    {"task_id": "WP-0007-T001", "proposed_start_date": "2026-06-14", "proposed_finish_date": "2026-06-25", "duration_value": 10, "duration_unit": "WORKING_DAYS", "depends_on": []},
+    {"task_id": "WP-0007-T002", "proposed_start_date": "2026-06-28", "proposed_finish_date": "2026-07-06", "duration_value": 7, "duration_unit": "WORKING_DAYS", "depends_on": ["WP-0007-T001"]},
+    {"task_id": "WP-0007-T003", "proposed_start_date": "2026-07-07", "proposed_finish_date": "2026-07-13", "duration_value": 5, "duration_unit": "WORKING_DAYS", "depends_on": ["WP-0007-T002"]}
   ],
-  "status": "PROPOSED",
-  "stamps": {
-    "preset": {
-      "id": "PS-STERILE",
-      "version": "v0.1.0"
-    },
-    "profile": {
-      "id": "PR-DEFAULT",
-      "version": "v1.0.0"
-    },
-    "calendar": {
-      "id": "CAL-WORKWEEK",
-      "version": "v1.0.0"
-    },
-    "bundle": {
-      "id": "BND-CQV-BASE",
-      "version": "v1.0.0"
-    }
-  }
+  "provenance_stamps": {
+    "preset_ref": {"preset_id": "PS-PE-HIGH", "preset_version": "v1.0.1"},
+    "task_pool_ref": {"task_pool_id": "TP-PE-HIGH", "task_pool_version": "v1.0.1"},
+    "profile_ref": {"profile_id": "PROF-PE-HIGH", "profile_version": "v1.0.1"},
+    "calendar_logic_ref": {"calendar_id": "CAL-WORKWEEK", "calendar_version": "v1.0.1", "canonical_calendar_version": "v1"},
+    "standards_bundle_ref": {"bundle_id": "BND-CQV-BASE", "bundle_version": "v1.0.1", "usage_classification": "PRODUCT_TESTING_ONLY"},
+    "contract_ref": {"contract_id": "VALOR-contract-orch-plan", "contract_version": "v1.0.1"}
+  },
+  "validation_result": {"ok": true, "errors": [], "warnings": []}
 }

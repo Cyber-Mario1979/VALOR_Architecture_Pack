@@ -1,0 +1,44 @@
+template_id: TPL-PQ
+version: v1.0.1
+doc_type: PQ
+owner: KS
+effective_date: 2026-06-12
+source_checked_date: 2026-06-12
+review_cycle_months: 36
+next_review_due: 2029-06-12
+expiry_date: 2029-06-12
+status: TESTING_ONLY
+usage_classification: PRODUCT_TESTING_ONLY
+testing_use_allowed: true
+regulated_output_allowed: false
+real_life_use_allowed: false
+testing_only_stamp_required: true
+approval_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+user_site_acceptance_required: true
+source_metadata_acceptance_status: NOT_ACCEPTED_FOR_REGULATED_USE
+testing_expired_behavior: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
+regulated_expired_behavior: BLOCK_REAL_LIFE_REGULATED_CQV_GMP_OUTPUT
+required_output_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
+required_inputs:
+  - accepted_OQ_status
+  - representative_conditions
+  - acceptance_criteria
+required_stamps:
+  - testing_only_stamp
+  - bundle_id
+  - template_id
+  - source_reference_ids
+  - lifecycle_status
+anchor_policy:
+  required_internal_requirements:
+    - CQV-REQ-008
+    - CQV-REQ-016
+sections:
+  - scope
+  - prerequisites
+  - performance_conditions
+  - acceptance_criteria
+  - execution
+  - conclusion
+missing_or_expired_behavior: BLOCK_DOC_GENERATION_OR_MARK_INCOMPLETE
+regulated_use_behavior: BLOCK_OR_MARK_INCOMPLETE_UNTIL_SOURCE_METADATA_ACCEPTANCE

@@ -1,0 +1,83 @@
+{
+  "vector_group_id": "GOV-AUDIT-EVENT-VECTORS-0001",
+  "scope": "GOVERNANCE_STATIC_TEST_VECTORS",
+  "schema_ref": "schemas/objects/audit_event_schema.json",
+  "positive_cases": [
+    {
+      "case_id": "AUDIT-EVENT-POSITIVE-PLAN-APPLIED",
+      "description": "Valid audit event for applying a proposed plan through WP authority.",
+      "instance": {
+        "event_id": "EVT-000001",
+        "timestamp_utc": "2026-06-12T00:00:00Z",
+        "event_type": "EVT_PLAN_APPLIED",
+        "actor": {
+          "role": "CQV Lead",
+          "name": "User"
+        },
+        "branch_id": "BR-EXEC-WP-0007",
+        "wp_id": "WP-0007",
+        "action_id": "ACT-PLAN-APPLY-0001",
+        "before_hash": "sha256:BEFORE-WP-SNAPSHOT",
+        "after_hash": "sha256:AFTER-WP-SNAPSHOT",
+        "previous_event_hash": "sha256:PREVIOUS-EVENT",
+        "stamps": {
+          "contract_ref": {
+            "contract_id": "VALOR-contract-orch-wp",
+            "contract_version": "v1.0.1"
+          },
+          "preset_ref": {
+            "preset_id": "PS-PE-HIGH",
+            "preset_version": "v1.0.1"
+          },
+          "profile_ref": {
+            "profile_id": "PROF-PE-HIGH",
+            "profile_version": "v1.0.1"
+          },
+          "calendar_logic_ref": {
+            "calendar_id": "CAL-WORKWEEK",
+            "calendar_version": "v1.0.1",
+            "canonical_calendar_version": "v1"
+          }
+        },
+        "rationale": "User confirmed applying PLAN-PEHIGH-0001 to WP-0007.",
+        "attachments": [
+          {
+            "ref_type": "plan_proposal",
+            "ref_id": "PLAN-PEHIGH-0001"
+          }
+        ]
+      },
+      "expected_result": {
+        "valid": true
+      }
+    }
+  ],
+  "negative_cases": [
+    {
+      "case_id": "AUDIT-EVENT-NEGATIVE-MISSING-STAMPS",
+      "description": "Execution audit event missing required stamps must be rejected.",
+      "instance": {
+        "event_id": "EVT-000002",
+        "timestamp_utc": "2026-06-12T00:00:00Z",
+        "event_type": "EVT_COMMIT_EXECUTED",
+        "actor": {
+          "role": "CQV Lead"
+        },
+        "branch_id": "BR-EXEC-WP-0007",
+        "wp_id": "WP-0007",
+        "action_id": "ACT-COMMIT-0001",
+        "before_hash": "sha256:BEFORE-WP-SNAPSHOT",
+        "after_hash": "sha256:AFTER-WP-SNAPSHOT",
+        "previous_event_hash": "sha256:PREVIOUS-EVENT",
+        "stamps": {},
+        "rationale": "Attempted commit without required stamp context.",
+        "attachments": []
+      },
+      "expected_result": {
+        "valid": false,
+        "code": "INVARIANT_VIOLATION",
+        "subcode": "MISSING_TRACEABILITY_STAMPS"
+      }
+    }
+  ]
+}

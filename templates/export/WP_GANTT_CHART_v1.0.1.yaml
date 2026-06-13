@@ -1,0 +1,101 @@
+template_id: TPL-RPT-WP-GANTT-CHART-v1.0.1
+template_version: v1.0.1
+artifact_type: WORK_PACKAGE_GANTT_CHART
+output_format: XLSX
+target_scope_supported:
+  - SINGLE_WP
+  - SELECTED_WP_SET
+excluded_from_freeze_scope:
+  - ALL_WPS
+projection_only: true
+mutates_wp_truth: false
+
+visual_rule:
+  timeline_coloring: FULL_CELL_FILL
+  character_bars_inside_cells: false
+  selected_wp_set_grouping: GROUP_BY_WP
+
+sheets:
+  - sheet_name: Gantt
+    required: true
+    left_columns:
+      - wp_id
+      - wp_title
+      - task_id
+      - task_description
+      - task_owner
+      - task_status
+      - percent_complete
+      - start_date
+      - finish_date
+      - duration_days
+      - row_type
+    timeline_columns:
+      - timeline_date_or_period
+      - full_cell_fill_rule
+      - optional_today_marker
+      - optional_non_working_day_shading
+
+  - sheet_name: Task Data
+    required: true
+    columns:
+      - wp_id
+      - wp_title
+      - task_id
+      - task_description
+      - owner
+      - status
+      - start_date
+      - finish_date
+      - duration_days
+      - percent_complete
+      - dependency_summary
+      - calendar_basis
+      - validation_status
+
+  - sheet_name: Metadata
+    required: true
+    fields:
+      - artifact_id
+      - artifact_type
+      - target_scope
+      - wp_ids
+      - source_snapshot_hash
+      - template_id
+      - template_version
+      - contract_id
+      - contract_version
+      - action_type
+      - generated_at_utc
+      - projection_only
+      - mutates_wp_truth
+      - validation_status
+      - validation_errors
+      - timeline_granularity
+      - timeline_start
+      - timeline_end
+      - coloring_rule
+      - stamps
+      - content_ref
+
+timeline_rules:
+  allowed_granularity:
+    - DAY
+    - WEEK
+    - MONTH
+  must_cover_plotted_tasks: true
+  finish_date_must_not_precede_start_date: true
+
+validation_rules:
+  - plotted_tasks_must_have_start_and_finish_dates
+  - finish_date_must_not_be_before_start_date
+  - selected_wp_set_must_be_grouped_by_wp
+  - timeline_range_must_cover_plotted_tasks
+  - full_cell_coloring_rule_must_be_declared
+  - projection_only_must_be_true
+  - mutates_wp_truth_must_be_false
+
+notes:
+  - "This template/spec is canonical for v1.0.1 Gantt artifact behavior."
+  - "The uploaded Gantt workbook reference is not canonical."
+  - "Gantt is a separate artifact, not a tab in the workbook export freeze baseline."

@@ -1,0 +1,11 @@
+{
+  "test_id": "KS-NEG-003",
+  "name": "unknown anchor refused",
+  "action_type": "KS_RESOLVE_CITATION",
+  "input": {"anchored_ref": {"asset_type": "standard", "asset_id": "STD-CQV-BASE", "asset_version": "v1.0.1", "anchor_id": "UNKNOWN-ANCHOR"}},
+  "expected": {
+    "ok": false,
+    "error": {"code": "NOT_FOUND", "subcode": "ANCHOR_NOT_FOUND"},
+    "excerpt": null
+  }
+}

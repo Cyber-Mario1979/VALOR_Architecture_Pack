@@ -1,16 +1,40 @@
-action_id: BUILD_REPORT
+# Action Alias Spec: BUILD_REPORT
+alias_id: BUILD_REPORT
+canonical_action_type: RPT_GENERATE_STATUS_REPORT
+public_command_aliases:
+  - BUILD_REPORT
+  - build_report
+  - generate_status_report
+  - create_status_report
 contract: VALOR-contract-orch-rpt
 version: v1.0.1
-purpose: Generate a deterministic WP & Tasks report (presentation artifact) from WP snapshots.
-inputs:
-  required:
-    - report_type
-    - wp_snapshots
-  optional:
-    - title
-    - include_sections
-    - output_format
-outputs:
-  result_schema: schemas/contracts/report_result.schema.json
-side_effects: READ_ONLY
+purpose: Backward-compatible public command alias for generating a Work Package Status Report.
+allowed_modes: [M1, M2]
+side_effect_class: GENERATES_ARTIFACT
 idempotent: true
+confirmation_required: false
+
+required_payload_fields:
+  - artifact_type
+  - target_scope
+  - wp_ids
+  - source_snapshot_refs
+  - stamps
+  - validation_mode
+
+optional_payload_fields:
+  - title
+  - include_sections
+  - output_format
+  - options
+
+result_schema_ref: schemas/contracts/report_result.schema.json
+request_schema_ref: schemas/contracts/report_request.schema.json
+
+projection_policy:
+  mutates_wp_truth: false
+  mutates_task_truth: false
+  notes:
+    - "BUILD_REPORT is not a canonical action_type."
+    - "The canonical contract action_type is RPT_GENERATE_STATUS_REPORT."
+    - "Report generation is projection-only and must not correct, overwrite, or silently mutate WP/task truth."

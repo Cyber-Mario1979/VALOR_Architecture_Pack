@@ -1,40 +1,39 @@
 {
   "wp": {
-    "id": "WP007",
-    "title": "Example Work Package"
+    "id": "WP-0007",
+    "title": "Process Equipment High Complexity CQV Package"
   },
   "doc": {
     "id": "DOC-URS-0001",
     "title": "User Requirements Specification",
     "doc_type": "URS",
     "status": "DRAFT",
-    "version": "v1.0.0",
-    "revision_date": "2025-12-26",
-    "generated_utc": "2025-12-26T00:00:00Z",
+    "version": "v1.0.1",
+    "revision_date": "2026-06-12",
+    "generated_utc": "2026-06-12T00:00:00Z",
     "actors": {
-      "author": "Author Name",
-      "reviewer": "Reviewer Name",
-      "approver": "Approver Name"
+      "author": "CQV",
+      "reviewer": "QA",
+      "approver": "User"
     },
+    "template_ref": {"template_id": "TPL-URS", "template_version": "v1.0.1"},
+    "bundle_ref": {"bundle_id": "BND-CQV-BASE", "bundle_version": "v1.0.1", "status": "TESTING_ONLY", "usage_classification": "PRODUCT_TESTING_ONLY"},
+    "dcf_ref": {"template_id": "TPL-DCF", "template_version": "v1.0.1", "generation_active": false, "finalization_active": false},
+    "source_input_set": {"source_input_set_id": "SRC-URS-0001", "source_input_completion_status": "COMPLETE"},
+    "source_chain_provenance": {"dcf_metadata_only": true, "wp_snapshot_hash": "sha256:TEST-WP-SNAPSHOT", "source_input_set_hash": "sha256:TEST-SOURCE-INPUTS"},
     "stamps": {
-      "preset": {
-        "id": "PS-STERILE",
-        "version": "v0.1.0"
-      },
-      "profile": {
-        "id": "PR-DEFAULT",
-        "version": "v1.0.0"
-      },
-      "calendar": {
-        "id": "CAL-WORKWEEK",
-        "version": "v1.0.0"
-      },
-      "bundle": {
-        "id": "BND-CQV-BASE",
-        "version": "v1.0.0"
-      }
+      "preset": {"id": "PS-PE-HIGH", "version": "v1.0.1"},
+      "profile": {"id": "PROF-PE-HIGH", "version": "v1.0.1"},
+      "calendar": {"id": "CAL-WORKWEEK", "version": "v1.0.1", "canonical_calendar_version": "v1"},
+      "bundle": {"id": "BND-CQV-BASE", "version": "v1.0.1"},
+      "template": {"id": "TPL-URS", "version": "v1.0.1"},
+      "internal_standard": {"id": "STD-CQV-BASE", "version": "v1.0.1"}
     },
-    "signatures_table_md": "[signature]",
-    "citations_list_md": "- STD-123 (A-5-2)"
+    "testing_only_stamp": "PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.",
+    "signatures_table_md": "[signature table omitted in minimum render input]",
+    "citations_list_md": "- STD-CQV-BASE v1.0.1 (CQV-REQ-002)"
+  },
+  "urs": {
+    "requirements_table_md": "| ID | Requirement | Source |\n|---|---|---|\n| URS-001 | Define intended use. | SRC-URS-0001 |"
   }
 }

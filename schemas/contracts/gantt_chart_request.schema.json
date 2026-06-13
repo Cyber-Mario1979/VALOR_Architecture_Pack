@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "valor://schemas/contracts/gantt_chart_request.schema.json",
+  "title": "VALOR RPT Gantt Chart Request Payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "target_scope",
+    "wp_ids",
+    "source_snapshot_refs",
+    "gantt_template_id",
+    "timeline",
+    "stamps",
+    "validation_mode"
+  ],
+  "properties": {
+    "artifact_type": {"type": "string", "const": "WORK_PACKAGE_GANTT_CHART"},
+    "target_scope": {"type": "string", "enum": ["SINGLE_WP", "SELECTED_WP_SET"]},
+    "wp_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "source_snapshot_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["wp_id", "snapshot_ref", "snapshot_hash"],
+        "properties": {
+          "wp_id": {"type": "string", "minLength": 1},
+          "snapshot_ref": {"type": "string", "minLength": 1},
+          "snapshot_hash": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "gantt_template_id": {"type": "string", "const": "TPL-RPT-WP-GANTT-CHART-v1.0.1"},
+    "timeline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["granularity", "timeline_start", "timeline_end"],
+      "properties": {
+        "granularity": {"type": "string", "enum": ["DAY", "WEEK", "MONTH"]},
+        "timeline_start": {"type": "string", "format": "date"},
+        "timeline_end": {"type": "string", "format": "date"}
+      }
+    },
+    "stamps": {"type": "object", "additionalProperties": true},
+    "validation_mode": {"type": "string", "const": "STRICT"},
+    "gantt_options": {"type": "object", "additionalProperties": true}
+  }
+}

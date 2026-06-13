@@ -1,51 +1,24 @@
 {
   "wp_id": "WP-0007",
-  "state": "TASKS_COMMITTED",
+  "title": "Process Equipment High Complexity CQV Package",
+  "scope": "FETTE F10i tablet compression machine OEB4 containment",
+  "wp_type": "PROCESS_EQUIPMENT",
+  "complexity": "HIGH",
+  "lifecycle_state": "WP_COMMITTED",
+  "owner_function": "CQV",
+  "applied_action_type": "WP_COMMIT_STAGED_TASKS",
   "tasks": [
-    {
-      "task_id": "T-0001",
-      "name": "URS Draft",
-      "type": "DOC",
-      "status": "OPEN"
-    },
-    {
-      "task_id": "T-0002",
-      "name": "DQ Draft",
-      "type": "DOC",
-      "status": "OPEN",
-      "depends_on": [
-        "T-0001"
-      ]
-    },
-    {
-      "task_id": "T-0003",
-      "name": "RTM Build",
-      "type": "DOC",
-      "status": "OPEN",
-      "depends_on": [
-        "T-0002"
-      ]
-    }
+    {"task_id": "WP-0007-T001", "wp_id": "WP-0007", "name": "URS authoring", "task_type": "AUTHORING", "phase": "URS", "status": "COMMITTED", "dependencies": [], "duration_ref": {"profile_key": "URS_AUTHORING_DUR"}, "owner_role": "CQV"},
+    {"task_id": "WP-0007-T002", "wp_id": "WP-0007", "name": "URS cross-functional review", "task_type": "REVIEW", "phase": "URS", "status": "COMMITTED", "dependencies": ["WP-0007-T001"], "duration_ref": {"profile_key": "URS_REVIEW_DUR"}, "owner_role": "QA"},
+    {"task_id": "WP-0007-T003", "wp_id": "WP-0007", "name": "URS approval cycle", "task_type": "APPROVAL", "phase": "URS", "status": "COMMITTED", "dependencies": ["WP-0007-T002"], "duration_ref": {"profile_key": "URS_APPROVAL_DUR"}, "owner_role": "QA"}
   ],
-  "invariants": {
-    "dependency_cycle_free": true
+  "provenance_refs": {
+    "preset_ref": {"preset_id": "PS-PE-HIGH", "preset_version": "v1.0.1"},
+    "task_pool_ref": {"task_pool_id": "TP-PE-HIGH", "task_pool_version": "v1.0.1"},
+    "profile_ref": {"profile_id": "PROF-PE-HIGH", "profile_version": "v1.0.1"},
+    "calendar_logic_ref": {"calendar_id": "CAL-WORKWEEK", "calendar_version": "v1.0.1", "canonical_calendar_version": "v1"},
+    "standards_bundle_ref": {"bundle_id": "BND-CQV-BASE", "bundle_version": "v1.0.1", "usage_classification": "PRODUCT_TESTING_ONLY"},
+    "testing_only_stamp": "PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE."
   },
-  "stamps": {
-    "preset": {
-      "id": "PS-STERILE",
-      "version": "v0.1.0"
-    },
-    "profile": {
-      "id": "PR-DEFAULT",
-      "version": "v1.0.0"
-    },
-    "calendar": {
-      "id": "CAL-WORKWEEK",
-      "version": "v1.0.0"
-    },
-    "bundle": {
-      "id": "BND-CQV-BASE",
-      "version": "v1.0.0"
-    }
-  }
+  "invariants": {"dependency_cycle_free": true, "id_reuse_blocked": true, "proposal_vs_commitment_boundary_preserved": true}
 }

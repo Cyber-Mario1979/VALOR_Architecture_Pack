@@ -1,0 +1,11 @@
+{
+  "test_id": "KS-POS-003",
+  "name": "cleanroom add-on trigger",
+  "action_type": "KS_VALIDATE_BUNDLE_INTEGRITY",
+  "input": {"bundle_id": "BND-CQV-BASE", "version": "v1.0.1", "scope_flags": {"classified_area": true, "HVAC": true, "ISO8": true}},
+  "expected": {
+    "required_addon_bundle": "BND-CLEANROOM-ADDON_v1.0.1",
+    "triggered_by_requirement": "CQV-REQ-012",
+    "blocked_behavior_if_missing_or_unreviewed": "BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT"
+  }
+}

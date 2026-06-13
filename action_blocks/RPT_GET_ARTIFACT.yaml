@@ -1,0 +1,28 @@
+# Action Spec: RPT_GET_ARTIFACT
+action_type: RPT_GET_ARTIFACT
+public_command_aliases:
+  - get_report_artifact
+  - get_rpt_artifact
+contract: VALOR-contract-orch-rpt
+version: v1.0.1
+purpose: Read a generated RPT artifact metadata record and content reference by artifact_id.
+allowed_modes: [M1, M2]
+side_effect_class: READ_ONLY
+idempotent: true
+confirmation_required: false
+
+required_payload_fields:
+  - artifact_id
+
+optional_payload_fields:
+  - return_content
+
+result_schema_ref: schemas/objects/rpt_artifact_metadata_schema.json
+
+projection_policy:
+  mutates_wp_truth: false
+  mutates_task_truth: false
+
+notes:
+  - "Returns metadata, validation result, and content reference."
+  - "Must not regenerate artifact content."

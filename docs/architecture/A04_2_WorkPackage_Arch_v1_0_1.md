@@ -4,287 +4,280 @@ block type: Arch
 version: v1.0.1
 owner: Nexus
 editor: Senior Architect
-status: released
-date: 2025-12-23
+status: pre_freeze_controlled
+date: 2026-06-12
 dependencies:
   - VALOR-block-A00-specs-architecture-pack
   - VALOR-block-A01-sos-context-capability
   - VALOR-block-A02-principles-invariants
   - VALOR-block-A03-subsystems-authority
-summary: "Block A04.2 — Work Package System Architecture: authoritative WP/task truth, lifecycle state machine, deterministic ID allocation, dependency integrity, and enforcement of CQV invariants."
+summary: "Block A04.2 — Work Package System Architecture: authoritative WP/task truth, lifecycle state machine, deterministic ID allocation, dependency integrity, provenance refs to governed libraries, and proposal-to-commit enforcement."
 acceptance_criteria:
   - Defines authoritative WP and Task entities, required fields, and mutability rules.
-  - Defines lifecycle state machine for WP and tasks (stage, commit, close) with allowed transitions.
+  - Defines lifecycle state machine for WP and tasks.
   - Defines deterministic ID allocation with non-reuse and tombstoning.
-  - Defines dependency model and validation (acyclic graph, allowed dependency types).
-  - Defines contract actions (read, stage, commit, update, validate) and error semantics.
-  - Defines invariants enforcement aligned with global invariants (A02).
+  - Defines dependency model and validation.
+  - Defines proposal vs commitment boundary with Planning.
+  - Defines governed-library provenance references for preset, task pool, profile, calendar, and standards bundle.
+  - Defines no-profile exception constraints.
 ---
 
 # Work Package System Architecture
 
 Terminology: See **A15_Global_Glossary_Arch_v1_0_1.md** for definitions.
 
-
 ## 1. Purpose and Authority
-The Work Package (WP) System is Valor’s **single source of truth** for:
-- Work Package objects,
-- Task objects (including dependencies and statuses),
-- committed task dates (when applied),
-- lifecycle transitions (stage → commit → close),
-- deterministic ID issuance and non-reuse.
+
+The Work Package (WP) System is Valor's single source of truth for:
+
+- Work Package objects;
+- Task objects;
+- task IDs and WP IDs;
+- task status and WP lifecycle state;
+- committed task dates;
+- dependency graph as instantiated into the WP;
+- explicit duration overrides where accepted and stamped;
+- provenance refs to governed library assets used to stage or plan the WP.
 
 Any plan, report, or document is derived from WP truth. If it is not reflected in WP truth, it is not authoritative.
 
----
+WP is not authoritative for:
 
-## 2. Core Entities (Authoritative Data Model)
+- task-pool atomic task definitions;
+- profile default duration values;
+- calendar arithmetic rules;
+- standards-bundle content;
+- planning algorithm choices;
+- generated document/report content.
 
-### 2.1 Work Package (WP)
-A WP represents a controlled scope of work, typically bound to:
-- equipment/system/facility scope,
-- CQV stage,
-- owner functions and interfaces,
-- governance state.
+## 2. Core Entities
 
-**Required fields (minimum)**
-- wp_id (string, immutable once assigned)
-- title (string)
-- scope (string)
-- wp_type (enum): Equipment | Utility | Facility | Project
-- complexity (enum): Low | Medium | High
-- lifecycle_state (enum; see §3)
-- created_at_utc, updated_at_utc
-- owner_function (string)
-- references (optional): vendor_id, project_id, change_control_id
+### 2.1 Work Package
 
-**Optional fields**
-- preset_ref: {preset_id, preset_version}
-- profile_ref: {profile_id, profile_version}
-- standards_bundle_ref: {bundle_id, version}
-- calendar_logic_ref: {calendar_id, calendar_version}
+Required fields:
+
+- wp_id;
+- title;
+- scope;
+- wp_type;
+- complexity;
+- lifecycle_state;
+- created_at_utc;
+- updated_at_utc;
+- owner_function.
+
+Optional but governed refs:
+
+- preset_ref: preset_id and preset_version;
+- task_pool_ref: task_pool_id and task_pool_version;
+- profile_ref: profile_id and profile_version;
+- calendar_logic_ref: calendar_id, calendar_version, and canonical_calendar_version where wrapped;
+- standards_bundle_ref: bundle_id, bundle_version, status, and usage classification;
+- vendor_id;
+- project_id;
+- change_control_id.
+
+WP stores these refs as provenance. WP does not own the governed library assets themselves.
 
 ### 2.2 Task
-A Task is the atomic unit of execution within a WP.
 
-**Required fields (minimum)**
-- task_id (string, immutable once assigned)
-- wp_id (string, parent)
-- name (string)
-- task_type (enum): AUTHORING | REVIEW | APPROVAL | EXECUTION | REPORTING | VENDOR_WAIT | PROCUREMENT_WAIT | LEAD_TIME
-- phase (enum): VMP | URS | RA | RTM | DQ | IQ | OQ | PQ | VSR | OTHER
-- status (enum; see §3)
-- dependencies (array of dependency edges; can be empty)
-- planned_duration_days (number; may be empty until profile/preset applied)
-- owner_role (string; e.g., CQV, QA, ENG, AUTO, PROD, QC, SHE)
-- created_at_utc, updated_at_utc
+Required fields:
 
-**Date fields**
-- proposed_start_date, proposed_end_date (optional; advisory)
-- committed_start_date, committed_end_date (optional; authoritative once set)
-- actual_start_date, actual_end_date (optional; execution evidence)
+- task_id;
+- wp_id;
+- name;
+- task_type;
+- phase;
+- status;
+- dependencies;
+- planned_duration_days or explicit duration_ref/override status;
+- owner_role;
+- created_at_utc;
+- updated_at_utc.
 
-Rule:
-- “proposed_*” may be written during staging.
-- “committed_*” is only written during an explicit APPLY/COMMIT action.
+Allowed task_type values:
+
+- AUTHORING
+- REVIEW
+- APPROVAL
+- EXECUTION
+- REPORTING
+- VENDOR_WAIT
+- PROCUREMENT_WAIT
+- LEAD_TIME
+
+Date fields:
+
+- proposed_start_date and proposed_end_date are advisory;
+- committed_start_date and committed_end_date are authoritative once explicitly applied;
+- actual_start_date and actual_end_date are execution evidence fields.
+
+Planning may propose dates. WP commits dates only through an explicit apply/commit action with confirmation and provenance stamps.
 
 ### 2.3 Dependency Edge
-Dependencies are explicit edges between tasks.
 
-Fields:
-- predecessor_task_id
-- successor_task_id
-- dependency_type (enum): FS | SS | FF | SF
-- lag_days (integer; default 0)
-- notes (optional)
+Dependency edge fields:
 
-Baseline (as per current plan):
-- Support FS only initially (FS), but model is future-proofed for SS/FF/SF.
+- predecessor_task_id;
+- successor_task_id;
+- dependency_type;
+- lag_days;
+- notes.
 
----
+Baseline v1.0.1 support is FS only unless later enabled by controlled update.
+
+Dependency graph must be acyclic.
 
 ## 3. Lifecycle State Machine
 
-### 3.1 WP Lifecycle States
-- WP_DRAFT: WP created, tasks may be staged but not committed.
-- WP_STAGED: staged task set exists (PROPOSED), awaiting commit.
-- WP_COMMITTED: tasks exist with allocated IDs (authoritative list).
-- WP_IN_EXECUTION: execution underway (optional; can be derived from task statuses).
-- WP_CLOSED: WP closed; further mutations are restricted.
+WP states:
 
-### 3.2 Task Status States
-- TASK_STAGED (PROPOSED, no final ID unless policy allows provisional IDs)
-- TASK_COMMITTED (authoritative task exists)
-- TASK_IN_PROGRESS
-- TASK_DONE
-- TASK_BLOCKED
-- TASK_CANCELLED
+- WP_DRAFT;
+- WP_STAGED;
+- WP_COMMITTED;
+- WP_IN_EXECUTION;
+- WP_CLOSED.
 
-### 3.3 Allowed Transitions (WP)
-| From | To | Trigger | Gate |
-|---|---|---|---|
-| WP_DRAFT | WP_STAGED | Stage tasks | validation OK |
-| WP_STAGED | WP_COMMITTED | Commit staged tasks | user confirmation required |
-| WP_COMMITTED | WP_IN_EXECUTION | Start execution | optional |
-| WP_IN_EXECUTION | WP_CLOSED | Close WP | closure criteria met |
-| WP_COMMITTED | WP_CLOSED | Close WP (no execution) | closure criteria met |
+Task states:
 
-Hard rules:
-- Cannot commit without staging (A02 INV-03).
-- Cannot close with unresolved required tasks unless explicitly cancelled with rationale.
+- TASK_STAGED;
+- TASK_COMMITTED;
+- TASK_IN_PROGRESS;
+- TASK_DONE;
+- TASK_BLOCKED;
+- TASK_CANCELLED.
 
-### 3.4 Allowed Transitions (Task)
-| From | To | Trigger |
-|---|---|---|
-| TASK_STAGED | TASK_COMMITTED | WP_COMMIT_STAGED_TASKS |
-| TASK_COMMITTED | TASK_IN_PROGRESS | execution start |
-| TASK_IN_PROGRESS | TASK_DONE | execution complete |
-| TASK_* | TASK_BLOCKED | blocker recorded |
-| TASK_* | TASK_CANCELLED | cancellation with rationale |
-
----
+Allowed transitions must enforce staging before commit and prevent closure with unresolved required tasks unless explicitly cancelled with rationale.
 
 ## 4. Deterministic ID Allocation
 
-### 4.1 ID Format (Implementation Guidance)
-- WP IDs: `WP-0001`, `WP-0002`, ...
-- Task IDs: `T-0001`, `T-0002`, ... (or WP-scoped `WP-0001-T-0001`)
+IDs must be unique, deterministic, and non-reused.
 
-The specific format can vary, but must satisfy:
-- uniqueness,
-- determinism,
-- non-reuse.
+If an item is cancelled or deleted, its ID is tombstoned.
 
-### 4.2 Non-Reuse and Tombstoning
-Invariant (A02 INV-04):
-- IDs are never reused.
-- If an item is deleted or cancelled, its ID is tombstoned.
+Implementation must maintain an append-only ID ledger or equivalent invariant-preserving mechanism.
 
-Implementation check:
-- Maintain an append-only ID ledger.
+## 5. Mutability Rules
 
----
+WP mutability:
 
-## 5. Dependency Integrity and Validation
+- wp_id immutable;
+- lifecycle_state transitions must follow the state machine;
+- governed refs may be added or updated while not closed, subject to provenance rules;
+- closed WPs restrict mutation.
 
-### 5.1 Acyclic Graph
-Invariant (A02 INV-05):
-- Dependency graph must be acyclic.
+Task mutability:
 
-Validation:
-- On any dependency update, run cycle detection and reject loops.
+- task_id immutable;
+- name/type/phase/owner may be edited before execution starts, subject to policy;
+- dependencies may be edited before execution starts, subject to cycle validation;
+- committed dates may be changed only through an explicit apply/update action and with justification after execution starts.
 
-### 5.2 Allowed Dependency Types (Initial)
-For v0.1.x baseline:
-- Allow FS only.
-- If other types appear, reject as UNSUPPORTED_OPERATION unless explicitly enabled.
+## 6. Governed Library Provenance
 
-### 5.3 Lag Rules
-- lag_days defaults to 0
-- negative lags are rejected unless explicitly supported by policy.
+When tasks are staged or dates are applied, WP must retain the relevant governed library refs used:
 
----
+- preset_id/version;
+- task_pool_id/version;
+- profile_id/version or explicit override source stamps;
+- calendar_id/version and canonical calendar version where wrapped;
+- standards_bundle_id/version/status/usage classification where applicable.
 
-## 6. Mutability Rules (What Can Change When)
+Missing required provenance must block the dependent commit/finalization/export path.
 
-### 6.1 WP Mutability
-- wp_id immutable.
-- lifecycle_state transitions must follow §3.
-- references may be added/updated in DRAFT/COMMITTED; restricted in CLOSED.
+## 7. No-Profile Exception
 
-### 6.2 Task Mutability
-- task_id immutable.
-- name/type/phase/owner_role can be edited in COMMITTED until execution starts (policy).
-- dependencies editable until execution starts (policy).
-- committed dates editable only through explicit APPLY (with justification if changed after execution starts).
+Normal planning uses a governed profile.
 
----
+A WP may support no-profile planning only when every task has an explicit duration override and every override includes a stamped source/provenance record.
 
-## 7. WP Contract Actions (Implementation-Ready)
+If any task lacks both a governed profile-derived duration and a stamped explicit override, planning must refuse.
 
-The WP System exposes actions to Orchestration via `VALOR-contract-orch-wp`.
+No-profile planning is not normal freeze operation.
 
-### 7.1 Read Operations
-- WP_GET (wp_id)
-- WP_LIST (filters)
-- TASK_GET (task_id)
-- TASK_LIST (wp_id)
+## 8. Planning Apply Boundary
 
-### 7.2 Stage Operations (No Truth Commitment)
-- WP_STAGE_TASKS
-  - Inputs: wp_id, preset_ref or task list references, selection context
-  - Output: staged_task_set (hash/id) + preview tasks (no committed IDs)
+Planning outputs are `PROPOSED` only.
 
-- WP_VALIDATE_STAGE
-  - Validates required fields, dependency integrity, duplicate tasks, etc.
+The apply sequence is:
 
-### 7.3 Commit Operations (Truth Mutation)
-- WP_COMMIT_STAGED_TASKS
-  - Requires: staged_task_set_id + user confirmation recorded by Orchestration
-  - Output: committed tasks with allocated task_ids
+1. Planning returns a proposed schedule.
+2. Orchestration presents it to the user.
+3. User confirms apply.
+4. WP writes committed_start_date and committed_end_date.
+5. WP stores provenance stamps for the applied proposal.
 
-### 7.4 Update Operations (Truth Mutation with Rules)
-- WP_UPDATE_TASK_FIELDS
-  - Used for applying schedule dates, changing owners, updating statuses
-  - Must reject changes violating mutability rules (e.g., illegal state transition)
+If the WP apply call fails, Orchestration must not claim success.
 
-- WP_UPDATE_DEPENDENCIES
-  - Must validate cycle-free graph
+## 9. FAT Chain Awareness
 
-### 7.5 Close Operations
-- WP_CLOSE
-  - Requires: closure checklist satisfied (policy-driven)
-  - Output: lifecycle_state = WP_CLOSED
+For high-complexity process equipment WPs staged from `TP-PE-HIGH`, WP must be able to store the full FAT path as normal task instances:
 
-### 7.6 Validation Operations
-- WP_VALIDATE (wp_id)
-  - Returns: errors/warnings, readiness flags for export/doc generation
+```text
+PEH-MFG-LEAD
+→ PEH-FAT-SCHED
+→ PEH-FAT-PREP
+→ PEH-FAT-EXEC
+→ PEH-FAT-REPORT
+→ PEH-FAT-ACCEPTANCE
+→ PEH-LOGISTICS
+```
 
----
+This is task/dependency truth only. It does not create ERP integration, resource loading, execution evidence ingestion, or delivery planning.
 
-## 8. Error Semantics (WP System)
+## 10. Validation and Error Semantics
+
+WP validation must enforce:
+
+- required fields;
+- legal lifecycle transitions;
+- acyclic dependency graph;
+- supported dependency types;
+- non-reused IDs;
+- mutability restrictions;
+- required provenance refs;
+- proposal vs commitment boundary.
 
 Standard codes:
-- VALIDATION_ERROR: missing or invalid required fields
-- INVARIANT_VIOLATION: violates global invariants (cycle, staging required, ID reuse)
-- MODE_VIOLATION: wrong mode for mutation request
-- NOT_FOUND: unknown wp_id/task_id
-- CONFLICT: version/selection conflicts (e.g., preset/profile mismatch)
-- UNSUPPORTED_OPERATION: unsupported dependency type, negative lag, etc.
-- INTERNAL_ERROR: unexpected
+
+- VALIDATION_ERROR;
+- INVARIANT_VIOLATION;
+- MODE_VIOLATION;
+- NOT_FOUND;
+- CONFLICT;
+- UNSUPPORTED_OPERATION;
+- INTERNAL_ERROR.
 
 WP-specific subcodes:
+
 - STAGING_REQUIRED
 - CYCLE_DETECTED
 - ILLEGAL_STATE_TRANSITION
 - MUTABILITY_RESTRICTED
 - DUPLICATE_TASK
 - MISSING_REQUIRED_FIELD
+- PROVENANCE_STAMP_MISSING
+- NO_PROFILE_DURATION_SOURCE_MISSING
 
-Example error:
-```json
-{
-  "code": "INVARIANT_VIOLATION",
-  "subcode": "CYCLE_DETECTED",
-  "message": "Dependency update rejected: cycle detected involving T-0007 → T-0009 → T-0007.",
-  "entity": "dependency_graph",
-  "remediation": "Remove one edge to break the cycle and retry."
-}
-```
+## 11. Integration Points
 
----
+- Orchestration uses WP actions for truth mutations and gating.
+- Preset resolution supplies governed refs and rule decisions for staging.
+- Task Pool supplies atomic task definitions and default wiring.
+- Profile supplies governed duration defaults.
+- Calendar supplies date arithmetic.
+- Planning returns proposed schedules only.
+- Document Factory and Reporting read WP truth and provenance; they do not mutate WP truth.
 
-## 9. Integration Points
-- Orchestration uses WP actions for all truth mutations and gating.
-- Planning reads committed tasks/dependencies and returns PROPOSED schedule; Orchestration applies via WP_UPDATE_TASK_FIELDS.
-- Document Factory reads WP truth and produces documents; WP may store doc references.
-- Reporting reads WP truth and produces projection outputs; does not mutate WP.
+## 12. Contract Alignment Dependency
 
----
+WP contract/action naming remains a later contract/action registry semantic validation dependency.
 
----
+This blocker aligns the architecture and governed library content only. It does not edit contract files.
 
 ## CHANGELOG
-| Date       | Changes     | Type / Version |
-| ---------- | ----------- | -------------- |
-| 2025-12-23 | First Issue | Arch_v1.0.1    |
+
+| Date       | Changes | Type / Version |
+| ---------- | ------- | -------------- |
+| 2025-12-23 | First Issue | Arch_v1.0.1 |
+| 2026-06-12 | WP/Planning/Governed Library cleanup: clarified governed-library provenance refs, planning apply boundary, no-profile exception, FAT-chain task storage, and local pre-freeze status alignment | Pre-freeze controlled update |

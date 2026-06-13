@@ -1,9 +1,20 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "valor://schemas/contracts/ks_bundle_validation.schema.json",
-  "title": "Knowledge Store Bundle Validation",
+  "title": "KS Bundle Validation",
   "type": "object",
-  "required": [],
-  "properties": {},
-  "additionalProperties": true
+  "additionalProperties": true,
+  "required": ["bundle_id", "version", "ok", "status", "checks", "blocked_behavior"],
+  "properties": {
+    "bundle_id": {"type": "string"},
+    "version": {"type": "string"},
+    "ok": {"type": "boolean"},
+    "status": {"type": "string", "enum": ["TESTING_ONLY", "PRE_FREEZE_USER_REVIEW_REQUIRED", "ACTIVE", "DUE_FOR_REVIEW", "EXPIRED", "SUPERSEDED", "BLOCKED"]},
+    "usage_classification": {"type": "string"},
+    "testing_use_allowed": {"type": "boolean"},
+    "regulated_output_allowed": {"type": "boolean"},
+    "checks": {"type": "array"},
+    "errors": {"type": "array"},
+    "blocked_behavior": {"type": "string"}
+  }
 }

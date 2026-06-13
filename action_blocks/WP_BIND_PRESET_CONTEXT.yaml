@@ -1,24 +1,34 @@
 # Action Spec: WP_BIND_PRESET_CONTEXT
 action_type: WP_BIND_PRESET_CONTEXT
+public_command_aliases: [load_preset_context, bind_preset_context]
+contract: VALOR-contract-orch-wp
+version: v1.0.1
+purpose: Bind and stamp a WP with governed preset, profile, calendar, task-pool, and bundle references used for traceability.
 allowed_modes: [M2]
 side_effect_class: MUTATES_TRUTH
-idempotency: IDEMPOTENT
+idempotent: true
+confirmation_required: true
+status: ACTIVE_PRE_FREEZE
 
 required_payload_fields:
   - preset_context
 
-optional_payload_fields: []
+optional_payload_fields:
+  - governed_binding_stamps
 
 target_fields:
   required: [wp_id]
   optional: []
 
-result_schema_ref: schemas/wp.json
+result_schema_ref: schemas/objects/work_package_schema.json
+
+preset_context_minimum_shape:
+  preset: {id: "<preset_id>", version: "<preset_version>"}
+  task_pool: {id: "<task_pool_id>", version: "<task_pool_version>"}
+  profile: {id: "<profile_id>", version: "<profile_version>"}
+  calendar: {id: "<calendar_id>", version: "<calendar_version>", canonical_calendar_version: "<canonical_calendar_version>"}
+  bundle: {id: "<bundle_id>", version: "<bundle_version>", usage_classification: "PRODUCT_TESTING_ONLY"}
 
 notes:
-  purpose: "Bind/stamp WP with preset/profile/calendar/bundle references used for traceability and regulated outputs."
-  preset_context_minimum_shape:
-    preset: {id: "<preset_id>", version: "<preset_version>"}
-    profile: {id: "<profile_id>", version: "<profile_version>"}
-    calendar: {id: "<calendar_id>", version: "<calendar_version>"}
-    bundle: {id: "<bundle_id>", version: "<bundle_version>"}
+  - PS-PE-HIGH may bind BND-CQV-BASE v1.0.1 only as TESTING_ONLY / PRODUCT_TESTING_ONLY until source metadata is accepted.
+  - Binding/stamping does not approve real regulated CQV/GMP output.

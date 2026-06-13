@@ -1,43 +1,35 @@
 {
-  "report_id": "RPT-0002",
-  "report_type": "WP_TASKS_REPORT",
-  "title": "WP & Tasks Report",
-  "generated_at_utc": "2025-12-26T00:00:00Z",
-  "wp_summaries": [
-    {
-      "wp_id": "WP001",
-      "wp_title": "HVAC AHU Validation",
-      "tasks_table": [
-        {
-          "task_id": "WP001-T001",
-          "description": "URS review & approval",
-          "owner": "CQV",
-          "start_date": "12/12/2025",
-          "finish_date": "14/12/2025",
-          "status": "Opened"
-        },
-        {
-          "task_id": "WP001-T002",
-          "description": "RTM development and approval",
-          "owner": "CQV",
-          "start_date": "15/12/2025",
-          "finish_date": "17/12/2025",
-          "status": "Opened"
-        },
-        {
-          "task_id": "WP001-T003",
-          "description": "Design Qualification (DQ) preparation",
-          "owner": "Engineering",
-          "start_date": "18/12/2025",
-          "finish_date": "22/12/2025",
-          "status": "Opened"
-        }
-      ]
-    }
+  "artifact_metadata": {
+    "artifact_id": "RPT-STATUS-0001",
+    "artifact_type": "WORK_PACKAGE_STATUS_REPORT",
+    "artifact_label": "Work Package Status Report",
+    "target_scope": "SINGLE_WP",
+    "wp_ids": ["WP-0007"],
+    "source_snapshot_hash": "sha256:TEST-WP-SNAPSHOT",
+    "template_id": "TPL-RPT-WP-STATUS-REPORT-v1.0.1",
+    "template_version": "v1.0.1",
+    "contract_id": "VALOR-contract-orch-rpt",
+    "contract_version": "v1.0.1",
+    "action_type": "RPT_GENERATE_STATUS_REPORT",
+    "generated_at_utc": "2026-06-12T00:00:00Z",
+    "projection_only": true,
+    "mutates_wp_truth": false,
+    "stamps": {"bundle_ref": {"bundle_id": "BND-CQV-BASE", "bundle_version": "v1.0.1", "usage_classification": "PRODUCT_TESTING_ONLY"}},
+    "validation_result": {"ok": true, "mode": "STRICT", "errors": [], "warnings": []},
+    "content_ref": {"ref_type": "CONTENT_REF", "format": "REPORT_SOURCE", "uri": "artifact://RPT-STATUS-0001"}
+  },
+  "report_type": "WORK_PACKAGE_STATUS_REPORT",
+  "report_sections": [
+    {"section_id": "COVER_PAGE", "title": "Cover Page", "required": true, "summary": "Single WP report for WP-0007."},
+    {"section_id": "EXECUTIVE_SUMMARY", "title": "Executive Summary", "required": true, "summary": "Projection-only status summary."},
+    {"section_id": "WORK_PACKAGE_OVERVIEW", "title": "Work Package Overview", "required": true, "summary": "Process Equipment High Complexity CQV Package."},
+    {"section_id": "TASK_STATUS_SUMMARY", "title": "Task Status Summary", "required": true, "summary": "Three committed URS-phase tasks."},
+    {"section_id": "SCHEDULE_SUMMARY", "title": "Schedule Summary", "required": true, "summary": "Committed and proposed dates remain separately labeled."},
+    {"section_id": "RISKS_ISSUES_EXCEPTIONS", "title": "Risks / Issues / Exceptions", "required": true, "summary": "No test exception in this vector."},
+    {"section_id": "TRACEABILITY_GOVERNANCE", "title": "Traceability and Governance", "required": true, "summary": "PRODUCT_TESTING_ONLY bundle and stamps included."},
+    {"section_id": "RECOMMENDATIONS_NEXT_ACTIONS", "title": "Recommendations / Next Actions", "required": true, "summary": "Continue governed review."},
+    {"section_id": "APPENDIX", "title": "Appendix", "required": true, "summary": "Source snapshot references."}
   ],
-  "rendered_markdown": "# WP & Tasks Report\n\n### WP001 \u2013 HVAC AHU Validation\n| Task ID | Description | Owner | Start Date | Finish Date | Status |\n|---|---|---|---|---|---|\n| WP001-T001 | URS review & approval | CQV | 12/12/2025 | 14/12/2025 | Opened |\n| WP001-T002 | RTM development and approval | CQV | 15/12/2025 | 17/12/2025 | Opened |\n| WP001-T003 | Design Qualification (DQ) preparation | Engineering | 18/12/2025 | 22/12/2025 | Opened |",
-  "completeness": {
-    "percent": 100,
-    "missing_items_detected": false
-  }
+  "rendered_report_source": "# Work Package Status Report — WP-0007\n\nProjection Only = True\n\nPRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.",
+  "pdf_intent": true
 }

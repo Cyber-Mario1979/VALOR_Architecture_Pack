@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "valor://schemas/objects/workbook_export_schema.json",
+  "title": "VALOR Workbook Export Sheet Schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "template_id",
+    "template_version",
+    "format",
+    "sheets"
+  ],
+  "properties": {
+    "template_id": {"type": "string", "const": "TPL-RPT-WP-WORKBOOK-EXPORT-v1.0.1"},
+    "template_version": {"type": "string", "const": "v1.0.1"},
+    "format": {"type": "string", "const": "XLSX"},
+    "sheets": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["sheet_name", "required", "columns_or_fields"],
+        "properties": {
+          "sheet_name": {"type": "string", "enum": ["Cover", "WP Summary", "Task Table", "Statistics", "Metadata"]},
+          "required": {"type": "boolean", "const": true},
+          "columns_or_fields": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "selected_wp_set_rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_rows_require_wp_id", "task_rows_require_wp_title"],
+      "properties": {
+        "task_rows_require_wp_id": {"type": "boolean", "const": true},
+        "task_rows_require_wp_title": {"type": "boolean", "const": true}
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+# Action Spec: RPT_GENERATE_WORKBOOK_EXPORT
+action_type: RPT_GENERATE_WORKBOOK_EXPORT
+public_command_aliases:
+  - export_workbook
+  - generate_workbook_export
+  - download_workbook_export
+contract: VALOR-contract-orch-rpt
+version: v1.0.1
+purpose: Generate a structured Excel workbook export from one or more committed WP snapshots.
+allowed_modes: [M2]
+side_effect_class: GENERATES_ARTIFACT
+idempotent: true
+confirmation_required: true
+
+required_payload_fields:
+  - artifact_type
+  - target_scope
+  - wp_ids
+  - source_snapshot_refs
+  - workbook_template_id
+  - stamps
+  - validation_mode
+
+optional_payload_fields:
+  - workbook_options
+  - include_charts
+
+target_scope:
+  supported: [SINGLE_WP, SELECTED_WP_SET]
+  excluded_from_freeze_scope: [ALL_WPS]
+
+output_format: XLSX
+result_schema_ref: schemas/contracts/workbook_export_result.schema.json
+request_schema_ref: schemas/contracts/workbook_export_request.schema.json
+
+template_ref:
+  template_id: TPL-RPT-WP-WORKBOOK-EXPORT-v1.0.1
+  template_path: templates/export/WP_WORKBOOK_EXPORT_v1.0.1.yaml
+
+required_sheets:
+  - Cover
+  - WP Summary
+  - Task Table
+  - Statistics
+  - Metadata
+
+projection_policy:
+  mutates_wp_truth: false
+  mutates_task_truth: false
+
+notes:
+  - "The workbook export is a technical structured artifact, not a narrative report."
+  - "Gantt is not a tab in the workbook export freeze baseline; it is generated as a separate artifact."
+  - "For SELECTED_WP_SET, task-level sheets must include wp_id and wp_title."

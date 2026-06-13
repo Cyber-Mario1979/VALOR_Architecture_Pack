@@ -3,36 +3,104 @@
   "$id": "valor://schemas/contracts/contract_response.schema.json",
   "title": "Contract Response Envelope",
   "type": "object",
+  "additionalProperties": false,
   "required": [
-    "contract_id",
-    "action_type",
-    "status"
+    "contract",
+    "contract_version",
+    "action_id",
+    "ok",
+    "result",
+    "error"
   ],
   "properties": {
-    "contract_id": {
-      "type": "string"
-    },
-    "action_type": {
-      "type": "string"
-    },
-    "status": {
+    "contract": {
       "type": "string",
-      "enum": [
-        "OK",
-        "ERROR"
-      ]
+      "minLength": 1
+    },
+    "contract_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "action_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ok": {
+      "type": "boolean"
     },
     "result": {
-      "type": "object",
+      "type": [
+        "object",
+        "null"
+      ],
       "additionalProperties": true
     },
-    "errors": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "additionalProperties": true
+    "error": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": false,
+      "required": [
+        "code",
+        "message"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subcode": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "entity": {
+          "type": "string"
+        },
+        "remediation": {
+          "type": "string"
+        }
       }
     }
   },
-  "additionalProperties": true
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "ok": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "error": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "ok": {
+            "const": false
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "result": {
+            "type": "null"
+          },
+          "error": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  ]
 }

@@ -1,0 +1,32 @@
+bundle_id: BND-CLEANROOM-ADDON
+version: v1.0.1
+name: VALOR Cleanroom and HVAC Add-on Bundle
+owner: K&S
+effective_date: 2026-06-12
+source_checked_date: 2026-06-12
+review_cycle_months: 36
+next_review_due: 2029-06-12
+expiry_date: 2029-06-12
+status: TESTING_ONLY
+usage_classification: PRODUCT_TESTING_ONLY
+testing_use_allowed: true
+regulated_output_allowed: false
+testing_only_stamp_required: true
+approval_status: PRE_FREEZE_USER_REVIEW_REQUIRED
+user_site_acceptance_required: true
+source_metadata_acceptance_status: NOT_ACCEPTED_FOR_REGULATED_USE
+testing_expired_behavior: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
+regulated_expired_behavior: BLOCK_REAL_LIFE_REGULATED_CQV_GMP_OUTPUT
+required_output_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
+trigger_condition: classified_area_or_HVAC_scope_present
+included_internal_requirements:
+  - STD-CQV-BASE:v1.0.1:CQV-REQ-012
+  - STD-CQV-BASE:v1.0.1:CQV-REQ-016
+included_external_references:
+  - EXT-ISO14644
+  - EXT-EUGMP-ANNEX15
+  - EXT-LOCAL-EDA-SITE-GMP
+blocked_state_rules:
+  testing_metadata_expired: BLOCK_PRODUCT_TESTING_UNTIL_RENEWED
+  regulated_use_requested: BLOCK_REAL_LIFE_REGULATED_CQV_GMP_OUTPUT
+  source_unverified_for_regulated_use: BLOCK_DEPENDENT_REGULATED_CQV_OUTPUT

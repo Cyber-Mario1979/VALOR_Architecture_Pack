@@ -2,8 +2,9 @@ contract_id: VALOR-contract-orch-rpt
 current_version: v1.0.1
 supported_versions:
   - v1.0.1
-owner_subsystem: Reporting
+owner_subsystem: RPT
 called_by: Orchestration
+registry_category: PUBLIC_USER_CALLABLE
 compatibility_policy:
   semver: true
   orchestration_rules:
@@ -15,43 +16,236 @@ envelopes:
   response_schema: schemas/contracts/contract_response.schema.json
 
 outputs:
+  report_request_schema: schemas/contracts/report_request.schema.json
   report_result_schema: schemas/contracts/report_result.schema.json
+  workbook_export_request_schema: schemas/contracts/workbook_export_request.schema.json
+  workbook_export_result_schema: schemas/contracts/workbook_export_result.schema.json
+  gantt_chart_request_schema: schemas/contracts/gantt_chart_request.schema.json
+  gantt_chart_result_schema: schemas/contracts/gantt_chart_result.schema.json
+  artifact_metadata_schema: schemas/objects/rpt_artifact_metadata_schema.json
+
+projection_policy:
+  mutates_wp_truth: false
+  mutates_task_truth: false
+  required_behavior: "RPT reads authoritative snapshots and generates projection-only artifacts only."
+
+product_testing_field_trial_policy:
+  generation_allowed: true
+  field_trial_allowed_as_operating_label_under_product_testing_only: true
+  field_trial_is_schema_enum: false
+  supports_asbp_product_construction: true
+  supports_parallel_professional_market_testers: true
+  outputs_are_official_gmp_records: false
+  required_stamp_when_testing_only_assets_used: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
+  source_metadata_acceptance_required_for_product_testing: false
+  source_metadata_acceptance_required_for_field_trial: false
+  source_metadata_acceptance_required_for_regulated_release: true
+  regulated_release_condition: REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
+
+target_scope_policy:
+  supported:
+    - SINGLE_WP
+    - SELECTED_WP_SET
+  excluded_from_freeze_scope:
+    - ALL_WPS
 
 actions:
-  - action_type: BUILD_REPORT
-    description: >
-      Generate a deterministic WP & Tasks report from one or more committed WP snapshots.
-      The report is a presentation artifact; it must not mutate WP state.
+  - action_type: RPT_GENERATE_STATUS_REPORT
+    public_command_aliases: [BUILD_REPORT, build_report, generate_status_report, create_status_report]
+    description: Generate a narrative Work Package Status Report artifact from one or more committed WP snapshots.
     allowed_modes: [M1, M2]
-    side_effect_class: READ_ONLY
+    side_effect_class: GENERATES_ARTIFACT
     idempotent: true
+    confirmation_required: false
     required_payload_fields:
-      - report_type
-      - wp_snapshots
+      - artifact_type
+      - target_scope
+      - wp_ids
+      - source_snapshot_refs
+      - stamps
+      - validation_mode
     optional_payload_fields:
       - title
       - include_sections
       - output_format
+      - options
+    result_schema_ref: schemas/contracts/report_result.schema.json
+    request_schema_ref: schemas/contracts/report_request.schema.json
+    action_block_ref: action_blocks/RPT_GENERATE_STATUS_REPORT.yaml
+    status: ACTIVE_PRE_FREEZE
     payload_schema_notes:
-      report_type:
-        allowed_values: [WP_TASKS_REPORT]
-      wp_snapshots:
-        type: array
-        items: object (WP snapshot projection sufficient for reporting)
-      include_sections:
-        type: array
-        allowed_values:
-          - Overview
-          - Objectives
-          - Traceability
-          - Tasks
-          - Risks
-          - Evidence
-          - Status
-          - NextSteps
-          - Completeness
+      artifact_type:
+        allowed_values: [WORK_PACKAGE_STATUS_REPORT]
       output_format:
-        allowed_values: [MARKDOWN]
+        allowed_values: [PDF, REPORT_SOURCE]
+
+  - action_type: RPT_VALIDATE_REPORT_INPUTS
+    public_command_aliases: [validate_report_inputs, validate_status_report]
+    description: Validate report target scope, WP snapshots, stamps, template availability, and source data completeness.
+    allowed_modes: [M1, M2]
+    side_effect_class: VALIDATE_ONLY
+    idempotent: true
+    confirmation_required: false
+    required_payload_fields:
+      - artifact_type
+      - target_scope
+      - wp_ids
+      - source_snapshot_refs
+      - stamps
+      - validation_mode
+    optional_payload_fields:
+      - template_id
+      - options
+    result_schema_ref: schemas/contracts/report_result.schema.json
+    request_schema_ref: schemas/contracts/report_request.schema.json
+    action_block_ref: action_blocks/RPT_VALIDATE_REPORT_INPUTS.yaml
+    status: ACTIVE_PRE_FREEZE
+
+  - action_type: RPT_GENERATE_WORKBOOK_EXPORT
+    public_command_aliases: [export_workbook, generate_workbook_export, download_workbook_export]
+    description: Generate a structured Excel workbook export with Cover, WP Summary, Task Table, Statistics, and Metadata sheets.
+    allowed_modes: [M2]
+    side_effect_class: GENERATES_ARTIFACT
+    idempotent: true
+    confirmation_required: true
+    required_payload_fields:
+      - artifact_type
+      - target_scope
+      - wp_ids
+      - source_snapshot_refs
+      - workbook_template_id
+      - stamps
+      - validation_mode
+    optional_payload_fields:
+      - workbook_options
+      - include_charts
+    result_schema_ref: schemas/contracts/workbook_export_result.schema.json
+    request_schema_ref: schemas/contracts/workbook_export_request.schema.json
+    action_block_ref: action_blocks/RPT_GENERATE_WORKBOOK_EXPORT.yaml
+    status: ACTIVE_PRE_FREEZE
+    payload_schema_notes:
+      artifact_type:
+        allowed_values: [WORK_PACKAGE_WORKBOOK_EXPORT]
+      output_format:
+        allowed_values: [XLSX]
+
+  - action_type: RPT_VALIDATE_WORKBOOK_EXPORT
+    public_command_aliases: [validate_workbook_export]
+    description: Validate workbook request, required sheets, columns, metadata, and selected-WP-set source fields.
+    allowed_modes: [M1, M2]
+    side_effect_class: VALIDATE_ONLY
+    idempotent: true
+    confirmation_required: false
+    required_payload_fields:
+      - artifact_type
+      - target_scope
+      - wp_ids
+      - source_snapshot_refs
+      - workbook_template_id
+      - validation_mode
+    optional_payload_fields:
+      - workbook_artifact
+      - workbook_options
+    result_schema_ref: schemas/contracts/workbook_export_result.schema.json
+    request_schema_ref: schemas/contracts/workbook_export_request.schema.json
+    action_block_ref: action_blocks/RPT_VALIDATE_WORKBOOK_EXPORT.yaml
+    status: ACTIVE_PRE_FREEZE
+
+  - action_type: RPT_GENERATE_GANTT_CHART
+    public_command_aliases: [generate_gantt, generate_gantt_chart]
+    description: Generate a separate Excel-based Work Package Gantt Chart artifact with full-cell timeline coloring.
+    allowed_modes: [M2]
+    side_effect_class: GENERATES_ARTIFACT
+    idempotent: true
+    confirmation_required: true
+    required_payload_fields:
+      - artifact_type
+      - target_scope
+      - wp_ids
+      - source_snapshot_refs
+      - gantt_template_id
+      - timeline
+      - stamps
+      - validation_mode
+    optional_payload_fields:
+      - gantt_options
+    result_schema_ref: schemas/contracts/gantt_chart_result.schema.json
+    request_schema_ref: schemas/contracts/gantt_chart_request.schema.json
+    action_block_ref: action_blocks/RPT_GENERATE_GANTT_CHART.yaml
+    status: ACTIVE_PRE_FREEZE
+    payload_schema_notes:
+      artifact_type:
+        allowed_values: [WORK_PACKAGE_GANTT_CHART]
+      output_format:
+        allowed_values: [XLSX]
+
+  - action_type: RPT_VALIDATE_GANTT_INPUTS
+    public_command_aliases: [validate_gantt_inputs, validate_gantt_chart]
+    description: Validate Gantt source dates, target scope, WP grouping, timeline coverage, and layout constraints.
+    allowed_modes: [M1, M2]
+    side_effect_class: VALIDATE_ONLY
+    idempotent: true
+    confirmation_required: false
+    required_payload_fields:
+      - artifact_type
+      - target_scope
+      - wp_ids
+      - source_snapshot_refs
+      - gantt_template_id
+      - timeline
+      - validation_mode
+    optional_payload_fields:
+      - gantt_artifact
+      - gantt_options
+    result_schema_ref: schemas/contracts/gantt_chart_result.schema.json
+    request_schema_ref: schemas/contracts/gantt_chart_request.schema.json
+    action_block_ref: action_blocks/RPT_VALIDATE_GANTT_INPUTS.yaml
+    status: ACTIVE_PRE_FREEZE
+
+  - action_type: RPT_VALIDATE_STAMPS
+    public_command_aliases: [validate_report_stamps, validate_export_stamps, validate_artifact_stamps]
+    description: Validate traceability stamp completeness before RPT artifact generation.
+    allowed_modes: [M1, M2]
+    side_effect_class: VALIDATE_ONLY
+    idempotent: true
+    confirmation_required: false
+    required_payload_fields:
+      - artifact_type
+      - stamps
+      - validation_mode
+    optional_payload_fields:
+      - target_scope
+      - wp_ids
+      - strict
+    result_schema_ref: schemas/objects/rpt_artifact_metadata_schema.json
+    status: ACTIVE_PRE_FREEZE
+
+  - action_type: RPT_LIST_ARTIFACTS
+    public_command_aliases: [list_report_artifacts, list_rpt_artifacts]
+    description: List generated RPT artifact metadata by artifact type, WP, target scope, action type, or generation date.
+    allowed_modes: [M1, M2]
+    side_effect_class: READ_ONLY
+    idempotent: true
+    confirmation_required: false
+    required_payload_fields: []
+    optional_payload_fields:
+      - filters
+    result_schema_ref: schemas/objects/rpt_artifact_metadata_schema.json
+    status: ACTIVE_PRE_FREEZE
+
+  - action_type: RPT_GET_ARTIFACT
+    public_command_aliases: [get_report_artifact, get_rpt_artifact]
+    description: Read a generated RPT artifact metadata record and content reference by artifact_id.
+    allowed_modes: [M1, M2]
+    side_effect_class: READ_ONLY
+    idempotent: true
+    confirmation_required: false
+    required_payload_fields:
+      - artifact_id
+    optional_payload_fields:
+      - return_content
+    result_schema_ref: schemas/objects/rpt_artifact_metadata_schema.json
+    status: ACTIVE_PRE_FREEZE
 
 error_taxonomy:
   standard_codes:
@@ -59,10 +253,40 @@ error_taxonomy:
       subcodes:
         - MISSING_REQUIRED_FIELD
         - PAYLOAD_SCHEMA_MISMATCH
-        - UNKNOWN_REPORT_TYPE
+        - TARGET_SCOPE_UNSUPPORTED
+        - REQUIRED_SHEET_MISSING
+        - REQUIRED_COLUMN_MISSING
+        - GANTT_DATES_MISSING
+        - GANTT_FINISH_BEFORE_START
+        - GANTT_SELECTED_SET_UNREADABLE
+    - code: INVARIANT_VIOLATION
+      subcodes:
+        - MISSING_TRACEABILITY_STAMPS
+        - SOURCE_SNAPSHOT_HASH_MISSING
+        - ATTEMPTED_TRUTH_MUTATION
     - code: NOT_FOUND
       subcodes:
         - WP_SNAPSHOT_MISSING
+        - ARTIFACT_NOT_FOUND
+        - REPORT_TEMPLATE_MISSING
+        - WORKBOOK_TEMPLATE_MISSING
+        - GANTT_TEMPLATE_MISSING
+    - code: CONFLICT
+      subcodes:
+        - SCHEMA_VERSION_UNSUPPORTED
+        - SELECTED_WP_SET_UNBOUNDED
+    - code: UNSUPPORTED_OPERATION
+      subcodes:
+        - ALL_WPS_SCOPE_UNSUPPORTED
+        - FORMAT_NOT_SUPPORTED
     - code: INTERNAL_ERROR
       subcodes:
         - REPORT_RENDER_FAILED
+        - WORKBOOK_RENDER_FAILED
+        - GANTT_RENDER_FAILED
+
+freeze_status:
+  status_report_generation: ACTIVE_PRE_FREEZE
+  workbook_export_generation: ACTIVE_PRE_FREEZE
+  gantt_chart_generation: ACTIVE_PRE_FREEZE
+  artifact_registry_read: ACTIVE_PRE_FREEZE
