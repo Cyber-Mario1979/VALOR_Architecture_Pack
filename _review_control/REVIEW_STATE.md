@@ -345,7 +345,6 @@ Current controlled state:
 - Blocker 9A Governance / Security / Registry Schemas and Static Test Vectors executed under user approval.
 - Blocker 9B Broader Contract / Schema Validation Enforcement Review executed under user approval.
 - Blocker 10 Manifest Regeneration and Final Manifest Verification executed locally under user approval.
-- Blocker 10 review-control patch package prepared as USER_APPLY_REQUIRED.
 - Freeze remains blocked by final freeze-readiness work, real template source metadata acceptance before regulated use, and K&S source metadata acceptance gate.
 
 ## Next Session Objective
