@@ -1,0 +1,107 @@
+{
+  "vector_group_id": "NEG-DOC-0001",
+  "scope": "NON_KS_NEGATIVE_TEST_VECTORS",
+  "description": "DOC/DCF/URS negative vectors for controlled incomplete/blocked behavior. K&S assets are referenced as metadata only.",
+  "ks_metadata_refs": {
+    "bundle_ref": {"bundle_id": "BND-CQV-BASE", "bundle_version": "v1.0.1", "usage_classification": "PRODUCT_TESTING_ONLY"},
+    "standard_ref": {"standard_id": "STD-CQV-BASE", "standard_version": "v1.0.1"},
+    "urs_template_ref": {"template_id": "TPL-URS", "template_version": "v1.0.1"},
+    "dcf_template_ref": {"template_id": "TPL-DCF", "template_version": "v1.0.1", "generation_active": false, "finalization_active": false},
+    "testing_only_stamp": "PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE."
+  },
+  "cases": [
+    {
+      "case_id": "NEG-DOC-URS-MISSING-INTENDED-USE",
+      "action_type": "DOC_GENERATE_DRAFT",
+      "invalid_condition": "URS draft request is missing required source input intended_use.",
+      "input_summary": {
+        "doc_type": "URS",
+        "source_input_set": {"intended_use": null, "source_input_completion_status": "INCOMPLETE"}
+      },
+      "expected_outcome": {
+        "ok": false,
+        "state": "INCOMPLETE",
+        "code": "VALIDATION_ERROR",
+        "subcode": "SOURCE_INPUT_REQUIRED_FIELD_MISSING",
+        "artifact_generated": false,
+        "regulated_output_allowed": false,
+        "remediation": "Provide intended_use through DCF/source capture or keep the output explicitly incomplete."
+      }
+    },
+    {
+      "case_id": "NEG-DOC-MISSING-SOURCE-CHAIN-PROVENANCE",
+      "action_type": "DOC_GENERATE_DRAFT",
+      "invalid_condition": "DOC generation request lacks source_chain_provenance.",
+      "input_summary": {
+        "doc_type": "URS",
+        "source_chain_provenance": null
+      },
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "VALIDATION_ERROR",
+        "subcode": "SOURCE_CHAIN_PROVENANCE_MISSING",
+        "artifact_generated": false,
+        "regulated_output_allowed": false,
+        "remediation": "Provide source-chain provenance with WP snapshot and source input set hashes."
+      }
+    },
+    {
+      "case_id": "NEG-DOC-DCF-GENERATION-INACTIVE",
+      "action_type": "DOC_GENERATE_DRAFT",
+      "invalid_condition": "doc_type=DCF requested while DCF artifact generation is inactive.",
+      "input_summary": {
+        "doc_type": "DCF",
+        "template_ref": {"template_id": "TPL-DCF", "template_version": "v1.0.1"},
+        "dcf_artifact_generation_active": false
+      },
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "UNSUPPORTED_OPERATION",
+        "subcode": "DCF_ARTIFACT_GENERATION_DEFERRED",
+        "artifact_generated": false,
+        "regulated_output_allowed": false,
+        "remediation": "Use DCF as source-capture metadata only until DCF generation is separately activated."
+      }
+    },
+    {
+      "case_id": "NEG-DOC-FINALIZE-MISSING-TESTING-STAMP",
+      "action_type": "DOC_FINALIZE_ARTIFACT",
+      "invalid_condition": "Finalization request uses TESTING_ONLY K&S assets but omits the required testing-only stamp.",
+      "input_summary": {
+        "doc_type": "URS",
+        "testing_only_stamp": null,
+        "bundle_ref": {"status": "TESTING_ONLY", "usage_classification": "PRODUCT_TESTING_ONLY"}
+      },
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "VALIDATION_ERROR",
+        "subcode": "STAMP_SET_MISSING",
+        "artifact_generated": false,
+        "regulated_output_allowed": false,
+        "remediation": "Include the required PRODUCT_TESTING_ONLY stamp before finalization."
+      }
+    },
+    {
+      "case_id": "NEG-DOC-REGULATED-OUTPUT-REQUESTED-TESTING-ONLY-KS",
+      "action_type": "DOC_FINALIZE_ARTIFACT",
+      "invalid_condition": "Real regulated output requested while template/bundle/citation assets are TESTING_ONLY / PRODUCT_TESTING_ONLY.",
+      "input_summary": {
+        "requested_use": "REAL_REGULATED_CQV_GMP_OUTPUT",
+        "bundle_ref": {"status": "TESTING_ONLY", "usage_classification": "PRODUCT_TESTING_ONLY"},
+        "source_metadata_acceptance_status": "NOT_ACCEPTED_FOR_REGULATED_USE"
+      },
+      "expected_outcome": {
+        "ok": false,
+        "state": "BLOCKED",
+        "code": "INVARIANT_VIOLATION",
+        "subcode": "TESTING_ONLY_REGULATED_OUTPUT_BLOCKED",
+        "artifact_generated": false,
+        "regulated_output_allowed": false,
+        "remediation": "Complete user/site source metadata acceptance before any real regulated CQV/GMP output."
+      }
+    }
+  ]
+}
