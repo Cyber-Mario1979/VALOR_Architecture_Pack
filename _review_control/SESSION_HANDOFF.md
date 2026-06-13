@@ -263,20 +263,39 @@ Key decisions:
 - `VALOR-contract-orch-ks.yaml` was touched only for metadata-neutral contract/action catalog consistency; TESTING_ONLY / PRODUCT_TESTING_ONLY regulated-use blocking was preserved.
 - Manifest, smoke test, pack validation scripts, CI, executable validators, K&S schemas/vectors/library assets/source metadata, artifacts, and templates were not edited/generated.
 
+### Blocker 10 — Manifest Regeneration and Final Manifest Verification
+
+Control record:
+
+- `_review_control/BLOCKER10_MANIFEST_REGENERATION_VERIFICATION.md`
+
+Status:
+
+- Completed for local manifest regeneration and final manifest verification.
+- Freeze remains blocked by final freeze-readiness review.
+
+Key decisions:
+
+- Blocker 10 review-control records were applied locally.
+- `manifest.yaml` was regenerated locally using `scripts/pack_validation/generate_manifest.py`.
+- Manifest integrity was verified locally using `scripts/pack_validation/verify_manifest.py`.
+- No scripts, smoke tests, CI, contracts, schemas, vectors, action blocks, K&S assets, templates, artifacts, or implementation files are in scope.
+- Final freeze remains NO-FREEZE YET.
+
 ## Remaining Freeze Blockers
 
 - K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
 - Real template source metadata acceptance before regulated use.
-- Manifest regeneration and final manifest verification.
 - Final freeze-readiness review.
 
 ## Next Required Work
 
 Await explicit user approval/challenge for the next scoped pre-freeze blocker.
 
-Recommended next scoped blocker option:
+Recommended next scoped action:
 
-1. Manifest regeneration and final manifest verification, after watcher/reviewer confirms no further content-edit blocker remains.
+1. Report the local Blocker 10 verification output for watcher/reviewer confirmation.
+2. Proceed to separate final freeze-readiness review only after watcher/reviewer confirmation.
 
 ## Non-Scope Until Explicitly Approved
 

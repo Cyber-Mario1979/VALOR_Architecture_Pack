@@ -284,13 +284,31 @@ Important outcome:
 - Touched K&S contract only for metadata-neutral contract/action catalog consistency and preserved TESTING_ONLY / PRODUCT_TESTING_ONLY regulated-use blocking.
 - Did not edit `manifest.yaml`, `smoke_test.py`, `scripts/pack_validation/*`, CI, executable validators, K&S schemas/vectors/library assets/source metadata, or regulated-use status.
 
+### Blocker 10 — Manifest Regeneration and Final Manifest Verification
+
+Status: **COMPLETED FOR LOCAL MANIFEST REGENERATION AND FINAL MANIFEST VERIFICATION — FREEZE STILL BLOCKED BY FINAL FREEZE-READINESS REVIEW**
+
+Control record:
+
+- `_review_control/BLOCKER10_MANIFEST_REGENERATION_VERIFICATION.md`
+
+Important outcome:
+
+- Applied Blocker 10 review-control records locally.
+- Regenerated `manifest.yaml` using `scripts/pack_validation/generate_manifest.py`.
+- Verified manifest integrity using `scripts/pack_validation/verify_manifest.py`.
+- Confirmed Blocker 10 expected changed-file scope is limited to `manifest.yaml` plus the three Blocker 10 review-control files.
+- `manifest.yaml` was not hand-edited.
+- `smoke_test.py`, `scripts/pack_validation/*`, CI, contracts, schemas, vectors, action blocks, K&S assets, templates, and implementation files remain out of scope.
+- Final freeze remains **NO-FREEZE YET** until a separate final freeze-readiness review is completed.
+
 ## Must-Resolve-Before-Freeze Themes
 
 - K&S user/site source metadata acceptance for real regulated CQV/GMP use.
 - Authority, status, and terminology final sanity check.
 - Real template source metadata acceptance before regulated use; DCF is now governed for PRODUCT_TESTING_ONLY only.
 - Product surface minimum behavior is aligned for terminology/addenda; remaining product-surface gaps, if any, must be validated during final freeze-readiness review.
-- Manifest regeneration and final freeze-readiness check after all content edits.
+- Final freeze-readiness review after manifest verification.
 
 ## Can’t Do Now Items
 
@@ -326,7 +344,9 @@ Current controlled state:
 - Blocker 8B Negative and E2E Test Vector Coverage executed under user approval.
 - Blocker 9A Governance / Security / Registry Schemas and Static Test Vectors executed under user approval.
 - Blocker 9B Broader Contract / Schema Validation Enforcement Review executed under user approval.
-- Freeze remains blocked by manifest regeneration, final freeze-readiness work, real template source metadata acceptance before regulated use, and K&S source metadata acceptance gate.
+- Blocker 10 Manifest Regeneration and Final Manifest Verification executed locally under user approval.
+- Blocker 10 review-control patch package prepared as USER_APPLY_REQUIRED.
+- Freeze remains blocked by final freeze-readiness work, real template source metadata acceptance before regulated use, and K&S source metadata acceptance gate.
 
 ## Next Session Objective
 
@@ -334,7 +354,7 @@ Continue pre-freeze blocker cleanup only after explicit user approval of the nex
 
 Recommended next narrow blocker:
 
-- Manifest regeneration and final manifest verification, after a watcher/reviewer confirms no further content-edit blocker remains.
+- Final freeze-readiness review, after watcher/reviewer confirms the local Blocker 10 manifest verification result.
 
 ## Explicit Non-Scope Until Approved
 
