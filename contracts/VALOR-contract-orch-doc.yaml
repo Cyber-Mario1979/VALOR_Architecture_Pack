@@ -1,29 +1,18 @@
 contract_id: VALOR-contract-orch-doc
 current_version: v1.0.1
-supported_versions:
-- v1.0.1
+supported_versions: [v1.0.1]
 owner_subsystem: DOC
 called_by: Orchestration
-compatibility_policy:
-  semver: true
-  orchestration_rules:
-    accept_minor_patch_within_major: true
-    refuse_major_without_explicit_upgrade: true
+registry_category: PUBLIC_USER_CALLABLE
+
 envelopes:
   request_schema: schemas/contracts/contract_request.schema.json
   response_schema: schemas/contracts/contract_response.schema.json
 
 contract_scope:
   callable_category: PUBLIC_USER_CALLABLE
-  active_actions:
-  - DOC_GENERATE_DRAFT
-  - DOC_FINALIZE_ARTIFACT
-  deferred_actions:
-  - DOC_VALIDATE
-  - DOC_MARK_REVIEW_READY
-  - DOC_REGENERATE
-  - DOC_GET
-  - DOC_LIST
+  active_actions: [DOC_GENERATE_DRAFT, DOC_FINALIZE_ARTIFACT]
+  deferred_actions: [DOC_VALIDATE, DOC_MARK_REVIEW_READY, DOC_REGENERATE, DOC_GET, DOC_LIST]
   rule: No deferred DOC action is active or freeze-ready unless later explicitly approved.
 
 source_chain_policy:
@@ -46,167 +35,43 @@ ks_policy:
   regulated_use_request_behavior: BLOCK_OR_MARK_INCOMPLETE
 
 error_taxonomy:
-  standard_codes:
-  - MODE_VIOLATION
-  - VALIDATION_ERROR
-  - INVARIANT_VIOLATION
-  - NOT_FOUND
-  - CONFLICT
-  - UNSUPPORTED_OPERATION
-  - INTERNAL_ERROR
-  doc_subcodes:
-  - TEMPLATE_REQUIREMENT_MISSING
-  - TEMPLATE_REQUIRED_INPUT_MISSING
-  - SOURCE_INPUT_REQUIRED_FIELD_MISSING
-  - SOURCE_CHAIN_PROVENANCE_MISSING
-  - DCF_ARTIFACT_GENERATION_DEFERRED
-  - TESTING_ONLY_REGULATED_OUTPUT_BLOCKED
-  - MISSING_TRACEABILITY_STAMPS
-  - STAMP_SET_MISSING
-  - CANNOT_FINALIZE_WITH_ERRORS
-  - FINAL_IMMUTABLE
-  - FORMAT_NOT_SUPPORTED
-  - CITATION_ANCHOR_MISSING
-  - EXCERPT_BLOCKED
+  standard_codes: [MODE_VIOLATION, VALIDATION_ERROR, INVARIANT_VIOLATION, NOT_FOUND, CONFLICT, UNSUPPORTED_OPERATION, INTERNAL_ERROR]
+  doc_subcodes: [TEMPLATE_REQUIREMENT_MISSING, TEMPLATE_REQUIRED_INPUT_MISSING, SOURCE_INPUT_REQUIRED_FIELD_MISSING, SOURCE_CHAIN_PROVENANCE_MISSING, DCF_ARTIFACT_GENERATION_DEFERRED, TESTING_ONLY_REGULATED_OUTPUT_BLOCKED, MISSING_TRACEABILITY_STAMPS, STAMP_SET_MISSING, CANNOT_FINALIZE_WITH_ERRORS, FINAL_IMMUTABLE, FORMAT_NOT_SUPPORTED, CITATION_ANCHOR_MISSING, EXCERPT_BLOCKED]
 
 actions:
-- action_type: DOC_GENERATE_DRAFT
-  allowed_modes:
-  - M2
-  side_effect_class: GENERATES_ARTIFACT
-  idempotent: true
-  required_payload_fields:
-  - doc_type
-  - wp_snapshot
-  - template_ref
-  - bundle_ref
-  - source_input_set
-  - citation_set
-  - provenance_stamps
-  optional_payload_fields:
-  - dcf_ref
-  - render_options
-  - redaction_options
-  - incomplete_output_policy
-  target_fields:
-    required:
-    - wp_id
-    optional:
-    - doc_id
-  result_schema_ref: schemas/contracts/doc_draft_result.schema.json
-  validation_rules:
-  - URS generation requires doc_type=URS.
-  - URS generation may consume dcf_ref and/or source_input_set.
-  - Required source fields for intended use, GMP relevance, user needs, critical requirements, interfaces, constraints, assumptions, and acceptance expectations must be present or explicitly marked incomplete.
-  - If doc_type=DCF is requested, return blocked/deferred behavior until TPL-DCF_v1.0.1.yaml and approved template source metadata exist.
-  - DOC must not invent missing source data.
-  - If K&S/template/bundle/citation assets are TESTING_ONLY / PRODUCT_TESTING_ONLY, generated draft is product-testing-only and must carry the required testing-only stamp.
-  - If real regulated use is requested while K&S/template/bundle/citation assets are testing-only or source metadata is unaccepted, block or mark incomplete.
-  errors:
-  - code: VALIDATION_ERROR
-    subcode: TEMPLATE_REQUIREMENT_MISSING
-  - code: VALIDATION_ERROR
-    subcode: SOURCE_INPUT_REQUIRED_FIELD_MISSING
-  - code: VALIDATION_ERROR
-    subcode: SOURCE_CHAIN_PROVENANCE_MISSING
-  - code: UNSUPPORTED_OPERATION
-    subcode: DCF_ARTIFACT_GENERATION_DEFERRED
-  - code: UNSUPPORTED_OPERATION
-    subcode: EXCERPT_BLOCKED
-  - code: INVARIANT_VIOLATION
-    subcode: TESTING_ONLY_REGULATED_OUTPUT_BLOCKED
+  - action_type: DOC_GENERATE_DRAFT
+    public_command_aliases: [draft_document, generate_draft]
+    allowed_modes: [M2]
+    side_effect_class: GENERATES_ARTIFACT
+    idempotent: true
+    confirmation_required: false
+    status: ACTIVE_PRE_FREEZE
+    required_payload_fields: [doc_type, wp_snapshot, template_ref, bundle_ref, source_input_set, citation_set, provenance_stamps]
+    optional_payload_fields: [dcf_ref, render_options, redaction_options, incomplete_output_policy]
+    target_fields: {required: [wp_id], optional: [doc_id]}
+    result_schema_ref: schemas/contracts/doc_draft_result.schema.json
+    validation_rules:
+      - URS generation requires doc_type=URS.
+      - URS generation may consume dcf_ref and/or source_input_set.
+      - Required source fields must be present or explicitly marked incomplete.
+      - If doc_type=DCF is requested, return blocked/deferred behavior.
+      - DOC must not invent missing source data.
+      - Product-testing-only outputs must carry the required testing-only stamp.
+      - Real regulated use remains blocked while K&S/template/bundle/citation assets are testing-only or source metadata is unaccepted.
 
-- action_type: DOC_FINALIZE_ARTIFACT
-  allowed_modes:
-  - M2
-  side_effect_class: GENERATES_ARTIFACT
-  idempotent: false
-  confirmation_required: true
-  required_payload_fields:
-  - draft_id
-  - source_chain_provenance
-  - template_ref
-  - bundle_ref
-  - citation_set
-  - provenance_stamps
-  - source_input_completion_status
-  optional_payload_fields:
-  - final_format
-  - testing_only_stamp
-  - incomplete_output_policy
-  target_fields:
-    required:
-    - wp_id
-    optional:
-    - doc_id
-  result_schema_ref: schemas/contracts/doc_artifact_result.schema.json
-  validation_rules:
-  - Finalization must refuse or mark incomplete if the draft lacks source-chain provenance, template_ref, bundle_ref, citation_set, provenance_stamps, required testing-only stamp, or source-input completion status.
-  - If doc_type=DCF is requested for finalization, return blocked/deferred behavior until TPL-DCF_v1.0.1.yaml and approved template source metadata exist.
-  - If source_input_completion_status is incomplete, finalization may only produce an explicitly incomplete product-testing artifact according to incomplete_output_policy.
-  - If K&S/template/bundle/citation assets are TESTING_ONLY / PRODUCT_TESTING_ONLY, final output is product-testing-only and must carry the required testing-only stamp.
-  - If real regulated use is requested while K&S/template/bundle/citation assets are testing-only or source metadata is unaccepted, block or mark incomplete.
-  errors:
-  - code: NOT_FOUND
-    subcode: DRAFT_NOT_FOUND
-  - code: VALIDATION_ERROR
-    subcode: STAMP_SET_MISSING
-  - code: VALIDATION_ERROR
-    subcode: SOURCE_CHAIN_PROVENANCE_MISSING
-  - code: VALIDATION_ERROR
-    subcode: SOURCE_INPUT_REQUIRED_FIELD_MISSING
-  - code: UNSUPPORTED_OPERATION
-    subcode: DCF_ARTIFACT_GENERATION_DEFERRED
-  - code: INVARIANT_VIOLATION
-    subcode: TESTING_ONLY_REGULATED_OUTPUT_BLOCKED
-
-examples:
-- name: doc_generate_urs_draft_request
-  request:
-    contract: VALOR-contract-orch-doc
-    contract_version: v1.0.1
-    action_id: ACT-000301
-    action_type: DOC_GENERATE_DRAFT
-    mode: M2
-    actor:
-      role: User
-      name: optional
-    target:
-      wp_id: WP-0007
-    payload:
-      doc_type: URS
-      wp_snapshot:
-        wp_id: WP-0007
-        tasks: omitted_for_brevity
-      template_ref:
-        template_id: TPL-URS
-        template_version: v1.0.1
-      bundle_ref:
-        bundle_id: BND-CQV-BASE
-        bundle_version: v1.0.1
-        status: TESTING_ONLY
-        usage_classification: PRODUCT_TESTING_ONLY
-      source_input_set:
-        source_input_set_id: SRC-URS-0001
-        source_input_completion_status: COMPLETE_OR_INCOMPLETE
-        required_fields_status: omitted_for_brevity
-      dcf_ref:
-        dcf_id: DCF-0001
-        dcf_status: SOURCE_CAPTURE_ONLY
-      citation_set:
-      - asset_type: internal_standard
-        asset_id: STD-CQV-BASE
-        asset_version: v1.0.1
-        anchor_id: CQV-REQ-002
-      provenance_stamps:
-        preset_ref: {preset_id: PS-PE-HIGH, preset_version: v1.0.1}
-        profile_ref: {profile_id: PROF-PE-HIGH, profile_version: v1.0.1}
-        task_pool_ref: {task_pool_id: TP-PE-HIGH, task_pool_version: v1.0.1}
-        calendar_ref: {calendar_id: CAL-WORKWEEK, calendar_version: v1.0.1, canonical_calendar_version: v1}
-        template_ref: {template_id: TPL-URS, template_version: v1.0.1}
-        bundle_ref: {bundle_id: BND-CQV-BASE, bundle_version: v1.0.1, status: TESTING_ONLY}
-      testing_only_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
-    options:
-      dry_run: false
-    context:
-      timestamp_utc: '2025-12-25T00:00:00Z'
+  - action_type: DOC_FINALIZE_ARTIFACT
+    public_command_aliases: [finalize_document]
+    allowed_modes: [M2]
+    side_effect_class: GENERATES_ARTIFACT
+    idempotent: false
+    confirmation_required: true
+    status: ACTIVE_PRE_FREEZE
+    required_payload_fields: [draft_id, source_chain_provenance, template_ref, bundle_ref, citation_set, provenance_stamps, source_input_completion_status]
+    optional_payload_fields: [final_format, testing_only_stamp, incomplete_output_policy]
+    target_fields: {required: [wp_id], optional: [doc_id]}
+    result_schema_ref: schemas/contracts/doc_artifact_result.schema.json
+    validation_rules:
+      - Finalization must refuse or mark incomplete if source-chain provenance, refs, stamps, testing-only stamp, or source-input completion status are missing.
+      - DCF finalization remains blocked/deferred.
+      - If source_input_completion_status is incomplete, finalization may only produce an explicitly incomplete product-testing artifact according to incomplete_output_policy.
+      - Real regulated use remains blocked while K&S/template/bundle/citation assets are testing-only or source metadata is unaccepted.
