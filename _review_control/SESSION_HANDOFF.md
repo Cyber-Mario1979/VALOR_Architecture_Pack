@@ -182,12 +182,33 @@ Key decisions:
 - K&S remains TESTING_ONLY / PRODUCT_TESTING_ONLY only.
 - Real regulated CQV/GMP output remains blocked until source metadata acceptance.
 
+### Blocker 7A — Product Surface Terminology and Stale Addenda Cleanup
+
+Control record:
+
+- `_review_control/BLOCKER7A_PRODUCT_SURFACE_TERMINOLOGY_STALE_ADDENDA_CLEANUP.md`
+
+Status:
+
+- Completed for scoped architecture/addenda/README wording alignment.
+- Freeze remains blocked by other pre-freeze work.
+
+Key decisions:
+
+- Canonical product-surface states are `STAGED`, `PROPOSED`, `COMMITTED`, `DRAFT`, `FINAL`, `INCOMPLETE`, `BLOCKED`, and `PRODUCT_TESTING_ONLY`.
+- Canvas is no longer a runtime/truth requirement; wording is normalized to record/output/artifact view terminology.
+- Contract/audit/provenance timestamps use UTC; local display time is optional and must be labeled.
+- RPT baseline artifacts are status report, workbook export, and Gantt chart. CSV is not v1.0.1 freeze baseline.
+- ALL_WPS remains out of scope unless bounded.
+- DCF is governed as PRODUCT_TESTING_ONLY metadata, but DCF artifact generation/finalization remains inactive unless separately approved.
+- `PLAN_GENERATE_PROPOSAL` returns `PROPOSED`; committed dates require `WP_APPLY_PLAN_PROPOSAL` and confirmation.
+- README states controlled pre-freeze review and NO-FREEZE YET.
+
+
 ## Remaining Freeze Blockers
 
 - K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
-- Real template source metadata acceptance before regulated use; DCF is governed for PRODUCT_TESTING_ONLY only.
 - Broader contract/schema validation enforcement and non-K&S validation/test-vector cleanup.
-- Product surface minimum behavior cleanup.
 - Negative and E2E test vector coverage outside scoped K&S vectors.
 - Governance/audit/security/registry schemas/tests.
 - Manifest regeneration and final freeze-readiness check after all content edits.
@@ -198,10 +219,9 @@ Await explicit user approval/challenge for the next scoped pre-freeze blocker.
 
 Recommended next scoped blocker options:
 
-1. Real template source metadata intake model and DCF template governance decision.
-2. Product surface minimum behavior cleanup.
-3. Non-K&S validation/test-vector cleanup.
-4. Governance/security/registry schemas/tests.
+1. Non-K&S validation/test-vector cleanup.
+2. Governance/security/registry schemas/tests.
+3. Manifest regeneration and final freeze-readiness check after all content edits.
 
 ## Non-Scope Until Explicitly Approved
 

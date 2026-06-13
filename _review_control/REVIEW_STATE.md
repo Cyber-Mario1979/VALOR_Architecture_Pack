@@ -203,13 +203,36 @@ Important outcome:
 - Did not promote K&S beyond TESTING_ONLY / PRODUCT_TESTING_ONLY.
 - Did not invent external source editions, dates, clauses, anchors, or locators.
 
+### Blocker 7A — Product Surface Terminology and Stale Addenda Cleanup
+
+Status: **COMPLETED FOR SCOPED ARCHITECTURE / ADDENDA / README WORDING ALIGNMENT — FREEZE STILL BLOCKED BY OTHER PRE-FREEZE WORK**
+
+Control record:
+
+- `_review_control/BLOCKER7A_PRODUCT_SURFACE_TERMINOLOGY_STALE_ADDENDA_CLEANUP.md`
+
+Important outcome:
+
+- Defined canonical product-surface states: `STAGED`, `PROPOSED`, `COMMITTED`, `DRAFT`, `FINAL`, `INCOMPLETE`, `BLOCKED`, and `PRODUCT_TESTING_ONLY`.
+- Removed Canvas as a runtime/truth requirement and normalized record/output/artifact view terminology.
+- Preserved useful non-UI layout/product-surface rules.
+- Normalized timestamp rule: contract/audit/provenance metadata uses UTC; optional local display time must be explicitly labeled.
+- Normalized RPT surface to status report, workbook export, and Gantt chart baseline; CSV is not v1.0.1 freeze baseline.
+- Preserved ALL_WPS as out of scope unless bounded.
+- Normalized DOC/DCF/URS product-surface behavior, including DCF inactive generation/finalization and testing-only stamp behavior.
+- Normalized PLAN/WP proposal vs committed behavior around `PLAN_GENERATE_PROPOSAL` and `WP_APPLY_PLAN_PROPOSAL`.
+- Updated A13 stale action names to current registry-aligned actions.
+- Updated README to state controlled pre-freeze review and NO-FREEZE YET.
+- Did not edit contracts, schemas, test vectors, manifest, templates, or implementation files.
+
+
 ## Must-Resolve-Before-Freeze Themes
 
 - K&S user/site source metadata acceptance for real regulated CQV/GMP use.
 - Authority, status, and terminology.
 - Remaining contract/schema validation enforcement beyond completed WP / PLAN / TP / PS / PROF / CAL semantic alignment.
 - Real template source metadata acceptance before regulated use; DCF is now governed for PRODUCT_TESTING_ONLY only.
-- Product surface minimum specification.
+- Product surface minimum behavior is aligned for terminology/addenda; remaining product-surface gaps, if any, must be validated during final freeze-readiness review.
 - Negative and E2E test vector coverage outside the K&S scoped vectors.
 - Governance/audit/security/registry schemas/tests.
 - Manifest regeneration and final freeze-readiness check after all content edits.
@@ -242,7 +265,8 @@ Current controlled state:
 - Blocker 4 WP / Planning / Governed Library Cleanup executed under user approval.
 - Blocker 5 Contract/action registry semantic validation for WP / PLAN / TP / PS / PROF / CAL executed under user approval.
 - Blocker 6A DOC / DCF / URS source-chain architecture and contract alignment executed under user approval.
-- Freeze remains blocked by unresolved product-surface, broader contract/schema validation enforcement, non-K&S schema/validation/test-vector, governance/security/registry, manifest, final freeze-readiness work, real template source metadata intake/acceptance, and K&S source metadata acceptance gate.
+- Blocker 7A Product Surface Terminology and Stale Addenda Cleanup executed under user approval.
+- Freeze remains blocked by broader contract/schema validation enforcement, non-K&S schema/validation/test-vector, governance/security/registry, manifest, final freeze-readiness work, real template source metadata acceptance before regulated use, and K&S source metadata acceptance gate.
 
 ## Next Session Objective
 

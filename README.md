@@ -11,6 +11,8 @@
 
 # Valor Architecture Pack (v1.0.1)
 
+> **Current review status:** NO-FREEZE YET. This repository remains under controlled pre-freeze review.
+
 ![Valor architecture blueprint](architecture_blueprint.png)
 
 The **Valor Architecture Pack** is a blueprint for a contract‑driven,
@@ -21,13 +23,7 @@ planning**, **controlled document generation**, and **audit‑grade
 reporting/export**.  It emphasises repeatable execution, traceability and
 determinism over “smart guesses”.
 
-This pack consolidates architecture specifications, service contracts,
-schemas, templates, governed libraries and test vectors at version
-`v1.0.1`.  It is **implementation‑ready**—every document, schema and
-contract in this repository has been versioned and aligned to work
-together.  There is no code for a running system here; rather, this is
-the definitive reference for anyone building or integrating a Valor
-implementation.
+This pack is under controlled pre-freeze review. It contains architecture specifications, service contracts, schemas, templates, governed libraries and test vectors at version `v1.0.1`, but final freeze is **not yet recommended** until the remaining pre-freeze blockers are resolved. There is no code for a running system here; rather, this is the controlled reference for teams preparing a compatible Valor implementation after freeze acceptance.
 
 ## Mission and Scope
 
