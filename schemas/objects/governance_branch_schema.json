@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "valor://schemas/objects/governance_branch_schema.json",
+  "title": "VALOR Governance Branch",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["branch_id", "branch_type", "created_at_utc", "updated_at_utc", "purpose", "state", "stamp_context", "pointers"],
+  "properties": {
+    "branch_id": {"type": "string", "minLength": 1},
+    "branch_type": {"type": "string", "enum": ["BR-DESIGN", "BR-EXEC"]},
+    "parent_branch_id": {"type": ["string", "null"]},
+    "wp_id": {"type": ["string", "null"]},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "updated_at_utc": {"type": "string", "format": "date-time"},
+    "purpose": {"type": "string", "minLength": 1},
+    "state": {"type": "string", "enum": ["ACTIVE", "FROZEN", "MERGED", "CLOSED"]},
+    "stamp_context": {"type": "object", "additionalProperties": true, "minProperties": 1},
+    "pointers": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "staged_task_set_id": {"type": ["string", "null"]},
+        "plan_id": {"type": ["string", "null"]},
+        "doc_ids": {"type": "array", "items": {"type": "string"}},
+        "export_ids": {"type": "array", "items": {"type": "string"}}
+      }
+    }
+  }
+}
