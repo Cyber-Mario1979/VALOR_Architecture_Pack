@@ -90,26 +90,10 @@ Key decisions:
 - `CAL-WORKWEEK_v1.0.1.yaml` remains the architecture-pack asset and now declares itself as a wrapper around canonical `CAL-WORKWEEK v1`.
 - Canonical calendar baseline is UTC+02:00, Sun-Thu working week, Fri-Sat weekend, `IF_NON_WORKING_START_NEXT_WORKING`, `END_INCLUSIVE`, and `COUNT_WORKING_DAYS_BETWEEN`.
 - `PS-PE-HIGH` remains the canonical preset ID.
-- `PS-PE-HIGH` uses primary applicability fields: `equipment_domain`, `complexity`, and `scope`.
-- `PS-PE-HIGH` binds to `BND-CQV-BASE v1.0.1` as TESTING_ONLY / PRODUCT_TESTING_ONLY only; regulated CQV/GMP output remains blocked until K&S source metadata acceptance.
-- `PROF-PE-HIGH` was converted from `keys` to canonical `entries` map.
-- `task_type` remains aligned to the WP/TP enum; non-enum duration meaning is carried in `profile_task_semantic`.
-- `TP-PE-HIGH` now includes the FAT prep/execution/report/acceptance chain within the existing high-complexity process-equipment path.
-- TP/PS/PROF/CAL now carry local pre-freeze governed-library lifecycle/status/review/expiry metadata.
-- No contract files were edited.
-
-Files updated in Blocker 4:
-
-- `docs/architecture/A04_2_WorkPackage_Arch_v1_0_1.md`
-- `docs/architecture/A04_4_Planning_Arch_v1_0_1.md`
-- `docs/architecture/A05_TaskPool_Arch_v1_0_1.md`
-- `docs/architecture/A06_PresetSystem_Arch_v1_0_1.md`
-- `docs/architecture/A07_CalendarLogic_Arch_v1_0_1.md`
-- `docs/architecture/A08_ProfileLibrary_Arch_v1_0_1.md`
-- `libraries/task_pool/TP-PE-HIGH_v1.0.1.yaml`
-- `libraries/preset_library/PS-PE-HIGH_v1.0.1.yaml`
-- `libraries/profile_library/PROF-PE-HIGH_v1.0.1.yaml`
-- `libraries/calendar/CAL-WORKWEEK_v1.0.1.yaml`
+- `PS-PE-HIGH` binds to `BND-CQV-BASE v1.0.1` as TESTING_ONLY / PRODUCT_TESTING_ONLY only.
+- `PROF-PE-HIGH` uses canonical `entries` map.
+- `TP-PE-HIGH` includes the FAT prep/execution/report/acceptance chain within the existing high-complexity process-equipment path.
+- TP/PS/PROF/CAL carry local pre-freeze governed-library lifecycle/status/review/expiry metadata.
 
 ### Blocker 5 — Contract/action registry semantic validation for WP / PLAN / TP / PS / PROF / CAL
 
@@ -130,7 +114,6 @@ Key decisions:
 - `PS_VALIDATE_BINDINGS` is `VALIDATE_ONLY` in both the PS contract and contract registry.
 - PLAN governed-profile default, stamped no-profile exception, calendar wrapper semantics, mixed-unit behavior, and provenance stamp requirements were strengthened.
 - WP user-driven duration override provenance requirements were strengthened.
-- PROF FAT selectors were corrected from `phase: FAT` to `phase: OTHER` without changing FAT profile keys, values, units, descriptions, or `profile_task_semantic`.
 - `WP_VALIDATE`, `PS_VALIDATE_RULESET`, `PLAN_PREVIEW`, `WP_CLOSE`, and `WP_UPDATE_DEPENDENCIES` remain deferred.
 - PLAN preview remains `PLAN_GENERATE_PROPOSAL` with `dry_run=true`.
 - K&S remains TESTING_ONLY / PRODUCT_TESTING_ONLY only.
@@ -150,14 +133,10 @@ Key decisions:
 
 - DCF is declared as a DOC source-capture / input-collection document type or concept.
 - DCF may be referenced through `dcf_ref` or `source_input_set`.
-- DCF artifact generation/finalization is not active until `TPL-DCF_v1.0.1.yaml` and approved source metadata exist.
-- No `TPL-DCF_v1.0.1.yaml` was created.
-- DCF was not added to `BND-CQV-BASE_v1.0.1`.
 - URS generation consumes WP truth, DCF/source input set, governed `template_ref`, governed `bundle_ref` / `citation_set`, and provenance stamps.
 - DOC must not invent intended use, GMP relevance, user needs, critical requirements, interfaces, constraints, assumptions, or acceptance expectations.
 - Active DOC actions are `DOC_GENERATE_DRAFT` and `DOC_FINALIZE_ARTIFACT` only.
 - Deferred DOC actions remain deferred unless later approved: `DOC_VALIDATE`, `DOC_MARK_REVIEW_READY`, `DOC_REGENERATE`, `DOC_GET`, and `DOC_LIST`.
-- `DOC_FINALIZE_ARTIFACT` now checks source-chain provenance, template_ref, bundle_ref, citation_set, provenance_stamps, testing-only stamp, and source-input completion status.
 - K&S remains TESTING_ONLY / PRODUCT_TESTING_ONLY only.
 
 ### Blocker 6B — DCF Template Governance Product Testing
@@ -204,12 +183,32 @@ Key decisions:
 - `PLAN_GENERATE_PROPOSAL` returns `PROPOSED`; committed dates require `WP_APPLY_PLAN_PROPOSAL` and confirmation.
 - README states controlled pre-freeze review and NO-FREEZE YET.
 
+### Blocker 8A — Non-K&S Core Schema and Root Test Vector Cleanup
+
+Control record:
+
+- `_review_control/BLOCKER8A_NON_KS_VALIDATION_TEST_VECTOR_CLEANUP.md`
+
+Status:
+
+- Completed for scoped non-K&S core schema and root test-vector cleanup.
+- Freeze remains blocked by other pre-freeze work.
+
+Key decisions:
+
+- Empty/permissive active public-action result schemas were replaced for staged task set, plan proposal, plan validation result, DOC draft result, and DOC artifact result.
+- WP, task, and document metadata schemas were aligned to current architecture naming and source-chain/testing-only fields.
+- Root test vectors now use current governed IDs and versions: `PS-PE-HIGH`, `TP-PE-HIGH`, `PROF-PE-HIGH`, `CAL-WORKWEEK v1.0.1`, `BND-CQV-BASE v1.0.1`, `TPL-URS v1.0.1`, `TPL-DCF v1.0.1`, and `STD-CQV-BASE v1.0.1`.
+- Old generic export behavior was replaced with declared RPT artifact families: status report, workbook export, and Gantt chart.
+- `ALL_WPS` remains out of scope.
+- K&S schemas/vectors were not edited.
+- Manifest regeneration, document render schema redesign, and validator tooling rewrite remain deferred.
 
 ## Remaining Freeze Blockers
 
 - K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
-- Broader contract/schema validation enforcement and non-K&S validation/test-vector cleanup.
-- Negative and E2E test vector coverage outside scoped K&S vectors.
+- Broader contract/schema validation enforcement after scoped non-K&S schema/vector cleanup.
+- Negative and E2E test-vector coverage outside scoped K&S vectors.
 - Governance/audit/security/registry schemas/tests.
 - Manifest regeneration and final freeze-readiness check after all content edits.
 
@@ -219,7 +218,7 @@ Await explicit user approval/challenge for the next scoped pre-freeze blocker.
 
 Recommended next scoped blocker options:
 
-1. Non-K&S validation/test-vector cleanup.
+1. Negative and E2E test-vector coverage outside scoped K&S vectors.
 2. Governance/security/registry schemas/tests.
 3. Manifest regeneration and final freeze-readiness check after all content edits.
 
