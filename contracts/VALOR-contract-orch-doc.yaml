@@ -33,6 +33,14 @@ ks_policy:
   regulated_output_allowed_from_testing_only_ks: false
   required_testing_only_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
   regulated_use_request_behavior: BLOCK_OR_MARK_INCOMPLETE
+  product_testing_field_trial_allowed: true
+  field_trial_allowed_as_operating_label_under_product_testing_only: true
+  field_trial_is_schema_enum: false
+  product_testing_field_trial_outputs_are_official_gmp_records: false
+  source_metadata_acceptance_required_for_product_testing: false
+  source_metadata_acceptance_required_for_field_trial: false
+  source_metadata_acceptance_required_for_regulated_release: true
+  regulated_release_condition: REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
 
 error_taxonomy:
   standard_codes: [MODE_VIOLATION, VALIDATION_ERROR, INVARIANT_VIOLATION, NOT_FOUND, CONFLICT, UNSUPPORTED_OPERATION, INTERNAL_ERROR]
@@ -57,7 +65,8 @@ actions:
       - If doc_type=DCF is requested, return blocked/deferred behavior.
       - DOC must not invent missing source data.
       - Product-testing-only outputs must carry the required testing-only stamp.
-      - Real regulated use remains blocked while K&S/template/bundle/citation assets are testing-only or source metadata is unaccepted.
+      - Source metadata acceptance does not block PRODUCT_TESTING / FIELD_TRIAL document generation testing.
+      - REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
 
   - action_type: DOC_FINALIZE_ARTIFACT
     public_command_aliases: [finalize_document]
@@ -74,4 +83,5 @@ actions:
       - Finalization must refuse or mark incomplete if source-chain provenance, refs, stamps, testing-only stamp, or source-input completion status are missing.
       - DCF finalization remains blocked/deferred.
       - If source_input_completion_status is incomplete, finalization may only produce an explicitly incomplete product-testing artifact according to incomplete_output_policy.
-      - Real regulated use remains blocked while K&S/template/bundle/citation assets are testing-only or source metadata is unaccepted.
+      - PRODUCT_TESTING / FIELD_TRIAL outputs are not official GMP records and must carry the required testing-only stamp where applicable.
+      - REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.

@@ -8,7 +8,11 @@ Last updated: 2026-06-13
 
 The architecture review has completed through Phase 13.
 
-Final recommendation: NO-FREEZE YET.
+Freeze target: PRODUCT_TESTING / FIELD_TRIAL baseline.
+
+Final FREEZE-READY recommendation remains pending final freeze-readiness review.
+
+REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
 
 The strict freeze coverage rule and corrected K&S freeze rule are recorded in:
 
@@ -282,11 +286,21 @@ Key decisions:
 - No scripts, smoke tests, CI, contracts, schemas, vectors, action blocks, K&S assets, templates, artifacts, or implementation files are in scope.
 - Final freeze remains NO-FREEZE YET.
 
-## Remaining Freeze Blockers
+## Remaining PRODUCT_TESTING / FIELD_TRIAL Freeze Gate
 
-- K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
-- Real template source metadata acceptance before regulated use.
-- Final freeze-readiness review.
+- Final freeze-readiness review for PRODUCT_TESTING / FIELD_TRIAL baseline.
+
+## Active Product-Testing / Field-Trial Permission
+
+- Source metadata acceptance does not block ASBP — AI System Builder Program / AI System Builder product construction.
+- Source metadata acceptance does not block product testing, field trials, document generation testing, or report generation testing.
+- FIELD_TRIAL is an operating label under PRODUCT_TESTING_ONLY, not a new schema/machine enum.
+- PRODUCT_TESTING / FIELD_TRIAL outputs are not official GMP records and must carry the required testing-only stamp where applicable.
+- Parallel professional/market testers may evaluate workflows and outputs under PRODUCT_TESTING / FIELD_TRIAL conditions.
+
+## Conditional REGULATED_RELEASE Gates
+
+- REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
 
 ## Next Required Work
 
@@ -295,7 +309,7 @@ Await explicit user approval/challenge for the next scoped pre-freeze blocker.
 Recommended next scoped action:
 
 1. Report the local Blocker 10 verification output for watcher/reviewer confirmation.
-2. Proceed to separate final freeze-readiness review only after watcher/reviewer confirmation.
+2. Proceed to final freeze-readiness review for PRODUCT_TESTING / FIELD_TRIAL baseline only after watcher/reviewer confirmation.
 
 ## Non-Scope Until Explicitly Approved
 
@@ -305,3 +319,8 @@ Do not:
 - create a delivery plan;
 - audit old/current ASBP implementation;
 - create a clean implementation repository.
+
+After this USER_APPLY_REQUIRED wording/status reframe patch is applied, regenerate and verify `manifest.yaml` locally using:
+
+- `python scripts/pack_validation/generate_manifest.py`
+- `python scripts/pack_validation/verify_manifest.py`

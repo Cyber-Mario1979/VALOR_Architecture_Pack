@@ -55,7 +55,11 @@ Not acceptable for regulated CQV freeze operation:
 
 The block-by-block architecture review is complete through Phase 13.
 
-Final recommendation: **NO-FREEZE YET**
+Freeze target: **PRODUCT_TESTING / FIELD_TRIAL baseline**
+
+Final FREEZE-READY recommendation remains pending final freeze-readiness review.
+
+REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
 
 ## Completed Pre-Freeze Modification Work
 
@@ -302,13 +306,18 @@ Important outcome:
 - `smoke_test.py`, `scripts/pack_validation/*`, CI, contracts, schemas, vectors, action blocks, K&S assets, templates, and implementation files remain out of scope.
 - Final freeze remains **NO-FREEZE YET** until a separate final freeze-readiness review is completed.
 
-## Must-Resolve-Before-Freeze Themes
+## Must-Resolve-Before-PRODUCT_TESTING/FIELD_TRIAL Freeze
 
-- K&S user/site source metadata acceptance for real regulated CQV/GMP use.
-- Authority, status, and terminology final sanity check.
-- Real template source metadata acceptance before regulated use; DCF is now governed for PRODUCT_TESTING_ONLY only.
-- Product surface minimum behavior is aligned for terminology/addenda; remaining product-surface gaps, if any, must be validated during final freeze-readiness review.
-- Final freeze-readiness review after manifest verification.
+- Final freeze-readiness review for PRODUCT_TESTING / FIELD_TRIAL baseline.
+- Authority, status, and terminology sanity check for product-testing/field-trial scope.
+- Confirm PRODUCT_TESTING / FIELD_TRIAL outputs are not official GMP records and carry the required testing-only stamp where applicable.
+- Confirm FIELD_TRIAL remains an operating label under PRODUCT_TESTING_ONLY, not a new schema/machine enum.
+
+## Conditional REGULATED_RELEASE Gates
+
+- REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
+- K&S/template promotion beyond TESTING_ONLY / PRODUCT_TESTING_ONLY is not part of PRODUCT_TESTING / FIELD_TRIAL freeze.
+- Source metadata acceptance does not block ASBP — AI System Builder Program / AI System Builder product construction, product testing, field trials, document generation testing, or report generation testing.
 
 ## Can’t Do Now Items
 
@@ -345,7 +354,9 @@ Current controlled state:
 - Blocker 9A Governance / Security / Registry Schemas and Static Test Vectors executed under user approval.
 - Blocker 9B Broader Contract / Schema Validation Enforcement Review executed under user approval.
 - Blocker 10 Manifest Regeneration and Final Manifest Verification executed locally under user approval.
-- Freeze remains blocked by final freeze-readiness work, real template source metadata acceptance before regulated use, and K&S source metadata acceptance gate.
+- Product-testing / field-trial freeze is pending final freeze-readiness review only.
+- REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
+- Source metadata acceptance does not block ASBP — AI System Builder Program / AI System Builder product construction, product testing, field trials, document generation testing, or report generation testing.
 
 ## Next Session Objective
 
@@ -353,7 +364,7 @@ Continue pre-freeze blocker cleanup only after explicit user approval of the nex
 
 Recommended next narrow blocker:
 
-- Final freeze-readiness review, after watcher/reviewer confirms the local Blocker 10 manifest verification result.
+- Final freeze-readiness review for PRODUCT_TESTING / FIELD_TRIAL baseline, after watcher/reviewer confirms the local Blocker 10 manifest verification result.
 
 ## Explicit Non-Scope Until Approved
 

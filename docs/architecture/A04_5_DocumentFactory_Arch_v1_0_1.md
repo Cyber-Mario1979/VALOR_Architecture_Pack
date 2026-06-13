@@ -270,7 +270,15 @@ If template_ref, bundle_ref, internal standards, source anchors, or citation ref
 
 `PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.`
 
-Real regulated CQV/GMP output remains blocked while required K&S/template/bundle/citation source metadata remains unaccepted or testing-only.
+PRODUCT_TESTING / FIELD_TRIAL mode allows full DOC draft/final artifact generation for active document types, provided outputs carry the required testing-only stamp where applicable and are not represented as official GMP records.
+
+FIELD_TRIAL is an operating label under PRODUCT_TESTING_ONLY, not a new schema/machine enum.
+
+Source metadata acceptance is not required for PRODUCT_TESTING / FIELD_TRIAL document generation testing.
+
+REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
+
+DCF artifact generation/finalization remains inactive unless separately activated.
 
 ---
 

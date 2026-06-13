@@ -29,6 +29,19 @@ projection_policy:
   mutates_task_truth: false
   required_behavior: "RPT reads authoritative snapshots and generates projection-only artifacts only."
 
+product_testing_field_trial_policy:
+  generation_allowed: true
+  field_trial_allowed_as_operating_label_under_product_testing_only: true
+  field_trial_is_schema_enum: false
+  supports_asbp_product_construction: true
+  supports_parallel_professional_market_testers: true
+  outputs_are_official_gmp_records: false
+  required_stamp_when_testing_only_assets_used: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
+  source_metadata_acceptance_required_for_product_testing: false
+  source_metadata_acceptance_required_for_field_trial: false
+  source_metadata_acceptance_required_for_regulated_release: true
+  regulated_release_condition: REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
+
 target_scope_policy:
   supported:
     - SINGLE_WP

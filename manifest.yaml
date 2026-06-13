@@ -2,7 +2,7 @@ manifest_version: v1.0.1
 pack:
   name: Valor_Architecture_Pack
   pack_version: v1.0.1
-  created_at_utc: '2026-06-13T14:41:14Z'
+  created_at_utc: '2026-06-13T15:23:07Z'
   hash_algorithm: sha256
   root: .
 files:
@@ -22,8 +22,8 @@ files:
   sha256: 50e6751797c50dedd75ef1b8a0d9e42f5f8472e9fbce91f34718e9f97b0c780a
   bytes: 11324
 - path: README.md
-  sha256: faa07e9e07c230fc7c3d327d91e3dcff3a9466a4eaa2a0b60e067ee3c9b42cf3
-  bytes: 10122
+  sha256: 59ac5ed626466a6f37934f7c54d1bc186464dcfb837cf9aee2521f3f4521d88f
+  bytes: 10630
 - path: Valor_Arch_Addendums_v1.0.1A/ARCH_Addendum_Canvas_Rendering_Record_Layout_v1.0.1A.md
   sha256: 7084cb5d809c6cb89ce8f8d6fc6d7ee5032c009d8573bb4bdb1becb3d28eea64
   bytes: 3212
@@ -103,8 +103,8 @@ files:
   sha256: a7c77f851031e1619c19ab3593817f8b58a57f75bbffd442464ce359e8dd0e25
   bytes: 7142
 - path: _review_control/REVIEW_STATE.md
-  sha256: d7630d21157e84f3a2a5e2db209cac5933e63e557404c50b3b4dd18d4626bb14
-  bytes: 18528
+  sha256: 92d0f2a3c1e794b058a0ab3960a4fd5ae11660719adb8f1c3716ad4c3e0e16e8
+  bytes: 19611
 - path: _review_control/REVIEW_STATE.md.bak_phase11
   sha256: 8a5759bdfa54becb551e10483016638babc94dc87f1885412b6d145ebd3fb251
   bytes: 13597
@@ -112,8 +112,8 @@ files:
   sha256: 05929fc0474e85152281adf36735fa3495332d1befa44aeff9923c5233e7bc6c
   bytes: 1926
 - path: _review_control/SESSION_HANDOFF.md
-  sha256: 8c3cc78530ea8de9f2c9f93894b1386fc21be4393741f9556896ce0ceb546676
-  bytes: 12379
+  sha256: 6ff3fd9cbb3b2b2c8020b70eb851868432aea3bfcea9dd8a4b3ca1cd9ed84ad2
+  bytes: 13691
 - path: _review_control/SESSION_HANDOFF.md.bak_phase11
   sha256: 572f9565a8873432eda3f7e869ba4b88650eaaa4a494584fe188695be8571638
   bytes: 3507
@@ -160,11 +160,11 @@ files:
   sha256: 43e28ad389ee06e3f46b6fdf47b237425f34958543ec5f3173f28a070eca1de9
   bytes: 13056
 - path: contracts/VALOR-contract-orch-doc.yaml
-  sha256: 7c9b74d019f6ca5b6722c309de52a880b17e239c75334815bb58ecb194f53705
-  bytes: 4535
+  sha256: 8e3f75350927ce4ca797219603d6f5245dd7bd93e165731101dcc49765820df6
+  bytes: 5446
 - path: contracts/VALOR-contract-orch-ks.yaml
-  sha256: c5944d40489586acb301ea941bba6540a0e01a29761d8595929e0730f05fcc7b
-  bytes: 7379
+  sha256: c1d0eaead94059250422a9f62ddeb0387ff13ef5c173eaf67a7338b6036ededd
+  bytes: 8165
 - path: contracts/VALOR-contract-orch-plan.yaml
   sha256: abf7b11df7ac5e821fc18f9cd242922ae2dbbd05d3bf9e5334e3673d7afcebc4
   bytes: 4338
@@ -172,8 +172,8 @@ files:
   sha256: 32509f63ef2102ef0e48ca2f8d8010649f2c6a4d771db6f52816f54e07edfddb
   bytes: 4331
 - path: contracts/VALOR-contract-orch-rpt.yaml
-  sha256: a051bd06eb474af7928be282eaae8b42cc3a7dbbf05b8ac83133cad02587277a
-  bytes: 9890
+  sha256: 2067c7de60bb84a1ccf4fef89c795e98005f2086a40a098108aaf5debba49997
+  bytes: 10706
 - path: contracts/VALOR-contract-orch-wp-user-driven-baseline.yaml
   sha256: 12407504087893175d90e209d0d76815c7424e282bae265383fac6dd6287b938
   bytes: 3681
@@ -202,8 +202,8 @@ files:
   sha256: e31bedf76e26617c166721a28897c1655cba6816cccaf8a873fe3ee6034cfa7e
   bytes: 10479
 - path: docs/architecture/A04_5_DocumentFactory_Arch_v1_0_1.md
-  sha256: 3adddd88511f7eb60e835b009bc79a99e63670630fdffda4989189d08a3bec90
-  bytes: 18002
+  sha256: 9c460a34ee5b971cbf0e2b309b676a2c691357c6acfd7b8991db8efb24fbdf2f
+  bytes: 18534
 - path: docs/architecture/A04_6_Reporting_Export_Arch_v1_0_1.md
   sha256: a829270bca0aecb1c8571b2ba57d07b24007aa114634bdc580cd9cb82e15c263
   bytes: 12895
@@ -229,8 +229,8 @@ files:
   sha256: e577d76cb94bd2f3437e00a360a62dced8a60f58789694346f3f6b5a40d2b53f
   bytes: 12854
 - path: docs/architecture/A12_Knowledge_Standards_Arch_v1_0_1.md
-  sha256: be2eda5ef0448ad88a1a180e0dd3c856f80556436a0f9273ff2b0f3937d821a0
-  bytes: 6835
+  sha256: b3f2733b85741a976964449e4e1153e97116e7ea3a36a6b1449089db57823fcd
+  bytes: 7767
 - path: docs/architecture/A13_Architecture_Closure_Checklist_Arch_v1_0_1.md
   sha256: b24c6540e832cc08b24d1abc7dc74687daf5f37fb908e512ce77425a3354cba5
   bytes: 10201

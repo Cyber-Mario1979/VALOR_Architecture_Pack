@@ -29,6 +29,14 @@ The CQV Base Bundle covers WP/RPT standards citation needs, URS, RTM, DQ, IQ, OQ
 
 `TESTING_ONLY` is a governed state for product testing, dry runs, internal trials, validation of product behavior, and end-to-end workflow testing.
 
+PRODUCT_TESTING / FIELD_TRIAL mode is an allowed use of TESTING_ONLY / PRODUCT_TESTING_ONLY K&S assets. It supports ASBP — AI System Builder Program / AI System Builder product construction, internal dry runs, product behavior validation, document generation testing, report generation testing, E2E workflow validation, and evaluation by parallel professional/market testers.
+
+FIELD_TRIAL is an operating label under PRODUCT_TESTING_ONLY, not a new schema/machine enum.
+
+PRODUCT_TESTING / FIELD_TRIAL outputs are not official GMP records and must carry the required testing-only stamp where applicable.
+
+Source metadata acceptance is not required for PRODUCT_TESTING / FIELD_TRIAL mode.
+
 `TESTING_ONLY` assets may support product testing only when:
 
 - `testing_use_allowed: true`;
@@ -41,11 +49,15 @@ The CQV Base Bundle covers WP/RPT standards citation needs, URS, RTM, DQ, IQ, OQ
 
 Missing real external source edition, document date, or locator does not block product testing when the asset is `TESTING_ONLY`; it does block real regulated use.
 
-## 4. Regulated-Use Approval Gate
+## 4. Regulated-Release Approval Gate
 
 Assets are not approved for regulated CQV/GMP use unless a separate controlled acceptance patch records user/site acceptance of exact external source edition/version, document date, source locator/anchor locator, source applicability, source-to-internal mapping, and template governance records.
 
 Do not mark any K&S asset `ACTIVE` during the testing-only gate.
+
+REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
+
+This gate does not block PRODUCT_TESTING / FIELD_TRIAL freeze, ASBP product construction, product testing, field trials, document generation testing, or report generation testing.
 
 ## 5. Source Text and Citation Rule
 

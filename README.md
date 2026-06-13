@@ -11,7 +11,7 @@
 
 # Valor Architecture Pack (v1.0.1)
 
-> **Current review status:** NO-FREEZE YET. This repository remains under controlled pre-freeze review.
+> **Current review status:** Freeze target: PRODUCT_TESTING / FIELD_TRIAL baseline. Final FREEZE-READY recommendation remains pending final freeze-readiness review.
 
 ![Valor architecture blueprint](architecture_blueprint.png)
 
@@ -23,7 +23,13 @@ planning**, **controlled document generation**, and **audit‑grade
 reporting/export**.  It emphasises repeatable execution, traceability and
 determinism over “smart guesses”.
 
-This pack is under controlled pre-freeze review. It contains architecture specifications, service contracts, schemas, templates, governed libraries and test vectors at version `v1.0.1`, but final freeze is **not yet recommended** until the remaining pre-freeze blockers are resolved. There is no code for a running system here; rather, this is the controlled reference for teams preparing a compatible Valor implementation after freeze acceptance.
+This pack is under controlled final review for a PRODUCT_TESTING / FIELD_TRIAL architecture baseline. This target supports ASBP — AI System Builder Program / AI System Builder product construction, internal product testing, field trials, document generation testing, report generation testing, and evaluation by parallel professional/market testers once the final freeze-readiness review passes.
+
+FIELD_TRIAL is an operating label under PRODUCT_TESTING_ONLY, not a separate regulated-release mode or new schema/machine enum. PRODUCT_TESTING / FIELD_TRIAL outputs are not official GMP records and must carry the required testing-only stamp where applicable:
+
+`PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.`
+
+REGULATED_RELEASE remains conditional upon K&S/source metadata acceptance, template source metadata acceptance, and any required user/site acceptance gates.
 
 ## Mission and Scope
 
