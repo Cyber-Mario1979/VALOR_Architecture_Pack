@@ -2,7 +2,7 @@
 
 Status: ACTIVE
 Review branch: review-spec-freeze-control
-Last updated: 2026-06-12
+Last updated: 2026-06-13
 
 ## Current State Summary
 
@@ -83,16 +83,12 @@ Control record:
 Status:
 
 - Completed for scoped architecture and governed-library alignment.
-- Contract/action registry semantic validation remains a later dependency.
 
 Key decisions:
 
-- `CAL-WORKWEEK_v1.0.1.yaml` remains the architecture-pack asset and now declares itself as a wrapper around canonical `CAL-WORKWEEK v1`.
-- Canonical calendar baseline is UTC+02:00, Sun-Thu working week, Fri-Sat weekend, `IF_NON_WORKING_START_NEXT_WORKING`, `END_INCLUSIVE`, and `COUNT_WORKING_DAYS_BETWEEN`.
+- `CAL-WORKWEEK_v1.0.1.yaml` remains the architecture-pack asset and declares itself as a wrapper around canonical `CAL-WORKWEEK v1`.
 - `PS-PE-HIGH` remains the canonical preset ID.
 - `PS-PE-HIGH` binds to `BND-CQV-BASE v1.0.1` as TESTING_ONLY / PRODUCT_TESTING_ONLY only.
-- `PROF-PE-HIGH` uses canonical `entries` map.
-- `TP-PE-HIGH` includes the FAT prep/execution/report/acceptance chain within the existing high-complexity process-equipment path.
 - TP/PS/PROF/CAL carry local pre-freeze governed-library lifecycle/status/review/expiry metadata.
 
 ### Blocker 5 — Contract/action registry semantic validation for WP / PLAN / TP / PS / PROF / CAL
@@ -112,9 +108,6 @@ Key decisions:
 - PS remains internal service/resolver only.
 - TP / PROF / CAL remain non-callable governed support authorities.
 - `PS_VALIDATE_BINDINGS` is `VALIDATE_ONLY` in both the PS contract and contract registry.
-- PLAN governed-profile default, stamped no-profile exception, calendar wrapper semantics, mixed-unit behavior, and provenance stamp requirements were strengthened.
-- WP user-driven duration override provenance requirements were strengthened.
-- `WP_VALIDATE`, `PS_VALIDATE_RULESET`, `PLAN_PREVIEW`, `WP_CLOSE`, and `WP_UPDATE_DEPENDENCIES` remain deferred.
 - PLAN preview remains `PLAN_GENERATE_PROPOSAL` with `dry_run=true`.
 - K&S remains TESTING_ONLY / PRODUCT_TESTING_ONLY only.
 
@@ -175,7 +168,7 @@ Status:
 Key decisions:
 
 - Canonical product-surface states are `STAGED`, `PROPOSED`, `COMMITTED`, `DRAFT`, `FINAL`, `INCOMPLETE`, `BLOCKED`, and `PRODUCT_TESTING_ONLY`.
-- Canvas is no longer a runtime/truth requirement; wording is normalized to record/output/artifact view terminology.
+- Canvas is no longer a runtime/truth requirement.
 - Contract/audit/provenance timestamps use UTC; local display time is optional and must be labeled.
 - RPT baseline artifacts are status report, workbook export, and Gantt chart. CSV is not v1.0.1 freeze baseline.
 - ALL_WPS remains out of scope unless bounded.
@@ -196,13 +189,13 @@ Status:
 
 Key decisions:
 
-- Empty/permissive active public-action result schemas were replaced for staged task set, plan proposal, plan validation result, DOC draft result, and DOC artifact result.
+- Empty/permissive active public-action result schemas were replaced.
 - WP, task, and document metadata schemas were aligned to current architecture naming and source-chain/testing-only fields.
-- Root test vectors now use current governed IDs and versions: `PS-PE-HIGH`, `TP-PE-HIGH`, `PROF-PE-HIGH`, `CAL-WORKWEEK v1.0.1`, `BND-CQV-BASE v1.0.1`, `TPL-URS v1.0.1`, `TPL-DCF v1.0.1`, and `STD-CQV-BASE v1.0.1`.
-- Old generic export behavior was replaced with declared RPT artifact families: status report, workbook export, and Gantt chart.
+- Root test vectors now use current governed IDs and versions.
+- Old generic export behavior was replaced with declared RPT artifact families.
 - `ALL_WPS` remains out of scope.
 - K&S schemas/vectors were not edited.
-- Manifest regeneration, document render schema redesign, and validator tooling rewrite remain deferred.
+- Manifest regeneration, document render schema redesign, and validator tooling rewrite remained deferred.
 
 ### Blocker 8B — Negative and E2E Test Vector Coverage
 
@@ -246,21 +239,44 @@ Key decisions:
 - K&S schemas/vectors were not edited.
 - K&S was not promoted to regulated-active use.
 
+### Blocker 9B — Broader Contract / Schema Validation Enforcement Review
+
+Control record:
+
+- `_review_control/BLOCKER9B_BROADER_CONTRACT_SCHEMA_VALIDATION_ENFORCEMENT.md`
+
+Status:
+
+- Completed for scoped contract/schema/vector alignment.
+- Freeze remains blocked by other pre-freeze work.
+
+Key decisions:
+
+- Active non-deferred contract/action catalog metadata was aligned across registry and active contract files.
+- RPT registry aliases were aligned with RPT contract/action block aliases.
+- WP action blocks were corrected to match `action_block.schema.json` shape.
+- `WP_APPLY_PLAN_PROPOSAL` now requires the same payload gates in the action block and WP contract.
+- PS example request was corrected to the A11 canonical envelope.
+- `contract_response.schema.json` now enforces ok/error/result consistency.
+- Registry validation vectors now separate full-object schema validation from semantic fragment validation.
+- DOC draft result schema and vector were aligned.
+- `VALOR-contract-orch-ks.yaml` was touched only for metadata-neutral contract/action catalog consistency; TESTING_ONLY / PRODUCT_TESTING_ONLY regulated-use blocking was preserved.
+- Manifest, smoke test, pack validation scripts, CI, executable validators, K&S schemas/vectors/library assets/source metadata, artifacts, and templates were not edited/generated.
+
 ## Remaining Freeze Blockers
 
 - K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
-- Broader contract/schema validation enforcement after scoped 9A static schemas/vectors.
-- Manifest regeneration and final freeze-readiness check after all content edits.
+- Real template source metadata acceptance before regulated use.
+- Manifest regeneration and final manifest verification.
+- Final freeze-readiness review.
 
 ## Next Required Work
 
 Await explicit user approval/challenge for the next scoped pre-freeze blocker.
 
-Recommended next scoped blocker options:
+Recommended next scoped blocker option:
 
-1. Manifest regeneration and final freeze-readiness check after all content edits.
-2. Broader contract/schema validation enforcement review.
-3. K&S user/site source metadata acceptance gate for real regulated CQV/GMP use.
+1. Manifest regeneration and final manifest verification, after watcher/reviewer confirms no further content-edit blocker remains.
 
 ## Non-Scope Until Explicitly Approved
 
