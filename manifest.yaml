@@ -2,7 +2,7 @@ manifest_version: v1.0.1
 pack:
   name: Valor_Architecture_Pack
   pack_version: v1.0.1
-  created_at_utc: '2026-06-17T22:52:45Z'
+  created_at_utc: '2026-06-17T22:54:24Z'
   hash_algorithm: sha256
   root: .
 files:
@@ -156,9 +156,6 @@ files:
 - path: action_blocks/WP_UPDATE_TASK_FIELDS.yaml
   sha256: 963c5b49e06e89f68d33809c23dab088f08e12bb8b0672697227844e345e6a5d
   bytes: 777
-- path: apply_a2.py
-  sha256: b29e605e467b34096bbf44cae81eddc7935938fa3c402b8e6ed4519e0eaf864a
-  bytes: 9881
 - path: architecture_blueprint.png
   sha256: 884744f59fea5b79192708dab4c728b16df942e055bd3b5e2169b05a8996b278
   bytes: 2499423
