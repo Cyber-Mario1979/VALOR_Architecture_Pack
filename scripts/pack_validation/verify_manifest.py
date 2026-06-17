@@ -19,6 +19,9 @@ import hashlib
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from pack_excludes import should_exclude  # noqa: E402
+
 try:
     import yaml  # type: ignore
 except ImportError:
@@ -56,6 +59,9 @@ def main() -> int:
     mismatched = []
     ok_count = 0
 
+    # Loop-invariant: compute once, not inside the per-entry loop (G-19 smell).
+    manifest_paths = set(e.get("path") for e in files if e.get("path"))
+
     for entry in files:
         rel = entry.get("path")
         expected = entry.get("sha256")
@@ -74,17 +80,16 @@ def main() -> int:
         else:
             ok_count += 1
 
-        manifest_paths = set(e.get("path") for e in files if e.get("path"))
-    IGNORE_DIRS = {".venv", "venv", "__pycache__", ".vscode", ".git"}
-
+    # Detect extras using the SHARED exclude rules (any-depth dirs + suffixes),
+    # so the verifier and generator agree on what is a pack file (G-19).
     actual_paths = set()
     for p in root.rglob("*"):
         if not p.is_file():
             continue
-        rel_path = p.relative_to(root)
-        if rel_path.parts and rel_path.parts[0] in IGNORE_DIRS:
+        rel_posix = p.relative_to(root).as_posix()
+        if should_exclude(rel_posix):
             continue
-        actual_paths.add(str(rel_path).replace("\\", "/"))
+        actual_paths.add(rel_posix)
 
     # The manifest is the root of truth; do not treat it as an "extra" file.
     actual_paths.discard("manifest.yaml")

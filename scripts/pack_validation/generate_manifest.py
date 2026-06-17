@@ -27,39 +27,14 @@ except ImportError:
     sys.exit(2)
 
 
-# Exclude folders that are machine-specific / not part of the pack.
-# IMPORTANT: We do NOT exclude ".github" because workflows live there.
-EXCLUDE_DIRS = {
-    ".git",
-    ".venv",
-    "__pycache__",
-    ".pytest_cache",
-    ".mypy_cache",
-    ".ruff_cache",
-    ".idea",
-    ".vscode",
-}
-
-# Exclude common junk / generated files (optional, safe)
-EXCLUDE_FILE_SUFFIXES = {".pyc", ".pyo", ".pyd"}
+# Shared exclude rules (G-19): single source of truth for both manifest scripts.
+# IMPORTANT: ".github" is intentionally NOT excluded — workflows live there.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from pack_excludes import should_exclude  # noqa: E402
 
 
 def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
-
-
-def should_exclude(rel_path: str) -> bool:
-    """
-    rel_path is POSIX style (forward slashes), relative to pack root.
-    """
-    parts = rel_path.split("/")
-    if parts and parts[0] in EXCLUDE_DIRS:
-        return True
-    if any(part in EXCLUDE_DIRS for part in parts):
-        return True
-    if any(rel_path.endswith(suf) for suf in EXCLUDE_FILE_SUFFIXES):
-        return True
-    return False
 
 
 def main() -> int:
