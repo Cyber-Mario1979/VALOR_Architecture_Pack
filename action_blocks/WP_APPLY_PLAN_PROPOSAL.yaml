@@ -4,7 +4,7 @@ public_command_aliases: [apply_plan, commit_schedule]
 contract: VALOR-contract-orch-wp
 version: v1.0.1
 purpose: Commit dates into WP/task truth from a governed Planning proposal while preserving the proposal-vs-commitment boundary.
-allowed_modes: [M2]
+allowed_modes: [EXECUTION]
 side_effect_class: MUTATES_TRUTH
 idempotent: false
 confirmation_required: true

@@ -66,11 +66,11 @@ This is enforced via **contract-only mutation** (A02 Principle §2.5).
 
 ### 3.1 Modes
 Orchestration operates in modes that constrain allowed actions:
-- **M1 (Architecture/Design Mode)**: define specs, contracts, assets; no commitments to WP truth.
-- **M2 (Execution/Implementation Mode)**: create/stage/commit WPs, plan, apply, export.
+- **DESIGN (Architecture/Design Mode)**: define specs, contracts, assets; no commitments to WP truth.
+- **EXECUTION (Execution/Implementation Mode)**: create/stage/commit WPs, plan, apply, export.
 
 Mode enforcement:
-- If an action requires M2 but the session is in M1 → MODE_VIOLATION.
+- If an action requires EXECUTION but the session is in DESIGN → MODE_VIOLATION.
 
 ### 3.2 Session Context (The “Traceability Ledger”)
 Orchestration maintains a session context object that must include:
@@ -226,7 +226,7 @@ Example:
   "contract_version": "v1.0.1",
   "action_id": "ACT-000120",
   "action_type": "WP_STAGE_TASKS",
-  "mode": "M2",
+  "mode": "EXECUTION",
   "target": {"wp_id": "WP-0007"},
   "payload": {
     "preset_id": "PS-PE-HIGH",

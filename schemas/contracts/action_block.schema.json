@@ -122,8 +122,8 @@
       "items": {
         "type": "string",
         "enum": [
-          "M1",
-          "M2"
+          "DESIGN",
+          "EXECUTION"
         ]
       }
     },

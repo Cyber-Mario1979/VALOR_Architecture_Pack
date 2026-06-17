@@ -7,7 +7,7 @@ public_command_aliases:
 contract: VALOR-contract-orch-rpt
 version: v1.0.1
 purpose: Generate a structured Excel workbook export from one or more committed WP snapshots.
-allowed_modes: [M2]
+allowed_modes: [EXECUTION]
 side_effect_class: GENERATES_ARTIFACT
 idempotent: true
 confirmation_required: true

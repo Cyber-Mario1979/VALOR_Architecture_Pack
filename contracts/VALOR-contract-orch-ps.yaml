@@ -34,7 +34,7 @@ error_taxonomy:
 actions:
   - action_type: PS_LIST_PRESETS
     internal_aliases: [list_presets_for_resolver]
-    allowed_modes: [M1, M2]
+    allowed_modes: [DESIGN, EXECUTION]
     side_effect_class: READ_ONLY
     idempotent: true
     confirmation_required: false
@@ -46,7 +46,7 @@ actions:
 
   - action_type: PS_READ_PRESET
     internal_aliases: [read_preset_for_resolver]
-    allowed_modes: [M1, M2]
+    allowed_modes: [DESIGN, EXECUTION]
     side_effect_class: READ_ONLY
     idempotent: true
     confirmation_required: false
@@ -58,7 +58,7 @@ actions:
 
   - action_type: PS_RESOLVE_PRESET
     internal_aliases: [resolve_preset]
-    allowed_modes: [M1, M2]
+    allowed_modes: [DESIGN, EXECUTION]
     side_effect_class: READ_ONLY
     idempotent: true
     confirmation_required: false
@@ -70,7 +70,7 @@ actions:
 
   - action_type: PS_VALIDATE_BINDINGS
     internal_aliases: [validate_preset_bindings]
-    allowed_modes: [M1, M2]
+    allowed_modes: [DESIGN, EXECUTION]
     side_effect_class: VALIDATE_ONLY
     idempotent: true
     confirmation_required: false
@@ -91,7 +91,7 @@ examples:
       contract_version: v1.0.1
       action_id: ACT-000601
       action_type: PS_RESOLVE_PRESET
-      mode: M2
+      mode: EXECUTION
       actor:
         role: Orchestration
         name: Valor

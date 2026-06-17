@@ -4,7 +4,7 @@ public_command_aliases: [update_task, mark_task]
 contract: VALOR-contract-orch-wp
 version: v1.0.1
 purpose: Assign owners, status, notes, and other mutable task or WP fields after tasks exist.
-allowed_modes: [M2]
+allowed_modes: [EXECUTION]
 side_effect_class: MUTATES_TRUTH
 idempotent: false
 confirmation_required: true

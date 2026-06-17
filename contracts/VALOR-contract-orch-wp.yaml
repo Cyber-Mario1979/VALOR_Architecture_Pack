@@ -29,7 +29,7 @@ error_taxonomy:
 actions:
   - action_type: WP_GET
     public_command_aliases: [show_wp, get_wp]
-    allowed_modes: [M1, M2]
+    allowed_modes: [DESIGN, EXECUTION]
     side_effect_class: READ_ONLY
     idempotent: true
     confirmation_required: false
@@ -41,7 +41,7 @@ actions:
 
   - action_type: WP_CREATE
     public_command_aliases: [create_wp, new_wp]
-    allowed_modes: [M2]
+    allowed_modes: [EXECUTION]
     side_effect_class: MUTATES_TRUTH
     idempotent: false
     confirmation_required: true
@@ -53,7 +53,7 @@ actions:
 
   - action_type: WP_STAGE_TASKS
     public_command_aliases: [stage_tasks]
-    allowed_modes: [M2]
+    allowed_modes: [EXECUTION]
     side_effect_class: STAGE_ONLY
     idempotent: true
     confirmation_required: false
@@ -65,7 +65,7 @@ actions:
 
   - action_type: WP_COMMIT_STAGED_TASKS
     public_command_aliases: [commit_tasks]
-    allowed_modes: [M2]
+    allowed_modes: [EXECUTION]
     side_effect_class: MUTATES_TRUTH
     idempotent: true
     confirmation_required: true
@@ -77,7 +77,7 @@ actions:
 
   - action_type: WP_UPDATE_TASK_FIELDS
     public_command_aliases: [update_task, mark_task]
-    allowed_modes: [M2]
+    allowed_modes: [EXECUTION]
     side_effect_class: MUTATES_TRUTH
     idempotent: false
     confirmation_required: true
@@ -90,7 +90,7 @@ actions:
 
   - action_type: WP_APPLY_PLAN_PROPOSAL
     public_command_aliases: [apply_plan, commit_schedule]
-    allowed_modes: [M2]
+    allowed_modes: [EXECUTION]
     side_effect_class: MUTATES_TRUTH
     idempotent: false
     confirmation_required: true
@@ -108,7 +108,7 @@ actions:
 
   - action_type: WP_BIND_PRESET_CONTEXT
     public_command_aliases: [load_preset_context, bind_preset_context]
-    allowed_modes: [M2]
+    allowed_modes: [EXECUTION]
     side_effect_class: MUTATES_TRUTH
     idempotent: true
     confirmation_required: true

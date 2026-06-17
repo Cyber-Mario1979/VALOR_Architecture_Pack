@@ -49,7 +49,7 @@ error_taxonomy:
 actions:
   - action_type: DOC_GENERATE_DRAFT
     public_command_aliases: [draft_document, generate_draft]
-    allowed_modes: [M2]
+    allowed_modes: [EXECUTION]
     side_effect_class: GENERATES_ARTIFACT
     idempotent: true
     confirmation_required: false
@@ -70,7 +70,7 @@ actions:
 
   - action_type: DOC_FINALIZE_ARTIFACT
     public_command_aliases: [finalize_document]
-    allowed_modes: [M2]
+    allowed_modes: [EXECUTION]
     side_effect_class: GENERATES_ARTIFACT
     idempotent: false
     confirmation_required: true

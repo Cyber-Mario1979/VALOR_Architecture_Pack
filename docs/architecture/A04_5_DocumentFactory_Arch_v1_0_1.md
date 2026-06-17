@@ -364,7 +364,7 @@ Deferred unless later explicitly approved:
   "contract_version": "v1.0.1",
   "action_id": "ACT-000310",
   "action_type": "DOC_GENERATE_DRAFT",
-  "mode": "M2",
+  "mode": "EXECUTION",
   "target": {"wp_id": "WP-0007"},
   "payload": {
     "doc_type": "URS",

@@ -56,7 +56,7 @@ error_taxonomy:
 actions:
   - action_type: PLAN_GENERATE_PROPOSAL
     public_command_aliases: [schedule_tasks, generate_plan, plan_wp]
-    allowed_modes: [M2]
+    allowed_modes: [EXECUTION]
     side_effect_class: GENERATES_ARTIFACT
     idempotent: true
     confirmation_required: false
@@ -74,7 +74,7 @@ actions:
 
   - action_type: PLAN_VALIDATE_PROPOSAL
     public_command_aliases: [validate_plan]
-    allowed_modes: [M2]
+    allowed_modes: [EXECUTION]
     side_effect_class: VALIDATE_ONLY
     idempotent: true
     confirmation_required: false

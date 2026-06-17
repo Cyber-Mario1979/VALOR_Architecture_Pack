@@ -2,7 +2,7 @@ manifest_version: v1.0.1
 pack:
   name: Valor_Architecture_Pack
   pack_version: v1.0.1
-  created_at_utc: '2026-06-13T22:19:42Z'
+  created_at_utc: '2026-06-17T22:28:48Z'
   hash_algorithm: sha256
   root: .
 files:
@@ -121,41 +121,44 @@ files:
   sha256: cc4254f428941b32b319eae8a31c07dd5818938be2a5a36a1471510a33e0549b
   bytes: 3407
 - path: action_blocks/BUILD_REPORT.yaml
-  sha256: de2a045fd5466e7316959db80c803571b0518b6ef711142e20d2fcfd14c1510f
-  bytes: 1136
+  sha256: 1f9761316327fd00c717c9b9d0dc1d00177cb682d898c5eccb9e86043ac0d455
+  bytes: 1187
 - path: action_blocks/RPT_GENERATE_GANTT_CHART.yaml
-  sha256: 94ae83be7ac5f0449540a4dcdcebdafe38b2654145389653e74afa92ce8649bb
-  bytes: 1493
+  sha256: ccc908a206771b66f8721f81e349ba6479976ad286e8dd083120d91fedabf5cc
+  bytes: 1555
 - path: action_blocks/RPT_GENERATE_STATUS_REPORT.yaml
-  sha256: ade7058eff4018fa50622bf51103bb79f7f515d24fc058a6e262c217f8852de1
-  bytes: 1312
+  sha256: 8f1a503feaae20007b45f58d90c5ebe94fe819022ec67c4d9504b9056e004349
+  bytes: 1370
 - path: action_blocks/RPT_GENERATE_WORKBOOK_EXPORT.yaml
-  sha256: 147ed7e72df1762fe22d53bd64229f68db2d27e0be1e638010949c877469382d
-  bytes: 1484
+  sha256: adbf9fbe9f3567e54c63f605042e82430a318ea71fc29c86fa294ab015baf8c1
+  bytes: 1545
 - path: action_blocks/RPT_GET_ARTIFACT.yaml
-  sha256: b3c0367edeae57327f635882cc9fea1bfff96b3c0f5e7cc896b2ff6f3d360a27
-  bytes: 722
+  sha256: 76e3350664ed4949f41f304ea73a0a3ecca261ccb26799638f0b81a5f97eafcb
+  bytes: 761
 - path: action_blocks/RPT_LIST_ARTIFACTS.yaml
-  sha256: 8d9afbf197d7ca15fe39ba5723093abc7b77c41708f3f5b82c47a3a39897cf5f
-  bytes: 809
+  sha256: 6651c287dd49e5421675cbd8be2257eefdb195ae68867057a10ebc0527acf70a
+  bytes: 854
 - path: action_blocks/RPT_VALIDATE_GANTT_INPUTS.yaml
-  sha256: 9e9ace1b2f60155075a62eeac807e5dd4f3088df43d0206d2f634292c1380688
-  bytes: 1288
+  sha256: 535995946d8a856f768c6be9d30f71089695d96f63b5bbbb7476b805364e9dbe
+  bytes: 1342
 - path: action_blocks/RPT_VALIDATE_REPORT_INPUTS.yaml
-  sha256: 5082e11b07a926e2d5f5791da802ec04cfbfa3b9b80ee7d2c73d2f78ce9ac688
-  bytes: 1255
+  sha256: eebf1dcbf7f4ba0d44eba0ced0bb4c93a50f12ecd84a7e74fecaa849ca7070d7
+  bytes: 1307
 - path: action_blocks/RPT_VALIDATE_WORKBOOK_EXPORT.yaml
-  sha256: c5a1bdf625e1dfb30599f18422d3ba7b62848ce05084882c2d6d3ad39469274e
-  bytes: 1327
+  sha256: 8c28ae9c0fc5806c7729c86c4b6c1373b689f2a5ecfe773cabe3220fb2ea4c01
+  bytes: 1385
 - path: action_blocks/WP_APPLY_PLAN_PROPOSAL.yaml
-  sha256: fa9b3396cba1a03722e74e90ee1845cc88c353cd22ab4638d3beb5aef8f652b5
-  bytes: 1362
+  sha256: 48170cc48edf2559bf7c1d917aa195a86ae0674f416d9a45aa5574d066dcfd69
+  bytes: 1406
 - path: action_blocks/WP_BIND_PRESET_CONTEXT.yaml
-  sha256: f66bb05915335362acdb7e99ad37adbdbae85e4e52f6f52f2a78214e1c9e00cc
-  bytes: 1301
+  sha256: c4437fdcf33c08153ebe2980eccb3972ed9e1377ef0c2474c0e626a5804a0c55
+  bytes: 1342
 - path: action_blocks/WP_UPDATE_TASK_FIELDS.yaml
-  sha256: 59cdee0c4d04f73664a1634838ddaa36ba5c380e7c99ba89b32aeaa1dcb27c49
-  bytes: 770
+  sha256: f5de9f07104f90d9ed527877c27b4d4cf1b571b5469683cde26563747b8a48b4
+  bytes: 804
+- path: apply.py
+  sha256: 968d230e76a7c6f056314974c56fc29ca139005938994855b9b98801bc163381
+  bytes: 5963
 - path: architecture_blueprint.png
   sha256: 884744f59fea5b79192708dab4c728b16df942e055bd3b5e2169b05a8996b278
   bytes: 2499423
@@ -163,32 +166,32 @@ files:
   sha256: 43e28ad389ee06e3f46b6fdf47b237425f34958543ec5f3173f28a070eca1de9
   bytes: 13056
 - path: contracts/VALOR-contract-orch-doc.yaml
-  sha256: 8e3f75350927ce4ca797219603d6f5245dd7bd93e165731101dcc49765820df6
-  bytes: 5446
+  sha256: 1a2bde3b0d1c556931993fa03ad611cb65e079d7a84776b29d93a58b7a06f9ac
+  bytes: 5547
 - path: contracts/VALOR-contract-orch-ks.yaml
-  sha256: c1d0eaead94059250422a9f62ddeb0387ff13ef5c173eaf67a7338b6036ededd
-  bytes: 8165
+  sha256: c2eda88e30c33f8b046bd65fc0ae8bb988eab137983e74ef371117e8d41f4fb3
+  bytes: 8360
 - path: contracts/VALOR-contract-orch-plan.yaml
-  sha256: abf7b11df7ac5e821fc18f9cd242922ae2dbbd05d3bf9e5334e3673d7afcebc4
-  bytes: 4338
+  sha256: 66bec41be2989962e767f36ab87b5140af76afb710bc40f745bffd6e10b4dd6f
+  bytes: 4442
 - path: contracts/VALOR-contract-orch-ps.yaml
-  sha256: 32509f63ef2102ef0e48ca2f8d8010649f2c6a4d771db6f52816f54e07edfddb
-  bytes: 4331
+  sha256: 15e79b4caca0ec552b324d50aeee0a01a888086ad762ed6578871947d8cd9d2a
+  bytes: 4492
 - path: contracts/VALOR-contract-orch-rpt.yaml
-  sha256: 2067c7de60bb84a1ccf4fef89c795e98005f2086a40a098108aaf5debba49997
-  bytes: 10706
+  sha256: 20b29970c4408a9fcceaf16acb6b6e9f54f5c727bdc0f7b6d5c3434ae0b357b0
+  bytes: 11089
 - path: contracts/VALOR-contract-orch-wp-user-driven-baseline.yaml
-  sha256: 12407504087893175d90e209d0d76815c7424e282bae265383fac6dd6287b938
-  bytes: 3681
+  sha256: 98b8fc3d7c7a5a522799b321cadb37d045556ee62cda72c022725b4640b0a3f1
+  bytes: 3780
 - path: contracts/VALOR-contract-orch-wp.yaml
-  sha256: d889d2c4cece783fa71e60532f360a6471992c141e78844af15a75986bf5e12e
-  bytes: 5220
+  sha256: 91f4aaa9d34e278010c1074cc91d8dac8df920c5fbc7cb1423cbf651af8e3713
+  bytes: 5396
 - path: docs/architecture/A00_Specs_Architecture_Pack_Arch_v1_0_1.md
   sha256: c57f20d5fb9438d67a4db4d5c16dfa7b2dfdf57c0c709ccd3c9ae5e8098135b2
   bytes: 3653
 - path: docs/architecture/A01_SoS_Context_Capability_Arch_v1_0_1.md
-  sha256: 638db08795421a386d1c0228e59a92f0ae8c1d25a9908b2186eb4b302ea11f64
-  bytes: 8308
+  sha256: ba80f2f42d97f1fbdbd65913b4c7b6dc45dc0e900b7d3cafc1f5660174a114be
+  bytes: 8532
 - path: docs/architecture/A02_Principles_Invariants_Arch_v1_0_1.md
   sha256: 2c32101bea08d00c34ba486795a6157a8c372817e14fbf91b494b01e49eadb99
   bytes: 8968
@@ -196,8 +199,8 @@ files:
   sha256: b9dc8d4bf2cb93f435b790f349362f33015c91992347f20232d9e1d0169e7878
   bytes: 7776
 - path: docs/architecture/A04_1_Orchestration_Arch_v1_0_1.md
-  sha256: 97e2933d25e65747ac216d4036f557c4777509592eb98cc5b032622392e8261f
-  bytes: 13458
+  sha256: 376696d3d240e6458ddb756405f7f038149e71332b57969af602ef40c762417d
+  bytes: 13797
 - path: docs/architecture/A04_2_WorkPackage_Arch_v1_0_1.md
   sha256: a2d6d951632816cb1d6b5cac85078044ddc848ca0564d2a9822a4787bae71435
   bytes: 8233
@@ -205,8 +208,8 @@ files:
   sha256: e31bedf76e26617c166721a28897c1655cba6816cccaf8a873fe3ee6034cfa7e
   bytes: 10479
 - path: docs/architecture/A04_5_DocumentFactory_Arch_v1_0_1.md
-  sha256: 9c460a34ee5b971cbf0e2b309b676a2c691357c6acfd7b8991db8efb24fbdf2f
-  bytes: 18534
+  sha256: 9710e9e9f6baede294dd32ae251037c4a6eabcbfc3f5da51d74341cd43104a42
+  bytes: 19025
 - path: docs/architecture/A04_6_Reporting_Export_Arch_v1_0_1.md
   sha256: a829270bca0aecb1c8571b2ba57d07b24007aa114634bdc580cd9cb82e15c263
   bytes: 12895
@@ -229,8 +232,8 @@ files:
   sha256: d432f3943bb958ed22e5283fcd7d833ea60cb95b1cc4f7ecd7d2beb6c961c07d
   bytes: 8593
 - path: docs/architecture/A11_ContractRegistry_Arch_v1_0_1.md
-  sha256: e577d76cb94bd2f3437e00a360a62dced8a60f58789694346f3f6b5a40d2b53f
-  bytes: 12854
+  sha256: 54a4b24cf23eb57ff4128a98a311c63936d70ecb4657233ec6432c659f58b7da
+  bytes: 13215
 - path: docs/architecture/A12_Knowledge_Standards_Arch_v1_0_1.md
   sha256: b3f2733b85741a976964449e4e1153e97116e7ea3a36a6b1449089db57823fcd
   bytes: 7767
@@ -304,14 +307,14 @@ files:
   sha256: db3fe842e7fb70a2e6794a6cdda388df0238b35924f9adea2d194ccaefde76ac
   bytes: 28
 - path: schemas/contracts/action_block.schema.json
-  sha256: 249e0227ee8baacc2e5bbbc91e9b72b31f0f3ee2221138178a9c5634ae1fa1eb
-  bytes: 4452
+  sha256: e52a7775cbc2852120929499e6178890270a95023063f5aab518f830d6c99ac4
+  bytes: 4669
 - path: schemas/contracts/contract_registry.schema.json
   sha256: 94b58327ef43e8363a6ff295446ca7195dcaecd91e5d7ea4b4fe0120069dea32
   bytes: 6420
 - path: schemas/contracts/contract_request.schema.json
-  sha256: 5d583c67ca1e7f7e3060fde7c84ba0a02ccd6c6f2ab95b3eda4760449e90b12e
-  bytes: 1502
+  sha256: 2e850efb54c855c66c641ff756a0d5ece75a38db0bba2e6d95c2110c4c454d70
+  bytes: 1591
 - path: schemas/contracts/contract_response.schema.json
   sha256: 45feabf33f4191ecbcff9d4ce1fc987f50cec674de1c1f33320c1229c3cac972
   bytes: 1861
@@ -589,8 +592,8 @@ files:
   sha256: 9ca2f1df1dd04b6ac5a1e7e6ab4d8085f55bd69ee1983f1cefd512e1bad0fbd4
   bytes: 3240
 - path: test_vectors/registry/registry_validation_vectors.json
-  sha256: e2145693c1ea1e09b312022c421bcc4a62c0b985ff6ca298e52cc7f84328056e
-  bytes: 10679
+  sha256: 3604cf6a3f1829dd129ff583efc000362a583492a23784d4d6aea9869dee2edd
+  bytes: 10967
 - path: test_vectors/security/security_event_vectors.json
   sha256: 0d89cb014f65a1c8c43498408e9b3476140389df61e7c6b6e7de718303c12c8d
   bytes: 3689

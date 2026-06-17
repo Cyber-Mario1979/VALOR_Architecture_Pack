@@ -128,7 +128,7 @@ All subsystem calls must conform to the following SoS envelope standard:
   "contract_version": "v1.0.1",
   "action_id": "ACT-000001",
   "action_type": "<ACTION>",
-  "mode": "M1|M2",
+  "mode": "DESIGN|EXECUTION",
   "actor": {"role": "User|System", "name": "optional"},
   "target": {"wp_id": "optional", "doc_id": "optional"},
   "payload": {},

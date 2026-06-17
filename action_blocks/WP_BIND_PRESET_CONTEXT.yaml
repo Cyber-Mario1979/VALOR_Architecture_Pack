@@ -4,7 +4,7 @@ public_command_aliases: [load_preset_context, bind_preset_context]
 contract: VALOR-contract-orch-wp
 version: v1.0.1
 purpose: Bind and stamp a WP with governed preset, profile, calendar, task-pool, and bundle references used for traceability.
-allowed_modes: [M2]
+allowed_modes: [EXECUTION]
 side_effect_class: MUTATES_TRUTH
 idempotent: true
 confirmation_required: true

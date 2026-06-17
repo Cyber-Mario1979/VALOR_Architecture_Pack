@@ -143,7 +143,7 @@ Required fields:
 - contract_version (string)
 - action_id (string)
 - action_type (string)
-- mode (M1|M2)
+- mode (DESIGN|EXECUTION)
 - payload (object)
 - context (object with timestamp_utc)
 
@@ -159,7 +159,7 @@ Canonical structure:
   "contract_version": "v1.0.1",
   "action_id": "ACT-000001",
   "action_type": "WP_STAGE_TASKS",
-  "mode": "M2",
+  "mode": "EXECUTION",
   "actor": {"role": "User", "name": "optional"},
   "target": {"wp_id": "WP-0007"},
   "payload": {},
