@@ -8,7 +8,7 @@ allowed_modes: [EXECUTION]
 side_effect_class: MUTATES_TRUTH
 idempotent: false
 confirmation_required: true
-status: ACTIVE_PRE_FREEZE
+status: ACTIVE_FROZEN
 
 required_payload_fields:
   - updates

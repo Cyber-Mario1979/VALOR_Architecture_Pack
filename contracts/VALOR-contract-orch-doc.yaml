@@ -53,7 +53,7 @@ actions:
     side_effect_class: GENERATES_ARTIFACT
     idempotent: true
     confirmation_required: false
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     required_payload_fields: [doc_type, wp_snapshot, template_ref, bundle_ref, source_input_set, citation_set, provenance_stamps]
     optional_payload_fields: [dcf_ref, render_options, redaction_options, incomplete_output_policy]
     target_fields: {required: [wp_id], optional: [doc_id]}
@@ -74,7 +74,7 @@ actions:
     side_effect_class: GENERATES_ARTIFACT
     idempotent: false
     confirmation_required: true
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     required_payload_fields: [draft_id, source_chain_provenance, template_ref, bundle_ref, citation_set, provenance_stamps, source_input_completion_status]
     optional_payload_fields: [final_format, testing_only_stamp, incomplete_output_policy]
     target_fields: {required: [wp_id], optional: [doc_id]}

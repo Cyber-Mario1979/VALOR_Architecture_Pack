@@ -1,7 +1,7 @@
 profile_id: PROF-PE-HIGH
 version: v1.0.1
 revision_date: '2025-12-26'
-status: PRE_FREEZE_CONTROLLED
+status: frozen_controlled
 usage_classification: PRODUCT_TESTING_OR_PRE_FREEZE_SPECIFICATION
 effective_date: 2026-06-12
 source_checked_date: 2026-06-12

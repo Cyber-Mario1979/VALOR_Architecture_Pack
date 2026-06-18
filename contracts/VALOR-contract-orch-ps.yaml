@@ -38,7 +38,7 @@ actions:
     side_effect_class: READ_ONLY
     idempotent: true
     confirmation_required: false
-    status: ACTIVE_INTERNAL_PRE_FREEZE
+    status: ACTIVE_INTERNAL_FROZEN
     required_payload_fields: []
     optional_payload_fields: [filters]
     target_fields: {required: [], optional: []}
@@ -50,7 +50,7 @@ actions:
     side_effect_class: READ_ONLY
     idempotent: true
     confirmation_required: false
-    status: ACTIVE_INTERNAL_PRE_FREEZE
+    status: ACTIVE_INTERNAL_FROZEN
     required_payload_fields: [preset_id, version]
     optional_payload_fields: []
     target_fields: {required: [], optional: []}
@@ -62,7 +62,7 @@ actions:
     side_effect_class: READ_ONLY
     idempotent: true
     confirmation_required: false
-    status: ACTIVE_INTERNAL_PRE_FREEZE
+    status: ACTIVE_INTERNAL_FROZEN
     required_payload_fields: [context]
     optional_payload_fields: [options]
     target_fields: {required: [], optional: []}
@@ -74,7 +74,7 @@ actions:
     side_effect_class: VALIDATE_ONLY
     idempotent: true
     confirmation_required: false
-    status: ACTIVE_INTERNAL_PRE_FREEZE
+    status: ACTIVE_INTERNAL_FROZEN
     required_payload_fields: [preset_id, preset_version]
     optional_payload_fields: [expected_task_pool_ref, expected_profile_ref, expected_calendar_logic_ref, expected_standards_bundle_ref, require_testing_only_stamp]
     target_fields: {required: [], optional: []}

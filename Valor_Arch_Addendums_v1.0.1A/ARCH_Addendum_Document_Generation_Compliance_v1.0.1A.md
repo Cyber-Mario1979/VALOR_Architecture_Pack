@@ -5,7 +5,7 @@ revision_context: Blocker 7A
 revision_date: 2026-06-12
 owner: Nexus
 editor: VALOR DEV-TASK-FORCE
-status: pre_freeze_controlled
+status: frozen_controlled
 dependencies: []
 summary: Document generation product-surface rules: separate document artifacts, token-clean output, no operational footer text, UTC metadata, optional labeled local display time, and testing-only stamp behavior.
 acceptance_criteria:

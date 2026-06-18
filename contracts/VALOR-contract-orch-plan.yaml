@@ -60,7 +60,7 @@ actions:
     side_effect_class: GENERATES_ARTIFACT
     idempotent: true
     confirmation_required: false
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     required_payload_fields: [wp_snapshot, dependency_graph, planning_basis, calendar_logic_ref, provenance_stamps]
     optional_payload_fields: [profile_ref, no_profile_override_stamp_set, constraints, options]
     target_fields: {required: [wp_id], optional: []}
@@ -78,7 +78,7 @@ actions:
     side_effect_class: VALIDATE_ONLY
     idempotent: true
     confirmation_required: false
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     required_payload_fields: [plan_proposal]
     optional_payload_fields: []
     target_fields: {required: [wp_id], optional: []}

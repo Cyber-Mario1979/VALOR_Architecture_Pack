@@ -4,7 +4,7 @@ block type: Arch
 version: v1.0.1
 owner: Nexus
 editor: Senior Architect
-status: pre_freeze_controlled
+status: frozen_controlled
 date: 2026-06-12
 dependencies:
   - VALOR-block-A00-specs-architecture-pack

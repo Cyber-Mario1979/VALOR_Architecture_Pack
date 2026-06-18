@@ -33,7 +33,7 @@ actions:
     side_effect_class: READ_ONLY
     idempotent: true
     confirmation_required: false
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     required_payload_fields: []
     optional_payload_fields: [include_tasks, include_dependencies, include_metadata]
     target_fields: {required: [wp_id], optional: []}
@@ -45,7 +45,7 @@ actions:
     side_effect_class: MUTATES_TRUTH
     idempotent: false
     confirmation_required: true
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     required_payload_fields: [wp_seed]
     optional_payload_fields: [labels, notes]
     target_fields: {required: [], optional: []}
@@ -57,7 +57,7 @@ actions:
     side_effect_class: STAGE_ONLY
     idempotent: true
     confirmation_required: false
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     required_payload_fields: [task_set_ref]
     optional_payload_fields: [include_optional_tasks, overrides]
     target_fields: {required: [wp_id], optional: []}
@@ -69,7 +69,7 @@ actions:
     side_effect_class: MUTATES_TRUTH
     idempotent: true
     confirmation_required: true
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     required_payload_fields: [staged_task_set_id]
     optional_payload_fields: [provenance_stamps]
     target_fields: {required: [wp_id], optional: []}
@@ -81,7 +81,7 @@ actions:
     side_effect_class: MUTATES_TRUTH
     idempotent: false
     confirmation_required: true
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     required_payload_fields: [updates]
     optional_payload_fields: [change_reason]
     target_fields: {required: [wp_id], optional: [task_id]}
@@ -94,7 +94,7 @@ actions:
     side_effect_class: MUTATES_TRUTH
     idempotent: false
     confirmation_required: true
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     required_payload_fields: [plan_proposal_id, date_updates, planning_provenance_stamps, calendar_logic_ref]
     optional_payload_fields: [change_reason, no_profile_override_stamp_set]
     target_fields: {required: [wp_id], optional: []}
@@ -112,7 +112,7 @@ actions:
     side_effect_class: MUTATES_TRUTH
     idempotent: true
     confirmation_required: true
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     required_payload_fields: [preset_context]
     optional_payload_fields: [governed_binding_stamps]
     target_fields: {required: [wp_id], optional: []}

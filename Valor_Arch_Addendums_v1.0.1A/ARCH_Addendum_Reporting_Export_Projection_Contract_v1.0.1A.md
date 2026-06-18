@@ -5,7 +5,7 @@ revision_context: Blocker 7A
 revision_date: 2026-06-12
 owner: Nexus
 editor: VALOR DEV-TASK-FORCE
-status: pre_freeze_controlled
+status: frozen_controlled
 dependencies: []
 summary: Projection-only product-surface rules for Work Package Status Report, Workbook Export, and Gantt Chart artifacts.
 acceptance_criteria:

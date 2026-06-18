@@ -6,7 +6,7 @@ package_asset_version: v1.0.1
 canonical_source_path: libraries/calendar/CAL-WORKWEEK_v1.yaml
 canonical_source_sha256: 4789d604a5fb8e72587934a8d0e89db1ce4e7a298ddc62ac5c52be5dfda3c386
 revision_date: '2025-12-26'
-status: PRE_FREEZE_CONTROLLED
+status: frozen_controlled
 usage_classification: PRODUCT_TESTING_OR_PRE_FREEZE_SPECIFICATION
 effective_date: 2026-06-12
 source_checked_date: 2026-06-12

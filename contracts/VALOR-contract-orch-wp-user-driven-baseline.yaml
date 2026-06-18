@@ -38,7 +38,7 @@ actions:
     side_effect_class: MUTATES_TRUTH
     idempotent: true
     confirmation_required: true
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     required_payload_fields: [planning_basis, planning_label]
     optional_payload_fields: [profile_id, profile_version, no_profile_exception_reason]
     target_fields: {required: [wp_id], optional: []}
@@ -53,7 +53,7 @@ actions:
     side_effect_class: MUTATES_TRUTH
     idempotent: false
     confirmation_required: true
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     required_payload_fields: [updates, override_batch_metadata]
     optional_payload_fields: []
     target_fields: {required: [wp_id], optional: []}
@@ -68,7 +68,7 @@ actions:
     side_effect_class: MUTATES_TRUTH
     idempotent: false
     confirmation_required: true
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     required_payload_fields: [confirmation_type, confirmed, timestamp_utc]
     optional_payload_fields: [actor, confirmation_rationale]
     target_fields: {required: [wp_id], optional: []}

@@ -15,7 +15,7 @@
       "instance": {
         "registry_id": "VALOR-contract-registry",
         "registry_version": "v1.0.1",
-        "status": "pre_freeze_controlled",
+        "status": "frozen_controlled",
         "owner": "Orchestration",
         "review_branch": "review-spec-freeze-control",
         "created_date": "2026-06-10",
@@ -39,7 +39,7 @@
             "category": "PUBLIC_USER_CALLABLE",
             "owner": "WP",
             "file": "contracts/VALOR-contract-orch-wp.yaml",
-            "status": "ACTIVE_PRE_FREEZE",
+            "status": "ACTIVE_FROZEN",
             "actions": [
               {
                 "type": "WP_STAGE_TASKS",
@@ -48,16 +48,16 @@
                 "confirm": false,
                 "schema": "schemas/contracts/staged_task_set.schema.json",
                 "block": null,
-                "status": "ACTIVE_PRE_FREEZE"
+                "status": "ACTIVE_FROZEN"
               }
             ]
           }
         ],
         "non_callable_support_authorities": [
-          {"authority_id": "TP", "owner": "Task_Pool_Library", "status": "ACTIVE_NON_CALLABLE_PRE_FREEZE", "consumed_by": ["WP", "PS"]}
+          {"authority_id": "TP", "owner": "Task_Pool_Library", "status": "ACTIVE_NON_CALLABLE_FROZEN", "consumed_by": ["WP", "PS"]}
         ],
         "cross_cutting_controls": [
-          {"control_id": "SEC", "category": "POLICY_FIRST_CROSS_CUTTING_CONTROL", "status": "ACTIVE_POLICY_FIRST_PRE_FREEZE", "callable_contract_required": false}
+          {"control_id": "SEC", "category": "POLICY_FIRST_CROSS_CUTTING_CONTROL", "status": "ACTIVE_POLICY_FIRST_FROZEN", "callable_contract_required": false}
         ],
         "validation_requirements": [
           "A11, registry, contract files, action_blocks, and schemas must agree before freeze.",
@@ -147,7 +147,7 @@
         "category": "PUBLIC_USER_CALLABLE",
         "owner": "WP",
         "file": "contracts/VALOR-contract-orch-wp.yaml",
-        "status": "ACTIVE_PRE_FREEZE",
+        "status": "ACTIVE_FROZEN",
         "action": {
           "type": "WP_STAGE_TASKS",
           "aliases": ["stage_tasks"],
@@ -155,7 +155,7 @@
           "confirm": false,
           "schema": "schemas/contracts/staged_task_set.schema.json",
           "block": null,
-          "status": "ACTIVE_PRE_FREEZE"
+          "status": "ACTIVE_FROZEN"
         }
       },
       "expected_result": {"semantic_valid": true}
@@ -174,7 +174,7 @@
           "side_effect": "GENERATES_ARTIFACT",
           "confirm": false,
           "schema": null,
-          "status": "ACTIVE_PRE_FREEZE"
+          "status": "ACTIVE_FROZEN"
         }
       },
       "expected_result": {"valid": false, "code": "VALIDATION_ERROR", "subcode": "SCHEMA_REF_MISSING"}

@@ -1,6 +1,6 @@
 registry_id: VALOR-contract-registry
 registry_version: v1.0.1
-status: pre_freeze_controlled
+status: frozen_controlled
 owner: Orchestration
 review_branch: review-spec-freeze-control
 created_date: 2026-06-10
@@ -29,60 +29,60 @@ contracts:
     category: PUBLIC_USER_CALLABLE
     owner: WP
     file: contracts/VALOR-contract-orch-wp.yaml
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     actions:
-      - {type: WP_GET, aliases: [show_wp, get_wp], side_effect: READ_ONLY, confirm: false, schema: schemas/objects/work_package_schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: WP_CREATE, aliases: [create_wp, new_wp], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: WP_STAGE_TASKS, aliases: [stage_tasks], side_effect: STAGE_ONLY, confirm: false, schema: schemas/contracts/staged_task_set.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: WP_COMMIT_STAGED_TASKS, aliases: [commit_tasks], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: WP_UPDATE_TASK_FIELDS, aliases: [update_task, mark_task], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: action_blocks/WP_UPDATE_TASK_FIELDS.yaml, status: ACTIVE_PRE_FREEZE}
-      - {type: WP_APPLY_PLAN_PROPOSAL, aliases: [apply_plan, commit_schedule], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: action_blocks/WP_APPLY_PLAN_PROPOSAL.yaml, status: ACTIVE_PRE_FREEZE}
-      - {type: WP_BIND_PRESET_CONTEXT, aliases: [load_preset_context, bind_preset_context], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: action_blocks/WP_BIND_PRESET_CONTEXT.yaml, status: ACTIVE_PRE_FREEZE}
+      - {type: WP_GET, aliases: [show_wp, get_wp], side_effect: READ_ONLY, confirm: false, schema: schemas/objects/work_package_schema.json, block: null, status: ACTIVE_FROZEN}
+      - {type: WP_CREATE, aliases: [create_wp, new_wp], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: null, status: ACTIVE_FROZEN}
+      - {type: WP_STAGE_TASKS, aliases: [stage_tasks], side_effect: STAGE_ONLY, confirm: false, schema: schemas/contracts/staged_task_set.schema.json, block: null, status: ACTIVE_FROZEN}
+      - {type: WP_COMMIT_STAGED_TASKS, aliases: [commit_tasks], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: null, status: ACTIVE_FROZEN}
+      - {type: WP_UPDATE_TASK_FIELDS, aliases: [update_task, mark_task], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: action_blocks/WP_UPDATE_TASK_FIELDS.yaml, status: ACTIVE_FROZEN}
+      - {type: WP_APPLY_PLAN_PROPOSAL, aliases: [apply_plan, commit_schedule], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: action_blocks/WP_APPLY_PLAN_PROPOSAL.yaml, status: ACTIVE_FROZEN}
+      - {type: WP_BIND_PRESET_CONTEXT, aliases: [load_preset_context, bind_preset_context], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: action_blocks/WP_BIND_PRESET_CONTEXT.yaml, status: ACTIVE_FROZEN}
   - contract_id: VALOR-contract-orch-wp-user-driven-baseline
     category: PUBLIC_USER_CALLABLE_POLICY_EXTENSION
     owner: WP
     file: contracts/VALOR-contract-orch-wp-user-driven-baseline.yaml
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     actions:
-      - {type: WP_SET_PLANNING_BASIS, aliases: [set_planning_basis], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: WP_SET_TASK_DURATION_OVERRIDES, aliases: [set_task_durations], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: WP_RECORD_CONFIRMATION, aliases: [record_confirmation], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: null, status: ACTIVE_PRE_FREEZE}
+      - {type: WP_SET_PLANNING_BASIS, aliases: [set_planning_basis], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: null, status: ACTIVE_FROZEN}
+      - {type: WP_SET_TASK_DURATION_OVERRIDES, aliases: [set_task_durations], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: null, status: ACTIVE_FROZEN}
+      - {type: WP_RECORD_CONFIRMATION, aliases: [record_confirmation], side_effect: MUTATES_TRUTH, confirm: true, schema: schemas/objects/work_package_schema.json, block: null, status: ACTIVE_FROZEN}
   - contract_id: VALOR-contract-orch-plan
     category: PUBLIC_USER_CALLABLE
     owner: PLAN
     file: contracts/VALOR-contract-orch-plan.yaml
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     actions:
-      - {type: PLAN_GENERATE_PROPOSAL, aliases: [schedule_tasks, generate_plan, plan_wp], side_effect: GENERATES_ARTIFACT, confirm: false, schema: schemas/contracts/plan_proposal.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: PLAN_VALIDATE_PROPOSAL, aliases: [validate_plan], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/plan_validation_result.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
+      - {type: PLAN_GENERATE_PROPOSAL, aliases: [schedule_tasks, generate_plan, plan_wp], side_effect: GENERATES_ARTIFACT, confirm: false, schema: schemas/contracts/plan_proposal.schema.json, block: null, status: ACTIVE_FROZEN}
+      - {type: PLAN_VALIDATE_PROPOSAL, aliases: [validate_plan], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/plan_validation_result.schema.json, block: null, status: ACTIVE_FROZEN}
   - contract_id: VALOR-contract-orch-doc
     category: PUBLIC_USER_CALLABLE
     owner: DOC
     file: contracts/VALOR-contract-orch-doc.yaml
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     actions:
-      - {type: DOC_GENERATE_DRAFT, aliases: [draft_document, generate_draft], side_effect: GENERATES_ARTIFACT, confirm: false, schema: schemas/contracts/doc_draft_result.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: DOC_FINALIZE_ARTIFACT, aliases: [finalize_document], side_effect: GENERATES_ARTIFACT, confirm: true, schema: schemas/contracts/doc_artifact_result.schema.json, block: null, status: ACTIVE_PRE_FREEZE}
+      - {type: DOC_GENERATE_DRAFT, aliases: [draft_document, generate_draft], side_effect: GENERATES_ARTIFACT, confirm: false, schema: schemas/contracts/doc_draft_result.schema.json, block: null, status: ACTIVE_FROZEN}
+      - {type: DOC_FINALIZE_ARTIFACT, aliases: [finalize_document], side_effect: GENERATES_ARTIFACT, confirm: true, schema: schemas/contracts/doc_artifact_result.schema.json, block: null, status: ACTIVE_FROZEN}
   - contract_id: VALOR-contract-orch-rpt
     category: PUBLIC_USER_CALLABLE
     owner: RPT
     file: contracts/VALOR-contract-orch-rpt.yaml
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     actions:
-      - {type: RPT_GENERATE_STATUS_REPORT, aliases: [BUILD_REPORT, build_report, generate_status_report, create_status_report], side_effect: GENERATES_ARTIFACT, confirm: false, schema: schemas/contracts/report_result.schema.json, block: action_blocks/RPT_GENERATE_STATUS_REPORT.yaml, status: ACTIVE_PRE_FREEZE}
-      - {type: RPT_VALIDATE_REPORT_INPUTS, aliases: [validate_report_inputs, validate_status_report], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/report_result.schema.json, block: action_blocks/RPT_VALIDATE_REPORT_INPUTS.yaml, status: ACTIVE_PRE_FREEZE}
-      - {type: RPT_GENERATE_WORKBOOK_EXPORT, aliases: [export_workbook, generate_workbook_export, download_workbook_export], side_effect: GENERATES_ARTIFACT, confirm: true, schema: schemas/contracts/workbook_export_result.schema.json, block: action_blocks/RPT_GENERATE_WORKBOOK_EXPORT.yaml, status: ACTIVE_PRE_FREEZE}
-      - {type: RPT_VALIDATE_WORKBOOK_EXPORT, aliases: [validate_workbook_export], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/workbook_export_result.schema.json, block: action_blocks/RPT_VALIDATE_WORKBOOK_EXPORT.yaml, status: ACTIVE_PRE_FREEZE}
-      - {type: RPT_GENERATE_GANTT_CHART, aliases: [generate_gantt, generate_gantt_chart], side_effect: GENERATES_ARTIFACT, confirm: true, schema: schemas/contracts/gantt_chart_result.schema.json, block: action_blocks/RPT_GENERATE_GANTT_CHART.yaml, status: ACTIVE_PRE_FREEZE}
-      - {type: RPT_VALIDATE_GANTT_INPUTS, aliases: [validate_gantt_inputs, validate_gantt_chart], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/gantt_chart_result.schema.json, block: action_blocks/RPT_VALIDATE_GANTT_INPUTS.yaml, status: ACTIVE_PRE_FREEZE}
-      - {type: RPT_VALIDATE_STAMPS, aliases: [validate_report_stamps, validate_export_stamps, validate_artifact_stamps], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: null, status: ACTIVE_PRE_FREEZE}
-      - {type: RPT_LIST_ARTIFACTS, aliases: [list_report_artifacts, list_rpt_artifacts], side_effect: READ_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: action_blocks/RPT_LIST_ARTIFACTS.yaml, status: ACTIVE_PRE_FREEZE}
-      - {type: RPT_GET_ARTIFACT, aliases: [get_report_artifact, get_rpt_artifact], side_effect: READ_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: action_blocks/RPT_GET_ARTIFACT.yaml, status: ACTIVE_PRE_FREEZE}
+      - {type: RPT_GENERATE_STATUS_REPORT, aliases: [BUILD_REPORT, build_report, generate_status_report, create_status_report], side_effect: GENERATES_ARTIFACT, confirm: false, schema: schemas/contracts/report_result.schema.json, block: action_blocks/RPT_GENERATE_STATUS_REPORT.yaml, status: ACTIVE_FROZEN}
+      - {type: RPT_VALIDATE_REPORT_INPUTS, aliases: [validate_report_inputs, validate_status_report], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/report_result.schema.json, block: action_blocks/RPT_VALIDATE_REPORT_INPUTS.yaml, status: ACTIVE_FROZEN}
+      - {type: RPT_GENERATE_WORKBOOK_EXPORT, aliases: [export_workbook, generate_workbook_export, download_workbook_export], side_effect: GENERATES_ARTIFACT, confirm: true, schema: schemas/contracts/workbook_export_result.schema.json, block: action_blocks/RPT_GENERATE_WORKBOOK_EXPORT.yaml, status: ACTIVE_FROZEN}
+      - {type: RPT_VALIDATE_WORKBOOK_EXPORT, aliases: [validate_workbook_export], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/workbook_export_result.schema.json, block: action_blocks/RPT_VALIDATE_WORKBOOK_EXPORT.yaml, status: ACTIVE_FROZEN}
+      - {type: RPT_GENERATE_GANTT_CHART, aliases: [generate_gantt, generate_gantt_chart], side_effect: GENERATES_ARTIFACT, confirm: true, schema: schemas/contracts/gantt_chart_result.schema.json, block: action_blocks/RPT_GENERATE_GANTT_CHART.yaml, status: ACTIVE_FROZEN}
+      - {type: RPT_VALIDATE_GANTT_INPUTS, aliases: [validate_gantt_inputs, validate_gantt_chart], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/gantt_chart_result.schema.json, block: action_blocks/RPT_VALIDATE_GANTT_INPUTS.yaml, status: ACTIVE_FROZEN}
+      - {type: RPT_VALIDATE_STAMPS, aliases: [validate_report_stamps, validate_export_stamps, validate_artifact_stamps], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: null, status: ACTIVE_FROZEN}
+      - {type: RPT_LIST_ARTIFACTS, aliases: [list_report_artifacts, list_rpt_artifacts], side_effect: READ_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: action_blocks/RPT_LIST_ARTIFACTS.yaml, status: ACTIVE_FROZEN}
+      - {type: RPT_GET_ARTIFACT, aliases: [get_report_artifact, get_rpt_artifact], side_effect: READ_ONLY, confirm: false, schema: schemas/objects/rpt_artifact_metadata_schema.json, block: action_blocks/RPT_GET_ARTIFACT.yaml, status: ACTIVE_FROZEN}
   - contract_id: VALOR-contract-orch-ks
     category: PUBLIC_USER_CALLABLE_WHEN_DIRECT_KS_REQUEST
     owner: KS
     file: contracts/VALOR-contract-orch-ks.yaml
-    status: TESTING_ONLY_PRE_FREEZE_WITH_REGULATED_USE_BLOCK
+    status: TESTING_ONLY_FROZEN_WITH_REGULATED_USE_BLOCK
     governed_library_root: libraries/knowledge_standards
     usage_classification: PRODUCT_TESTING_ONLY
     testing_use_allowed: true
@@ -90,40 +90,39 @@ contracts:
     testing_only_stamp_required: true
     required_output_stamp: PRODUCT TESTING ONLY — NOT APPROVED FOR REAL-LIFE REGULATED CQV/GMP USE.
     actions:
-      - {type: KS_LIST_STANDARDS, aliases: [list_standards], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_standards_list.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
-      - {type: KS_READ_STANDARD, aliases: [read_standard], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_standard.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
-      - {type: KS_LIST_TEMPLATES, aliases: [list_templates], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_templates_list.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
-      - {type: KS_READ_TEMPLATE, aliases: [read_template], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_template.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
-      - {type: KS_LIST_BUNDLES, aliases: [list_bundles], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_bundles_list.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
-      - {type: KS_READ_BUNDLE, aliases: [read_bundle], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_bundle.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
-      - {type: KS_LIST_ANCHORS, aliases: [list_anchors], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_anchors_list.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
-      - {type: KS_RESOLVE_CITATION, aliases: [resolve_citation, cite_standard], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_citation_resolved.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
-      - {type: KS_VALIDATE_CITATION_SET, aliases: [validate_citation_set], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
-      - {type: KS_VALIDATE_TEMPLATE_REQUIREMENTS, aliases: [validate_template_requirements], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
-      - {type: KS_VALIDATE_SOURCE_MAPPING, aliases: [validate_source_mapping], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
-      - {type: KS_VALIDATE_BUNDLE_INTEGRITY, aliases: [validate_standards_bundle], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: TESTING_ONLY_PRE_FREEZE}
+      - {type: KS_LIST_STANDARDS, aliases: [list_standards], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_standards_list.schema.json, block: null, status: TESTING_ONLY_FROZEN}
+      - {type: KS_READ_STANDARD, aliases: [read_standard], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_standard.schema.json, block: null, status: TESTING_ONLY_FROZEN}
+      - {type: KS_LIST_TEMPLATES, aliases: [list_templates], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_templates_list.schema.json, block: null, status: TESTING_ONLY_FROZEN}
+      - {type: KS_READ_TEMPLATE, aliases: [read_template], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_template.schema.json, block: null, status: TESTING_ONLY_FROZEN}
+      - {type: KS_LIST_BUNDLES, aliases: [list_bundles], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_bundles_list.schema.json, block: null, status: TESTING_ONLY_FROZEN}
+      - {type: KS_READ_BUNDLE, aliases: [read_bundle], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_bundle.schema.json, block: null, status: TESTING_ONLY_FROZEN}
+      - {type: KS_LIST_ANCHORS, aliases: [list_anchors], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_anchors_list.schema.json, block: null, status: TESTING_ONLY_FROZEN}
+      - {type: KS_RESOLVE_CITATION, aliases: [resolve_citation, cite_standard], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ks_citation_resolved.schema.json, block: null, status: TESTING_ONLY_FROZEN}
+      - {type: KS_VALIDATE_CITATION_SET, aliases: [validate_citation_set], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: TESTING_ONLY_FROZEN}
+      - {type: KS_VALIDATE_TEMPLATE_REQUIREMENTS, aliases: [validate_template_requirements], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: TESTING_ONLY_FROZEN}
+      - {type: KS_VALIDATE_SOURCE_MAPPING, aliases: [validate_source_mapping], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: TESTING_ONLY_FROZEN}
+      - {type: KS_VALIDATE_BUNDLE_INTEGRITY, aliases: [validate_standards_bundle], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/ks_bundle_validation.schema.json, block: null, status: TESTING_ONLY_FROZEN}
   - contract_id: VALOR-contract-orch-ps
     category: INTERNAL_SERVICE_RESOLVER
     owner: PS
     file: contracts/VALOR-contract-orch-ps.yaml
-    status: ACTIVE_INTERNAL_PRE_FREEZE
+    status: ACTIVE_INTERNAL_FROZEN
     actions:
-      - {type: PS_LIST_PRESETS, aliases: [], internal_aliases: [list_presets_for_resolver], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ps_presets_list.schema.json, block: null, status: ACTIVE_INTERNAL_PRE_FREEZE}
-      - {type: PS_READ_PRESET, aliases: [], internal_aliases: [read_preset_for_resolver], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/preset.schema.json, block: null, status: ACTIVE_INTERNAL_PRE_FREEZE}
-      - {type: PS_RESOLVE_PRESET, aliases: [], internal_aliases: [resolve_preset], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ps_resolve_result.schema.json, block: null, status: ACTIVE_INTERNAL_PRE_FREEZE}
-      - {type: PS_VALIDATE_BINDINGS, aliases: [], internal_aliases: [validate_preset_bindings], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/plan_validation_result.schema.json, block: null, status: ACTIVE_INTERNAL_PRE_FREEZE}
+      - {type: PS_LIST_PRESETS, aliases: [], internal_aliases: [list_presets_for_resolver], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ps_presets_list.schema.json, block: null, status: ACTIVE_INTERNAL_FROZEN}
+      - {type: PS_READ_PRESET, aliases: [], internal_aliases: [read_preset_for_resolver], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/preset.schema.json, block: null, status: ACTIVE_INTERNAL_FROZEN}
+      - {type: PS_RESOLVE_PRESET, aliases: [], internal_aliases: [resolve_preset], side_effect: READ_ONLY, confirm: false, schema: schemas/contracts/ps_resolve_result.schema.json, block: null, status: ACTIVE_INTERNAL_FROZEN}
+      - {type: PS_VALIDATE_BINDINGS, aliases: [], internal_aliases: [validate_preset_bindings], side_effect: VALIDATE_ONLY, confirm: false, schema: schemas/contracts/plan_validation_result.schema.json, block: null, status: ACTIVE_INTERNAL_FROZEN}
 
 non_callable_support_authorities:
-  - {authority_id: TP, owner: Task_Pool_Library, status: ACTIVE_NON_CALLABLE_PRE_FREEZE, consumed_by: [WP, PS]}
-  - {authority_id: PROF, owner: Profile_Library, status: ACTIVE_NON_CALLABLE_PRE_FREEZE, consumed_by: [PLAN, PS]}
-  - {authority_id: CAL, owner: Calendar_Logic, status: ACTIVE_NON_CALLABLE_PRE_FREEZE, consumed_by: [PLAN, RPT, PS]}
+  - {authority_id: TP, owner: Task_Pool_Library, status: ACTIVE_NON_CALLABLE_FROZEN, consumed_by: [WP, PS]}
+  - {authority_id: PROF, owner: Profile_Library, status: ACTIVE_NON_CALLABLE_FROZEN, consumed_by: [PLAN, PS]}
+  - {authority_id: CAL, owner: Calendar_Logic, status: ACTIVE_NON_CALLABLE_FROZEN, consumed_by: [PLAN, RPT, PS]}
 
 cross_cutting_controls:
-  - {control_id: SEC, category: POLICY_FIRST_CROSS_CUTTING_CONTROL, status: ACTIVE_POLICY_FIRST_PRE_FREEZE, callable_contract_required: false}
+  - {control_id: SEC, category: POLICY_FIRST_CROSS_CUTTING_CONTROL, status: ACTIVE_POLICY_FIRST_FROZEN, callable_contract_required: false}
 
 freeze_blockers_retained:
   - K&S governed content pack is available for product testing only; source edition/date/locator acceptance remains gated for regulated use.
-  - Manifest regeneration and final freeze-readiness check remain blocked until all pre-freeze content edits are complete.
 
 validation_requirements:
   - A11, this registry, contract files, action_blocks, and schemas must agree before freeze.

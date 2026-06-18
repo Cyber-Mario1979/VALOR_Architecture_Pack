@@ -72,7 +72,7 @@ actions:
     result_schema_ref: schemas/contracts/report_result.schema.json
     request_schema_ref: schemas/contracts/report_request.schema.json
     action_block_ref: action_blocks/RPT_GENERATE_STATUS_REPORT.yaml
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     payload_schema_notes:
       artifact_type:
         allowed_values: [WORK_PACKAGE_STATUS_REPORT]
@@ -99,7 +99,7 @@ actions:
     result_schema_ref: schemas/contracts/report_result.schema.json
     request_schema_ref: schemas/contracts/report_request.schema.json
     action_block_ref: action_blocks/RPT_VALIDATE_REPORT_INPUTS.yaml
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
 
   - action_type: RPT_GENERATE_WORKBOOK_EXPORT
     public_command_aliases: [export_workbook, generate_workbook_export, download_workbook_export]
@@ -122,7 +122,7 @@ actions:
     result_schema_ref: schemas/contracts/workbook_export_result.schema.json
     request_schema_ref: schemas/contracts/workbook_export_request.schema.json
     action_block_ref: action_blocks/RPT_GENERATE_WORKBOOK_EXPORT.yaml
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     payload_schema_notes:
       artifact_type:
         allowed_values: [WORK_PACKAGE_WORKBOOK_EXPORT]
@@ -149,7 +149,7 @@ actions:
     result_schema_ref: schemas/contracts/workbook_export_result.schema.json
     request_schema_ref: schemas/contracts/workbook_export_request.schema.json
     action_block_ref: action_blocks/RPT_VALIDATE_WORKBOOK_EXPORT.yaml
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
 
   - action_type: RPT_GENERATE_GANTT_CHART
     public_command_aliases: [generate_gantt, generate_gantt_chart]
@@ -172,7 +172,7 @@ actions:
     result_schema_ref: schemas/contracts/gantt_chart_result.schema.json
     request_schema_ref: schemas/contracts/gantt_chart_request.schema.json
     action_block_ref: action_blocks/RPT_GENERATE_GANTT_CHART.yaml
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
     payload_schema_notes:
       artifact_type:
         allowed_values: [WORK_PACKAGE_GANTT_CHART]
@@ -200,7 +200,7 @@ actions:
     result_schema_ref: schemas/contracts/gantt_chart_result.schema.json
     request_schema_ref: schemas/contracts/gantt_chart_request.schema.json
     action_block_ref: action_blocks/RPT_VALIDATE_GANTT_INPUTS.yaml
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
 
   - action_type: RPT_VALIDATE_STAMPS
     public_command_aliases: [validate_report_stamps, validate_export_stamps, validate_artifact_stamps]
@@ -218,7 +218,7 @@ actions:
       - wp_ids
       - strict
     result_schema_ref: schemas/objects/rpt_artifact_metadata_schema.json
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
 
   - action_type: RPT_LIST_ARTIFACTS
     public_command_aliases: [list_report_artifacts, list_rpt_artifacts]
@@ -231,7 +231,7 @@ actions:
     optional_payload_fields:
       - filters
     result_schema_ref: schemas/objects/rpt_artifact_metadata_schema.json
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
 
   - action_type: RPT_GET_ARTIFACT
     public_command_aliases: [get_report_artifact, get_rpt_artifact]
@@ -245,7 +245,7 @@ actions:
     optional_payload_fields:
       - return_content
     result_schema_ref: schemas/objects/rpt_artifact_metadata_schema.json
-    status: ACTIVE_PRE_FREEZE
+    status: ACTIVE_FROZEN
 
 error_taxonomy:
   standard_codes:
@@ -286,7 +286,7 @@ error_taxonomy:
         - GANTT_RENDER_FAILED
 
 freeze_status:
-  status_report_generation: ACTIVE_PRE_FREEZE
-  workbook_export_generation: ACTIVE_PRE_FREEZE
-  gantt_chart_generation: ACTIVE_PRE_FREEZE
-  artifact_registry_read: ACTIVE_PRE_FREEZE
+  status_report_generation: ACTIVE_FROZEN
+  workbook_export_generation: ACTIVE_FROZEN
+  gantt_chart_generation: ACTIVE_FROZEN
+  artifact_registry_read: ACTIVE_FROZEN

@@ -5,7 +5,7 @@ revision_context: Blocker 7A
 revision_date: 2026-06-12
 owner: Nexus
 editor: VALOR DEV-TASK-FORCE
-status: pre_freeze_controlled
+status: frozen_controlled
 dependencies: []
 summary: Product-surface invariants for plan proposal vs apply behavior without requiring a specific UI implementation.
 acceptance_criteria:

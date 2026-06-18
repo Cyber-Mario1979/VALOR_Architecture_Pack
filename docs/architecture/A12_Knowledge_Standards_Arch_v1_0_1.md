@@ -4,7 +4,7 @@ block type: Arch
 version: v1.0.1
 owner: Nexus
 editor: Senior Architect
-status: pre_freeze_controlled
+status: frozen_controlled
 date: 2026-06-12
 summary: "A12 — K&S architecture with governed internal standards, controlled external references, TESTING_ONLY operating state, source-metadata acceptance gate, citation/refusal rules, and blocked regulated-use behavior."
 ---
