@@ -2,7 +2,7 @@ manifest_version: v1.0.1
 pack:
   name: Valor_Architecture_Pack
   pack_version: v1.0.1
-  created_at_utc: '2026-06-17T22:54:24Z'
+  created_at_utc: '2026-06-18T00:58:26Z'
   hash_algorithm: sha256
   root: .
 files:
@@ -10,8 +10,8 @@ files:
   sha256: 832117dcd33ef078935a6ab5c7199746989793d63b587eef12fd62cf1618ec54
   bytes: 249
 - path: .github/workflows/ci.yml
-  sha256: 6242ba2b6c062a266c3f066e19c3e1f7605bd955bf4bbe94334812a66b104296
-  bytes: 553
+  sha256: 98a5466568070f3556e070204b9a174962f43eb54d9386e454cdb41a50e988c4
+  bytes: 798
 - path: .gitignore
   sha256: 241169935f6a3cad1e8ff0a5359367a14aa5a5daf5e83753f216a2f973cfb3ab
   bytes: 216
@@ -301,8 +301,8 @@ files:
   sha256: 3c439b81f3c414221f054eb4d01e31e4fea506e40920f35c0a105ae34435d37e
   bytes: 14708
 - path: requirements.txt
-  sha256: db3fe842e7fb70a2e6794a6cdda388df0238b35924f9adea2d194ccaefde76ac
-  bytes: 28
+  sha256: 818df7d00e7e65cba35b3668762903d221ad54d977521b550671f42efb2675b4
+  bytes: 30
 - path: schemas/contracts/action_block.schema.json
   sha256: 25b5df39e6af180cc52ef1decd9dcdcf69b436770e0a4e48362f7fd77ec843f8
   bytes: 4463
@@ -465,12 +465,15 @@ files:
 - path: scripts/pack_validation/pack_excludes.py
   sha256: 8f3929107e284fddbe9eadc0e483d22565793f20023b3fa387baea75c0dda8b0
   bytes: 906
+- path: scripts/pack_validation/run_vector_harness.py
+  sha256: 73159158011df5244de3c3932e408623abb8854358db3292cae83943eee3dfac
+  bytes: 19783
 - path: scripts/pack_validation/verify_manifest.py
   sha256: 4b8aaad44590a9331ccfcc0eb3b82a69913516ec704589cc9b441b2989f6eaee
   bytes: 3445
 - path: smoke_test.py
-  sha256: 2e2320bcde03d144a0ac979f7b02f1626bcc5c56c9d235454f77699f0bbacab1
-  bytes: 12209
+  sha256: d3af268bf10ff8125bc338c340a5dccf53f6f49b32876333d08b428cc4f87d40
+  bytes: 12489
 - path: templates/T10_VSR_Template_V1_0_1.md
   sha256: 64a41a552c4aef5a2e64ce17ba7a4690116d4c42f7ed0b5a0c3349028c1afff0
   bytes: 3284
