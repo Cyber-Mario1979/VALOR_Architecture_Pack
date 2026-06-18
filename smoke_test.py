@@ -129,9 +129,14 @@ def verify_manifest(pack_root: Path, verbose: bool) -> CheckResult:
 
 
 def validate_all_json_schemas(pack_root: Path) -> CheckResult:
-    schema_paths = list(pack_root.rglob("*.schema.json"))
+    # Cover BOTH naming conventions: contracts/+documents/ use *.schema.json,
+    # objects/ use *_schema.json. The old glob ("*.schema.json") silently skipped
+    # the 12 objects/*_schema.json files (G-20b) -- widened here.
+    schema_paths = sorted(
+        set(pack_root.rglob("*.schema.json")) | set(pack_root.rglob("*_schema.json"))
+    )
     if not schema_paths:
-        return CheckResult("schemas.load", False, "No *.schema.json files found")
+        return CheckResult("schemas.load", False, "No schema files found")
 
     bad = []
     for p in schema_paths:
