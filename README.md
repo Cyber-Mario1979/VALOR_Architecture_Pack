@@ -11,7 +11,7 @@
 
 # Valor Architecture Pack (v1.0.1)
 
-> **Current review status:** FREEZE-READY FOR PRODUCT_TESTING / FIELD_TRIAL BASELINE ONLY. This is not REGULATED_RELEASE approval.
+> **Current review status:** CONTROLLED PRE-FREEZE — NO-FREEZE YET (final freeze-readiness pending). This is not REGULATED_RELEASE approval.
 
 ![Valor architecture blueprint](architecture_blueprint.png)
 
@@ -23,7 +23,7 @@ planning**, **controlled document generation**, and **audit‑grade
 reporting/export**.  It emphasises repeatable execution, traceability and
 determinism over “smart guesses”.
 
-This pack is frozen as a PRODUCT_TESTING / FIELD_TRIAL architecture baseline. This target supports ASBP — AI System Builder Program / AI System Builder product construction, internal product testing, field trials, document generation testing, report generation testing, E2E workflow validation, and evaluation by parallel professional/market testers.
+This pack is under controlled pre-freeze review (NO-FREEZE YET); its declared scope is the PRODUCT_TESTING / FIELD_TRIAL architecture baseline. This target supports ASBP — AI System Builder Program / AI System Builder product construction, internal product testing, field trials, document generation testing, report generation testing, E2E workflow validation, and evaluation by parallel professional/market testers.
 
 FIELD_TRIAL is an operating label under PRODUCT_TESTING_ONLY, not a separate regulated-release mode or new schema/machine enum. PRODUCT_TESTING / FIELD_TRIAL outputs are not official GMP records and must carry the required testing-only stamp where applicable:
 
