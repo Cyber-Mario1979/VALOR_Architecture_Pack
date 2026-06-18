@@ -155,8 +155,8 @@ When users upload files:
 ### 6.4 Standards and Copyright Controls
 K&S must use an excerpt policy:
 - METADATA_ONLY: cite standard title/ID, no content.
-- PUBLIC_EXCERPT: include small excerpt if permitted.
 - INTERNAL_ONLY: reference only; do not reproduce.
+- NO_EXCERPTS: do not reproduce any external standard text; cite anchor/metadata only (default for controlled sources).
 
 DOC and RPT must respect the excerpt policy and refuse to output restricted excerpts.
 
